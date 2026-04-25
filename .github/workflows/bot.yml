@@ -6,7 +6,7 @@ on:
     paths:
       - '.github/workflows/bot.yml'
   schedule:
-    - cron: '0 */5 * * *'   # هر ۵ ساعت
+    - cron: '0 */5 * * *'
 
 concurrency:
   group: bot-runner
@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Clone private repository
         run: |
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/amiravv789-oss/Bale.git bot-code
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git bot-code
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -49,7 +49,6 @@ jobs:
           if [ -f bot-code/cache/user_state.json ]; then
             cp bot-code/cache/user_state.json /tmp/bale_bot/
           fi
-          # فایل‌های مربوط به اینستاگرام
           if [ -f bot-code/cache/hashtags.json ]; then
             cp bot-code/cache/hashtags.json /tmp/bale_bot/
           fi
@@ -66,8 +65,8 @@ jobs:
           SESSION_STRING: ${{ secrets.SESSION_STRING }}
           ARCHIVE_CHANNEL_ID: ${{ secrets.ARCHIVE_CHANNEL_ID }}
           REELS_CHANNEL_ID: ${{ secrets.REELS_CHANNEL_ID }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN_TOKEN }}
-          GH_USERNAME: ${{ secrets.GITHUB_TOKEN_USERNAME }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           cd bot-code
@@ -76,8 +75,8 @@ jobs:
       - name: Save cache back to private repo
         if: always()
         run: |
-          # کپی فایل‌های جدید از /tmp به پوشهٔ cache داخل مخزن خصوصی
           cd bot-code
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git
           mkdir -p cache
           cp /tmp/bale_bot/archive_cache.json cache/ 2>/dev/null || true
           cp /tmp/bale_bot/starred.json cache/ 2>/dev/null || true
