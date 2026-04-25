@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Clone private repository
         run: |
-          git clone https://x-access-token:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git bot-code
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/amiravv789-oss/Bale.git bot-code
 
       - name: Setup Python
         uses: actions/setup-python@v5
