@@ -2,11 +2,6 @@ name: Main Bot (Private Code Runner)
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/bot.yml'
-  schedule:
-    - cron: '0 */5 * * *'
 
 concurrency:
   group: bot-runner
@@ -53,25 +48,3 @@ jobs:
         run: |
           cd bot-code
           timeout 320m python main.py
-
-      - name: Save cache back to private repo
-        if: always()
-        run: |
-          cd bot-code
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git
-          mkdir -p cache
-          cp /tmp/bale_bot/archive_cache.json cache/ 2>/dev/null || true
-          cp /tmp/bale_bot/starred.json cache/ 2>/dev/null || true
-          cp /tmp/bale_bot/user_state.json cache/ 2>/dev/null || true
-          cp /tmp/bale_bot/hashtags.json cache/ 2>/dev/null || true
-          cp /tmp/bale_bot/downloaded_reels.json cache/ 2>/dev/null || true
-
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
-          git add cache/
-          if git diff --staged --quiet; then
-            echo "No cache changes."
-          else
-            git commit -m "💾 Update cache [skip ci]"
-            git push origin main
-          fi
