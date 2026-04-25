@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Clone private repository
         run: |
-          git clone https://x-access-token:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git bot-code
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN_TOKEN }}@github.com/amiravv789-oss/Bale.git bot-code
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -30,8 +30,8 @@ jobs:
       - name: Run Upload Worker
         env:
           BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN_TOKEN }}
+          GH_USERNAME: ${{ secrets.GITHUB_TOKEN_USERNAME }}
           TASK_ID: ${{ github.event.inputs.task_id }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
