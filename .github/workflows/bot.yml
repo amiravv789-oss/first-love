@@ -38,25 +38,6 @@ jobs:
           pip install -r bot-code/requirements.txt
           pip install pytz
 
-      - name: Restore cache from private repo
-        run: |
-          mkdir -p /tmp/bale_bot
-          if [ -f bot-code/cache/archive_cache.json ]; then
-            cp bot-code/cache/archive_cache.json /tmp/bale_bot/
-          fi
-          if [ -f bot-code/cache/starred.json ]; then
-            cp bot-code/cache/starred.json /tmp/bale_bot/
-          fi
-          if [ -f bot-code/cache/user_state.json ]; then
-            cp bot-code/cache/user_state.json /tmp/bale_bot/
-          fi
-          if [ -f bot-code/cache/hashtags.json ]; then
-            cp bot-code/cache/hashtags.json /tmp/bale_bot/
-          fi
-          if [ -f bot-code/cache/downloaded_reels.json ]; then
-            cp bot-code/cache/downloaded_reels.json /tmp/bale_bot/
-          fi
-
       - name: Run Main Bot
         env:
           BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
