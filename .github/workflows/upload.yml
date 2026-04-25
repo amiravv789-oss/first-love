@@ -1,0 +1,39 @@
+name: Upload Worker (GitHub Upload)
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: 'Task ID'
+        required: false
+        default: '0'
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Clone private repository
+        run: |
+          git clone https://x-access-token:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git bot-code
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install requirements
+        run: |
+          pip install -r bot-code/requirements.txt
+
+      - name: Run Upload Worker
+        env:
+          BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          TASK_ID: ${{ github.event.inputs.task_id }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          cd bot-code
+          python upload_worker.py
