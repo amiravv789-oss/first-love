@@ -1,0 +1,96 @@
+name: Main Bot (Private Code Runner)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/bot.yml'
+  schedule:
+    - cron: '0 */5 * * *'   # هر ۵ ساعت
+
+concurrency:
+  group: bot-runner
+  cancel-in-progress: true
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - name: Clone private repository
+        run: |
+          git clone https://x-access-token:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/${{ secrets.PRIVATE_REPO }}.git bot-code
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install system requirements
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rar
+
+      - name: Install Python requirements
+        run: |
+          pip install --upgrade pip
+          pip install -r bot-code/requirements.txt
+
+      - name: Restore cache from private repo
+        run: |
+          mkdir -p /tmp/bale_bot
+          if [ -f bot-code/cache/archive_cache.json ]; then
+            cp bot-code/cache/archive_cache.json /tmp/bale_bot/
+          fi
+          if [ -f bot-code/cache/starred.json ]; then
+            cp bot-code/cache/starred.json /tmp/bale_bot/
+          fi
+          if [ -f bot-code/cache/user_state.json ]; then
+            cp bot-code/cache/user_state.json /tmp/bale_bot/
+          fi
+          # فایل‌های مربوط به اینستاگرام
+          if [ -f bot-code/cache/hashtags.json ]; then
+            cp bot-code/cache/hashtags.json /tmp/bale_bot/
+          fi
+          if [ -f bot-code/cache/downloaded_reels.json ]; then
+            cp bot-code/cache/downloaded_reels.json /tmp/bale_bot/
+          fi
+
+      - name: Run Main Bot
+        env:
+          BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
+          ARCHIVE_CHANNEL_ID: ${{ secrets.ARCHIVE_CHANNEL_ID }}
+          REELS_CHANNEL_ID: ${{ secrets.REELS_CHANNEL_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN_TOKEN }}
+          GH_USERNAME: ${{ secrets.GITHUB_TOKEN_USERNAME }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          cd bot-code
+          timeout 320m python main.py
+
+      - name: Save cache back to private repo
+        if: always()
+        run: |
+          # کپی فایل‌های جدید از /tmp به پوشهٔ cache داخل مخزن خصوصی
+          cd bot-code
+          mkdir -p cache
+          cp /tmp/bale_bot/archive_cache.json cache/ 2>/dev/null || true
+          cp /tmp/bale_bot/starred.json cache/ 2>/dev/null || true
+          cp /tmp/bale_bot/user_state.json cache/ 2>/dev/null || true
+          cp /tmp/bale_bot/hashtags.json cache/ 2>/dev/null || true
+          cp /tmp/bale_bot/downloaded_reels.json cache/ 2>/dev/null || true
+
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add cache/
+          if git diff --staged --quiet; then
+            echo "No cache changes."
+          else
+            git commit -m "💾 Update cache [skip ci]"
+            git push origin main
+          fi
