@@ -1,0 +1,23 @@
+name: Sync Clients from Private Repo
+
+on:
+  schedule:
+    - cron: '* * * * *'   # هر دقیقه
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone private repository (srv)
+        run: |
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/amiravv789-oss/srv.git srv-repo
+          cp srv-repo/clients.json clients.json
+          cp srv-repo/files.json files.json 2>/dev/null || true
+
+      - name: Commit synced files to runner repo
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          git add clients.json files.json 2>/dev/null || true
+          git diff --staged --quiet || (git commit -m "Sync clients [skip ci]" && git push)
