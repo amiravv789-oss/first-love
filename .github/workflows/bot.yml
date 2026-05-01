@@ -39,7 +39,7 @@ jobs:
           ADMIN_ID: ${{ secrets.ADMIN_ID }}
           API_ID: ${{ secrets.API_ID }}
           API_HASH: ${{ secrets.API_HASH }}
-          SESSION_STRING: "1BJWap1wBuxapRetCSRpIvF88P_HPhqq5gegGGCK4yysZ7BwrtxialJHScN-xcI7XAMEToe5eoru0-x-dFW7-uCXzAkNtpZCOxT-JXv-wag9pJoFyT8s1iw3o2ZwJdUauXWtuT-Pd83KZou3D5KA3rCMnz1KnjYcNSO95ruUVu5oOIl3Cm33Vw8qIccl_RVlLiI3VmJaR8JlQyUQlITI2DYkYjF3plc1WgP5HYOYEmljuCFtZ8OlVlww8XBP0c3T_lcsocHkafcnUo6hNpKfiteI8rel3PsSv2ZvXEsyR9uZCAMeZCNUBYHyWxwXJJsjhQ1GthguZtBYG12rmoYVxEMnC5S-psRw="
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
           ARCHIVE_CHANNEL_ID: ${{ secrets.ARCHIVE_CHANNEL_ID }}
           REELS_CHANNEL_ID: ${{ secrets.REELS_CHANNEL_ID }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
