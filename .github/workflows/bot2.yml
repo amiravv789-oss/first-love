@@ -54,6 +54,7 @@ jobs:
           timeout 320m python main.py || true
 
       - name: Extract and commit updated history back to runner repo
+        if: always()
         run: |
           if [ -f bot-code/history.json ]; then
             cp bot-code/history.json ./history.json
@@ -67,6 +68,7 @@ jobs:
           fi
 
       - name: Trigger Next Workflow
+        if: always()
         uses: actions/github-script@v7
         with:
           script: |
