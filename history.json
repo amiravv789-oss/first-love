@@ -44908,8 +44908,26 @@
       "size": 85565,
       "status": "ok",
       "file_name": "2241x UHQ Hotmails @Entitilo0_0.txt",
-      "first_seen": "2026-09-14T14:29:18.147202",
-      "done_at": "2026-09-14T14:29:18.316580"
+      "first_seen": "2026-09-14T14:29:18.147202"
+    },
+    "Wolf M!X [1165].txt::42901": {
+      "size": 42901,
+      "status": "ok",
+      "file_name": "Wolf M!X [1165].txt",
+      "first_seen": "2026-09-14T14:34:12.293361"
+    },
+    "Hotmails FRESH (57).txt::15375": {
+      "size": 15375,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (57).txt",
+      "first_seen": "2026-09-14T14:42:03.800555"
+    },
+    "Hotmails FRESH (58).txt::93539": {
+      "size": 93539,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (58).txt",
+      "first_seen": "2026-09-14T14:46:56.444964",
+      "done_at": "2026-09-14T14:46:56.610688"
     }
   },
   "last_check": 1789221710.379466
