@@ -1,4 +1,4 @@
-name: Main Bot (Private Code Runner)
+name: Bale Bot (Private Code Runner)
 
 on:
   workflow_dispatch:
