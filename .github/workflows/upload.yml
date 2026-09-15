@@ -1,17 +1,16 @@
-name: Upload Worker (GitHub Upload)
+name: Main Bot (Private Code Runner)
 
 on:
   workflow_dispatch:
-    inputs:
-      task_id:
-        description: 'Task ID'
-        required: false
-        default: '0'
+
+concurrency:
+  group: bot-runner
+  cancel-in-progress: true
 
 jobs:
-  upload:
+  bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 350
 
     steps:
       - name: Clone private repository
@@ -23,17 +22,31 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install requirements
+      - name: Install system requirements
         run: |
-          pip install -r bot-code/requirements.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rar
 
-      - name: Run Upload Worker
+      - name: Install Python requirements
+        run: |
+          pip install --upgrade pip
+          pip install -r bot-code/requirements.txt
+          pip install pytz
+
+      - name: Run Main Bot
         env:
           BALE_BOT_TOKEN: ${{ secrets.BALE_BOT_TOKEN }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID }}
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
+          ARCHIVE_CHANNEL_ID: ${{ secrets.ARCHIVE_CHANNEL_ID }}
+          REELS_CHANNEL_ID: ${{ secrets.REELS_CHANNEL_ID }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          TASK_ID: ${{ github.event.inputs.task_id }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          cd bot-code
+          timeout 320m python main.py        run: |
           cd bot-code
           python upload_worker.py
