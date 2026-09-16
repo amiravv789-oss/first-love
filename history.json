@@ -53824,8 +53824,122 @@
       "size": 18565,
       "status": "ok",
       "file_name": "Hotmails FRESH.txt",
-      "first_seen": "2026-09-16T08:50:09.628599",
-      "done_at": "2026-09-16T08:50:09.980560"
+      "first_seen": "2026-09-16T08:50:09.628599"
+    },
+    "HOTMAIL PandaCloud 16.09.txt::5305": {
+      "size": 5305,
+      "status": "ok",
+      "file_name": "HOTMAIL PandaCloud 16.09.txt",
+      "first_seen": "2026-09-16T08:58:01.973663"
+    },
+    "535x FRESH HITS.txt::19374": {
+      "size": 19374,
+      "status": "ok",
+      "file_name": "535x FRESH HITS.txt",
+      "first_seen": "2026-09-16T08:59:05.394193"
+    },
+    "FullMix.txt::136918": {
+      "size": 136918,
+      "status": "ok",
+      "file_name": "FullMix.txt",
+      "first_seen": "2026-09-16T09:01:25.624279"
+    },
+    "FullMix.txt::3237468": {
+      "size": 3237468,
+      "status": "ok",
+      "file_name": "FullMix.txt",
+      "first_seen": "2026-09-16T09:01:27.081002"
+    },
+    "invalid.txt::3718": {
+      "size": 3718,
+      "status": "ok",
+      "file_name": "invalid.txt",
+      "first_seen": "2026-09-16T09:01:28.536071"
+    },
+    "Hotmail.txt::1059027": {
+      "size": 1059027,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-16T09:01:28.612649"
+    },
+    "4252 database.txt::155456": {
+      "size": 155456,
+      "status": "ok",
+      "file_name": "4252 database.txt",
+      "first_seen": "2026-09-16T09:01:28.842024"
+    },
+    "summary.txt::201": {
+      "size": 201,
+      "status": "ok",
+      "file_name": "summary.txt",
+      "first_seen": "2026-09-16T09:01:28.918458"
+    },
+    "valid_codes.txt::6133": {
+      "size": 6133,
+      "status": "ok",
+      "file_name": "valid_codes.txt",
+      "first_seen": "2026-09-16T09:01:29.272889"
+    },
+    "0.7k @plutobearz.txt::50577": {
+      "size": 50577,
+      "status": "ok",
+      "file_name": "0.7k @plutobearz.txt",
+      "first_seen": "2026-09-16T09:01:30.180377"
+    },
+    "0.8k @plutobearz.txt::54136": {
+      "size": 54136,
+      "status": "ok",
+      "file_name": "0.8k @plutobearz.txt",
+      "first_seen": "2026-09-16T09:01:30.458390"
+    },
+    "0.3k @plutobearz.txt::24463": {
+      "size": 24463,
+      "status": "ok",
+      "file_name": "0.3k @plutobearz.txt",
+      "first_seen": "2026-09-16T09:01:31.588428"
+    },
+    "ULP LGS 087 parte5de10.txt::20214631": {
+      "size": 20214631,
+      "status": "ok",
+      "file_name": "ULP LGS 087 parte5de10.txt",
+      "first_seen": "2026-09-16T09:01:32.254555"
+    },
+    "ULP LGS 087 parte6de10.txt::20214278": {
+      "size": 20214278,
+      "status": "ok",
+      "file_name": "ULP LGS 087 parte6de10.txt",
+      "first_seen": "2026-09-16T09:01:32.616269"
+    },
+    "0.6k @plutobearz.txt::22824": {
+      "size": 22824,
+      "status": "ok",
+      "file_name": "0.6k @plutobearz.txt",
+      "first_seen": "2026-09-16T09:01:32.755371"
+    },
+    "17.4k Mail With Valid MIX [FREE TG] 16.09.26.txt::638585": {
+      "size": 638585,
+      "status": "ok",
+      "file_name": "17.4k Mail With Valid MIX [FREE TG] 16.09.26.txt",
+      "first_seen": "2026-09-16T09:01:48.858915"
+    },
+    "6.7k Hotmail With Valid [FREE TG] 16.09.26.txt::252856": {
+      "size": 252856,
+      "status": "ok",
+      "file_name": "6.7k Hotmail With Valid [FREE TG] 16.09.26.txt",
+      "first_seen": "2026-09-16T09:01:48.989281"
+    },
+    "MIX FRESH (151).txt::107568": {
+      "size": 107568,
+      "status": "ok",
+      "file_name": "MIX FRESH (151).txt",
+      "first_seen": "2026-09-16T09:02:54.543293"
+    },
+    "@Trident_Cloud_6.zip::649068097": {
+      "size": 649068097,
+      "status": "ok",
+      "file_name": "@Trident_Cloud_6.zip",
+      "first_seen": "2026-09-16T09:03:21.485308",
+      "done_at": "2026-09-16T09:03:21.634693"
     }
   },
   "last_check": 1789221710.379466
