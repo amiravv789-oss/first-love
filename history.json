@@ -58144,8 +58144,446 @@
       "size": 644449627,
       "status": "ok",
       "file_name": "@cvv190_cloud_7.zip",
-      "first_seen": "2026-09-17T01:04:11.585438",
-      "done_at": "2026-09-17T01:04:11.819243"
+      "first_seen": "2026-09-17T01:04:11.585438"
+    },
+    "xx.zip::2012778": {
+      "size": 2012778,
+      "status": "ok",
+      "file_name": "xx.zip",
+      "first_seen": "2026-09-17T01:14:00.994765"
+    },
+    "HQ HOTMAILS.txt::5805": {
+      "size": 5805,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-09-17T01:17:28.560630"
+    },
+    "CC-VALIDATIONV1.rar::20423747": {
+      "size": 20423747,
+      "status": "ok",
+      "file_name": "CC-VALIDATIONV1.rar",
+      "first_seen": "2026-09-17T01:20:49.473673"
+    },
+    "Wolf HOTMA!LS [179].txt::6810": {
+      "size": 6810,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [179].txt",
+      "first_seen": "2026-09-17T01:34:12.854054"
+    },
+    "6.7k Hotmail WIth Valid [FREE TG] 17.09.26.txt::246163": {
+      "size": 246163,
+      "status": "ok",
+      "file_name": "6.7k Hotmail WIth Valid [FREE TG] 17.09.26.txt",
+      "first_seen": "2026-09-17T01:56:04.396659"
+    },
+    "13k Mail With Valid MIX [FREE TG] 17.09.26.txt::474546": {
+      "size": 474546,
+      "status": "ok",
+      "file_name": "13k Mail With Valid MIX [FREE TG] 17.09.26.txt",
+      "first_seen": "2026-09-17T01:56:05.423440"
+    },
+    "28.5k Brazil D4RKNETHUB CLOUD.txt::1124263": {
+      "size": 1124263,
+      "status": "ok",
+      "file_name": "28.5k Brazil D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-17T02:04:03.770903"
+    },
+    "Rawen_Cloud_2026-09-17_ms_001_2773L.txt::96769": {
+      "size": 96769,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-17_ms_001_2773L.txt",
+      "first_seen": "2026-09-17T02:22:11.810122"
+    },
+    "Rawen_Cloud_2026-09-17_mix_001_6154L.txt::235470": {
+      "size": 235470,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-17_mix_001_6154L.txt",
+      "first_seen": "2026-09-17T02:22:12.735260"
+    },
+    "Wolf HOTMA!LS [167].txt::6361": {
+      "size": 6361,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [167].txt",
+      "first_seen": "2026-09-17T02:34:23.901171"
+    },
+    "90.txt::6234259": {
+      "size": 6234259,
+      "status": "ok",
+      "file_name": "90.txt",
+      "first_seen": "2026-09-17T02:56:39.417501"
+    },
+    "Semi Valide FA [2026-09-17 02-59-40 UTC].txt::278567": {
+      "size": 278567,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-17 02-59-40 UTC].txt",
+      "first_seen": "2026-09-17T02:59:44.549966"
+    },
+    "Wolf M!X [633].txt::23243": {
+      "size": 23243,
+      "status": "ok",
+      "file_name": "Wolf M!X [633].txt",
+      "first_seen": "2026-09-17T03:34:04.654294"
+    },
+    "HQHQ 47.txt::33558910": {
+      "size": 33558910,
+      "status": "ok",
+      "file_name": "HQHQ 47.txt",
+      "first_seen": "2026-09-17T03:48:14.312457"
+    },
+    "HQHQ 50.txt::33558900": {
+      "size": 33558900,
+      "status": "ok",
+      "file_name": "HQHQ 50.txt",
+      "first_seen": "2026-09-17T03:48:14.425177"
+    },
+    "HQHQ 49.txt::33558810": {
+      "size": 33558810,
+      "status": "ok",
+      "file_name": "HQHQ 49.txt",
+      "first_seen": "2026-09-17T03:48:14.536276"
+    },
+    "Ok.txt::14032": {
+      "size": 14032,
+      "status": "ok",
+      "file_name": "Ok.txt",
+      "first_seen": "2026-09-17T03:48:14.647117"
+    },
+    "Ok.txt::17084": {
+      "size": 17084,
+      "status": "ok",
+      "file_name": "Ok.txt",
+      "first_seen": "2026-09-17T03:48:14.757524"
+    },
+    "Ok.txt::32971": {
+      "size": 32971,
+      "status": "ok",
+      "file_name": "Ok.txt",
+      "first_seen": "2026-09-17T03:48:14.867829"
+    },
+    "Rest.txt::18608": {
+      "size": 18608,
+      "status": "ok",
+      "file_name": "Rest.txt",
+      "first_seen": "2026-09-17T03:48:14.980029"
+    },
+    "Ok.txt::35839": {
+      "size": 35839,
+      "status": "ok",
+      "file_name": "Ok.txt",
+      "first_seen": "2026-09-17T03:48:15.095723"
+    },
+    "HQHQ 48.txt::297253": {
+      "size": 297253,
+      "status": "ok",
+      "file_name": "HQHQ 48.txt",
+      "first_seen": "2026-09-17T03:48:16.249704"
+    },
+    "Ok.txt::11000": {
+      "size": 11000,
+      "status": "ok",
+      "file_name": "Ok.txt",
+      "first_seen": "2026-09-17T03:48:25.347155"
+    },
+    "14k Mail WIth Valid MIX [FREE TG] 17.09.26.txt::510856": {
+      "size": 510856,
+      "status": "ok",
+      "file_name": "14k Mail WIth Valid MIX [FREE TG] 17.09.26.txt",
+      "first_seen": "2026-09-17T04:03:03.972225"
+    },
+    "9k Hotmail With Valid [FREE TG] 17.09.26.txt::331370": {
+      "size": 331370,
+      "status": "ok",
+      "file_name": "9k Hotmail With Valid [FREE TG] 17.09.26.txt",
+      "first_seen": "2026-09-17T04:03:04.080490"
+    },
+    "31.3k Spain D4RKNETHUB CLOUD.txt::1128264": {
+      "size": 1128264,
+      "status": "ok",
+      "file_name": "31.3k Spain D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-17T04:04:03.358469"
+    },
+    "Rawen_Cloud_2026-09-16_ms_001_3088L.txt::116386": {
+      "size": 116386,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-16_ms_001_3088L.txt",
+      "first_seen": "2026-09-17T04:06:58.036818"
+    },
+    "Rawen_Cloud_2026-09-17_mix_002_2793L.txt::107528": {
+      "size": 107528,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-17_mix_002_2793L.txt",
+      "first_seen": "2026-09-17T04:06:59.003012"
+    },
+    "Rogue Cloud [TG @RogueCloud].rar::1296511381": {
+      "size": 1296511381,
+      "status": "ok",
+      "file_name": "Rogue Cloud [TG @RogueCloud].rar",
+      "first_seen": "2026-09-17T04:10:59.280615"
+    },
+    "viki_by_@eyelifter.py::45634": {
+      "size": 45634,
+      "status": "ok",
+      "file_name": "viki_by_@eyelifter.py",
+      "first_seen": "2026-09-17T04:13:13.023460"
+    },
+    "[5.565 lines] t-online.de 17-09-26.txt::195014": {
+      "size": 195014,
+      "status": "ok",
+      "file_name": "[5.565 lines] t-online.de 17-09-26.txt",
+      "first_seen": "2026-09-17T04:26:57.725748"
+    },
+    "[1.006 lines] poczta.fm 17-09-26.txt::30680": {
+      "size": 30680,
+      "status": "ok",
+      "file_name": "[1.006 lines] poczta.fm 17-09-26.txt",
+      "first_seen": "2026-09-17T04:26:58.605169"
+    },
+    "[1.209 lines] telenet.be 17-09-26.txt::38658": {
+      "size": 38658,
+      "status": "ok",
+      "file_name": "[1.209 lines] telenet.be 17-09-26.txt",
+      "first_seen": "2026-09-17T04:26:59.149420"
+    },
+    "[1.840 lines] yahoo.com 17-09-26.txt::61947": {
+      "size": 61947,
+      "status": "ok",
+      "file_name": "[1.840 lines] yahoo.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:00.505077"
+    },
+    "[20.181 lines] gmail.com 17-09-26.txt::691625": {
+      "size": 691625,
+      "status": "ok",
+      "file_name": "[20.181 lines] gmail.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:01.610797"
+    },
+    "[3.702 lines] interia.pl 17-09-26.txt::117698": {
+      "size": 117698,
+      "status": "ok",
+      "file_name": "[3.702 lines] interia.pl 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:04.000915"
+    },
+    "[2.983 lines] msn.com 17-09-26.txt::92168": {
+      "size": 92168,
+      "status": "ok",
+      "file_name": "[2.983 lines] msn.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:05.744332"
+    },
+    "[1.208 lines] rediffmail.com 17-09-26.txt::45426": {
+      "size": 45426,
+      "status": "ok",
+      "file_name": "[1.208 lines] rediffmail.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:05.850560"
+    },
+    "[10.345 lines] outlook.com 17-09-26.txt::380862": {
+      "size": 380862,
+      "status": "ok",
+      "file_name": "[10.345 lines] outlook.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:06.520620"
+    },
+    "[20.950 lines] yahoo.com 17-09-26.txt::679214": {
+      "size": 679214,
+      "status": "ok",
+      "file_name": "[20.950 lines] yahoo.com 17-09-26.txt",
+      "first_seen": "2026-09-17T04:27:08.897366"
+    },
+    "Hotmail Unique Combo_9_17000.txt::627226": {
+      "size": 627226,
+      "status": "ok",
+      "file_name": "Hotmail Unique Combo_9_17000.txt",
+      "first_seen": "2026-09-17T04:31:12.199815"
+    },
+    "Wolf HOTMA!LS [146].txt::5760": {
+      "size": 5760,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [146].txt",
+      "first_seen": "2026-09-17T04:34:14.651918"
+    },
+    "790x FRESH HITS.txt::28085": {
+      "size": 28085,
+      "status": "ok",
+      "file_name": "790x FRESH HITS.txt",
+      "first_seen": "2026-09-17T04:34:52.248724"
+    },
+    "790x UHQ HOTMAIL @MTx_Hu.txt::28085": {
+      "size": 28085,
+      "status": "ok",
+      "file_name": "790x UHQ HOTMAIL @MTx_Hu.txt",
+      "first_seen": "2026-09-17T04:41:29.369324"
+    },
+    "@kingulp (490).txt::126764056": {
+      "size": 126764056,
+      "status": "ok",
+      "file_name": "@kingulp (490).txt",
+      "first_seen": "2026-09-17T05:04:30.253898"
+    },
+    "(5565)x UHQ (t-online)@GTX_E.txt::193621": {
+      "size": 193621,
+      "status": "ok",
+      "file_name": "(5565)x UHQ (t-online)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:33.276412"
+    },
+    "(1209)x UHQ (telenet)@GTX_E.txt::37265": {
+      "size": 37265,
+      "status": "ok",
+      "file_name": "(1209)x UHQ (telenet)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:34.071785"
+    },
+    "(1006)x UHQ (poczta)@GTX_E.txt::29287": {
+      "size": 29287,
+      "status": "ok",
+      "file_name": "(1006)x UHQ (poczta)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:34.185131"
+    },
+    "(1835)x UHQ (yahoo)@GTX_E.txt::60297": {
+      "size": 60297,
+      "status": "ok",
+      "file_name": "(1835)x UHQ (yahoo)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:35.395641"
+    },
+    "(3702)x UHQ (interia)@GTX_E.txt::116305": {
+      "size": 116305,
+      "status": "ok",
+      "file_name": "(3702)x UHQ (interia)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:35.733805"
+    },
+    "(2983)x UHQ (msn)@GTX_E.txt::90775": {
+      "size": 90775,
+      "status": "ok",
+      "file_name": "(2983)x UHQ (msn)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:36.470318"
+    },
+    "(1208)x UHQ (rediffmail)@GTX_E.txt::44033": {
+      "size": 44033,
+      "status": "ok",
+      "file_name": "(1208)x UHQ (rediffmail)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:36.653413"
+    },
+    "(20181)x UHQ (gmail)@GTX_E.txt::690232": {
+      "size": 690232,
+      "status": "ok",
+      "file_name": "(20181)x UHQ (gmail)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:37.159365"
+    },
+    "(10338)x UHQ (outlook)@GTX_E.txt::379125": {
+      "size": 379125,
+      "status": "ok",
+      "file_name": "(10338)x UHQ (outlook)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:38.362602"
+    },
+    "(20948)x UHQ (yahoo)@GTX_E.txt::677722": {
+      "size": 677722,
+      "status": "ok",
+      "file_name": "(20948)x UHQ (yahoo)@GTX_E.txt",
+      "first_seen": "2026-09-17T05:05:44.456209"
+    },
+    "IPWave [NEW].zip::5334": {
+      "size": 5334,
+      "status": "ok",
+      "file_name": "IPWave [NEW].zip",
+      "first_seen": "2026-09-17T05:12:30.672079"
+    },
+    "Sun Cloud (TG @ArhontCorp).rar::2960059862": {
+      "size": 2960059862,
+      "status": "ok",
+      "file_name": "Sun Cloud (TG @ArhontCorp).rar",
+      "first_seen": "2026-09-17T05:14:51.390946"
+    },
+    "SAR CC GEN.py::16986": {
+      "size": 16986,
+      "status": "ok",
+      "file_name": "SAR CC GEN.py",
+      "first_seen": "2026-09-17T05:29:13.822265"
+    },
+    "Wolf HOTMA!LS [325].txt::12144": {
+      "size": 12144,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [325].txt",
+      "first_seen": "2026-09-17T05:34:26.113493"
+    },
+    "Semi Valide FA [2026-09-14 21-54-13 UTC].txt::344654": {
+      "size": 344654,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-14 21-54-13 UTC].txt",
+      "first_seen": "2026-09-17T05:35:44.774070"
+    },
+    "Semi Valide FA [2026-09-14 23-54-25 UTC].txt::371111": {
+      "size": 371111,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-14 23-54-25 UTC].txt",
+      "first_seen": "2026-09-17T05:35:44.936452"
+    },
+    "Semi Valide FA [2026-09-14 15-53-38 UTC].txt::505275": {
+      "size": 505275,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-14 15-53-38 UTC].txt",
+      "first_seen": "2026-09-17T05:35:46.217722"
+    },
+    "HQ HOTMAILS.txt::5571": {
+      "size": 5571,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-09-17T05:36:01.507945"
+    },
+    "HQ HOTMAILS.txt::9691": {
+      "size": 9691,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-09-17T05:36:01.617152"
+    },
+    "private_lines.txt::22629": {
+      "size": 22629,
+      "status": "ok",
+      "file_name": "private_lines.txt",
+      "first_seen": "2026-09-17T05:36:09.256921"
+    },
+    "Learnifybd Academy Accounts.txt::4020": {
+      "size": 4020,
+      "status": "ok",
+      "file_name": "Learnifybd Academy Accounts.txt",
+      "first_seen": "2026-09-17T05:36:25.564268"
+    },
+    "ChatGPT_Results.zip::88433": {
+      "size": 88433,
+      "status": "ok",
+      "file_name": "ChatGPT_Results.zip",
+      "first_seen": "2026-09-17T05:40:14.098825"
+    },
+    "ChatGPT_Results.zip::383722": {
+      "size": 383722,
+      "status": "ok",
+      "file_name": "ChatGPT_Results.zip",
+      "first_seen": "2026-09-17T05:51:44.419902"
+    },
+    "Mix.txt::5188": {
+      "size": 5188,
+      "status": "ok",
+      "file_name": "Mix.txt",
+      "first_seen": "2026-09-17T05:58:45.852533"
+    },
+    "Semi Valide FA [2026-09-17 05-59-53 UTC].txt::265109": {
+      "size": 265109,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-17 05-59-53 UTC].txt",
+      "first_seen": "2026-09-17T05:59:56.614033"
+    },
+    "33.5k Russian D4RKNETHUB CLOUD.txt::1129687": {
+      "size": 1129687,
+      "status": "ok",
+      "file_name": "33.5k Russian D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-17T06:04:03.257624"
+    },
+    "e.txt::348": {
+      "size": 348,
+      "status": "ok",
+      "file_name": "e.txt",
+      "first_seen": "2026-09-17T06:05:54.359873"
+    },
+    "26k Valid UHQ Mix @MTx_Hu.txt::935457": {
+      "size": 935457,
+      "status": "ok",
+      "file_name": "26k Valid UHQ Mix @MTx_Hu.txt",
+      "first_seen": "2026-09-17T06:19:35.349212",
+      "done_at": "2026-09-17T06:19:35.568713"
     }
   },
   "last_check": 1789221710.379466
