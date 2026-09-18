@@ -68371,10 +68371,1283 @@
       "first_seen": "2026-09-18T09:07:02.473008"
     },
     "valid_codes.txt::779": {
-      "file_name": "valid_codes.txt",
       "size": 779,
       "status": "pending",
+      "file_name": "valid_codes.txt",
       "first_seen": "2026-09-18T09:12:37.763474"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::62772": {
+      "size": 62772,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-18T09:13:55.381686"
+    },
+    "103X Matrix M!X.txt::4066": {
+      "size": 4066,
+      "status": "ok",
+      "file_name": "103X Matrix M!X.txt",
+      "first_seen": "2026-09-18T09:15:23.902068"
+    },
+    "287X Matrix HOTMA!LS.txt::10316": {
+      "size": 10316,
+      "status": "ok",
+      "file_name": "287X Matrix HOTMA!LS.txt",
+      "first_seen": "2026-09-18T09:15:29.285543"
+    },
+    "Hotmail.txt::11290": {
+      "size": 11290,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-18T09:15:36.430780"
+    },
+    "Tdatas.rar::101979002": {
+      "size": 101979002,
+      "status": "ok",
+      "file_name": "Tdatas.rar",
+      "first_seen": "2026-09-18T09:15:48.062153"
+    },
+    "INTEL CHECKER - API Keys 2026-09-18T01-37-12.rar::28456": {
+      "size": 28456,
+      "status": "ok",
+      "file_name": "INTEL CHECKER - API Keys 2026-09-18T01-37-12.rar",
+      "first_seen": "2026-09-18T09:16:04.576282"
+    },
+    "257X H0tm0ail F0ull V0alid By @Kommander0 18.09.txt::9275": {
+      "size": 9275,
+      "status": "ok",
+      "file_name": "257X H0tm0ail F0ull V0alid By @Kommander0 18.09.txt",
+      "first_seen": "2026-09-18T09:16:25.331158"
+    },
+    "X356 Good_WordPress.txt::26077": {
+      "size": 26077,
+      "status": "ok",
+      "file_name": "X356 Good_WordPress.txt",
+      "first_seen": "2026-09-18T09:18:35.867056"
+    },
+    "Hotmails.txt::18704": {
+      "size": 18704,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T09:20:25.314064"
+    },
+    "MK2 CLOUD M!X.txt::490020": {
+      "size": 490020,
+      "status": "ok",
+      "file_name": "MK2 CLOUD M!X.txt",
+      "first_seen": "2026-09-18T09:20:38.723816"
+    },
+    "8k Hotmail With Valid [FREE TG] 18.09.26.txt::293209": {
+      "size": 293209,
+      "status": "ok",
+      "file_name": "8k Hotmail With Valid [FREE TG] 18.09.26.txt",
+      "first_seen": "2026-09-18T09:21:09.466858"
+    },
+    "18k Mail WIth Valid MIX [FREE TG] 18.09.26.txt::663610": {
+      "size": 663610,
+      "status": "ok",
+      "file_name": "18k Mail WIth Valid MIX [FREE TG] 18.09.26.txt",
+      "first_seen": "2026-09-18T09:21:10.828567"
+    },
+    "mix 18.09 #2556.txt::233212513": {
+      "size": 233212513,
+      "status": "ok",
+      "file_name": "mix 18.09 #2556.txt",
+      "first_seen": "2026-09-18T09:21:38.373948"
+    },
+    "MIX FRESH (194).txt::6647": {
+      "size": 6647,
+      "status": "ok",
+      "file_name": "MIX FRESH (194).txt",
+      "first_seen": "2026-09-18T09:23:52.375017"
+    },
+    "MIX FRESH.txt::6647": {
+      "size": 6647,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T09:23:53.886967"
+    },
+    "hotmail_20260918_092418 @valide_combos.txt::118567": {
+      "size": 118567,
+      "status": "ok",
+      "file_name": "hotmail_20260918_092418 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:24:20.705680"
+    },
+    "Mixed_Leak_20260918_092429 @valide_combos.txt::3421954": {
+      "size": 3421954,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092429 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:24:31.772614"
+    },
+    "Mixed_Leak_20260918_092433 @valide_combos.txt::1530108": {
+      "size": 1530108,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092433 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:24:35.661284"
+    },
+    "Mixed_Leak_20260918_092451 @valide_combos.txt::3135182": {
+      "size": 3135182,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092451 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:24:53.692126"
+    },
+    "Mixed_Leak_20260918_092503 @valide_combos.txt::598069": {
+      "size": 598069,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092503 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:25:05.200907"
+    },
+    "Mixed_Leak_20260918_092511 @valide_combos.txt::598432": {
+      "size": 598432,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092511 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:25:13.096824"
+    },
+    "Mixed_Leak_20260918_092512 @valide_combos.txt::1419269": {
+      "size": 1419269,
+      "status": "ok",
+      "file_name": "Mixed_Leak_20260918_092512 @valide_combos.txt",
+      "first_seen": "2026-09-18T09:25:16.167159"
+    },
+    "Familyconfigs(🤝).npvs::7192": {
+      "size": 7192,
+      "status": "ok",
+      "file_name": "Familyconfigs(🤝).npvs",
+      "first_seen": "2026-09-18T09:26:37.716182"
+    },
+    "Games_Hit.txt::1084": {
+      "size": 1084,
+      "status": "ok",
+      "file_name": "Games_Hit.txt",
+      "first_seen": "2026-09-18T09:26:58.993654"
+    },
+    "MK2 CLOUD M!X.txt::371858": {
+      "size": 371858,
+      "status": "ok",
+      "file_name": "MK2 CLOUD M!X.txt",
+      "first_seen": "2026-09-18T09:27:09.777868"
+    },
+    "mix_hits.txt::9601": {
+      "size": 9601,
+      "status": "ok",
+      "file_name": "mix_hits.txt",
+      "first_seen": "2026-09-18T09:32:09.281650"
+    },
+    "steam_user_pass_By_@SL_C6_By_channel_@steamfree_456_1.txt::14053": {
+      "size": 14053,
+      "status": "ok",
+      "file_name": "steam_user_pass_By_@SL_C6_By_channel_@steamfree_456_1.txt",
+      "first_seen": "2026-09-18T09:32:49.194090"
+    },
+    "Wolf M!X [1185].txt::43595": {
+      "size": 43595,
+      "status": "ok",
+      "file_name": "Wolf M!X [1185].txt",
+      "first_seen": "2026-09-18T09:34:07.921631"
+    },
+    "mix 18.09 #1185.txt::265104983": {
+      "size": 265104983,
+      "status": "ok",
+      "file_name": "mix 18.09 #1185.txt",
+      "first_seen": "2026-09-18T09:34:31.881776"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::200366": {
+      "size": 200366,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-18T09:35:51.155577"
+    },
+    "@BreachForumsCloud.rar::1250137163": {
+      "size": 1250137163,
+      "status": "ok",
+      "file_name": "@BreachForumsCloud.rar",
+      "first_seen": "2026-09-18T09:35:59.480368"
+    },
+    "Psn-Hit-@i3o4h.txt::5825": {
+      "size": 5825,
+      "status": "ok",
+      "file_name": "Psn-Hit-@i3o4h.txt",
+      "first_seen": "2026-09-18T09:36:08.795060"
+    },
+    "660x FRESH HITS.txt::22739": {
+      "size": 22739,
+      "status": "ok",
+      "file_name": "660x FRESH HITS.txt",
+      "first_seen": "2026-09-18T09:40:36.979389"
+    },
+    "sakura HOTMA!LS.txt::200607": {
+      "size": 200607,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-18T09:45:20.394468"
+    },
+    "Hotmails.txt::6479": {
+      "size": 6479,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T09:45:39.942461"
+    },
+    "Hotmails.txt::2969": {
+      "size": 2969,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T09:45:40.679752"
+    },
+    "Japan.txt::1036128": {
+      "size": 1036128,
+      "status": "ok",
+      "file_name": "Japan.txt",
+      "first_seen": "2026-09-18T09:48:01.554443"
+    },
+    "MAIL ACCESS MIX_.txt::541257": {
+      "size": 541257,
+      "status": "ok",
+      "file_name": "MAIL ACCESS MIX_.txt",
+      "first_seen": "2026-09-18T09:48:04.700984"
+    },
+    "MAIL ACCESS MIX.txt::542013": {
+      "size": 542013,
+      "status": "ok",
+      "file_name": "MAIL ACCESS MIX.txt",
+      "first_seen": "2026-09-18T09:48:04.867858"
+    },
+    "MAIL ACCESS MIX_.txt::542345": {
+      "size": 542345,
+      "status": "ok",
+      "file_name": "MAIL ACCESS MIX_.txt",
+      "first_seen": "2026-09-18T09:48:05.253098"
+    },
+    "MAIL ACCESS MIX_.txt::542915": {
+      "size": 542915,
+      "status": "ok",
+      "file_name": "MAIL ACCESS MIX_.txt",
+      "first_seen": "2026-09-18T09:48:05.382894"
+    },
+    "SPAIN.txt::13524600": {
+      "size": 13524600,
+      "status": "ok",
+      "file_name": "SPAIN.txt",
+      "first_seen": "2026-09-18T09:48:29.667528"
+    },
+    "unknown6_20260918_@logstester2.zip::3719956344": {
+      "size": 3719956344,
+      "status": "ok",
+      "file_name": "unknown6_20260918_@logstester2.zip",
+      "first_seen": "2026-09-18T09:50:49.356962"
+    },
+    "wowsmtp.txt::123493": {
+      "size": 123493,
+      "status": "ok",
+      "file_name": "wowsmtp.txt",
+      "first_seen": "2026-09-18T09:50:53.016086"
+    },
+    "WORKING_SMTPS.txt::83268": {
+      "size": 83268,
+      "status": "ok",
+      "file_name": "WORKING_SMTPS.txt",
+      "first_seen": "2026-09-18T09:50:53.401173"
+    },
+    "126K-B2B-ITALY.txt::2988184": {
+      "size": 2988184,
+      "status": "ok",
+      "file_name": "126K-B2B-ITALY.txt",
+      "first_seen": "2026-09-18T09:52:26.504856"
+    },
+    "Rawen_Cloud_2026-09-18_ms_010_845L.txt::31046": {
+      "size": 31046,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-18_ms_010_845L.txt",
+      "first_seen": "2026-09-18T09:55:17.150367"
+    },
+    "Rawen_Cloud_2026-09-18_mix_016_4143L.txt::169507": {
+      "size": 169507,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-09-18_mix_016_4143L.txt",
+      "first_seen": "2026-09-18T09:55:18.133512"
+    },
+    "Hotmails FRESH (117).txt::9746": {
+      "size": 9746,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (117).txt",
+      "first_seen": "2026-09-18T09:56:34.324921"
+    },
+    "Hotmails FRESH.txt::9746": {
+      "size": 9746,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T09:56:34.812081"
+    },
+    "Ex vpn by @sar_info1 .txt::46496": {
+      "size": 46496,
+      "status": "ok",
+      "file_name": "Ex vpn by @sar_info1 .txt",
+      "first_seen": "2026-09-18T09:59:20.267998"
+    },
+    "323 Gmail.txt::13290": {
+      "size": 13290,
+      "status": "ok",
+      "file_name": "323 Gmail.txt",
+      "first_seen": "2026-09-18T10:01:24.497245"
+    },
+    "1332-UHQ HOTMAILS.txt::48937": {
+      "size": 48937,
+      "status": "ok",
+      "file_name": "1332-UHQ HOTMAILS.txt",
+      "first_seen": "2026-09-18T10:02:15.300334"
+    },
+    "MIX FRESH (195).txt::7811": {
+      "size": 7811,
+      "status": "ok",
+      "file_name": "MIX FRESH (195).txt",
+      "first_seen": "2026-09-18T10:03:24.420908"
+    },
+    "MIX FRESH.txt::7811": {
+      "size": 7811,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T10:03:25.613942"
+    },
+    "Hotmails FRESH (118).txt::13806": {
+      "size": 13806,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (118).txt",
+      "first_seen": "2026-09-18T10:07:25.637744"
+    },
+    "Hotmails FRESH.txt::13806": {
+      "size": 13806,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T10:07:26.525044"
+    },
+    "MIX FRESH (196).txt::10294": {
+      "size": 10294,
+      "status": "ok",
+      "file_name": "MIX FRESH (196).txt",
+      "first_seen": "2026-09-18T10:10:05.216172"
+    },
+    "MIX FRESH.txt::10294": {
+      "size": 10294,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T10:10:07.130651"
+    },
+    "@shadeXtxt_#6734.txt::144462721": {
+      "size": 144462721,
+      "status": "ok",
+      "file_name": "@shadeXtxt_#6734.txt",
+      "first_seen": "2026-09-18T10:12:40.384367"
+    },
+    "MIX FRESH (197).txt::37747": {
+      "size": 37747,
+      "status": "ok",
+      "file_name": "MIX FRESH (197).txt",
+      "first_seen": "2026-09-18T10:13:36.043159"
+    },
+    "MIX FRESH.txt::37747": {
+      "size": 37747,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T10:13:37.143981"
+    },
+    "Combo[Email-Pass]-Part1-@LegioN_LeakeRs.rar::1251439898": {
+      "size": 1251439898,
+      "status": "ok",
+      "file_name": "Combo[Email-Pass]-Part1-@LegioN_LeakeRs.rar",
+      "first_seen": "2026-09-18T10:14:08.168434"
+    },
+    "Combo[Email-Pass]-Part2-@LegioN_LeakeRs.rar::1474501641": {
+      "size": 1474501641,
+      "status": "ok",
+      "file_name": "Combo[Email-Pass]-Part2-@LegioN_LeakeRs.rar",
+      "first_seen": "2026-09-18T10:14:09.241786"
+    },
+    "Combo[Email-Pass]-Part3-@LegioN_LeakeRs.rar::1578845643": {
+      "size": 1578845643,
+      "status": "ok",
+      "file_name": "Combo[Email-Pass]-Part3-@LegioN_LeakeRs.rar",
+      "first_seen": "2026-09-18T10:14:10.620383"
+    },
+    "Combo[Email-Pass]-Part4-@LegioN_LeakeRs.rar::385516357": {
+      "size": 385516357,
+      "status": "ok",
+      "file_name": "Combo[Email-Pass]-Part4-@LegioN_LeakeRs.rar",
+      "first_seen": "2026-09-18T10:14:12.219821"
+    },
+    "BOOSTEROID.PY::53643": {
+      "size": 53643,
+      "status": "ok",
+      "file_name": "BOOSTEROID.PY",
+      "first_seen": "2026-09-18T10:14:26.406394"
+    },
+    "Krazy UK Private [@krazycloudextra].txt::1282": {
+      "size": 1282,
+      "status": "ok",
+      "file_name": "Krazy UK Private [@krazycloudextra].txt",
+      "first_seen": "2026-09-18T10:14:50.010708"
+    },
+    "18X XBOX FULL CAPTURE.txt::2483": {
+      "size": 2483,
+      "status": "ok",
+      "file_name": "18X XBOX FULL CAPTURE.txt",
+      "first_seen": "2026-09-18T10:16:42.590610"
+    },
+    "LOLCLOUD HOTMAILS 18.09.26.txt::32758": {
+      "size": 32758,
+      "status": "ok",
+      "file_name": "LOLCLOUD HOTMAILS 18.09.26.txt",
+      "first_seen": "2026-09-18T10:17:23.567225"
+    },
+    "minecraft_hits.txt::825": {
+      "size": 825,
+      "status": "ok",
+      "file_name": "minecraft_hits.txt",
+      "first_seen": "2026-09-18T10:23:32.776850"
+    },
+    "valid access .txt::2982507": {
+      "size": 2982507,
+      "status": "ok",
+      "file_name": "valid access .txt",
+      "first_seen": "2026-09-18T10:24:32.604455"
+    },
+    "sakura HOTMA!LS.txt::6321": {
+      "size": 6321,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-18T10:25:59.457321"
+    },
+    "XBOX FULL CAP.txt::2283": {
+      "size": 2283,
+      "status": "ok",
+      "file_name": "XBOX FULL CAP.txt",
+      "first_seen": "2026-09-18T10:28:04.528242"
+    },
+    "MIX FRESH (198).txt::29852": {
+      "size": 29852,
+      "status": "ok",
+      "file_name": "MIX FRESH (198).txt",
+      "first_seen": "2026-09-18T10:31:57.649301"
+    },
+    "MIX FRESH.txt::29852": {
+      "size": 29852,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T10:31:58.476148"
+    },
+    "Wolf HOTMA!LS [227].txt::8506": {
+      "size": 8506,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [227].txt",
+      "first_seen": "2026-09-18T10:34:20.358624"
+    },
+    "Hotmail Unique Combo_5_3100.txt::115688": {
+      "size": 115688,
+      "status": "ok",
+      "file_name": "Hotmail Unique Combo_5_3100.txt",
+      "first_seen": "2026-09-18T10:36:02.011361"
+    },
+    "Ubisoft Test .txt::11635165": {
+      "size": 11635165,
+      "status": "ok",
+      "file_name": "Ubisoft Test .txt",
+      "first_seen": "2026-09-18T10:39:14.470256"
+    },
+    "13.5k Czech Medium Hitrate D4RKNETHUB CLOUD.txt::453808": {
+      "size": 453808,
+      "status": "ok",
+      "file_name": "13.5k Czech Medium Hitrate D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-18T10:40:09.596561"
+    },
+    "Hotmails FRESH (119).txt::7494": {
+      "size": 7494,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (119).txt",
+      "first_seen": "2026-09-18T10:42:08.052064"
+    },
+    "Hotmails FRESH.txt::7494": {
+      "size": 7494,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T10:42:08.475185"
+    },
+    "hits_steam_48 (2).txt::9976": {
+      "size": 9976,
+      "status": "ok",
+      "file_name": "hits_steam_48 (2).txt",
+      "first_seen": "2026-09-18T10:46:35.539203"
+    },
+    "hits_steam_48.txt::9976": {
+      "size": 9976,
+      "status": "ok",
+      "file_name": "hits_steam_48.txt",
+      "first_seen": "2026-09-18T10:46:37.430090"
+    },
+    "X.com +770.txt::29163": {
+      "size": 29163,
+      "status": "ok",
+      "file_name": "X.com +770.txt",
+      "first_seen": "2026-09-18T10:52:01.863980"
+    },
+    "libero.it +500.txt::10928": {
+      "size": 10928,
+      "status": "ok",
+      "file_name": "libero.it +500.txt",
+      "first_seen": "2026-09-18T10:52:01.996890"
+    },
+    "yahoo.co.uk +200.txt::5326": {
+      "size": 5326,
+      "status": "ok",
+      "file_name": "yahoo.co.uk +200.txt",
+      "first_seen": "2026-09-18T10:52:02.129743"
+    },
+    "Edu+2200.txt::97403": {
+      "size": 97403,
+      "status": "ok",
+      "file_name": "Edu+2200.txt",
+      "first_seen": "2026-09-18T10:52:02.260930"
+    },
+    "rambler.ru +600.txt::22411": {
+      "size": 22411,
+      "status": "ok",
+      "file_name": "rambler.ru +600.txt",
+      "first_seen": "2026-09-18T10:52:02.394045"
+    },
+    "Hotmails FRESH (120).txt::10154": {
+      "size": 10154,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (120).txt",
+      "first_seen": "2026-09-18T10:55:59.433161"
+    },
+    "Hotmails FRESH.txt::10154": {
+      "size": 10154,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T10:55:59.989536"
+    },
+    "sakura HOTMA!LS.txt::9280": {
+      "size": 9280,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-18T10:56:20.410856"
+    },
+    "Semi Valide FA [2026-09-18 11-02-44 UTC].txt::452267": {
+      "size": 452267,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-18 11-02-44 UTC].txt",
+      "first_seen": "2026-09-18T11:02:49.710424"
+    },
+    "120x hotmail by @lhbhb7.txt::10326": {
+      "size": 10326,
+      "status": "ok",
+      "file_name": "120x hotmail by @lhbhb7.txt",
+      "first_seen": "2026-09-18T11:06:18.393580"
+    },
+    "MIX FRESH (199).txt::138604": {
+      "size": 138604,
+      "status": "ok",
+      "file_name": "MIX FRESH (199).txt",
+      "first_seen": "2026-09-18T11:11:30.311961"
+    },
+    "MIX FRESH.txt::138604": {
+      "size": 138604,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T11:11:32.208793"
+    },
+    "[4.035 lines] outlook.com 18-09-26.txt::148025": {
+      "size": 148025,
+      "status": "ok",
+      "file_name": "[4.035 lines] outlook.com 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:11.975377"
+    },
+    "[1.956 lines] t-online.de 18-09-26.txt::71947": {
+      "size": 71947,
+      "status": "ok",
+      "file_name": "[1.956 lines] t-online.de 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:12.505274"
+    },
+    "[10.758 lines] mixed 18-09-26.txt::362798": {
+      "size": 362798,
+      "status": "ok",
+      "file_name": "[10.758 lines] mixed 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:14.018305"
+    },
+    "[4.232 lines] orange.fr 18-09-26.txt::142314": {
+      "size": 142314,
+      "status": "ok",
+      "file_name": "[4.232 lines] orange.fr 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:14.847608"
+    },
+    "[1.473 lines] yahoo.de 18-09-26.txt::44429": {
+      "size": 44429,
+      "status": "ok",
+      "file_name": "[1.473 lines] yahoo.de 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:14.981464"
+    },
+    "[2.719 lines] gmail.com 18-09-26.txt::95048": {
+      "size": 95048,
+      "status": "ok",
+      "file_name": "[2.719 lines] gmail.com 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:18.496783"
+    },
+    "[39.729 lines] gmail.com 18-09-26.txt::1420307": {
+      "size": 1420307,
+      "status": "ok",
+      "file_name": "[39.729 lines] gmail.com 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:20.021345"
+    },
+    "[3.719 lines] outlook.com 18-09-26.txt::124557": {
+      "size": 124557,
+      "status": "ok",
+      "file_name": "[3.719 lines] outlook.com 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:20.895022"
+    },
+    "[33.400 lines] mail.ru 18-09-26.txt::1065698": {
+      "size": 1065698,
+      "status": "ok",
+      "file_name": "[33.400 lines] mail.ru 18-09-26.txt",
+      "first_seen": "2026-09-18T11:19:21.506031"
+    },
+    "Hotmail.txt::6360": {
+      "size": 6360,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-18T11:21:59.904946"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::6079": {
+      "size": 6079,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-18T11:27:29.546233"
+    },
+    "Hotmail .txt::8273": {
+      "size": 8273,
+      "status": "ok",
+      "file_name": "Hotmail .txt",
+      "first_seen": "2026-09-18T11:29:05.378259"
+    },
+    "multi @Soliconf (1).npvt::20385": {
+      "size": 20385,
+      "status": "ok",
+      "file_name": "multi @Soliconf (1).npvt",
+      "first_seen": "2026-09-18T11:30:52.661012"
+    },
+    "Hotmail.txt::7353": {
+      "size": 7353,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-18T11:32:26.291262"
+    },
+    "ACRTIXX1 HOTMAIL UHQ (135 lines).txt::4886": {
+      "size": 4886,
+      "status": "ok",
+      "file_name": "ACRTIXX1 HOTMAIL UHQ (135 lines).txt",
+      "first_seen": "2026-09-18T11:32:46.886143"
+    },
+    "Fresh Hotmail (3).txt::4788": {
+      "size": 4788,
+      "status": "ok",
+      "file_name": "Fresh Hotmail (3).txt",
+      "first_seen": "2026-09-18T11:33:06.320299"
+    },
+    "Fresh Hotmail.txt::4788": {
+      "size": 4788,
+      "status": "ok",
+      "file_name": "Fresh Hotmail.txt",
+      "first_seen": "2026-09-18T11:33:07.681501"
+    },
+    "PRIVATE HOTMAIL.txt::4584": {
+      "size": 4584,
+      "status": "ok",
+      "file_name": "PRIVATE HOTMAIL.txt",
+      "first_seen": "2026-09-18T11:33:34.118545"
+    },
+    "Wolf M!X [447].txt::16656": {
+      "size": 16656,
+      "status": "ok",
+      "file_name": "Wolf M!X [447].txt",
+      "first_seen": "2026-09-18T11:34:32.676378"
+    },
+    "sakura HOTMA!LS.txt::6587": {
+      "size": 6587,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-18T11:35:47.027378"
+    },
+    "0.1k Hotmails FRESH.txt::3931": {
+      "size": 3931,
+      "status": "ok",
+      "file_name": "0.1k Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T11:37:14.149985"
+    },
+    "valid_codes.txt::1687": {
+      "size": 1687,
+      "status": "ok",
+      "file_name": "valid_codes.txt",
+      "first_seen": "2026-09-18T11:43:55.418384"
+    },
+    "valid_codes (4).txt::1687": {
+      "size": 1687,
+      "status": "ok",
+      "file_name": "valid_codes (4).txt",
+      "first_seen": "2026-09-18T11:44:35.119074"
+    },
+    "Hotmails.txt::4023": {
+      "size": 4023,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T11:52:03.088530"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::9040": {
+      "size": 9040,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-18T11:54:03.512730"
+    },
+    "results_20260918_115413.txt::6557": {
+      "size": 6557,
+      "status": "ok",
+      "file_name": "results_20260918_115413.txt",
+      "first_seen": "2026-09-18T11:57:49.123663"
+    },
+    "551-UHQ HOTMAILS.txt::20123": {
+      "size": 20123,
+      "status": "ok",
+      "file_name": "551-UHQ HOTMAILS.txt",
+      "first_seen": "2026-09-18T11:58:00.818188"
+    },
+    "18-SEP.txt::344164": {
+      "size": 344164,
+      "status": "ok",
+      "file_name": "18-SEP.txt",
+      "first_seen": "2026-09-18T11:59:43.934765"
+    },
+    "@moonulp - 215.txt::114393602": {
+      "size": 114393602,
+      "status": "ok",
+      "file_name": "@moonulp - 215.txt",
+      "first_seen": "2026-09-18T12:00:00.536341"
+    },
+    "results_20260918_120020.txt::3827": {
+      "size": 3827,
+      "status": "ok",
+      "file_name": "results_20260918_120020.txt",
+      "first_seen": "2026-09-18T12:00:58.485986"
+    },
+    "VIP.npvt::1739": {
+      "size": 1739,
+      "status": "ok",
+      "file_name": "VIP.npvt",
+      "first_seen": "2026-09-18T12:01:26.193651"
+    },
+    "Hotmails.txt::4452": {
+      "size": 4452,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T12:02:29.095922"
+    },
+    "valid_codes.txt::700": {
+      "size": 700,
+      "status": "ok",
+      "file_name": "valid_codes.txt",
+      "first_seen": "2026-09-18T12:09:11.425011"
+    },
+    "8640x UHQ Hotmails @MTx_Hu.txt::341383": {
+      "size": 341383,
+      "status": "ok",
+      "file_name": "8640x UHQ Hotmails @MTx_Hu.txt",
+      "first_seen": "2026-09-18T12:09:47.865786"
+    },
+    "487x UHQ Hotmails @MTx_Hu.txt::17697": {
+      "size": 17697,
+      "status": "ok",
+      "file_name": "487x UHQ Hotmails @MTx_Hu.txt",
+      "first_seen": "2026-09-18T12:09:52.549976"
+    },
+    "Pegasus Cloud [TG @PegasusCloud].rar::1802691493": {
+      "size": 1802691493,
+      "status": "ok",
+      "file_name": "Pegasus Cloud [TG @PegasusCloud].rar",
+      "first_seen": "2026-09-18T12:13:51.667263"
+    },
+    "FRESH HITS .txt::22737": {
+      "size": 22737,
+      "status": "ok",
+      "file_name": "FRESH HITS .txt",
+      "first_seen": "2026-09-18T12:16:24.352944"
+    },
+    "480x FRESH HOTMAIL HITS.txt::17055": {
+      "size": 17055,
+      "status": "ok",
+      "file_name": "480x FRESH HOTMAIL HITS.txt",
+      "first_seen": "2026-09-18T12:17:53.442053"
+    },
+    "MIX FRESH (200).txt::12130": {
+      "size": 12130,
+      "status": "ok",
+      "file_name": "MIX FRESH (200).txt",
+      "first_seen": "2026-09-18T12:22:13.267799"
+    },
+    "MIX FRESH.txt::12130": {
+      "size": 12130,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T12:22:14.478828"
+    },
+    "[DarkVault] UHQ Combolists x1000.txt::35670": {
+      "size": 35670,
+      "status": "ok",
+      "file_name": "[DarkVault] UHQ Combolists x1000.txt",
+      "first_seen": "2026-09-18T12:24:43.353350"
+    },
+    "Good Mixmail.txt::138218": {
+      "size": 138218,
+      "status": "ok",
+      "file_name": "Good Mixmail.txt",
+      "first_seen": "2026-09-18T12:28:38.043798"
+    },
+    "Hotmails FRESH (121).txt::10723": {
+      "size": 10723,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (121).txt",
+      "first_seen": "2026-09-18T12:34:13.675028"
+    },
+    "Hotmails FRESH.txt::10723": {
+      "size": 10723,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T12:34:14.999418"
+    },
+    "Wolf HOTMA!LS [289].txt::10761": {
+      "size": 10761,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [289].txt",
+      "first_seen": "2026-09-18T12:34:15.131644"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::6355": {
+      "size": 6355,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-18T12:35:47.868008"
+    },
+    "PrimeVideo_Live_Account_Cookie.txt::3850": {
+      "size": 3850,
+      "status": "ok",
+      "file_name": "PrimeVideo_Live_Account_Cookie.txt",
+      "first_seen": "2026-09-18T12:40:27.443937"
+    },
+    "Krazy Hotmails [@krazycloudextra].txt::9687": {
+      "size": 9687,
+      "status": "ok",
+      "file_name": "Krazy Hotmails [@krazycloudextra].txt",
+      "first_seen": "2026-09-18T12:43:26.430298"
+    },
+    "HOTMAIL UHQ.txt::6458": {
+      "size": 6458,
+      "status": "ok",
+      "file_name": "HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-18T12:47:11.542566"
+    },
+    "HOTMAIL UHQ.txt::14508": {
+      "size": 14508,
+      "status": "ok",
+      "file_name": "HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-18T12:47:11.674618"
+    },
+    "HOTMAIL UHQ.txt::8603": {
+      "size": 8603,
+      "status": "ok",
+      "file_name": "HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-18T12:47:11.807970"
+    },
+    "HOTMAIL UHQ.txt::3853": {
+      "size": 3853,
+      "status": "ok",
+      "file_name": "HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-18T12:47:12.002191"
+    },
+    "Hotmail @krishuuuu99.txt::44931": {
+      "size": 44931,
+      "status": "ok",
+      "file_name": "Hotmail @krishuuuu99.txt",
+      "first_seen": "2026-09-18T12:48:14.525785"
+    },
+    "Darkness keywords .txt::8213": {
+      "size": 8213,
+      "status": "ok",
+      "file_name": "Darkness keywords .txt",
+      "first_seen": "2026-09-18T12:49:29.506366"
+    },
+    "Germany.txt::2304624": {
+      "size": 2304624,
+      "status": "ok",
+      "file_name": "Germany.txt",
+      "first_seen": "2026-09-18T12:56:31.892175"
+    },
+    "PrimeVideo_Live_Account_Cookie.txt::3356": {
+      "size": 3356,
+      "status": "ok",
+      "file_name": "PrimeVideo_Live_Account_Cookie.txt",
+      "first_seen": "2026-09-18T12:57:38.353011"
+    },
+    "mullvad checker leaked by ièd.py::30666": {
+      "size": 30666,
+      "status": "ok",
+      "file_name": "mullvad checker leaked by ièd.py",
+      "first_seen": "2026-09-18T13:01:11.287408"
+    },
+    "8k Hotmail With Valid [FREE TG] 18.09.26.txt::293709": {
+      "size": 293709,
+      "status": "ok",
+      "file_name": "8k Hotmail With Valid [FREE TG] 18.09.26.txt",
+      "first_seen": "2026-09-18T13:02:09.505204"
+    },
+    "18k Mail WIth Valid MIX [FREE TG] 18.09.26.txt::663455": {
+      "size": 663455,
+      "status": "ok",
+      "file_name": "18k Mail WIth Valid MIX [FREE TG] 18.09.26.txt",
+      "first_seen": "2026-09-18T13:02:10.539775"
+    },
+    "Taiwan_Part0_@RdpCr4ck.txt::613174": {
+      "size": 613174,
+      "status": "ok",
+      "file_name": "Taiwan_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-09-18T13:09:19.451036"
+    },
+    "900x HITS.txt::31864": {
+      "size": 31864,
+      "status": "ok",
+      "file_name": "900x HITS.txt",
+      "first_seen": "2026-09-18T13:12:08.771026"
+    },
+    "100K-TAIWAN.txt::2774883": {
+      "size": 2774883,
+      "status": "ok",
+      "file_name": "100K-TAIWAN.txt",
+      "first_seen": "2026-09-18T13:17:00.300060"
+    },
+    "PREMIUM_ACCOUNTS.txt::707835": {
+      "size": 707835,
+      "status": "ok",
+      "file_name": "PREMIUM_ACCOUNTS.txt",
+      "first_seen": "2026-09-18T13:18:58.854394"
+    },
+    "95k_instagram_-_mary_kay_14.16_06.05.2019.txt::1410831": {
+      "size": 1410831,
+      "status": "ok",
+      "file_name": "95k_instagram_-_mary_kay_14.16_06.05.2019.txt",
+      "first_seen": "2026-09-18T13:19:35.325083"
+    },
+    "instagram - iran orj.zip::508000077": {
+      "size": 508000077,
+      "status": "ok",
+      "file_name": "instagram - iran orj.zip",
+      "first_seen": "2026-09-18T13:19:36.188486"
+    },
+    "Insta-part1::1572864000": {
+      "size": 1572864000,
+      "status": "ok",
+      "file_name": "Insta-part1",
+      "first_seen": "2026-09-18T13:19:38.094097"
+    },
+    "instagram.zip.t0.001::1073741824": {
+      "size": 1073741824,
+      "status": "ok",
+      "file_name": "instagram.zip.t0.001",
+      "first_seen": "2026-09-18T13:20:43.226273"
+    },
+    "50M_Instagram_boo.wf.7z.003::104857600": {
+      "size": 104857600,
+      "status": "ok",
+      "file_name": "50M_Instagram_boo.wf.7z.003",
+      "first_seen": "2026-09-18T13:20:43.557038"
+    },
+    "instagram.zip.t0.003::723353329": {
+      "size": 723353329,
+      "status": "ok",
+      "file_name": "instagram.zip.t0.003",
+      "first_seen": "2026-09-18T13:20:43.686447"
+    },
+    "instagram.zip.t0.002::1073741824": {
+      "size": 1073741824,
+      "status": "ok",
+      "file_name": "instagram.zip.t0.002",
+      "first_seen": "2026-09-18T13:20:43.812769"
+    },
+    "50M_Instagram_boo.wf.7z.001::104857600": {
+      "size": 104857600,
+      "status": "ok",
+      "file_name": "50M_Instagram_boo.wf.7z.001",
+      "first_seen": "2026-09-18T13:20:44.189066"
+    },
+    "3,791 Hotmail.txt::139198": {
+      "size": 139198,
+      "status": "ok",
+      "file_name": "3,791 Hotmail.txt",
+      "first_seen": "2026-09-18T13:21:46.338244"
+    },
+    "Hotmail Hits.txt::4944": {
+      "size": 4944,
+      "status": "ok",
+      "file_name": "Hotmail Hits.txt",
+      "first_seen": "2026-09-18T13:22:01.153452"
+    },
+    "0.2k Hotmails FRESH.txt::8923": {
+      "size": 8923,
+      "status": "ok",
+      "file_name": "0.2k Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T13:28:32.925456"
+    },
+    "Hotmails FRESH (122).txt::7663": {
+      "size": 7663,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (122).txt",
+      "first_seen": "2026-09-18T13:30:57.033798"
+    },
+    "Hotmails FRESH.txt::7663": {
+      "size": 7663,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T13:30:57.987877"
+    },
+    "Hotmails.txt::30883": {
+      "size": 30883,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T13:33:57.239082"
+    },
+    "Hotmails.txt::8682": {
+      "size": 8682,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T13:34:03.804712"
+    },
+    "Hotmails.txt::9716": {
+      "size": 9716,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-18T13:34:05.861415"
+    },
+    "Wolf HOTMA!LS [629].txt::23299": {
+      "size": 23299,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [629].txt",
+      "first_seen": "2026-09-18T13:34:25.683485"
+    },
+    "BYPASS FOUND BY @Lawhaxxxx.zip::371": {
+      "size": 371,
+      "status": "ok",
+      "file_name": "BYPASS FOUND BY @Lawhaxxxx.zip",
+      "first_seen": "2026-09-18T13:37:14.218239"
+    },
+    "sakura HOTMA!LS.txt::5793": {
+      "size": 5793,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-18T13:37:27.701764"
+    },
+    "3.1k UnitedKingdom Medium Hitrate D4RKNETHUB CLOUD.txt::112488": {
+      "size": 112488,
+      "status": "ok",
+      "file_name": "3.1k UnitedKingdom Medium Hitrate D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-18T13:40:12.920060"
+    },
+    "PrimeVideo_Live_Account_Cookie.txt::3431": {
+      "size": 3431,
+      "status": "ok",
+      "file_name": "PrimeVideo_Live_Account_Cookie.txt",
+      "first_seen": "2026-09-18T13:43:08.968946"
+    },
+    "HOTMAIL FRESH.txt::10022": {
+      "size": 10022,
+      "status": "ok",
+      "file_name": "HOTMAIL FRESH.txt",
+      "first_seen": "2026-09-18T13:49:43.288963"
+    },
+    "MIX FRESH (201).txt::66820": {
+      "size": 66820,
+      "status": "ok",
+      "file_name": "MIX FRESH (201).txt",
+      "first_seen": "2026-09-18T13:49:48.238707"
+    },
+    "MIX FRESH.txt::66820": {
+      "size": 66820,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T13:49:49.480150"
+    },
+    "fixed intel checker.zip::261064742": {
+      "size": 261064742,
+      "status": "ok",
+      "file_name": "fixed intel checker.zip",
+      "first_seen": "2026-09-18T13:51:50.534133"
+    },
+    "Romania_Part0_@RdpCr4ck.txt::469663": {
+      "size": 469663,
+      "status": "ok",
+      "file_name": "Romania_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-09-18T13:53:02.609592"
+    },
+    "WormGPT30.txt::2754": {
+      "size": 2754,
+      "status": "ok",
+      "file_name": "WormGPT30.txt",
+      "first_seen": "2026-09-18T13:53:59.157925"
+    },
+    "DarkGPT.txt::3336": {
+      "size": 3336,
+      "status": "ok",
+      "file_name": "DarkGPT.txt",
+      "first_seen": "2026-09-18T13:55:05.994935"
+    },
+    "MIX FRESH (202).txt::58836": {
+      "size": 58836,
+      "status": "ok",
+      "file_name": "MIX FRESH (202).txt",
+      "first_seen": "2026-09-18T13:57:28.813803"
+    },
+    "MIX FRESH.txt::58836": {
+      "size": 58836,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T13:57:31.045044"
+    },
+    "1000 Hotmail Hits Full Valid.txt::34569": {
+      "size": 34569,
+      "status": "ok",
+      "file_name": "1000 Hotmail Hits Full Valid.txt",
+      "first_seen": "2026-09-18T14:01:27.850330"
+    },
+    "Semi Valide FA [2026-09-18 14-03-01 UTC].txt::269238": {
+      "size": 269238,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-18 14-03-01 UTC].txt",
+      "first_seen": "2026-09-18T14:03:06.260568"
+    },
+    "904x UHQ Hotmails @Entitilo0_0.txt::33733": {
+      "size": 33733,
+      "status": "ok",
+      "file_name": "904x UHQ Hotmails @Entitilo0_0.txt",
+      "first_seen": "2026-09-18T14:05:40.904801"
+    },
+    "YOMOCLOUD_2.496M_ULP.txt::156841835": {
+      "size": 156841835,
+      "status": "ok",
+      "file_name": "YOMOCLOUD_2.496M_ULP.txt",
+      "first_seen": "2026-09-18T14:06:13.561416"
+    },
+    "HQ HOTMAILS.txt::8923": {
+      "size": 8923,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-09-18T14:10:34.173022"
+    },
+    "667.txt::23637": {
+      "size": 23637,
+      "status": "ok",
+      "file_name": "667.txt",
+      "first_seen": "2026-09-18T14:10:43.183564"
+    },
+    "19K Valid Mix.txt::707319": {
+      "size": 707319,
+      "status": "ok",
+      "file_name": "19K Valid Mix.txt",
+      "first_seen": "2026-09-18T14:12:09.591099"
+    },
+    "MIX FRESH (203).txt::1344319": {
+      "size": 1344319,
+      "status": "ok",
+      "file_name": "MIX FRESH (203).txt",
+      "first_seen": "2026-09-18T14:12:20.115824"
+    },
+    "MIX FRESH.txt::1344319": {
+      "size": 1344319,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T14:12:24.625366"
+    },
+    "Tiktok Tuul [FAST @octopuspy ]_ninja.py::528850": {
+      "size": 528850,
+      "status": "ok",
+      "file_name": "Tiktok Tuul [FAST @octopuspy ]_ninja.py",
+      "first_seen": "2026-09-18T14:16:48.390567"
+    },
+    "GlockUlp #41 (3700595).txt::258855387": {
+      "size": 258855387,
+      "status": "ok",
+      "file_name": "GlockUlp #41 (3700595).txt",
+      "first_seen": "2026-09-18T14:18:45.023475"
+    },
+    "Hotmails FRESH (123).txt::29783": {
+      "size": 29783,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (123).txt",
+      "first_seen": "2026-09-18T14:19:30.499655"
+    },
+    "Hotmails FRESH.txt::29783": {
+      "size": 29783,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-18T14:19:32.079671"
+    },
+    "MIX FRESH (204).txt::43118": {
+      "size": 43118,
+      "status": "ok",
+      "file_name": "MIX FRESH (204).txt",
+      "first_seen": "2026-09-18T14:21:31.450682"
+    },
+    "MIX FRESH.txt::43118": {
+      "size": 43118,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-18T14:21:33.145760"
+    },
+    "Hotstar_Results.zip::157440": {
+      "size": 157440,
+      "status": "ok",
+      "file_name": "Hotstar_Results.zip",
+      "first_seen": "2026-09-18T14:21:38.127970"
+    },
+    "SUBFINDER 2.0.txt::17466952": {
+      "size": 17466952,
+      "status": "ok",
+      "file_name": "SUBFINDER 2.0.txt",
+      "first_seen": "2026-09-18T14:22:02.210014"
+    },
+    "@Cracked_Cloud.rar::1107630178": {
+      "size": 1107630178,
+      "status": "ok",
+      "file_name": "@Cracked_Cloud.rar",
+      "first_seen": "2026-09-18T14:22:03.523114"
+    },
+    "16K Mail Access Mix.txt::594609": {
+      "size": 594609,
+      "status": "ok",
+      "file_name": "16K Mail Access Mix.txt",
+      "first_seen": "2026-09-18T14:22:32.939598"
+    },
+    "MIX.txt::3060746": {
+      "size": 3060746,
+      "status": "ok",
+      "file_name": "MIX.txt",
+      "first_seen": "2026-09-18T14:22:55.404634"
+    },
+    "2.9k FRANCE COMBO.txt::109969": {
+      "size": 109969,
+      "status": "ok",
+      "file_name": "2.9k FRANCE COMBO.txt",
+      "first_seen": "2026-09-18T14:23:44.149717"
+    },
+    "6.6k JAPAN COMBO.txt::234981": {
+      "size": 234981,
+      "status": "ok",
+      "file_name": "6.6k JAPAN COMBO.txt",
+      "first_seen": "2026-09-18T14:24:05.304092"
+    },
+    "prime_hits_7969257990.txt::126836": {
+      "size": 126836,
+      "status": "ok",
+      "file_name": "prime_hits_7969257990.txt",
+      "first_seen": "2026-09-18T14:29:19.754691",
+      "done_at": "2026-09-18T14:29:19.961776"
     }
   },
   "last_check": 1789221710.379466
