@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: bot-runner
-  cancel-in-progress: true
+  group: bale-runner
+  cancel-in-progress: false
 
 jobs:
   bot:
