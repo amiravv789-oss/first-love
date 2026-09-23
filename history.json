@@ -92428,8 +92428,2858 @@
       "size": 19948,
       "status": "ok",
       "file_name": "Hotmail.txt",
-      "first_seen": "2026-09-22T20:40:22.465120",
-      "done_at": "2026-09-22T20:40:22.720759"
+      "first_seen": "2026-09-22T20:40:22.465120"
+    },
+    "[3.032 lines] outlook.com 23-09-26.txt::111776": {
+      "size": 111776,
+      "status": "ok",
+      "file_name": "[3.032 lines] outlook.com 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:47.043309"
+    },
+    "[1.410 lines] hotmail.fr 23-09-26.txt::49677": {
+      "size": 49677,
+      "status": "ok",
+      "file_name": "[1.410 lines] hotmail.fr 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:48.533799"
+    },
+    "[21.122 lines] mixed 23-09-26.txt::722800": {
+      "size": 722800,
+      "status": "ok",
+      "file_name": "[21.122 lines] mixed 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:50.016638"
+    },
+    "[2.265 lines] libero.it 23-09-26.txt::80149": {
+      "size": 80149,
+      "status": "ok",
+      "file_name": "[2.265 lines] libero.it 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:50.578963"
+    },
+    "[11.161 lines] hotmail.at 23-09-26.txt::371588": {
+      "size": 371588,
+      "status": "ok",
+      "file_name": "[11.161 lines] hotmail.at 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:51.970306"
+    },
+    "[1.629 lines] webspeed.dk 23-09-26.txt::52563": {
+      "size": 52563,
+      "status": "ok",
+      "file_name": "[1.629 lines] webspeed.dk 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:54.488595"
+    },
+    "[1.455 lines] freenet.de 23-09-26.txt::48828": {
+      "size": 48828,
+      "status": "ok",
+      "file_name": "[1.455 lines] freenet.de 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:55.603375"
+    },
+    "[2.734 lines] yahoo.com 23-09-26.txt::87677": {
+      "size": 87677,
+      "status": "ok",
+      "file_name": "[2.734 lines] yahoo.com 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:56.528944"
+    },
+    "[1.278 lines] o2.pl 23-09-26.txt::35601": {
+      "size": 35601,
+      "status": "ok",
+      "file_name": "[1.278 lines] o2.pl 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:56.989108"
+    },
+    "[1.225 lines] virgilio.it 23-09-26.txt::46062": {
+      "size": 46062,
+      "status": "ok",
+      "file_name": "[1.225 lines] virgilio.it 23-09-26.txt",
+      "first_seen": "2026-09-23T07:31:57.609323"
+    },
+    "Wolf HOTMA!LS [461].txt::16797": {
+      "size": 16797,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [461].txt",
+      "first_seen": "2026-09-23T07:34:16.826710"
+    },
+    "0.5k UnitedKingdom D4RKNETHUB CLOUD.txt::19027": {
+      "size": 19027,
+      "status": "ok",
+      "file_name": "0.5k UnitedKingdom D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-23T07:40:05.069637"
+    },
+    "0.3k Australia D4RKNETHUB CLOUD.txt::13341": {
+      "size": 13341,
+      "status": "ok",
+      "file_name": "0.3k Australia D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-23T07:40:05.983736"
+    },
+    "@LogsByMaxus 530pcs.rar::469305623": {
+      "size": 469305623,
+      "status": "ok",
+      "file_name": "@LogsByMaxus 530pcs.rar",
+      "first_seen": "2026-09-23T07:49:16.709349"
+    },
+    "netflix_results_8310704588_a8fce008.zip::12947": {
+      "size": 12947,
+      "status": "ok",
+      "file_name": "netflix_results_8310704588_a8fce008.zip",
+      "first_seen": "2026-09-23T07:49:55.800099"
+    },
+    "5k Hotmail With Valid [FREE TG] 23.09.26.txt::183921": {
+      "size": 183921,
+      "status": "ok",
+      "file_name": "5k Hotmail With Valid [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T08:01:16.984335"
+    },
+    "15k Mail With Valid MIX [FREE TG] 23.09.26.txt::548662": {
+      "size": 548662,
+      "status": "ok",
+      "file_name": "15k Mail With Valid MIX [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T08:01:17.650075"
+    },
+    "15k Mail With Valid MIX [FREE TG] 23.09.26 (2).txt::548662": {
+      "size": 548662,
+      "status": "ok",
+      "file_name": "15k Mail With Valid MIX [FREE TG] 23.09.26 (2).txt",
+      "first_seen": "2026-09-23T08:01:18.179387"
+    },
+    "5k Hotmail With Valid [FREE TG] 23.09.26 (2).txt::183921": {
+      "size": 183921,
+      "status": "ok",
+      "file_name": "5k Hotmail With Valid [FREE TG] 23.09.26 (2).txt",
+      "first_seen": "2026-09-23T08:01:18.892370"
+    },
+    "MIX FRESH (326).txt::127180": {
+      "size": 127180,
+      "status": "ok",
+      "file_name": "MIX FRESH (326).txt",
+      "first_seen": "2026-09-23T08:08:13.825404"
+    },
+    "MIX FRESH.txt::127180": {
+      "size": 127180,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T08:08:14.634297"
+    },
+    "1403 VALID HOTFAMS @szapxcloud.txt::51266": {
+      "size": 51266,
+      "status": "ok",
+      "file_name": "1403 VALID HOTFAMS @szapxcloud.txt",
+      "first_seen": "2026-09-23T08:09:26.701750"
+    },
+    "PrimeVideo_Live_Account_Cookie.txt::3745": {
+      "size": 3745,
+      "status": "ok",
+      "file_name": "PrimeVideo_Live_Account_Cookie.txt",
+      "first_seen": "2026-09-23T08:24:09.951059"
+    },
+    "Hotmails FRESH (218).txt::6141": {
+      "size": 6141,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (218).txt",
+      "first_seen": "2026-09-23T08:29:15.314669"
+    },
+    "Hotmails FRESH.txt::6141": {
+      "size": 6141,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-23T08:29:16.141048"
+    },
+    "14606_BRAZIL by EvenRoad.txt::588818": {
+      "size": 588818,
+      "status": "ok",
+      "file_name": "14606_BRAZIL by EvenRoad.txt",
+      "first_seen": "2026-09-23T08:30:32.073700"
+    },
+    "MIX FRESH (327).txt::336951": {
+      "size": 336951,
+      "status": "ok",
+      "file_name": "MIX FRESH (327).txt",
+      "first_seen": "2026-09-23T08:32:55.374515"
+    },
+    "MIX FRESH.txt::336951": {
+      "size": 336951,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T08:32:57.605746"
+    },
+    "Wolf M!X [578].txt::21174": {
+      "size": 21174,
+      "status": "ok",
+      "file_name": "Wolf M!X [578].txt",
+      "first_seen": "2026-09-23T08:34:30.829244"
+    },
+    "crunchy_hits_2.txt::418": {
+      "size": 418,
+      "status": "ok",
+      "file_name": "crunchy_hits_2.txt",
+      "first_seen": "2026-09-23T08:35:22.775286"
+    },
+    "crunchy_hits_1.txt::241": {
+      "size": 241,
+      "status": "ok",
+      "file_name": "crunchy_hits_1.txt",
+      "first_seen": "2026-09-23T08:35:23.317688"
+    },
+    "MIX FRESH (328).txt::69723": {
+      "size": 69723,
+      "status": "ok",
+      "file_name": "MIX FRESH (328).txt",
+      "first_seen": "2026-09-23T08:41:16.687031"
+    },
+    "MIX FRESH.txt::69723": {
+      "size": 69723,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T08:41:17.889410"
+    },
+    "Krazii_ULP_Admins.txt::8342855": {
+      "size": 8342855,
+      "status": "ok",
+      "file_name": "Krazii_ULP_Admins.txt",
+      "first_seen": "2026-09-23T08:41:45.953359"
+    },
+    "Krazii_ULP_All.txt::27467311": {
+      "size": 27467311,
+      "status": "ok",
+      "file_name": "Krazii_ULP_All.txt",
+      "first_seen": "2026-09-23T08:41:46.129926"
+    },
+    "Krazii_Cookies_Raw.txt::42303169": {
+      "size": 42303169,
+      "status": "ok",
+      "file_name": "Krazii_Cookies_Raw.txt",
+      "first_seen": "2026-09-23T08:41:46.305056"
+    },
+    "Krazii_Cards_CC.txt::594": {
+      "size": 594,
+      "status": "ok",
+      "file_name": "Krazii_Cards_CC.txt",
+      "first_seen": "2026-09-23T08:41:47.007173"
+    },
+    "Krazii_Discord_Tokens.txt::20982": {
+      "size": 20982,
+      "status": "ok",
+      "file_name": "Krazii_Discord_Tokens.txt",
+      "first_seen": "2026-09-23T08:41:47.185752"
+    },
+    "49k Gmail.txt::1863486": {
+      "size": 1863486,
+      "status": "ok",
+      "file_name": "49k Gmail.txt",
+      "first_seen": "2026-09-23T08:44:54.056028"
+    },
+    "9k Hotmail With Valid [FREE TG] 23.09.26.txt::324101": {
+      "size": 324101,
+      "status": "ok",
+      "file_name": "9k Hotmail With Valid [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T08:48:58.421358"
+    },
+    "20k Mail With Valid MIX [FREE TG] 23.09.26.txt::728805": {
+      "size": 728805,
+      "status": "ok",
+      "file_name": "20k Mail With Valid MIX [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T08:48:59.044187"
+    },
+    "20k Mail With Valid MIX [FREE TG] 23.09.26 (1).txt::728805": {
+      "size": 728805,
+      "status": "ok",
+      "file_name": "20k Mail With Valid MIX [FREE TG] 23.09.26 (1).txt",
+      "first_seen": "2026-09-23T08:49:00.305843"
+    },
+    "US 15.txt::6673": {
+      "size": 6673,
+      "status": "ok",
+      "file_name": "US 15.txt",
+      "first_seen": "2026-09-23T08:53:32.546172"
+    },
+    "FR 15.txt::2746": {
+      "size": 2746,
+      "status": "ok",
+      "file_name": "FR 15.txt",
+      "first_seen": "2026-09-23T08:53:33.502024"
+    },
+    "MX 16.txt::12922": {
+      "size": 12922,
+      "status": "ok",
+      "file_name": "MX 16.txt",
+      "first_seen": "2026-09-23T08:53:33.756768"
+    },
+    "UK 17.txt::2405": {
+      "size": 2405,
+      "status": "ok",
+      "file_name": "UK 17.txt",
+      "first_seen": "2026-09-23T08:53:33.927917"
+    },
+    "CA 16.txt::1220": {
+      "size": 1220,
+      "status": "ok",
+      "file_name": "CA 16.txt",
+      "first_seen": "2026-09-23T08:53:34.101692"
+    },
+    "CO 2.txt::1718": {
+      "size": 1718,
+      "status": "ok",
+      "file_name": "CO 2.txt",
+      "first_seen": "2026-09-23T08:53:34.272406"
+    },
+    "good quality .txt::41565": {
+      "size": 41565,
+      "status": "ok",
+      "file_name": "good quality .txt",
+      "first_seen": "2026-09-23T08:53:34.442370"
+    },
+    "BR 16.txt::10582": {
+      "size": 10582,
+      "status": "ok",
+      "file_name": "BR 16.txt",
+      "first_seen": "2026-09-23T08:53:34.612016"
+    },
+    "ES 16.txt::3417": {
+      "size": 3417,
+      "status": "ok",
+      "file_name": "ES 16.txt",
+      "first_seen": "2026-09-23T08:53:34.780860"
+    },
+    "TW 11.txt::2448": {
+      "size": 2448,
+      "status": "ok",
+      "file_name": "TW 11.txt",
+      "first_seen": "2026-09-23T08:53:35.128891"
+    },
+    "AR 17.txt::2748": {
+      "size": 2748,
+      "status": "ok",
+      "file_name": "AR 17.txt",
+      "first_seen": "2026-09-23T08:53:35.635755"
+    },
+    "2000 x Fresh Valid UHQ MIX By @IndigoCloud.txt::73506": {
+      "size": 73506,
+      "status": "ok",
+      "file_name": "2000 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:38.496656"
+    },
+    "1200 x Fresh Valid UHQ MIX By @IndigoCloud.txt::46362": {
+      "size": 46362,
+      "status": "ok",
+      "file_name": "1200 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:38.674055"
+    },
+    "1300 x Fresh Valid UHQ MIX By @IndigoCloud.txt::50534": {
+      "size": 50534,
+      "status": "ok",
+      "file_name": "1300 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:38.847402"
+    },
+    "1000 x Fresh Valid UHQ MIX By @IndigoCloud.txt::38979": {
+      "size": 38979,
+      "status": "ok",
+      "file_name": "1000 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:39.192580"
+    },
+    "750 x Fresh Valid UHQ MIX By @IndigoCloud.txt::32717": {
+      "size": 32717,
+      "status": "ok",
+      "file_name": "750 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:39.363979"
+    },
+    "2800 x Fresh Valid UHQ MIX By @IndigoCloud.txt::104664": {
+      "size": 104664,
+      "status": "ok",
+      "file_name": "2800 x Fresh Valid UHQ MIX By @IndigoCloud.txt",
+      "first_seen": "2026-09-23T08:53:39.875964"
+    },
+    "tghosting.py::140257": {
+      "size": 140257,
+      "status": "ok",
+      "file_name": "tghosting.py",
+      "first_seen": "2026-09-23T08:55:57.327236"
+    },
+    "PRIVATE MIXED .txt::721406": {
+      "size": 721406,
+      "status": "ok",
+      "file_name": "PRIVATE MIXED .txt",
+      "first_seen": "2026-09-23T08:59:40.721728"
+    },
+    "Hotmail 1.12.1.txt::5202": {
+      "size": 5202,
+      "status": "ok",
+      "file_name": "Hotmail 1.12.1.txt",
+      "first_seen": "2026-09-23T09:02:52.629093"
+    },
+    "Hotmails FRESH (219).txt::6033": {
+      "size": 6033,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (219).txt",
+      "first_seen": "2026-09-23T09:02:58.322349"
+    },
+    "Hotmails FRESH.txt::6033": {
+      "size": 6033,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-23T09:02:59.754615"
+    },
+    "Hotmail 1.13.1.txt::11984": {
+      "size": 11984,
+      "status": "ok",
+      "file_name": "Hotmail 1.13.1.txt",
+      "first_seen": "2026-09-23T09:04:41.784297"
+    },
+    "Hotmail 1.14.1.txt::119840": {
+      "size": 119840,
+      "status": "ok",
+      "file_name": "Hotmail 1.14.1.txt",
+      "first_seen": "2026-09-23T09:04:48.457620"
+    },
+    "Face Over_8.0.apk::40874078": {
+      "size": 40874078,
+      "status": "ok",
+      "file_name": "Face Over_8.0.apk",
+      "first_seen": "2026-09-23T09:07:41.520561"
+    },
+    "Remini_3.7.1406.202523909.apk::158184456": {
+      "size": 158184456,
+      "status": "ok",
+      "file_name": "Remini_3.7.1406.202523909.apk",
+      "first_seen": "2026-09-23T09:07:41.690516"
+    },
+    "sakura M!X.txt::4487": {
+      "size": 4487,
+      "status": "ok",
+      "file_name": "sakura M!X.txt",
+      "first_seen": "2026-09-23T09:08:59.882213"
+    },
+    "Semi Valide FA [2026-09-23 09-14-38 UTC].txt::301884": {
+      "size": 301884,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-23 09-14-38 UTC].txt",
+      "first_seen": "2026-09-23T09:14:40.319682"
+    },
+    "Iraq whaxx.txt::4199": {
+      "size": 4199,
+      "status": "ok",
+      "file_name": "Iraq whaxx.txt",
+      "first_seen": "2026-09-23T09:15:21.923060"
+    },
+    "Roblox.txt::1103": {
+      "size": 1103,
+      "status": "ok",
+      "file_name": "Roblox.txt",
+      "first_seen": "2026-09-23T09:19:08.298960"
+    },
+    "Sweden_Part0_@RdpCr4ck.txt::1771381": {
+      "size": 1771381,
+      "status": "ok",
+      "file_name": "Sweden_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-09-23T09:19:17.976679"
+    },
+    "Hotmails FRESH (220).txt::316549": {
+      "size": 316549,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (220).txt",
+      "first_seen": "2026-09-23T09:23:39.656404"
+    },
+    "Hotmails FRESH.txt::316549": {
+      "size": 316549,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-23T09:23:43.277012"
+    },
+    "Wolf M!X [7640].txt::279587": {
+      "size": 279587,
+      "status": "ok",
+      "file_name": "Wolf M!X [7640].txt",
+      "first_seen": "2026-09-23T09:34:11.292018"
+    },
+    "Hotmails FRESH (221).txt::103128": {
+      "size": 103128,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (221).txt",
+      "first_seen": "2026-09-23T09:34:30.894551"
+    },
+    "Hotmails FRESH.txt::103128": {
+      "size": 103128,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-09-23T09:34:31.935686"
+    },
+    "message.txt::25756": {
+      "size": 25756,
+      "status": "ok",
+      "file_name": "message.txt",
+      "first_seen": "2026-09-23T09:38:27.684381"
+    },
+    "Walgreens.txt::554": {
+      "size": 554,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T09:39:07.404235"
+    },
+    "Walmart.txt::1940": {
+      "size": 1940,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:39:10.957271"
+    },
+    "Aldi.txt::2382": {
+      "size": 2382,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:39:15.100173"
+    },
+    "Costco.txt::1014": {
+      "size": 1014,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T09:39:18.843715"
+    },
+    "Target.txt::555": {
+      "size": 555,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T09:39:22.706774"
+    },
+    "Lidl.txt::562": {
+      "size": 562,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T09:39:26.476682"
+    },
+    "Carrefour.txt::563": {
+      "size": 563,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T09:39:30.425542"
+    },
+    "Meijer.txt::559": {
+      "size": 559,
+      "status": "ok",
+      "file_name": "Meijer.txt",
+      "first_seen": "2026-09-23T09:39:34.094951"
+    },
+    "Aldi.txt::552": {
+      "size": 552,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:40:37.182954"
+    },
+    "Walmart.txt::563": {
+      "size": 563,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:41:15.427254"
+    },
+    "Aldi.txt::1002": {
+      "size": 1002,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:42:25.368489"
+    },
+    "Walmart.txt::1013": {
+      "size": 1013,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:42:37.944888"
+    },
+    "Target.txt::559": {
+      "size": 559,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T09:42:41.912218"
+    },
+    "Walgreens.txt::573": {
+      "size": 573,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T09:43:19.876707"
+    },
+    "Lidl.txt::563": {
+      "size": 563,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T09:43:41.419581"
+    },
+    "Aldi.txt::1451": {
+      "size": 1451,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:43:47.005896"
+    },
+    "Heb.txt::552": {
+      "size": 552,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T09:44:44.115493"
+    },
+    "Costco.txt::562": {
+      "size": 562,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T09:44:46.069553"
+    },
+    "Walmart.txt::1460": {
+      "size": 1460,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:45:16.980374"
+    },
+    "Walmart.txt::1925": {
+      "size": 1925,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:45:56.745826"
+    },
+    "Costco.txt::1016": {
+      "size": 1016,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T09:46:15.788184"
+    },
+    "Lidl.txt::1019": {
+      "size": 1019,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T09:46:58.680615"
+    },
+    "Aldi.txt::1911": {
+      "size": 1911,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:47:15.850093"
+    },
+    "Walmart.txt::2391": {
+      "size": 2391,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:47:19.693600"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_HOTMAIL_UHQ_10_1.txt::26728": {
+      "size": 26728,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_HOTMAIL_UHQ_10_1.txt",
+      "first_seen": "2026-09-23T09:47:24.900448"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmail_1_13_1.txt::11807": {
+      "size": 11807,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmail_1_13_1.txt",
+      "first_seen": "2026-09-23T09:47:25.213183"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_M!X.txt::3433": {
+      "size": 3433,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_M!X.txt",
+      "first_seen": "2026-09-23T09:47:25.747735"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmail_1_14_1.txt::119663": {
+      "size": 119663,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmail_1_14_1.txt",
+      "first_seen": "2026-09-23T09:47:25.921935"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmails_FRESH_1.txt::316359": {
+      "size": 316359,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_Hotmails_FRESH_1.txt",
+      "first_seen": "2026-09-23T09:47:26.442699"
+    },
+    "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_M!X_7640.txt::279308": {
+      "size": 279308,
+      "status": "ok",
+      "file_name": "─═_၄_𝗗𝗮𝗿𝗸𝗖𝗼𝗺𝗯𝗼_၄_═─_M!X_7640.txt",
+      "first_seen": "2026-09-23T09:47:26.617848"
+    },
+    "MIX FRESH (329).txt::344916": {
+      "size": 344916,
+      "status": "ok",
+      "file_name": "MIX FRESH (329).txt",
+      "first_seen": "2026-09-23T09:49:13.062562"
+    },
+    "MIX FRESH.txt::344916": {
+      "size": 344916,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T09:49:14.583649"
+    },
+    "Poland.txt::261219": {
+      "size": 261219,
+      "status": "ok",
+      "file_name": "Poland.txt",
+      "first_seen": "2026-09-23T09:49:23.471748"
+    },
+    "Target.txt::1011": {
+      "size": 1011,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T09:50:39.175490"
+    },
+    "Aldi.txt::2368": {
+      "size": 2368,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:51:05.043774"
+    },
+    "Hotmail.txt::21003": {
+      "size": 21003,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T09:51:42.464581"
+    },
+    "Fresh Hotmail @Bh_Zx4.txt::22056": {
+      "size": 22056,
+      "status": "ok",
+      "file_name": "Fresh Hotmail @Bh_Zx4.txt",
+      "first_seen": "2026-09-23T09:51:45.022756"
+    },
+    "Aldi.txt::2822": {
+      "size": 2822,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:51:48.485990"
+    },
+    "ACRTIXX1 HOTMAIL UHQ.txt::18093": {
+      "size": 18093,
+      "status": "ok",
+      "file_name": "ACRTIXX1 HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-23T09:52:28.619791"
+    },
+    "Walmart.txt::2849": {
+      "size": 2849,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:52:33.887593"
+    },
+    "@CloudyDataTeam 550pcs.rar::277424092": {
+      "size": 277424092,
+      "status": "ok",
+      "file_name": "@CloudyDataTeam 550pcs.rar",
+      "first_seen": "2026-09-23T09:52:35.765161"
+    },
+    "Aldi.txt::3278": {
+      "size": 3278,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:53:31.606607"
+    },
+    "510X H0tm0ail F0ull V0alid By @Kommander0  23.09.txt::18730": {
+      "size": 18730,
+      "status": "ok",
+      "file_name": "510X H0tm0ail F0ull V0alid By @Kommander0  23.09.txt",
+      "first_seen": "2026-09-23T09:53:40.533735"
+    },
+    "Walmart.txt::3314": {
+      "size": 3314,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:54:08.428653"
+    },
+    "663-UHQ HOTMAILS.txt::24023": {
+      "size": 24023,
+      "status": "ok",
+      "file_name": "663-UHQ HOTMAILS.txt",
+      "first_seen": "2026-09-23T09:54:25.168671"
+    },
+    "Walmart.txt::3767": {
+      "size": 3767,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:54:40.168461"
+    },
+    "Carrefour.txt::1034": {
+      "size": 1034,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T09:56:18.938611"
+    },
+    "Aldi.txt::3735": {
+      "size": 3735,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:56:28.441772"
+    },
+    "Walmart.txt::4225": {
+      "size": 4225,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:57:08.735538"
+    },
+    "Walmart.txt::4676": {
+      "size": 4676,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T09:57:44.805534"
+    },
+    "Costco.txt::1478": {
+      "size": 1478,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T09:58:04.421051"
+    },
+    "Lidl.txt::1466": {
+      "size": 1466,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T09:58:33.064995"
+    },
+    "Hotmail_Valids.txt::22795": {
+      "size": 22795,
+      "status": "ok",
+      "file_name": "Hotmail_Valids.txt",
+      "first_seen": "2026-09-23T09:58:38.920516"
+    },
+    "Aldi.txt::4189": {
+      "size": 4189,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T09:58:54.840577"
+    },
+    "Tesco.txt::561": {
+      "size": 561,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T09:59:29.443971"
+    },
+    "Target.txt::1469": {
+      "size": 1469,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T09:59:42.861256"
+    },
+    "Lidl.txt::1919": {
+      "size": 1919,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T09:59:50.702766"
+    },
+    "Aldi.txt::4650": {
+      "size": 4650,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:00:15.738796"
+    },
+    "Walmart.txt::5128": {
+      "size": 5128,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:01:53.987630"
+    },
+    "Walmart.txt::5582": {
+      "size": 5582,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:02:35.570845"
+    },
+    "Aldi.txt::5104": {
+      "size": 5104,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:03:11.641923"
+    },
+    "United_States_Part9_@RdpCr4ck.txt::527828": {
+      "size": 527828,
+      "status": "ok",
+      "file_name": "United_States_Part9_@RdpCr4ck.txt",
+      "first_seen": "2026-09-23T10:03:42.419221"
+    },
+    "steam_cookie_hits.zip::7559": {
+      "size": 7559,
+      "status": "ok",
+      "file_name": "steam_cookie_hits.zip",
+      "first_seen": "2026-09-23T10:03:50.085871"
+    },
+    "Aldi.txt::5564": {
+      "size": 5564,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:04:22.037364"
+    },
+    "Aldi.txt::6031": {
+      "size": 6031,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:05:48.899741"
+    },
+    "Walmart.txt::6052": {
+      "size": 6052,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:05:50.824339"
+    },
+    "Costco.txt::1943": {
+      "size": 1943,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:06:09.467907"
+    },
+    "Walmart.txt::6504": {
+      "size": 6504,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:06:34.542792"
+    },
+    "MIX FRESH (330).txt::483398": {
+      "size": 483398,
+      "status": "ok",
+      "file_name": "MIX FRESH (330).txt",
+      "first_seen": "2026-09-23T10:06:53.848942"
+    },
+    "MIX FRESH.txt::483398": {
+      "size": 483398,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T10:06:55.816616"
+    },
+    "MIX FRESH (331).txt::2209959": {
+      "size": 2209959,
+      "status": "ok",
+      "file_name": "MIX FRESH (331).txt",
+      "first_seen": "2026-09-23T10:09:44.039508"
+    },
+    "MIX FRESH.txt::2209959": {
+      "size": 2209959,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T10:09:50.965047"
+    },
+    "MK2 CLOUD M!X.txt::4273": {
+      "size": 4273,
+      "status": "ok",
+      "file_name": "MK2 CLOUD M!X.txt",
+      "first_seen": "2026-09-23T10:12:15.549392"
+    },
+    "Walmart.txt::7409": {
+      "size": 7409,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:12:28.584656"
+    },
+    "Walmart.txt::7868": {
+      "size": 7868,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:13:13.206396"
+    },
+    "Wholefoodsmarket.txt::1033": {
+      "size": 1033,
+      "status": "ok",
+      "file_name": "Wholefoodsmarket.txt",
+      "first_seen": "2026-09-23T10:13:48.426623"
+    },
+    "Aldi.txt::6490": {
+      "size": 6490,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:13:53.573234"
+    },
+    "Walmart.txt::8774": {
+      "size": 8774,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:13:57.552842"
+    },
+    "Aldi.txt::6943": {
+      "size": 6943,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:14:38.326453"
+    },
+    "Target.txt::1935": {
+      "size": 1935,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:14:46.077801"
+    },
+    "Walmart.txt::9229": {
+      "size": 9229,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:15:26.653915"
+    },
+    "Walmart.txt::9682": {
+      "size": 9682,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:16:10.647145"
+    },
+    "Germany.txt::710247": {
+      "size": 710247,
+      "status": "ok",
+      "file_name": "Germany.txt",
+      "first_seen": "2026-09-23T10:16:19.821554"
+    },
+    "Walmart.txt::10142": {
+      "size": 10142,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:16:59.143100"
+    },
+    "Target.txt::2381": {
+      "size": 2381,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:17:03.033894"
+    },
+    "Aldi.txt::7402": {
+      "size": 7402,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:17:43.151950"
+    },
+    "Walmart.txt::10600": {
+      "size": 10600,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:17:46.968245"
+    },
+    "Lidl.txt::2367": {
+      "size": 2367,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T10:18:58.752877"
+    },
+    "Costco.txt::2398": {
+      "size": 2398,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:19:06.552740"
+    },
+    "Kroger.txt::553": {
+      "size": 553,
+      "status": "ok",
+      "file_name": "Kroger.txt",
+      "first_seen": "2026-09-23T10:19:29.216116"
+    },
+    "Walmart.txt::11076": {
+      "size": 11076,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:19:38.828653"
+    },
+    "Aldi.txt::7859": {
+      "size": 7859,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:20:27.667761"
+    },
+    "Target.txt::2844": {
+      "size": 2844,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:20:34.772773"
+    },
+    "Walmart.txt::11532": {
+      "size": 11532,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:21:23.229046"
+    },
+    "865x FRESH HITS.txt::30785": {
+      "size": 30785,
+      "status": "ok",
+      "file_name": "865x FRESH HITS.txt",
+      "first_seen": "2026-09-23T10:21:24.657670"
+    },
+    "Target.txt::3294": {
+      "size": 3294,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:21:26.852658"
+    },
+    "Costco.txt::2851": {
+      "size": 2851,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:21:42.696428"
+    },
+    "Hotmails.txt::14641": {
+      "size": 14641,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-23T10:21:46.905681"
+    },
+    "Costco.txt::3299": {
+      "size": 3299,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:22:35.200172"
+    },
+    "Walmart.txt::11991": {
+      "size": 11991,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:23:08.459946"
+    },
+    "Walmart.txt::12453": {
+      "size": 12453,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:24:00.919396"
+    },
+    "sakura HOTMA!LS.txt::64887": {
+      "size": 64887,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-23T10:24:44.374773"
+    },
+    "Aldi.txt::8322": {
+      "size": 8322,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:24:49.854683"
+    },
+    "Walmart.txt::12908": {
+      "size": 12908,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:24:53.770088"
+    },
+    "Aldi.txt::8786": {
+      "size": 8786,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:25:42.160264"
+    },
+    "Target.txt::3753": {
+      "size": 3753,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:25:50.101335"
+    },
+    "Carrefour.txt::1482": {
+      "size": 1482,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T10:27:02.361169"
+    },
+    "Costco.txt::3748": {
+      "size": 3748,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:27:50.025582"
+    },
+    "Aldi.txt::9239": {
+      "size": 9239,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:28:18.789226"
+    },
+    "Walmart.txt::13365": {
+      "size": 13365,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:28:22.801522"
+    },
+    "Hotmail Unique Combo_10_3300.txt::85811": {
+      "size": 85811,
+      "status": "ok",
+      "file_name": "Hotmail Unique Combo_10_3300.txt",
+      "first_seen": "2026-09-23T10:29:02.165661"
+    },
+    "Lidl.txt::2828": {
+      "size": 2828,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T10:29:37.824756"
+    },
+    "Aldi.txt::9703": {
+      "size": 9703,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:30:22.986360"
+    },
+    "Walmart.txt::13822": {
+      "size": 13822,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:30:27.353955"
+    },
+    "Walmart.txt::14744": {
+      "size": 14744,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:31:20.116971"
+    },
+    "Target.txt::4654": {
+      "size": 4654,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:31:23.494788"
+    },
+    "INTEL CHECKER - API Keys 2026-09-23T10-30-24.rar::83729": {
+      "size": 83729,
+      "status": "ok",
+      "file_name": "INTEL CHECKER - API Keys 2026-09-23T10-30-24.rar",
+      "first_seen": "2026-09-23T10:32:13.501388"
+    },
+    "Lidl.txt::3282": {
+      "size": 3282,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T10:32:22.858370"
+    },
+    "Aldi.txt::10164": {
+      "size": 10164,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:32:59.521706"
+    },
+    "Walmart.txt::15197": {
+      "size": 15197,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:33:04.133574"
+    },
+    "Target.txt::5108": {
+      "size": 5108,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:33:07.349327"
+    },
+    "Lidl.txt::3730": {
+      "size": 3730,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T10:33:15.000237"
+    },
+    "Tesco.txt::1015": {
+      "size": 1015,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T10:33:34.468579"
+    },
+    "Walmart.txt::16119": {
+      "size": 16119,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:33:55.614354"
+    },
+    "Walgreens.txt::1032": {
+      "size": 1032,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T10:34:03.192781"
+    },
+    "Wolf M!X [111].txt::4751": {
+      "size": 4751,
+      "status": "ok",
+      "file_name": "Wolf M!X [111].txt",
+      "first_seen": "2026-09-23T10:34:13.076471"
+    },
+    "Carrefour.txt::1939": {
+      "size": 1939,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T10:34:20.453548"
+    },
+    "Mix PandaCloud.txt::3428": {
+      "size": 3428,
+      "status": "ok",
+      "file_name": "Mix PandaCloud.txt",
+      "first_seen": "2026-09-23T10:34:25.181430"
+    },
+    "Aldi.txt::10621": {
+      "size": 10621,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:35:15.588468"
+    },
+    "1.4K HOTMAIL PandaCloud.txt::49926": {
+      "size": 49926,
+      "status": "ok",
+      "file_name": "1.4K HOTMAIL PandaCloud.txt",
+      "first_seen": "2026-09-23T10:35:31.434071"
+    },
+    "Carrefour.txt::2396": {
+      "size": 2396,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T10:36:38.794355"
+    },
+    "Walmart.txt::16578": {
+      "size": 16578,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:37:07.418202"
+    },
+    "Walmart.txt::17035": {
+      "size": 17035,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:38:05.621331"
+    },
+    "More and mixed FILE GB.txt::137006": {
+      "size": 137006,
+      "status": "ok",
+      "file_name": "More and mixed FILE GB.txt",
+      "first_seen": "2026-09-23T10:38:17.028900"
+    },
+    "MIX.txt::4063776": {
+      "size": 4063776,
+      "status": "ok",
+      "file_name": "MIX.txt",
+      "first_seen": "2026-09-23T10:38:49.957181"
+    },
+    "Aldi.txt::11080": {
+      "size": 11080,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:38:54.128931"
+    },
+    "Walmart.txt::17492": {
+      "size": 17492,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:38:58.379812"
+    },
+    "Walmart.txt::17958": {
+      "size": 17958,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:39:50.047077"
+    },
+    "Target.txt::5561": {
+      "size": 5561,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:39:53.950754"
+    },
+    "1.5k Czech D4RKNETHUB CLOUD.txt::50611": {
+      "size": 50611,
+      "status": "ok",
+      "file_name": "1.5k Czech D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-09-23T10:40:12.301509"
+    },
+    "Aldi.txt::11541": {
+      "size": 11541,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:40:39.338855"
+    },
+    "Walmart.txt::18417": {
+      "size": 18417,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:40:53.500674"
+    },
+    "Walmart.txt::19327": {
+      "size": 19327,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:41:45.657024"
+    },
+    "Costco.txt::4205": {
+      "size": 4205,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:42:04.900817"
+    },
+    "Tesco.txt::1479": {
+      "size": 1479,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T10:42:16.694164"
+    },
+    "Walmart.txt::19784": {
+      "size": 19784,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:42:37.481162"
+    },
+    "Target.txt::6014": {
+      "size": 6014,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:42:42.019389"
+    },
+    "Walmart.txt::20251": {
+      "size": 20251,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:43:29.725194"
+    },
+    "Aldi.txt::11999": {
+      "size": 11999,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:44:28.646442"
+    },
+    "PrimeVideo_Live_Account_Cookie.txt::3755": {
+      "size": 3755,
+      "status": "ok",
+      "file_name": "PrimeVideo_Live_Account_Cookie.txt",
+      "first_seen": "2026-09-23T10:44:59.469535"
+    },
+    "Aldi.txt::12460": {
+      "size": 12460,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:45:23.322357"
+    },
+    "Heb.txt::1001": {
+      "size": 1001,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T10:45:42.924500"
+    },
+    "Target.txt::6935": {
+      "size": 6935,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:46:23.149426"
+    },
+    "Walgreens.txt::1485": {
+      "size": 1485,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T10:46:26.837632"
+    },
+    "Heb.txt::1462": {
+      "size": 1462,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T10:46:34.298288"
+    },
+    "Costco.txt::4663": {
+      "size": 4663,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:46:38.186199"
+    },
+    "Walmart.txt::20696": {
+      "size": 20696,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:47:11.090205"
+    },
+    "Carrefour.txt::2844": {
+      "size": 2844,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T10:47:34.387945"
+    },
+    "Walmart.txt::21151": {
+      "size": 21151,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:48:15.416048"
+    },
+    "Target.txt::7390": {
+      "size": 7390,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:48:19.234440"
+    },
+    "Aldi.txt::13382": {
+      "size": 13382,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:49:03.182788"
+    },
+    "sakura M!X.txt::26710": {
+      "size": 26710,
+      "status": "ok",
+      "file_name": "sakura M!X.txt",
+      "first_seen": "2026-09-23T10:49:52.099694"
+    },
+    "Walmart.txt::21609": {
+      "size": 21609,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:49:58.620497"
+    },
+    "Aldi.txt::13840": {
+      "size": 13840,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:50:47.534255"
+    },
+    "Walmart.txt::22532": {
+      "size": 22532,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:50:51.451101"
+    },
+    "Target.txt::7843": {
+      "size": 7843,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:51:48.200275"
+    },
+    "Heb.txt::1922": {
+      "size": 1922,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T10:51:59.251021"
+    },
+    "Lidl.txt::4184": {
+      "size": 4184,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T10:52:47.921912"
+    },
+    "Supercell-Hits.txt::188": {
+      "size": 188,
+      "status": "ok",
+      "file_name": "Supercell-Hits.txt",
+      "first_seen": "2026-09-23T10:53:33.093186"
+    },
+    "Aldi.txt::14299": {
+      "size": 14299,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:53:36.024873"
+    },
+    "1 MBPS  JIO  (1).dark::2125": {
+      "size": 2125,
+      "status": "ok",
+      "file_name": "1 MBPS  JIO  (1).dark",
+      "first_seen": "2026-09-23T10:54:34.485656"
+    },
+    "1 MBPS  JIO.dark::2125": {
+      "size": 2125,
+      "status": "ok",
+      "file_name": "1 MBPS  JIO.dark",
+      "first_seen": "2026-09-23T10:54:35.837415"
+    },
+    "Target.txt::8304": {
+      "size": 8304,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:54:36.122469"
+    },
+    "Walgreens.txt::1937": {
+      "size": 1937,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T10:55:31.892323"
+    },
+    "Carrefour.txt::3302": {
+      "size": 3302,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T10:56:39.596113"
+    },
+    "Costco.txt::5121": {
+      "size": 5121,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T10:57:40.161705"
+    },
+    "Aldi.txt::14754": {
+      "size": 14754,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:58:17.237566"
+    },
+    "Walmart.txt::22993": {
+      "size": 22993,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:58:21.174561"
+    },
+    "Acolyte Bases.rar::115640567": {
+      "size": 115640567,
+      "status": "ok",
+      "file_name": "Acolyte Bases.rar",
+      "first_seen": "2026-09-23T10:59:05.136451"
+    },
+    "Aldi.txt::15216": {
+      "size": 15216,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T10:59:10.708216"
+    },
+    "Walmart.txt::23908": {
+      "size": 23908,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T10:59:14.682927"
+    },
+    "Target.txt::8764": {
+      "size": 8764,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T10:59:18.579911"
+    },
+    "Tesco.txt::1925": {
+      "size": 1925,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T10:59:45.570755"
+    },
+    "@kingulp (500).txt::109146351": {
+      "size": 109146351,
+      "status": "ok",
+      "file_name": "@kingulp (500).txt",
+      "first_seen": "2026-09-23T10:59:59.671052"
+    },
+    "Aldi.txt::15687": {
+      "size": 15687,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:00:44.998704"
+    },
+    "Aldi.txt::16142": {
+      "size": 16142,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:01:36.860353"
+    },
+    "Black Logs @BlackClouud.zip::665825690": {
+      "size": 665825690,
+      "status": "ok",
+      "file_name": "Black Logs @BlackClouud.zip",
+      "first_seen": "2026-09-23T11:03:15.818745"
+    },
+    "Walmart.txt::24361": {
+      "size": 24361,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:03:20.631953"
+    },
+    "LOLCLOUD HOTMAILS 23.09.26.txt::35929": {
+      "size": 35929,
+      "status": "ok",
+      "file_name": "LOLCLOUD HOTMAILS 23.09.26.txt",
+      "first_seen": "2026-09-23T11:03:21.089239"
+    },
+    "Aldi.txt::16588": {
+      "size": 16588,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:04:09.773856"
+    },
+    "Walmart.txt::24822": {
+      "size": 24822,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:04:13.820110"
+    },
+    "Target.txt::9220": {
+      "size": 9220,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:04:17.608083"
+    },
+    "Target.txt::9676": {
+      "size": 9676,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:05:10.407712"
+    },
+    "Walmart.txt::25279": {
+      "size": 25279,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:05:59.244030"
+    },
+    "Aldi.txt::17047": {
+      "size": 17047,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:06:46.997161"
+    },
+    "Walmart.txt::25736": {
+      "size": 25736,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:06:51.148059"
+    },
+    "Aldi.txt::17512": {
+      "size": 17512,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:08:33.486992"
+    },
+    "Aldi.txt::17969": {
+      "size": 17969,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:09:25.547786"
+    },
+    "545x HOTMAIL FRESH HITS.txt::20073": {
+      "size": 20073,
+      "status": "ok",
+      "file_name": "545x HOTMAIL FRESH HITS.txt",
+      "first_seen": "2026-09-23T11:10:11.514015"
+    },
+    "Walmart.txt::26190": {
+      "size": 26190,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:11:28.657581"
+    },
+    "5SIM WEB ID AND PASS@Akirro_GG.txt::428": {
+      "size": 428,
+      "status": "ok",
+      "file_name": "5SIM WEB ID AND PASS@Akirro_GG.txt",
+      "first_seen": "2026-09-23T11:13:12.253755"
+    },
+    "Walmart.txt::26648": {
+      "size": 26648,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:14:04.229737"
+    },
+    "Semi Valide FA [2026-09-23 11-14-50 UTC].txt::256984": {
+      "size": 256984,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-09-23 11-14-50 UTC].txt",
+      "first_seen": "2026-09-23T11:14:51.319904"
+    },
+    "Aldi.txt::18436": {
+      "size": 18436,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:14:53.575521"
+    },
+    "Walmart.txt::27107": {
+      "size": 27107,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:14:57.134743"
+    },
+    "Target.txt::10136": {
+      "size": 10136,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:15:52.535040"
+    },
+    "Walmart.txt::27560": {
+      "size": 27560,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:16:40.511803"
+    },
+    "Costco.txt::5577": {
+      "size": 5577,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T11:17:00.532529"
+    },
+    "HITS_7.txt::1396": {
+      "size": 1396,
+      "status": "ok",
+      "file_name": "HITS_7.txt",
+      "first_seen": "2026-09-23T11:17:17.680057"
+    },
+    "Kroger.txt::1000": {
+      "size": 1000,
+      "status": "ok",
+      "file_name": "Kroger.txt",
+      "first_seen": "2026-09-23T11:17:22.903716"
+    },
+    "Target.txt::10605": {
+      "size": 10605,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:18:26.736084"
+    },
+    "Walmart.txt::28473": {
+      "size": 28473,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:19:15.651474"
+    },
+    "Target.txt::11055": {
+      "size": 11055,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:19:19.593316"
+    },
+    "Carrefour.txt::3756": {
+      "size": 3756,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T11:19:38.776190"
+    },
+    "Aldi.txt::18901": {
+      "size": 18901,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:20:03.922356"
+    },
+    "Lidl.txt::4642": {
+      "size": 4642,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T11:20:19.436210"
+    },
+    "Wholefoodsmarket.txt::1483": {
+      "size": 1483,
+      "status": "ok",
+      "file_name": "Wholefoodsmarket.txt",
+      "first_seen": "2026-09-23T11:20:42.503679"
+    },
+    "Private Group.txt::21235": {
+      "size": 21235,
+      "status": "ok",
+      "file_name": "Private Group.txt",
+      "first_seen": "2026-09-23T11:20:43.677894"
+    },
+    "Aldi.txt::19354": {
+      "size": 19354,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:20:55.904657"
+    },
+    "Walmart.txt::28936": {
+      "size": 28936,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:21:00.126543"
+    },
+    "Target.txt::11513": {
+      "size": 11513,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:21:57.176816"
+    },
+    "Costco.txt::6040": {
+      "size": 6040,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T11:22:11.645689"
+    },
+    "Metro.ca.txt::570": {
+      "size": 570,
+      "status": "ok",
+      "file_name": "Metro.ca.txt",
+      "first_seen": "2026-09-23T11:22:40.643015"
+    },
+    "Aldi.txt::19822": {
+      "size": 19822,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:22:46.092645"
+    },
+    "Walmart.txt::29848": {
+      "size": 29848,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:23:46.439353"
+    },
+    "Walmart.txt::30301": {
+      "size": 30301,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:24:42.513548"
+    },
+    "Target.txt::11968": {
+      "size": 11968,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:24:46.239561"
+    },
+    "Walgreens.txt::2386": {
+      "size": 2386,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T11:24:49.918924"
+    },
+    "Walmart.txt::30765": {
+      "size": 30765,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:25:39.008045"
+    },
+    "Hotmail.txt::20204": {
+      "size": 20204,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T11:26:06.410483"
+    },
+    "Walmart.txt::31226": {
+      "size": 31226,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:26:35.174599"
+    },
+    "Aldi.txt::20745": {
+      "size": 20745,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:27:38.812015"
+    },
+    "MK2 CLOUD HOTMA!LS.txt::64463": {
+      "size": 64463,
+      "status": "ok",
+      "file_name": "MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-09-23T11:28:03.020206"
+    },
+    "Walmart.txt::31681": {
+      "size": 31681,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:28:38.910820"
+    },
+    "Walmart.txt::32583": {
+      "size": 32583,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:29:36.201001"
+    },
+    "Walmart.txt::33501": {
+      "size": 33501,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:30:32.817704"
+    },
+    "85K G0ermany M0ail A0cce0ss By @Kommander0 23.09.txt::3198528": {
+      "size": 3198528,
+      "status": "ok",
+      "file_name": "85K G0ermany M0ail A0cce0ss By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T11:30:45.528409"
+    },
+    "Heb.txt::2385": {
+      "size": 2385,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T11:30:48.742955"
+    },
+    "Aldi.txt::21199": {
+      "size": 21199,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:31:24.997920"
+    },
+    "Walmart.txt::35333": {
+      "size": 35333,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:31:29.269527"
+    },
+    "Walmart.txt::35794": {
+      "size": 35794,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:32:37.349107"
+    },
+    "Target.txt::12425": {
+      "size": 12425,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:32:41.463999"
+    },
+    "Heb.txt::2836": {
+      "size": 2836,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T11:32:53.088357"
+    },
+    "Walmart.txt::36252": {
+      "size": 36252,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:33:45.885106"
+    },
+    "Target.txt::12872": {
+      "size": 12872,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:33:49.687292"
+    },
+    "Wolf M!X [750].txt::27532": {
+      "size": 27532,
+      "status": "ok",
+      "file_name": "Wolf M!X [750].txt",
+      "first_seen": "2026-09-23T11:34:04.683015"
+    },
+    "jb by itachi.txt::26114": {
+      "size": 26114,
+      "status": "ok",
+      "file_name": "jb by itachi.txt",
+      "first_seen": "2026-09-23T11:34:08.095630"
+    },
+    "Hotmail @Bxlows.txt::3628": {
+      "size": 3628,
+      "status": "ok",
+      "file_name": "Hotmail @Bxlows.txt",
+      "first_seen": "2026-09-23T11:34:31.505679"
+    },
+    "Aldi.txt::21645": {
+      "size": 21645,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:34:37.429805"
+    },
+    "Walmart.txt::36715": {
+      "size": 36715,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:34:41.474498"
+    },
+    "Walmart.txt::37623": {
+      "size": 37623,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:35:37.235370"
+    },
+    "Target.txt::13328": {
+      "size": 13328,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:35:41.221548"
+    },
+    "Costco.txt::6492": {
+      "size": 6492,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T11:35:57.054813"
+    },
+    "Walmart.txt::38075": {
+      "size": 38075,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:36:45.864881"
+    },
+    "ACRTIXX1 HOTMAIL UHQ.txt::17268": {
+      "size": 17268,
+      "status": "ok",
+      "file_name": "ACRTIXX1 HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-23T11:37:05.454142"
+    },
+    "512X H0tm0ail F0ull V0alid By @Kommander0 23.09.txt::17893": {
+      "size": 17893,
+      "status": "ok",
+      "file_name": "512X H0tm0ail F0ull V0alid By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T11:37:14.063390"
+    },
+    "Aldi.txt::22100": {
+      "size": 22100,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:37:38.647181"
+    },
+    "Carrefour.txt::4211": {
+      "size": 4211,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T11:38:06.252600"
+    },
+    "Aldi.txt::22564": {
+      "size": 22564,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:38:46.550113"
+    },
+    "Walmart.txt::38537": {
+      "size": 38537,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:38:50.654456"
+    },
+    "4.2K Fr0ance M0ail A0cce0ss By @Kommander0 23.09.txt::156600": {
+      "size": 156600,
+      "status": "ok",
+      "file_name": "4.2K Fr0ance M0ail A0cce0ss By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T11:39:04.306446"
+    },
+    "gemini jb by itachi.txt::13171": {
+      "size": 13171,
+      "status": "ok",
+      "file_name": "gemini jb by itachi.txt",
+      "first_seen": "2026-09-23T11:40:02.506383"
+    },
+    "Webshare 100 proxies.txt::5292": {
+      "size": 5292,
+      "status": "ok",
+      "file_name": "Webshare 100 proxies.txt",
+      "first_seen": "2026-09-23T11:40:11.380192"
+    },
+    "jailbreak gork.txt::89117": {
+      "size": 89117,
+      "status": "ok",
+      "file_name": "jailbreak gork.txt",
+      "first_seen": "2026-09-23T11:40:19.044634"
+    },
+    "kimi k2.txt::12639": {
+      "size": 12639,
+      "status": "ok",
+      "file_name": "kimi k2.txt",
+      "first_seen": "2026-09-23T11:40:21.165599"
+    },
+    "@Xavier_Log - { 160 } @Xavier_Cloud (free).rar::310733741": {
+      "size": 310733741,
+      "status": "ok",
+      "file_name": "@Xavier_Log - { 160 } @Xavier_Cloud (free).rar",
+      "first_seen": "2026-09-23T11:40:21.383993"
+    },
+    "@Xavier_Ulp - { 299,995 } @Xavier_cloud Free.txt::21334257": {
+      "size": 21334257,
+      "status": "ok",
+      "file_name": "@Xavier_Ulp - { 299,995 } @Xavier_cloud Free.txt",
+      "first_seen": "2026-09-23T11:40:21.910151"
+    },
+    "Heb.txt::3305": {
+      "size": 3305,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T11:41:05.262489"
+    },
+    "jb by itachi.txt::24162": {
+      "size": 24162,
+      "status": "ok",
+      "file_name": "jb by itachi.txt",
+      "first_seen": "2026-09-23T11:41:13.063025"
+    },
+    "Aldi.txt::23475": {
+      "size": 23475,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:41:41.960613"
+    },
+    "Walmart.txt::38998": {
+      "size": 38998,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:41:45.943280"
+    },
+    "gemini flash.txt::24335": {
+      "size": 24335,
+      "status": "ok",
+      "file_name": "gemini flash.txt",
+      "first_seen": "2026-09-23T11:42:06.650973"
+    },
+    "Walmart.txt::39456": {
+      "size": 39456,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:42:53.507139"
+    },
+    "Aldi.txt::23927": {
+      "size": 23927,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:43:45.824211"
+    },
+    "Heb.txt::3762": {
+      "size": 3762,
+      "status": "ok",
+      "file_name": "Heb.txt",
+      "first_seen": "2026-09-23T11:44:06.472868"
+    },
+    "Costco.txt::6948": {
+      "size": 6948,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T11:44:10.130572"
+    },
+    "Walmart.txt::39923": {
+      "size": 39923,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:44:46.903700"
+    },
+    "DUMP ULP 23.09.2026 Base34 1.txt::4179304416": {
+      "size": 4179304416,
+      "status": "ok",
+      "file_name": "DUMP ULP 23.09.2026 Base34 1.txt",
+      "first_seen": "2026-09-23T11:45:12.699332"
+    },
+    "DUMP ULP 23.09.2026 Base34 2.txt::1399546453": {
+      "size": 1399546453,
+      "status": "ok",
+      "file_name": "DUMP ULP 23.09.2026 Base34 2.txt",
+      "first_seen": "2026-09-23T11:45:12.977534"
+    },
+    "Walmart.txt::40383": {
+      "size": 40383,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:45:43.481584"
+    },
+    "Walmart.txt::40833": {
+      "size": 40833,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:47:04.980856"
+    },
+    "Target.txt::13791": {
+      "size": 13791,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:47:08.125998"
+    },
+    "Target.txt::14244": {
+      "size": 14244,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:48:55.317362"
+    },
+    "Walgreens.txt::2852": {
+      "size": 2852,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T11:50:26.966390"
+    },
+    "Aldi.txt::24383": {
+      "size": 24383,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:51:24.327737"
+    },
+    "sakura HOTMA!LS.txt::9605": {
+      "size": 9605,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-09-23T11:52:07.890247"
+    },
+    "Winco.txt::560": {
+      "size": 560,
+      "status": "ok",
+      "file_name": "Winco.txt",
+      "first_seen": "2026-09-23T11:52:33.747141"
+    },
+    "MK2 CLOUD M!X.txt::27737": {
+      "size": 27737,
+      "status": "ok",
+      "file_name": "MK2 CLOUD M!X.txt",
+      "first_seen": "2026-09-23T11:53:05.192827"
+    },
+    "Tesco.txt::2383": {
+      "size": 2383,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T11:53:37.472792"
+    },
+    "Walmart.txt::41301": {
+      "size": 41301,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:54:15.901565"
+    },
+    "China_Part10_@RdpCr4ck.txt::536438": {
+      "size": 536438,
+      "status": "ok",
+      "file_name": "China_Part10_@RdpCr4ck.txt",
+      "first_seen": "2026-09-23T11:54:18.808876"
+    },
+    "Target.txt::14706": {
+      "size": 14706,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T11:54:21.307365"
+    },
+    "Costco.txt::7863": {
+      "size": 7863,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T11:54:40.914159"
+    },
+    "Carrefour.txt::4668": {
+      "size": 4668,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T11:54:45.886279"
+    },
+    "21K Valid Mix.txt::769351": {
+      "size": 769351,
+      "status": "ok",
+      "file_name": "21K Valid Mix.txt",
+      "first_seen": "2026-09-23T11:55:18.257761"
+    },
+    "Winco.txt::1025": {
+      "size": 1025,
+      "status": "ok",
+      "file_name": "Winco.txt",
+      "first_seen": "2026-09-23T11:55:20.238027"
+    },
+    "Hotmails.txt::16921": {
+      "size": 16921,
+      "status": "ok",
+      "file_name": "Hotmails.txt",
+      "first_seen": "2026-09-23T11:56:10.573105"
+    },
+    "Aldi.txt::24827": {
+      "size": 24827,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:56:36.040833"
+    },
+    "results_master_2026-09-23_19-53-17.zip::13269": {
+      "size": 13269,
+      "status": "ok",
+      "file_name": "results_master_2026-09-23_19-53-17.zip",
+      "first_seen": "2026-09-23T11:56:41.132900"
+    },
+    "Walmart.txt::41771": {
+      "size": 41771,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:58:11.872486"
+    },
+    "Aldi.txt::25293": {
+      "size": 25293,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T11:59:21.964345"
+    },
+    "Walmart.txt::42690": {
+      "size": 42690,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T11:59:27.678427"
+    },
+    "@moonulp - 220.txt::114400044": {
+      "size": 114400044,
+      "status": "ok",
+      "file_name": "@moonulp - 220.txt",
+      "first_seen": "2026-09-23T12:00:01.092299"
+    },
+    "CRUNCHYROLL MIX@Akirro_GG.txt::3899": {
+      "size": 3899,
+      "status": "ok",
+      "file_name": "CRUNCHYROLL MIX@Akirro_GG.txt",
+      "first_seen": "2026-09-23T12:00:05.719895"
+    },
+    "Tesco.txt::2840": {
+      "size": 2840,
+      "status": "ok",
+      "file_name": "Tesco.txt",
+      "first_seen": "2026-09-23T12:00:07.951405"
+    },
+    "Aldi.txt::25750": {
+      "size": 25750,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:00:39.445402"
+    },
+    "Walmart.txt::43144": {
+      "size": 43144,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:00:45.753044"
+    },
+    "Costco.txt::8314": {
+      "size": 8314,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T12:01:12.396986"
+    },
+    "24K Mail Access Mix.txt::879593": {
+      "size": 879593,
+      "status": "ok",
+      "file_name": "24K Mail Access Mix.txt",
+      "first_seen": "2026-09-23T12:01:34.090681"
+    },
+    "Walmart.txt::43603": {
+      "size": 43603,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:02:04.209636"
+    },
+    "Aldi.txt::26208": {
+      "size": 26208,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:03:15.501988"
+    },
+    "15k Mail With Valid MIX [FREE TG] 23.09.26 (3).txt::550289": {
+      "size": 550289,
+      "status": "ok",
+      "file_name": "15k Mail With Valid MIX [FREE TG] 23.09.26 (3).txt",
+      "first_seen": "2026-09-23T12:03:21.200972"
+    },
+    "5k Hotmail With Valid [FREE TG] 23.09.26.txt::184022": {
+      "size": 184022,
+      "status": "ok",
+      "file_name": "5k Hotmail With Valid [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T12:03:21.403859"
+    },
+    "15k Mail With Valid MIX [FREE TG] 23.09.26.txt::550289": {
+      "size": 550289,
+      "status": "ok",
+      "file_name": "15k Mail With Valid MIX [FREE TG] 23.09.26.txt",
+      "first_seen": "2026-09-23T12:03:21.966090"
+    },
+    "5k Hotmail With Valid [FREE TG] 23.09.26 (3).txt::184022": {
+      "size": 184022,
+      "status": "ok",
+      "file_name": "5k Hotmail With Valid [FREE TG] 23.09.26 (3).txt",
+      "first_seen": "2026-09-23T12:03:22.706242"
+    },
+    "Walmart.txt::44060": {
+      "size": 44060,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:04:54.873726"
+    },
+    "Aldi.txt::26655": {
+      "size": 26655,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:06:08.392623"
+    },
+    "Walmart.txt::44519": {
+      "size": 44519,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:06:13.792391"
+    },
+    "GAME PASS BY @FLEX8384.txt::1024": {
+      "size": 1024,
+      "status": "ok",
+      "file_name": "GAME PASS BY @FLEX8384.txt",
+      "first_seen": "2026-09-23T12:06:30.765974"
+    },
+    "Walgreens.txt::3309": {
+      "size": 3309,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T12:07:53.927780"
+    },
+    "HOTMAIL @Lashvardi.txt::19409": {
+      "size": 19409,
+      "status": "ok",
+      "file_name": "HOTMAIL @Lashvardi.txt",
+      "first_seen": "2026-09-23T12:07:59.850746"
+    },
+    "Walmart.txt::45432": {
+      "size": 45432,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:09:12.037068"
+    },
+    "Target.txt::15163": {
+      "size": 15163,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:09:17.759064"
+    },
+    "Lidl.txt::5098": {
+      "size": 5098,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T12:09:27.332413"
+    },
+    "Carrefour.txt::5119": {
+      "size": 5119,
+      "status": "ok",
+      "file_name": "Carrefour.txt",
+      "first_seen": "2026-09-23T12:09:41.696719"
+    },
+    "Hy-vee.txt::558": {
+      "size": 558,
+      "status": "ok",
+      "file_name": "Hy-vee.txt",
+      "first_seen": "2026-09-23T12:10:20.614978"
+    },
+    "Walmart.txt::46358": {
+      "size": 46358,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:10:33.894542"
+    },
+    "Walgreens.txt::3773": {
+      "size": 3773,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T12:10:44.360904"
+    },
+    "Costco.txt::8759": {
+      "size": 8759,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T12:12:21.507994"
+    },
+    "rp hits by @FLEX8384.txt::4899": {
+      "size": 4899,
+      "status": "ok",
+      "file_name": "rp hits by @FLEX8384.txt",
+      "first_seen": "2026-09-23T12:12:31.360348"
+    },
+    "Walmart.txt::46815": {
+      "size": 46815,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:13:19.576332"
+    },
+    "50k Mail Access Mixed.txt::1857640": {
+      "size": 1857640,
+      "status": "ok",
+      "file_name": "50k Mail Access Mixed.txt",
+      "first_seen": "2026-09-23T12:13:43.531002"
+    },
+    "87k Goods.txt::3194291": {
+      "size": 3194291,
+      "status": "ok",
+      "file_name": "87k Goods.txt",
+      "first_seen": "2026-09-23T12:13:48.028554"
+    },
+    "Logs_23 September.rar::4009951687": {
+      "size": 4009951687,
+      "status": "ok",
+      "file_name": "Logs_23 September.rar",
+      "first_seen": "2026-09-23T12:14:05.179765"
+    },
+    "Aldi.txt::27117": {
+      "size": 27117,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:14:35.692192"
+    },
+    "Hotmail.txt::48277": {
+      "size": 48277,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:15:47.391951"
+    },
+    "Hotmail.txt::33809": {
+      "size": 33809,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:16:08.652936"
+    },
+    "Walmart.txt::47729": {
+      "size": 47729,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:16:15.656014"
+    },
+    "Target.txt::15620": {
+      "size": 15620,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:16:20.841569"
+    },
+    "Hotmail.txt::6341": {
+      "size": 6341,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:16:34.842481"
+    },
+    "Hotmail.txt::36692": {
+      "size": 36692,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:16:58.451393"
+    },
+    "Aldi.txt::27573": {
+      "size": 27573,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:17:34.142736"
+    },
+    "Walmart.txt::48191": {
+      "size": 48191,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:17:39.630703"
+    },
+    "Costco.txt::9216": {
+      "size": 9216,
+      "status": "ok",
+      "file_name": "Costco.txt",
+      "first_seen": "2026-09-23T12:18:04.727586"
+    },
+    "Target.txt::16086": {
+      "size": 16086,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:19:07.268715"
+    },
+    "Mix.txt::4293": {
+      "size": 4293,
+      "status": "ok",
+      "file_name": "Mix.txt",
+      "first_seen": "2026-09-23T12:20:03.162769"
+    },
+    "Target.txt::16544": {
+      "size": 16544,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:20:30.925745"
+    },
+    "Aldi.txt::28035": {
+      "size": 28035,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:21:39.830589"
+    },
+    "Walmart.txt::49100": {
+      "size": 49100,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:21:45.468418"
+    },
+    "Aldi.txt::28489": {
+      "size": 28489,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:23:02.714656"
+    },
+    "Walgreens.txt::4231": {
+      "size": 4231,
+      "status": "ok",
+      "file_name": "Walgreens.txt",
+      "first_seen": "2026-09-23T12:23:18.141906"
+    },
+    "[3.079 lines] alice.it 23-09-26.txt::100312": {
+      "size": 100312,
+      "status": "ok",
+      "file_name": "[3.079 lines] alice.it 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:37.648307"
+    },
+    "[5.995 lines] mixed 23-09-26.txt::197492": {
+      "size": 197492,
+      "status": "ok",
+      "file_name": "[5.995 lines] mixed 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:38.613472"
+    },
+    "[1.332 lines] neuf.fr 23-09-26.txt::38666": {
+      "size": 38666,
+      "status": "ok",
+      "file_name": "[1.332 lines] neuf.fr 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:39.495364"
+    },
+    "[2.943 lines] nifty.com 23-09-26.txt::90463": {
+      "size": 90463,
+      "status": "ok",
+      "file_name": "[2.943 lines] nifty.com 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:40.282141"
+    },
+    "[1.319 lines] gmx.de 23-09-26.txt::40137": {
+      "size": 40137,
+      "status": "ok",
+      "file_name": "[1.319 lines] gmx.de 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:40.786991"
+    },
+    "[18.682 lines] mixed 23-09-26.txt::630810": {
+      "size": 630810,
+      "status": "ok",
+      "file_name": "[18.682 lines] mixed 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:44.554594"
+    },
+    "[1.271 lines] live.fr 23-09-26.txt::37081": {
+      "size": 37081,
+      "status": "ok",
+      "file_name": "[1.271 lines] live.fr 23-09-26.txt",
+      "first_seen": "2026-09-23T12:24:45.044489"
+    },
+    "SimpleChecker_2026-09-23_8310704588.zip::154677": {
+      "size": 154677,
+      "status": "ok",
+      "file_name": "SimpleChecker_2026-09-23_8310704588.zip",
+      "first_seen": "2026-09-23T12:25:33.395180"
+    },
+    "Target.txt::17001": {
+      "size": 17001,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:26:09.157121"
+    },
+    "Walmart.txt::49558": {
+      "size": 49558,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:27:25.978112"
+    },
+    "Hotmail.txt::15108": {
+      "size": 15108,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:28:46.795152"
+    },
+    "Walmart.txt::50015": {
+      "size": 50015,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:28:59.549264"
+    },
+    "354X H0tm0ail V0alid By @Kommander0 23.09.txt::12870": {
+      "size": 12870,
+      "status": "ok",
+      "file_name": "354X H0tm0ail V0alid By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T12:29:57.679494"
+    },
+    "Aldi.txt::28940": {
+      "size": 28940,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:30:16.137806"
+    },
+    "Walmart.txt::50478": {
+      "size": 50478,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:30:21.913092"
+    },
+    "Lidl.txt::5552": {
+      "size": 5552,
+      "status": "ok",
+      "file_name": "Lidl.txt",
+      "first_seen": "2026-09-23T12:30:37.156627"
+    },
+    "Walmart.txt::51857": {
+      "size": 51857,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:31:55.774822"
+    },
+    "Target.txt::17449": {
+      "size": 17449,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:32:01.529005"
+    },
+    "Walmart.txt::52773": {
+      "size": 52773,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:33:17.802818"
+    },
+    "Target.txt::17897": {
+      "size": 17897,
+      "status": "ok",
+      "file_name": "Target.txt",
+      "first_seen": "2026-09-23T12:33:23.677009"
+    },
+    "Wolf HOTMA!LS [679].txt::24479": {
+      "size": 24479,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [679].txt",
+      "first_seen": "2026-09-23T12:34:13.224594"
+    },
+    "2.8K Ch0ina M0ail A0c0ss By @Kommander0 23.09.txt::85948": {
+      "size": 85948,
+      "status": "ok",
+      "file_name": "2.8K Ch0ina M0ail A0c0ss By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T12:34:28.206062"
+    },
+    "Aldi.txt::29405": {
+      "size": 29405,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:34:39.030337"
+    },
+    "Aldi.txt::29867": {
+      "size": 29867,
+      "status": "ok",
+      "file_name": "Aldi.txt",
+      "first_seen": "2026-09-23T12:36:00.494786"
+    },
+    "Walmart.txt::53228": {
+      "size": 53228,
+      "status": "ok",
+      "file_name": "Walmart.txt",
+      "first_seen": "2026-09-23T12:37:29.196253"
+    },
+    "socks5_3352_proxies.txt::61497": {
+      "size": 61497,
+      "status": "ok",
+      "file_name": "socks5_3352_proxies.txt",
+      "first_seen": "2026-09-23T12:38:18.109031"
+    },
+    "https_9246_proxies.txt::172007": {
+      "size": 172007,
+      "status": "ok",
+      "file_name": "https_9246_proxies.txt",
+      "first_seen": "2026-09-23T12:38:20.083703"
+    },
+    "Hotmail.txt::21024": {
+      "size": 21024,
+      "status": "ok",
+      "file_name": "Hotmail.txt",
+      "first_seen": "2026-09-23T12:41:56.869658"
+    },
+    "ACRTIXX1 HOTMAIL UHQ.txt::18104": {
+      "size": 18104,
+      "status": "ok",
+      "file_name": "ACRTIXX1 HOTMAIL UHQ.txt",
+      "first_seen": "2026-09-23T12:42:58.498231"
+    },
+    "BR.txt::697": {
+      "size": 697,
+      "status": "ok",
+      "file_name": "BR.txt",
+      "first_seen": "2026-09-23T12:43:17.577757"
+    },
+    "CA.txt::585": {
+      "size": 585,
+      "status": "ok",
+      "file_name": "CA.txt",
+      "first_seen": "2026-09-23T12:43:18.183566"
+    },
+    "CO.txt::585": {
+      "size": 585,
+      "status": "ok",
+      "file_name": "CO.txt",
+      "first_seen": "2026-09-23T12:43:18.364391"
+    },
+    "ID.txt::80": {
+      "size": 80,
+      "status": "ok",
+      "file_name": "ID.txt",
+      "first_seen": "2026-09-23T12:43:18.540808"
+    },
+    "MX.txt::30": {
+      "size": 30,
+      "status": "ok",
+      "file_name": "MX.txt",
+      "first_seen": "2026-09-23T12:43:18.718775"
+    },
+    "TH.txt::658": {
+      "size": 658,
+      "status": "ok",
+      "file_name": "TH.txt",
+      "first_seen": "2026-09-23T12:43:19.069549"
+    },
+    "US.txt::591": {
+      "size": 591,
+      "status": "ok",
+      "file_name": "US.txt",
+      "first_seen": "2026-09-23T12:43:19.778214"
+    },
+    "TR.txt::36": {
+      "size": 36,
+      "status": "ok",
+      "file_name": "TR.txt",
+      "first_seen": "2026-09-23T12:43:19.957897"
+    },
+    "2FA.txt::4300": {
+      "size": 4300,
+      "status": "ok",
+      "file_name": "2FA.txt",
+      "first_seen": "2026-09-23T12:43:23.273843"
+    },
+    "Inbox.txt::252": {
+      "size": 252,
+      "status": "ok",
+      "file_name": "Inbox.txt",
+      "first_seen": "2026-09-23T12:43:23.452486"
+    },
+    "service@paypal.com...txt::252": {
+      "size": 252,
+      "status": "ok",
+      "file_name": "service@paypal.com...txt",
+      "first_seen": "2026-09-23T12:43:23.627734"
+    },
+    "Valid.txt::2282": {
+      "size": 2282,
+      "status": "ok",
+      "file_name": "Valid.txt",
+      "first_seen": "2026-09-23T12:43:23.980091"
+    },
+    "MIX FRESH (332).txt::225137": {
+      "size": 225137,
+      "status": "ok",
+      "file_name": "MIX FRESH (332).txt",
+      "first_seen": "2026-09-23T12:44:32.585566"
+    },
+    "MIX FRESH.txt::225137": {
+      "size": 225137,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-09-23T12:44:33.945779"
+    },
+    "525X H0tm0ail V0alid By @Kommander0 23.09.txt::18723": {
+      "size": 18723,
+      "status": "ok",
+      "file_name": "525X H0tm0ail V0alid By @Kommander0 23.09.txt",
+      "first_seen": "2026-09-23T12:46:36.613224"
+    },
+    "hotmail by @FLEX8384.txt::16200": {
+      "size": 16200,
+      "status": "ok",
+      "file_name": "hotmail by @FLEX8384.txt",
+      "first_seen": "2026-09-23T12:47:48.966152",
+      "done_at": "2026-09-23T12:47:49.390147"
     }
   },
   "last_check": 1789221710.379466
