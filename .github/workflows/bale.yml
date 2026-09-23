@@ -42,7 +42,7 @@ jobs:
           SESSION_STRING: ${{ secrets.SESSION_STRING }}
           ARCHIVE_CHANNEL_ID: ${{ secrets.ARCHIVE_CHANNEL_ID }}
           REELS_CHANNEL_ID: ${{ secrets.REELS_CHANNEL_ID }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
@@ -50,3 +50,19 @@ jobs:
           timeout 320m python main.py        run: |
           cd bot-code
           python upload_worker.py
+
+      - name: Trigger Next Workflow
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'main.yml',
+                ref: context.ref
+              });
+            } catch (error) {
+              console.log("Error triggering next workflow: ", error);
+            }
