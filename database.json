@@ -16,7 +16,7 @@
       "country_flag": "🇺🇸",
       "is_iranian": false,
       "manual_override": true,
-      "messages_count": 2,
+      "messages_count": 7,
       "created_at": 1790331835.7391632
     },
     "1586644931": {
@@ -36,7 +36,50 @@
         "ты понимаешь что я щас пишу?",
         "пока ещё распродаю партию, кстати последнюю, через часика 4 готов у тебя купить 15 ссылок за 9$",
         "в течение часа нужно 15 ссылок",
-        "ауууу"
+        "ауууу",
+        "уже не надо,мой поставщик снизил цену вообще до 0.6$,пока работаю с ним",
+        "оно,0.85$,по такой цене я никогда не брал",
+        "подписка грок на 7 дней хорошо продавался,при хорошей цене",
+        "нетнетнет,она явно будет стоить больле 1$",
+        "нет, извини, не хочу в это влезать",
+        "grok 7d меня устроит",
+        "или подписки на telegram premium",
+        "да,я знаю за это",
+        "плачу 0.6$,но у поставщика часто нету товара",
+        "готов брать у тебя по 0.65$ за 1 аккаунт",
+        "тоесть например 30 аккаунтов - 19.5$",
+        "тут уже меньше получается получить,примерно 0.75$",
+        "даже порой 0.7$,просто товар более часто берут,и за счет этого можно жить",
+        "всмысле?",
+        "на фанпее щас обьявление минимальное за 1.1$",
+        "если учитывать комисию,например 0.75$,то у меня будет объявление в районе 1$",
+        "да, ты не веришь мне?мне показать?"
+      ],
+      "target_lang": "ru",
+      "detected_lang": "ru",
+      "detected_country": "Russia",
+      "country_flag": "🇷🇺",
+      "is_iranian": false,
+      "manual_override": true,
+      "messages_count": 47,
+      "created_at": 1790335767.9844925
+    },
+    "5549212949": {
+      "chat_id": 5549212949,
+      "first_name": "Ahoura",
+      "last_name": "",
+      "username": "vayro_navorus",
+      "user_profile": {
+        "id": 5549212949,
+        "is_bot": false,
+        "first_name": "Ahoura",
+        "username": "vayro_navorus"
+      },
+      "history": [
+        "❗❗❗\n\n🚗 STEAM:\nакк Ready Or Not - 5️⃣0️⃣0️⃣ 💰\nакк Repo - 2️⃣0️⃣0️⃣💰\n\n📱 Телеграм акки (АВТОРЕГ):\n🇺🇲 +1 США без спамблока - 5️⃣0️⃣💰\n🇲🇲 +95 МЬЯНМА без спамблока - 4️⃣5️⃣💰\n🇨🇦 +1 КАНАДА отлега 3 дня без спамблока - 5️⃣0️⃣💰\n\nФишинг:\n⭐️🇫🇷  +33 ФРАНЦИЯ с тг премиум до 23 января 2027 года - 6️⃣5️⃣9️⃣💰⭐️\n\n\n📦 Поставщики:\n♊️Постав Gemini Pro Links 18m по 0,33$ - 1️⃣5️⃣0️⃣💰\n🙉 Постав робуксов: 1000 ROBUX = 4 - 5$ - 2️⃣0️⃣0️⃣💰\n📲 Постав Duolingo Super 12m по 0,6$ - 1️⃣1️⃣9️⃣💰\n🖥 Постав Capcut Pro 7D по 0,19$ - 5️⃣9️⃣💰\n\n\n❗писать - @antonbergo❗",
+        "Subhan Game:\nИ написала это в поддержку я ему взамен даю grok на 7 дней\n\nЧто бы он отменил запрос\n\nИ с этого я взял урок нужно снимать видео как ты захочешь на аккаунт и так далее",
+        "Скинь мне свой ФанПей аккаунт",
+        "Ссылку"
       ],
       "target_lang": "ru",
       "detected_lang": "ru",
@@ -44,8 +87,34 @@
       "country_flag": "🇷🇺",
       "is_iranian": false,
       "manual_override": false,
-      "messages_count": 6,
-      "created_at": 1790335767.9844925
+      "messages_count": 4,
+      "created_at": 1790352411.4004667
+    },
+    "5472551775": {
+      "chat_id": 5472551775,
+      "first_name": "Антон Берг",
+      "last_name": "",
+      "username": "antonbergo",
+      "user_profile": {
+        "id": 5472551775,
+        "is_bot": false,
+        "first_name": "Антон Берг",
+        "username": "antonbergo",
+        "is_premium": true
+      },
+      "history": [
+        "это давний ваще пост прям очень. щас таких цен ни у кого нет на гемини",
+        "ну, для линков если ты не шаришь это давно. там курс каждый день скачет",
+        "это так тебе к сведению)"
+      ],
+      "target_lang": "ru",
+      "detected_lang": "ru",
+      "detected_country": "Russia",
+      "country_flag": "🇷🇺",
+      "is_iranian": false,
+      "manual_override": true,
+      "messages_count": 8,
+      "created_at": 1790352482.5138035
     }
   },
   "business_connections": {},
@@ -56,10 +125,10 @@
     "strict_non_english_base": true
   },
   "stats": {
-    "messages_translated": 3,
-    "messages_whispered": 5,
+    "messages_translated": 32,
+    "messages_whispered": 29,
     "iranian_rejected": 0,
-    "manual_overrides": 2,
-    "business_messages_total": 8
+    "manual_overrides": 5,
+    "business_messages_total": 66
   }
 }
