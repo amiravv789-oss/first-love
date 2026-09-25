@@ -1,0 +1,65 @@
+{
+  "allowed_users": [
+    8540621490
+  ],
+  "chats": {
+    "8096039594": {
+      "chat_id": 8096039594,
+      "first_name": "Kemal",
+      "last_name": "",
+      "username": "Ikemal_org",
+      "user_profile": {},
+      "history": [],
+      "target_lang": "en",
+      "detected_lang": "en",
+      "detected_country": "International / US / UK",
+      "country_flag": "🇺🇸",
+      "is_iranian": false,
+      "manual_override": true,
+      "messages_count": 2,
+      "created_at": 1790331835.7391632
+    },
+    "1586644931": {
+      "chat_id": 1586644931,
+      "first_name": "уᴩᴏᴧᴏᴦ ʍᴀᴋᴄиʍ",
+      "last_name": "",
+      "username": "masiklol",
+      "user_profile": {
+        "id": 1586644931,
+        "is_bot": false,
+        "first_name": "уᴩᴏᴧᴏᴦ ʍᴀᴋᴄиʍ",
+        "username": "masiklol",
+        "is_premium": true
+      },
+      "history": [
+        "да",
+        "ты понимаешь что я щас пишу?",
+        "пока ещё распродаю партию, кстати последнюю, через часика 4 готов у тебя купить 15 ссылок за 9$",
+        "в течение часа нужно 15 ссылок",
+        "ауууу"
+      ],
+      "target_lang": "ru",
+      "detected_lang": "ru",
+      "detected_country": "Russia",
+      "country_flag": "🇷🇺",
+      "is_iranian": false,
+      "manual_override": false,
+      "messages_count": 6,
+      "created_at": 1790335767.9844925
+    }
+  },
+  "business_connections": {},
+  "secretary_config": {
+    "auto_translate": true,
+    "refine_english": true,
+    "whisper_incoming": true,
+    "strict_non_english_base": true
+  },
+  "stats": {
+    "messages_translated": 3,
+    "messages_whispered": 5,
+    "iranian_rejected": 0,
+    "manual_overrides": 2,
+    "business_messages_total": 8
+  }
+}
