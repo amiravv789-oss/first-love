@@ -1,0 +1,136 @@
+name: SSH Tunnel Auto Restart + Full Sync
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ssh-host-runner
+  cancel-in-progress: false
+
+jobs:
+  tunnel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          lfs: true
+
+      - name: Setup SSH Server + tools + Git LFS
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq openssh-server openssh-client git-lfs
+          git lfs install
+          
+          sudo mkdir -p /var/run/sshd
+          sudo ssh-keygen -A
+          echo "PermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config
+          echo "PasswordAuthentication yes" | sudo tee -a /etc/ssh/sshd_config
+          echo "root:tunnelpass" | sudo chpasswd
+          sudo service ssh start
+
+      - name: Load previous state
+        run: |
+          mkdir -p state
+          [ -f state/ssh-history.log ] && tail -n 20 state/ssh-history.log || true
+          [ -f state/last-link.txt ] && echo "Last link: $(cat state/last-link.txt)" || true
+
+      - name: Run tunnels until workflow end
+        run: |
+          echo "=== Start $(date) ===" >> state/ssh-history.log
+          END_TIME=$(( $(date +%s) + 340*60 ))
+
+          while [ $(date +%s) -lt $END_TIME ]; do
+            echo "[$(date)] New tunnel..." | tee -a state/ssh-history.log
+
+            timeout 55m ssh -p 443 \
+              -o StrictHostKeyChecking=no \
+              -o ServerAliveInterval=30 \
+              -o ServerAliveCountMax=3 \
+              -R0:localhost:22 \
+              qr@free.pinggy.io 2>&1 | tee tunnel-out.log | tee -a state/ssh-history.log &
+
+            SSH_PID=$!
+            sleep 12
+
+            LINK=$(grep -oE 'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+' tunnel-out.log | head -1 || true)
+
+            if [ -n "$LINK" ]; then
+              echo "$LINK" > state/last-link.txt
+              
+              cat > state/index.html << HTML
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="30">
+  <title>Current SSH Link</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 50px; background: #111; color: #0f0; }
+    h1 { font-size: 1.5rem; }
+    .link { font-size: 1.8rem; word-break: break-all; background: #222; padding: 20px; border-radius: 10px; }
+    .time { color: #888; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Current SSH Tunnel</h1>
+  <div class="link">$LINK</div>
+  <div class="time">Updated: $(date)</div>
+  <p>Page auto-refreshes every 30 seconds</p>
+</body>
+</html>
+HTML
+
+              echo "[$(date)] Link saved: $LINK" | tee -a state/ssh-history.log
+            fi
+
+            wait $SSH_PID || true
+            echo "[$(date)] Tunnel ended. Restart in 5s..." | tee -a state/ssh-history.log
+            sleep 5
+          done
+
+          echo "=== End $(date) ===" >> state/ssh-history.log
+
+      - name: Full save (all files + LFS)
+        if: always()
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+          # Git LFS برای فایل‌های بزرگ
+          git lfs track "*.zip" "*.rar" "*.tar" "*.gz" "*.7z" "*.db" "*.sqlite" "*.mp4" "*.mkv" "*.bin" "*.dat"
+          git add .gitattributes
+          
+          # همه فایل‌ها رو اضافه کن (به جز .git)
+          git add -A
+          
+          # اگه تغییری بود کامیت کن
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "chore: full sync all files + SSH link [skip ci]"
+            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+            echo "All files uploaded successfully."
+          else
+            echo "No changes to upload."
+          fi
+
+      - name: Trigger next run
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: context.workflow,
+                ref: context.ref
+              });
+            } catch (e) {
+              console.log(e);
+            }
