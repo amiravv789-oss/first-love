@@ -18,9 +18,9 @@ jobs:
 
     steps:
 
-      # ------------------------------------------------------------
+      # ============================================================
       # CHECKOUT
-      # ------------------------------------------------------------
+      # ============================================================
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -29,9 +29,9 @@ jobs:
           lfs: true
 
 
-      # ------------------------------------------------------------
+      # ============================================================
       # SETUP SSH SERVER
-      # ------------------------------------------------------------
+      # ============================================================
       - name: Setup SSH server
         shell: bash
         run: |
@@ -65,9 +65,9 @@ jobs:
           echo "SSH server is ready."
 
 
-      # ------------------------------------------------------------
+      # ============================================================
       # PREPARE STATE
-      # ------------------------------------------------------------
+      # ============================================================
       - name: Prepare state
         shell: bash
         run: |
@@ -80,9 +80,9 @@ jobs:
           touch client.ssh
 
 
-      # ------------------------------------------------------------
-      # TUNNEL
-      # ------------------------------------------------------------
+      # ============================================================
+      # START PINGGY TCP TUNNEL
+      # ============================================================
       - name: Start TCP tunnel
         shell: bash
         env:
@@ -97,33 +97,29 @@ jobs:
 
           REPO_URL="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-          echo "========================================"
-          echo "SSH TCP TUNNEL START"
-          echo "========================================"
 
-          echo "[$(date -u)] Tunnel started" \
-            | tee -a state/ssh-history.log
-
-
-          # ----------------------------------------------------------
+          # ========================================================
           # PUSH STATE
-          # ----------------------------------------------------------
+          # ========================================================
           push_state() {
 
             echo
-            echo "========== PUSH STATE =========="
+            echo "========================================"
+            echo "SYNC + PUSH STATE"
+            echo "========================================"
 
             for ATTEMPT in 1 2 3 4 5; do
 
               echo "Push attempt: ${ATTEMPT}"
 
-              # Get newest remote state
+              # Get newest remote commit
               git fetch origin main || true
 
-              # Make local branch exactly follow remote
+              # Make local branch match remote.
+              # Generated files will be added again below.
               git reset --mixed origin/main || true
 
-              # Add only generated files
+              # Only generated tunnel files
               git add \
                 client.ssh \
                 state/
@@ -138,51 +134,81 @@ jobs:
                 -m "chore: update SSH tunnel [skip ci]" \
                 || true
 
+              # Try push
               if git push "${REPO_URL}" HEAD:main; then
-                echo "State pushed successfully."
+                echo
+                echo "========================================"
+                echo "STATE PUSHED SUCCESSFULLY"
+                echo "========================================"
                 return 0
               fi
 
-              echo "Push rejected. Remote changed."
-              echo "Waiting before retry..."
+              echo "Push rejected."
+              echo "Remote branch changed. Retrying..."
 
               sleep $((ATTEMPT * 2))
 
             done
 
-            echo "WARNING: Could not push state."
+            echo "WARNING: Could not push state after 5 attempts."
+
             return 1
           }
 
 
-          # ----------------------------------------------------------
-          # GENERATE CLIENT.SSH
-          # ----------------------------------------------------------
+          # ========================================================
+          # CREATE client.ssh
+          # ========================================================
           create_client() {
 
             LINK="$1"
 
+            echo
+            echo "Creating client.ssh..."
+            echo "Tunnel: ${LINK}"
+
+
             # Remove tcp://
             ADDRESS="${LINK#tcp://}"
 
+            # Extract host
             HOST="${ADDRESS%:*}"
+
+            # Extract port
             PORT="${ADDRESS##*:}"
 
-            echo
-            echo "========================================"
-            echo "NEW TCP TUNNEL"
-            echo "HOST: ${HOST}"
-            echo "PORT: ${PORT}"
-            echo "========================================"
+
+            # Validate
+            if [ -z "$HOST" ]; then
+              echo "ERROR: Empty host."
+              return 1
+            fi
+
+            if [ -z "$PORT" ]; then
+              echo "ERROR: Empty port."
+              return 1
+            fi
+
+            if [ "$HOST" = "$ADDRESS" ]; then
+              echo "ERROR: Could not parse TCP endpoint."
+              echo "LINK=${LINK}"
+              return 1
+            fi
 
 
-            # Save raw TCP address
-            printf '%s\n' "${LINK}" > state/last-link.txt
+            echo "HOST = ${HOST}"
+            echo "PORT = ${PORT}"
 
 
-            # --------------------------------------------------------
-            # CLIENT SCRIPT
-            # --------------------------------------------------------
+            # ======================================================
+            # SAVE RAW LINK
+            # ======================================================
+            printf '%s\n' "$LINK" > state/last-link.txt
+
+
+            # ======================================================
+            # CREATE CLIENT SCRIPT
+            # ======================================================
             cat > client.ssh <<EOF
 #!/usr/bin/env bash
 
@@ -213,12 +239,13 @@ exec ssh \
   "\$USER@\$HOST"
 EOF
 
+
             chmod +x client.ssh
 
 
-            # --------------------------------------------------------
-            # HTML STATUS PAGE
-            # --------------------------------------------------------
+            # ======================================================
+            # UPDATE HTML STATUS PAGE
+            # ======================================================
             cat > state/index.html <<EOF
 <!DOCTYPE html>
 <html>
@@ -226,9 +253,11 @@ EOF
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="refresh" content="30">
+
 <title>SSH Tunnel</title>
 
 <style>
+
 body {
     font-family: sans-serif;
     text-align: center;
@@ -248,6 +277,7 @@ body {
     background: #222;
     padding: 20px;
     border-radius: 8px;
+    margin: 20px auto;
 }
 
 .command {
@@ -260,10 +290,8 @@ body {
     text-align: left;
 }
 
-small {
-    color: #888;
-}
 </style>
+
 </head>
 
 <body>
@@ -284,10 +312,6 @@ curl -fsSL https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/client.ss
 Updated: $(date -u)
 </p>
 
-<small>
-GitHub Actions SSH Tunnel
-</small>
-
 </div>
 
 </body>
@@ -295,19 +319,32 @@ GitHub Actions SSH Tunnel
 EOF
 
 
-            # --------------------------------------------------------
-            # PUSH IMMEDIATELY
-            # --------------------------------------------------------
             echo
-            echo "Uploading new client.ssh immediately..."
+            echo "client.ssh generated."
 
+            # IMPORTANT:
+            # Push immediately after tunnel is created.
             push_state || true
+
+            echo
+            echo "client.ssh pushed."
           }
 
 
-          # ----------------------------------------------------------
-          # MAIN TUNNEL LOOP
-          # ----------------------------------------------------------
+          # ========================================================
+          # START
+          # ========================================================
+          echo "========================================"
+          echo "SSH TUNNEL START"
+          echo "========================================"
+
+          echo "[$(date -u)] Tunnel started" \
+            | tee -a state/ssh-history.log
+
+
+          # ========================================================
+          # MAIN LOOP
+          # ========================================================
           while [ "$(date +%s)" -lt "$END" ]; do
 
             echo
@@ -321,11 +358,9 @@ EOF
             rm -f tunnel-out.log
 
 
-            # --------------------------------------------------------
-            # IMPORTANT:
-            # tcp@free.pinggy.io
-            # NOT qr@free.pinggy.io
-            # --------------------------------------------------------
+            # ======================================================
+            # PINGGY TCP
+            # ======================================================
             timeout 55m ssh \
               -p 443 \
               -o StrictHostKeyChecking=no \
@@ -342,9 +377,9 @@ EOF
             echo "Pinggy PID: ${PID}"
 
 
-            # --------------------------------------------------------
-            # WAIT FOR TCP ADDRESS
-            # --------------------------------------------------------
+            # ======================================================
+            # WAIT FOR TCP LINK
+            # ======================================================
             LINK=""
 
             for i in $(seq 1 90); do
@@ -363,11 +398,14 @@ EOF
 
               fi
 
+
+              # Link found
               if [ -n "$LINK" ]; then
                 break
               fi
 
-              # If process died before producing a link
+
+              # Tunnel process died
               if ! kill -0 "$PID" 2>/dev/null; then
                 break
               fi
@@ -375,9 +413,9 @@ EOF
             done
 
 
-            # --------------------------------------------------------
-            # LINK FOUND
-            # --------------------------------------------------------
+            # ======================================================
+            # TCP LINK FOUND
+            # ======================================================
             if [ -n "$LINK" ]; then
 
               echo
@@ -391,14 +429,19 @@ EOF
                 | tee -a state/ssh-history.log
 
 
-              # Create/update client.ssh
+              # Create client.ssh
               create_client "$LINK"
 
 
               echo
-              echo "client.ssh updated and pushed."
+              echo "========================================"
+              echo "CLIENT READY"
+              echo "========================================"
               echo
-
+              echo "Run on client:"
+              echo
+              echo "curl -fsSL https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/client.ssh | bash"
+              echo
 
             else
 
@@ -423,27 +466,33 @@ EOF
             fi
 
 
-            # --------------------------------------------------------
-            # WAIT FOR TUNNEL TO END
-            # --------------------------------------------------------
+            # ======================================================
+            # WAIT FOR TUNNEL
+            # ======================================================
             wait "$PID" || true
+
 
             echo
             echo "[$(date -u)] Tunnel ended." \
               | tee -a state/ssh-history.log
 
+
+            # Save final state
             push_state || true
 
+
+            echo
             echo "Restarting tunnel in 5 seconds..."
+            echo
 
             sleep 5
 
           done
 
 
-          # ----------------------------------------------------------
+          # ========================================================
           # END
-          # ----------------------------------------------------------
+          # ========================================================
           echo
           echo "[$(date -u)] Tunnel lifetime ended." \
             | tee -a state/ssh-history.log
@@ -451,9 +500,9 @@ EOF
           push_state || true
 
 
-      # ------------------------------------------------------------
-      # FIND WORKFLOW ID + RETRIGGER
-      # ------------------------------------------------------------
+      # ============================================================
+      # RETRIGGER WORKFLOW
+      # ============================================================
       - name: Retrigger same workflow
         if: always()
         shell: bash
@@ -484,7 +533,9 @@ EOF
           for workflow in data.get("workflows", []):
 
               if workflow.get("name") == current_name:
+
                   print(workflow["id"])
+
                   sys.exit(0)
 
           print(
@@ -496,13 +547,19 @@ EOF
           '
           )
 
+
+          echo
           echo "Workflow:"
           echo "${GITHUB_WORKFLOW}"
 
+          echo
           echo "Workflow ID:"
           echo "${WORKFLOW_ID}"
 
 
+          # ========================================================
+          # DISPATCH
+          # ========================================================
           curl -fsSL -X POST \
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "Accept: application/vnd.github+json" \
@@ -510,5 +567,6 @@ EOF
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${WORKFLOW_ID}/dispatches" \
             -d "{\"ref\":\"${GITHUB_REF_NAME}\"}"
 
+
           echo
-          echo "Workflow retriggered."
+          echo "Workflow retriggered successfully."
