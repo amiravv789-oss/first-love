@@ -7,6 +7,7 @@ jobs:
   tunnel:
     runs-on: ubuntu-latest
     timeout-minutes: 350
+
     permissions:
       contents: write
       actions: write
@@ -23,67 +24,156 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq openssh-server openssh-client git-lfs
           git lfs install
+
           sudo mkdir -p /var/run/sshd
           sudo ssh-keygen -A
-          sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config || true
-          sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config || true
+
+          sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
           echo "root:tunnelpass" | sudo chpasswd
+
           sudo service ssh restart || sudo /usr/sbin/sshd
 
       - name: Prepare state
-        run: mkdir -p state
+        run: |
+          mkdir -p state
+          touch state/ssh-history.log
 
       - name: Tunnel loop
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          echo "=== Start $(date) ===" >> state/ssh-history.log
+          set -u
+
           END=$(($(date +%s) + 340*60))
 
-          while [ $(date +%s) -lt $END ]; do
-            echo "[$(date)] New tunnel..." | tee -a state/ssh-history.log
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          push_state() {
+            echo "=== Pushing current tunnel state ==="
+
+            git add state/
+
+            if git diff --cached --quiet; then
+              echo "No changes to push."
+              return 0
+            fi
+
+            git commit -m "chore: update SSH tunnel [skip ci]" || true
+
+            git push \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+              "HEAD:${GITHUB_REF_NAME}" || {
+                echo "Push failed."
+                return 1
+              }
+
+            echo "=== State pushed successfully ==="
+          }
+
+          while [ "$(date +%s)" -lt "$END" ]; do
+
+            echo "[$(date)] New tunnel starting..." | tee -a state/ssh-history.log
+
+            rm -f tunnel-out.log
 
             timeout 55m ssh -p 443 \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -o ServerAliveInterval=30 \
+              -o ServerAliveCountMax=3 \
+              -o ConnectTimeout=30 \
               -R0:localhost:22 \
-              qr@free.pinggy.io > tunnel-out.log 2>&1 &
+              qr@free.pinggy.io \
+              > tunnel-out.log 2>&1 &
 
             PID=$!
-            sleep 15
 
-            LINK=$(grep -oE 'tcp://[^ ]+' tunnel-out.log | head -1 || true)
+            LINK=""
+
+            # چند بار خروجی را بررسی می‌کنیم تا لینک ظاهر شود
+            for i in $(seq 1 30); do
+              sleep 1
+
+              LINK=$(grep -oE 'tcp://[^[:space:]]+' tunnel-out.log | head -1 || true)
+
+              if [ -n "$LINK" ]; then
+                break
+              fi
+            done
+
             if [ -n "$LINK" ]; then
-              echo "$LINK" > state/last-link.txt
-              echo "[$(date)] $LINK" | tee -a state/ssh-history.log
+              echo "[$(date)] New tunnel link: $LINK" | tee -a state/ssh-history.log
 
-              printf '%s\n' \
-                '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="30"><title>SSH Link</title>' \
-                '<style>body{font-family:sans-serif;text-align:center;padding:40px;background:#111;color:#0f0}.link{font-size:1.5rem;word-break:break-all;background:#222;padding:20px;border-radius:8px}</style></head><body>' \
-                '<h1>Current SSH Tunnel</h1><div class="link">'"$LINK"'</div><p>'"$(date -u)"'</p></body></html>' \
-                > state/index.html
+              # ذخیره لینک جدید
+              printf '%s\n' "$LINK" > state/last-link.txt
+
+              # ساخت صفحه
+              cat > state/index.html <<EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="30">
+            <title>SSH Link</title>
+            <style>
+              body {
+                font-family: sans-serif;
+                text-align: center;
+                padding: 40px;
+                background: #111;
+                color: #0f0;
+              }
+              .link {
+                font-size: 1.5rem;
+                word-break: break-all;
+                background: #222;
+                padding: 20px;
+                border-radius: 8px;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Current SSH Tunnel</h1>
+            <div class="link">$LINK</div>
+            <p>Updated: $(date -u)</p>
+          </body>
+          </html>
+          EOF
+
+              # همین الان push کن
+              push_state
+
+            else
+              echo "[$(date)] Tunnel started but no link found." | tee -a state/ssh-history.log
+              echo "----- tunnel output -----"
+              cat tunnel-out.log || true
+              echo "-------------------------"
             fi
 
-            wait $PID || true
-            echo "[$(date)] ended, restart..." | tee -a state/ssh-history.log
+            # منتظر پایان تونل
+            wait "$PID" || true
+
+            echo "[$(date)] Tunnel ended, restarting..." | tee -a state/ssh-history.log
+
+            # لاگ پایان تونل هم فوراً push شود
+            push_state || true
+
             sleep 5
           done
 
-          echo "=== End $(date) ===" >> state/ssh-history.log
+          echo "=== Tunnel loop ended $(date) ===" | tee -a state/ssh-history.log
 
-      - name: Push everything
-        if: always()
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git lfs track "*.zip" "*.rar" "*.db" "*.sqlite" "*.mp4" || true
-          git add -A
-          git diff --cached --quiet || git commit -m "chore: sync [skip ci]"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }} || true
+          # آخرین state
+          push_state || true
 
       - name: Retrigger
         if: always()
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
