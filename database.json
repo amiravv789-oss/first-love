@@ -53,15 +53,16 @@
         "всмысле?",
         "на фанпее щас обьявление минимальное за 1.1$",
         "если учитывать комисию,например 0.75$,то у меня будет объявление в районе 1$",
-        "да, ты не веришь мне?мне показать?"
+        "да, ты не веришь мне?мне показать?",
+        "так а зачем мне дороже чем на фанпей"
       ],
       "target_lang": "ru",
       "detected_lang": "ru",
-      "detected_country": "Russia",
+      "detected_country": "Russia (روسیه)",
       "country_flag": "🇷🇺",
       "is_iranian": false,
       "manual_override": true,
-      "messages_count": 47,
+      "messages_count": 48,
       "created_at": 1790335767.9844925
     },
     "5549212949": {
@@ -131,6 +132,29 @@
       "manual_override": true,
       "messages_count": 5,
       "created_at": 1790445194.0381773
+    },
+    "972348750": {
+      "chat_id": 972348750,
+      "first_name": "Dian",
+      "last_name": "",
+      "username": "Dian_otd",
+      "user_profile": {
+        "id": 972348750,
+        "is_bot": false,
+        "first_name": "Dian",
+        "username": "Dian_otd"
+      },
+      "history": [
+        "خبری نیست فعلا"
+      ],
+      "target_lang": "fa",
+      "detected_lang": "fa",
+      "detected_country": "Iran",
+      "country_flag": "🇮🇷",
+      "is_iranian": true,
+      "manual_override": false,
+      "messages_count": 2,
+      "created_at": 1790446685.2254674
     }
   },
   "business_connections": {},
@@ -138,13 +162,22 @@
     "auto_translate": true,
     "refine_english": true,
     "whisper_incoming": true,
-    "strict_non_english_base": true
+    "strict_non_english_base": true,
+    "admin_receive_lang": "fa",
+    "pv_auto_translate": true,
+    "azure_key": "",
+    "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 37,
-    "messages_whispered": 29,
+    "messages_translated": 38,
+    "messages_whispered": 30,
+    "pv_translated": 0,
+    "group_translated": 0,
+    "inline_queries": 0,
+    "azure_translations": 0,
+    "google_translations": 2,
     "iranian_rejected": 0,
     "manual_overrides": 6,
-    "business_messages_total": 71
+    "business_messages_total": 74
   }
 }
