@@ -30,104 +30,64 @@ jobs:
           echo "root:tunnelpass" | sudo chpasswd
           sudo service ssh restart || sudo /usr/sbin/sshd
 
-      - name: Prepare
-        run: |
-          mkdir -p state
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+      - name: Prepare state
+        run: mkdir -p state
 
-      - name: Tunnel loop (push link immediately)
+      - name: Tunnel loop
         run: |
           echo "=== Start $(date) ===" >> state/ssh-history.log
           END=$(($(date +%s) + 340*60))
 
           while [ $(date +%s) -lt $END ]; do
-            echo "[$(date)] Starting tunnel..." | tee -a state/ssh-history.log
-            > tunnel-out.log
+            echo "[$(date)] New tunnel..." | tee -a state/ssh-history.log
 
             timeout 55m ssh -p 443 \
               -o StrictHostKeyChecking=no \
               -o UserKnownHostsFile=/dev/null \
               -o ServerAliveInterval=30 \
-              -o ConnectTimeout=30 \
               -R0:localhost:22 \
               qr@free.pinggy.io > tunnel-out.log 2>&1 &
 
             PID=$!
+            sleep 15
 
-            # صبر برای لینک (حداکثر ۶۰ ثانیه)
-            LINK=""
-            for i in $(seq 1 20); do
-              sleep 3
-              LINK=$(grep -oE 'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+' tunnel-out.log | head -1 || true)
-              if [ -n "$LINK" ]; then
-                break
-              fi
-            done
-
-            echo "=== tunnel-out.log ===" | tee -a state/ssh-history.log
-            cat tunnel-out.log | tee -a state/ssh-history.log
-            echo "=== end ===" | tee -a state/ssh-history.log
-
+            LINK=$(grep -oE 'tcp://[^ ]+' tunnel-out.log | head -1 || true)
             if [ -n "$LINK" ]; then
               echo "$LINK" > state/last-link.txt
-              echo "[$(date)] LIVE LINK: $LINK" | tee -a state/ssh-history.log
+              echo "[$(date)] $LINK" | tee -a state/ssh-history.log
 
-              cat > state/index.html << HTMLEOF
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="refresh" content="20">
-<title>SSH Link</title>
-<style>
-body{font-family:sans-serif;text-align:center;padding:40px;background:#111;color:#0f0}
-.link{font-size:1.6rem;word-break:break-all;background:#222;padding:20px;border-radius:8px;margin:20px}
-</style>
-</head>
-<body>
-<h1>Current SSH Tunnel</h1>
-<div class="link">$LINK</div>
-<p>Updated: $(date -u)</p>
-</body>
-</html>
-HTMLEOF
-
-              # === فوری پوش لینک ===
-              git add state/last-link.txt state/index.html state/ssh-history.log
-              git commit -m "live: $LINK" || true
-              git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main || true
-              echo "Link pushed immediately!"
-            else
-              echo "[$(date)] No link received" | tee -a state/ssh-history.log
+              printf '%s\n' \
+                '<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="30"><title>SSH Link</title>' \
+                '<style>body{font-family:sans-serif;text-align:center;padding:40px;background:#111;color:#0f0}.link{font-size:1.5rem;word-break:break-all;background:#222;padding:20px;border-radius:8px}</style></head><body>' \
+                '<h1>Current SSH Tunnel</h1><div class="link">'"$LINK"'</div><p>'"$(date -u)"'</p></body></html>' \
+                > state/index.html
             fi
 
             wait $PID || true
-            echo "[$(date)] Tunnel ended, restart in 8s..." | tee -a state/ssh-history.log
-            sleep 8
+            echo "[$(date)] ended, restart..." | tee -a state/ssh-history.log
+            sleep 5
           done
 
           echo "=== End $(date) ===" >> state/ssh-history.log
 
-      - name: Final push
+      - name: Push everything
         if: always()
         run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git lfs track "*.zip" "*.rar" "*.db" "*.sqlite" "*.mp4" || true
           git add -A
-          git diff --cached --quiet || git commit -m "chore: final sync [skip ci]"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main || true
+          git diff --cached --quiet || git commit -m "chore: sync [skip ci]"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }} || true
 
       - name: Retrigger
         if: always()
         uses: actions/github-script@v7
         with:
           script: |
-            try {
-              await github.rest.actions.createWorkflowDispatch({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: "host.yml",
-                ref: context.ref
-              });
-            } catch (e) {
-              console.log(e.message);
-            }
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: context.workflow,
+              ref: context.ref
+            }).catch(e => console.log(e.message));
