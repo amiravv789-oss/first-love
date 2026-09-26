@@ -27,67 +27,77 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq openssh-server openssh-client git-lfs
           git lfs install
-          
+
           sudo mkdir -p /var/run/sshd
           sudo ssh-keygen -A
-          echo "PermitRootLogin yes" | sudo tee -a /etc/ssh/sshd_config
-          echo "PasswordAuthentication yes" | sudo tee -a /etc/ssh/sshd_config
+          sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
           echo "root:tunnelpass" | sudo chpasswd
-          sudo service ssh start
+          sudo service ssh restart
+          echo "SSH ready on port 22"
 
       - name: Load previous state
         run: |
           mkdir -p state
-          [ -f state/ssh-history.log ] && tail -n 20 state/ssh-history.log || true
-          [ -f state/last-link.txt ] && echo "Last link: $(cat state/last-link.txt)" || true
+          if [ -f state/ssh-history.log ]; then
+            echo "=== Last history ==="
+            tail -n 20 state/ssh-history.log
+          fi
+          if [ -f state/last-link.txt ]; then
+            echo "Last link: $(cat state/last-link.txt)"
+          fi
 
       - name: Run tunnels until workflow end
         run: |
+          set -e
           echo "=== Start $(date) ===" >> state/ssh-history.log
-          END_TIME=$(( $(date +%s) + 340*60 ))
+          END_TIME=$(( $(date +%s) + 340 * 60 ))
 
           while [ $(date +%s) -lt $END_TIME ]; do
-            echo "[$(date)] New tunnel..." | tee -a state/ssh-history.log
+            echo "[$(date)] Starting new tunnel..." | tee -a state/ssh-history.log
 
             timeout 55m ssh -p 443 \
               -o StrictHostKeyChecking=no \
+              -o UserKnownHostsFile=/dev/null \
               -o ServerAliveInterval=30 \
               -o ServerAliveCountMax=3 \
               -R0:localhost:22 \
-              qr@free.pinggy.io 2>&1 | tee tunnel-out.log | tee -a state/ssh-history.log &
+              qr@free.pinggy.io > tunnel-out.log 2>&1 &
 
             SSH_PID=$!
-            sleep 12
+            sleep 15
 
             LINK=$(grep -oE 'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+' tunnel-out.log | head -1 || true)
 
             if [ -n "$LINK" ]; then
               echo "$LINK" > state/last-link.txt
-              
-              cat > state/index.html << HTML
+              echo "[$(date)] Link: $LINK" | tee -a state/ssh-history.log
+
+              # HTML page
+              cat > state/index.html << EOF
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="refresh" content="30">
-  <title>Current SSH Link</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 50px; background: #111; color: #0f0; }
-    h1 { font-size: 1.5rem; }
-    .link { font-size: 1.8rem; word-break: break-all; background: #222; padding: 20px; border-radius: 10px; }
-    .time { color: #888; margin-top: 30px; }
-  </style>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="30">
+<title>Current SSH Link</title>
+<style>
+body{font-family:sans-serif;text-align:center;padding:40px;background:#111;color:#0f0}
+.link{font-size:1.6rem;word-break:break-all;background:#222;padding:20px;border-radius:8px;margin:20px}
+.time{color:#888;margin-top:20px}
+</style>
 </head>
 <body>
-  <h1>Current SSH Tunnel</h1>
-  <div class="link">$LINK</div>
-  <div class="time">Updated: $(date)</div>
-  <p>Page auto-refreshes every 30 seconds</p>
+<h1>Current SSH Tunnel</h1>
+<div class="link">$LINK</div>
+<div class="time">Updated: $(date -u)</div>
+<p>Auto refresh every 30s</p>
 </body>
 </html>
-HTML
-
-              echo "[$(date)] Link saved: $LINK" | tee -a state/ssh-history.log
+EOF
+            else
+              echo "[$(date)] No link found yet" | tee -a state/ssh-history.log
+              cat tunnel-out.log >> state/ssh-history.log || true
             fi
 
             wait $SSH_PID || true
@@ -102,21 +112,18 @@ HTML
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          
-          # Git LFS برای فایل‌های بزرگ
-          git lfs track "*.zip" "*.rar" "*.tar" "*.gz" "*.7z" "*.db" "*.sqlite" "*.mp4" "*.mkv" "*.bin" "*.dat"
-          git add .gitattributes
-          
-          # همه فایل‌ها رو اضافه کن (به جز .git)
+
+          git lfs track "*.zip" "*.rar" "*.tar.gz" "*.7z" "*.db" "*.sqlite" "*.mp4" "*.mkv" "*.bin" "*.dat" || true
+          git add .gitattributes || true
+
           git add -A
-          
-          # اگه تغییری بود کامیت کن
-          if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "chore: full sync all files + SSH link [skip ci]"
-            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
-            echo "All files uploaded successfully."
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
           else
-            echo "No changes to upload."
+            git commit -m "chore: full sync + SSH link [skip ci]"
+            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+            echo "All files pushed"
           fi
 
       - name: Trigger next run
@@ -131,6 +138,7 @@ HTML
                 workflow_id: context.workflow,
                 ref: context.ref
               });
+              console.log("Next triggered");
             } catch (e) {
-              console.log(e);
+              console.log("Trigger failed:", e.message);
             }
