@@ -115,6 +115,22 @@
       "manual_override": true,
       "messages_count": 8,
       "created_at": 1790352482.5138035
+    },
+    "993345116": {
+      "chat_id": 993345116,
+      "first_name": "Девчонка",
+      "last_name": "",
+      "username": "nastasiski",
+      "user_profile": {},
+      "history": [],
+      "target_lang": "ru",
+      "detected_lang": "en",
+      "detected_country": "International / US / UK",
+      "country_flag": "🇺🇸",
+      "is_iranian": false,
+      "manual_override": true,
+      "messages_count": 5,
+      "created_at": 1790445194.0381773
     }
   },
   "business_connections": {},
@@ -125,10 +141,10 @@
     "strict_non_english_base": true
   },
   "stats": {
-    "messages_translated": 32,
+    "messages_translated": 37,
     "messages_whispered": 29,
     "iranian_rejected": 0,
-    "manual_overrides": 5,
-    "business_messages_total": 66
+    "manual_overrides": 6,
+    "business_messages_total": 71
   }
 }
