@@ -233,19 +233,24 @@
     "strict_non_english_base": true,
     "admin_receive_lang": "fa",
     "pv_auto_translate": true,
+    "lara_key_id": "I6V8UO9EGIDR4MQ238BQ90VGO1",
+    "lara_key_secret": "an3a_xGS3aZAxLq0QADexmmH5r9svFn8hu7nRab8jDQ",
+    "lara_style": "fluid",
+    "uncensored_mode": true,
     "azure_key": "",
     "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 65,
-    "messages_whispered": 43,
+    "messages_translated": 69,
+    "messages_whispered": 45,
     "pv_translated": 0,
     "group_translated": 0,
-    "inline_queries": 16,
-    "azure_translations": 0,
-    "google_translations": 102,
+    "inline_queries": 40,
+    "lara_translations": 43,
+    "google_translations": 109,
     "iranian_rejected": 3,
     "manual_overrides": 12,
-    "business_messages_total": 124
+    "business_messages_total": 131,
+    "azure_translations": 0
   }
 }
