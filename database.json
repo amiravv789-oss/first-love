@@ -122,15 +122,22 @@
       "first_name": "Девчонка",
       "last_name": "",
       "username": "nastasiski",
-      "user_profile": {},
-      "history": [],
+      "user_profile": {
+        "id": 993345116,
+        "is_bot": false,
+        "first_name": "Девчонка",
+        "username": "nastasiski"
+      },
+      "history": [
+        "0.4 за штуку, от 30 по 0.35, от 50, 0.3"
+      ],
       "target_lang": "ru",
-      "detected_lang": "en",
-      "detected_country": "International / US / UK",
-      "country_flag": "🇺🇸",
+      "detected_lang": "ru",
+      "detected_country": "Russia (روسیه)",
+      "country_flag": "🇷🇺",
       "is_iranian": false,
       "manual_override": true,
-      "messages_count": 5,
+      "messages_count": 6,
       "created_at": 1790445194.0381773
     },
     "972348750": {
@@ -161,16 +168,48 @@
       "first_name": "DigitalCore",
       "last_name": "",
       "username": "DGTsupply",
-      "user_profile": {},
-      "history": [],
-      "target_lang": "auto",
+      "user_profile": {
+        "id": 8439427292,
+        "is_bot": false,
+        "first_name": "DigitalCore",
+        "username": "DGTsupply",
+        "is_premium": true
+      },
+      "history": [
+        "probably will be added in future"
+      ],
+      "target_lang": "en",
       "detected_lang": "en",
       "detected_country": "International / English (انگلیسی)",
       "country_flag": "🇺🇸",
       "is_iranian": false,
       "manual_override": false,
-      "messages_count": 3,
+      "messages_count": 4,
       "created_at": 1790480985.2769456
+    },
+    "5132629348": {
+      "chat_id": 5132629348,
+      "first_name": "Legend",
+      "last_name": "",
+      "username": "rdfxo",
+      "user_profile": {
+        "id": 5132629348,
+        "is_bot": false,
+        "first_name": "Legend",
+        "username": "rdfxo"
+      },
+      "history": [
+        "Привет",
+        "Нужны Поставы?"
+      ],
+      "target_lang": "ru",
+      "detected_lang": "ru",
+      "detected_country": "Russia (روسیه)",
+      "country_flag": "🇷🇺",
+      "is_iranian": false,
+      "manual_override": false,
+      "messages_count": 2,
+      "created_at": 1790502903.5488703
     }
   },
   "business_connections": {},
@@ -186,14 +225,14 @@
   },
   "stats": {
     "messages_translated": 42,
-    "messages_whispered": 30,
+    "messages_whispered": 34,
     "pv_translated": 0,
     "group_translated": 0,
     "inline_queries": 0,
     "azure_translations": 0,
-    "google_translations": 6,
+    "google_translations": 10,
     "iranian_rejected": 0,
     "manual_overrides": 6,
-    "business_messages_total": 81
+    "business_messages_total": 85
   }
 }
