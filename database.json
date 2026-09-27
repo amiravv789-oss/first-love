@@ -62,7 +62,7 @@
       "country_flag": "🇷🇺",
       "is_iranian": false,
       "manual_override": true,
-      "messages_count": 48,
+      "messages_count": 52,
       "created_at": 1790335767.9844925
     },
     "5549212949": {
@@ -155,6 +155,22 @@
       "manual_override": false,
       "messages_count": 2,
       "created_at": 1790446685.2254674
+    },
+    "8439427292": {
+      "chat_id": 8439427292,
+      "first_name": "DigitalCore",
+      "last_name": "",
+      "username": "DGTsupply",
+      "user_profile": {},
+      "history": [],
+      "target_lang": "auto",
+      "detected_lang": "en",
+      "detected_country": "International / English (انگلیسی)",
+      "country_flag": "🇺🇸",
+      "is_iranian": false,
+      "manual_override": false,
+      "messages_count": 3,
+      "created_at": 1790480985.2769456
     }
   },
   "business_connections": {},
@@ -169,15 +185,15 @@
     "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 38,
+    "messages_translated": 42,
     "messages_whispered": 30,
     "pv_translated": 0,
     "group_translated": 0,
     "inline_queries": 0,
     "azure_translations": 0,
-    "google_translations": 2,
+    "google_translations": 6,
     "iranian_rejected": 0,
     "manual_overrides": 6,
-    "business_messages_total": 74
+    "business_messages_total": 81
   }
 }
