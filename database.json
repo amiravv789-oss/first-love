@@ -1,6 +1,7 @@
 {
   "allowed_users": [
-    8540621490
+    8540621490,
+    5549212949
   ],
   "chats": {
     "8096039594": {
@@ -63,7 +64,8 @@
       "is_iranian": false,
       "manual_override": true,
       "messages_count": 52,
-      "created_at": 1790335767.9844925
+      "created_at": 1790335767.9844925,
+      "last_active": 1790523990
     },
     "5549212949": {
       "chat_id": 5549212949,
@@ -141,29 +143,6 @@
       "messages_count": 14,
       "created_at": 1790445194.0381773
     },
-    "972348750": {
-      "chat_id": 972348750,
-      "first_name": "Dian",
-      "last_name": "",
-      "username": "Dian_otd",
-      "user_profile": {
-        "id": 972348750,
-        "is_bot": false,
-        "first_name": "Dian",
-        "username": "Dian_otd"
-      },
-      "history": [
-        "خبری نیست فعلا"
-      ],
-      "target_lang": "az",
-      "detected_lang": "fa",
-      "detected_country": "Iran",
-      "country_flag": "🇮🇷",
-      "is_iranian": false,
-      "manual_override": true,
-      "messages_count": 2,
-      "created_at": 1790446685.2254674
-    },
     "8439427292": {
       "chat_id": 8439427292,
       "first_name": "DigitalCore",
@@ -186,7 +165,8 @@
       "is_iranian": false,
       "manual_override": false,
       "messages_count": 4,
-      "created_at": 1790480985.2769456
+      "created_at": 1790480985.2769456,
+      "last_active": 1790523376
     },
     "5132629348": {
       "chat_id": 5132629348,
@@ -223,6 +203,50 @@
       "manual_override": true,
       "messages_count": 33,
       "created_at": 1790502903.5488703
+    },
+    "8540621490": {
+      "first_name": "Navorus",
+      "last_name": "",
+      "username": "Navorus",
+      "type": "private",
+      "target_lang": "ru",
+      "is_iranian": false,
+      "manual_override": true,
+      "created_at": 1790516787,
+      "last_active": 1790533492
+    },
+    "972348750": {
+      "first_name": "Dian",
+      "last_name": "",
+      "username": "Dian_otd",
+      "type": "business",
+      "target_lang": "en",
+      "is_iranian": true,
+      "manual_override": true,
+      "created_at": 1790517194,
+      "last_active": 1790533524
+    },
+    "7076694103": {
+      "first_name": "VNA",
+      "last_name": "",
+      "username": "Garvshroff1",
+      "type": "business",
+      "target_lang": "en",
+      "is_iranian": false,
+      "manual_override": false,
+      "created_at": 1790519995,
+      "last_active": 1790520800
+    },
+    "5208076648": {
+      "first_name": "Hassan",
+      "last_name": "seydali",
+      "username": "hasan137500",
+      "type": "business",
+      "target_lang": "fa",
+      "is_iranian": true,
+      "manual_override": false,
+      "created_at": 1790533647,
+      "last_active": 1790535101
     }
   },
   "business_connections": {},
@@ -241,16 +265,16 @@
     "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 69,
-    "messages_whispered": 45,
+    "messages_translated": 96,
+    "messages_whispered": 70,
     "pv_translated": 0,
     "group_translated": 0,
-    "inline_queries": 40,
-    "lara_translations": 43,
-    "google_translations": 109,
-    "iranian_rejected": 3,
+    "inline_queries": 59,
+    "lara_translations": 61,
+    "google_translations": 175,
+    "iranian_rejected": 6,
     "manual_overrides": 12,
-    "business_messages_total": 131,
+    "business_messages_total": 217,
     "azure_translations": 0
   }
 }
