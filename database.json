@@ -213,7 +213,7 @@
       "is_iranian": false,
       "manual_override": true,
       "created_at": 1790516787,
-      "last_active": 1790533492
+      "last_active": 1790536191
     },
     "972348750": {
       "first_name": "Dian",
@@ -244,9 +244,20 @@
       "type": "business",
       "target_lang": "fa",
       "is_iranian": true,
-      "manual_override": false,
+      "manual_override": true,
       "created_at": 1790533647,
-      "last_active": 1790535101
+      "last_active": 1790541242
+    },
+    "8478125925": {
+      "first_name": "SnegroVik @skinfights_bot",
+      "last_name": "",
+      "username": "Bossouser",
+      "type": "business",
+      "target_lang": "en",
+      "is_iranian": false,
+      "manual_override": false,
+      "created_at": 1790536487,
+      "last_active": 1790536487
     }
   },
   "business_connections": {},
@@ -265,16 +276,16 @@
     "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 96,
-    "messages_whispered": 70,
+    "messages_translated": 98,
+    "messages_whispered": 79,
     "pv_translated": 0,
     "group_translated": 0,
     "inline_queries": 59,
-    "lara_translations": 61,
-    "google_translations": 175,
-    "iranian_rejected": 6,
+    "lara_translations": 75,
+    "google_translations": 176,
+    "iranian_rejected": 7,
     "manual_overrides": 12,
-    "business_messages_total": 217,
+    "business_messages_total": 241,
     "azure_translations": 0
   }
 }
