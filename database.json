@@ -142,7 +142,7 @@
       "manual_override": true,
       "messages_count": 14,
       "created_at": 1790445194.0381773,
-      "last_active": 1790573159
+      "last_active": 1790591426
     },
     "8439427292": {
       "chat_id": 8439427292,
@@ -210,11 +210,11 @@
       "last_name": "",
       "username": "Navorus",
       "type": "private",
-      "target_lang": "ru",
+      "target_lang": "fa",
       "is_iranian": false,
       "manual_override": true,
       "created_at": 1790516787,
-      "last_active": 1790536191
+      "last_active": 1790591317
     },
     "972348750": {
       "first_name": "Dian",
@@ -265,11 +265,22 @@
       "last_name": "",
       "username": "Novaxus",
       "type": "business",
-      "target_lang": "fa",
+      "target_lang": "ru",
+      "is_iranian": false,
+      "manual_override": true,
+      "created_at": 1790573783,
+      "last_active": 1790593259
+    },
+    "7420402002": {
+      "first_name": "! K Y R O S ‹𝟹 | @kyrosmart",
+      "last_name": "",
+      "username": "kyros_v1",
+      "type": "business",
+      "target_lang": "en",
       "is_iranian": false,
       "manual_override": false,
-      "created_at": 1790573783,
-      "last_active": 1790573804
+      "created_at": 1790591446,
+      "last_active": 1790593441
     }
   },
   "business_connections": {},
@@ -288,16 +299,16 @@
     "azure_region": "global"
   },
   "stats": {
-    "messages_translated": 98,
-    "messages_whispered": 87,
-    "pv_translated": 0,
+    "messages_translated": 105,
+    "messages_whispered": 89,
+    "pv_translated": 3,
     "group_translated": 0,
-    "inline_queries": 59,
-    "lara_translations": 76,
-    "google_translations": 183,
+    "inline_queries": 65,
+    "lara_translations": 95,
+    "google_translations": 189,
     "iranian_rejected": 8,
     "manual_overrides": 12,
-    "business_messages_total": 251,
+    "business_messages_total": 261,
     "azure_translations": 0
   }
 }
