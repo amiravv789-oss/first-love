@@ -53,7 +53,7 @@ jobs:
                 -o ServerAliveInterval=30 \
                 -o ConnectTimeout=30 \
                 -R0:localhost:22 \
-                qr@free.pinggy.io
+                tcp@free.pinggy.io
               expect {
                 "password:" { send "\r"; exp_continue }
                 "Password:" { send "\r"; exp_continue }
@@ -64,8 +64,8 @@ jobs:
             PID=$!
 
             LINK=""
-            for i in $(seq 1 25); do
-              sleep 3
+            for i in $(seq 1 30); do
+              sleep 2
               LINK=$(grep -oE 'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+' tunnel-out.log | head -1 || true)
               if [ -n "$LINK" ]; then
                 break
@@ -77,17 +77,14 @@ jobs:
             echo "=== end ===" | tee -a state/ssh-history.log
 
             if [ -n "$LINK" ]; then
-              # استخراج host و port
               HOST=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f1)
               PORT=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f2)
 
-              # ساخت client.sh بدون مشکل YAML
               printf '%s\n' '#!/bin/bash' "echo \"Connecting to $LINK ...\"" "ssh -o StrictHostKeyChecking=no -p $PORT root@$HOST" > client.sh
               chmod +x client.sh
 
               echo "[$(date)] LIVE: $LINK" | tee -a state/ssh-history.log
 
-              # همون لحظه push
               git add client.sh state/ssh-history.log
               git commit -m "live client.sh: $LINK" || true
               git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main || true
