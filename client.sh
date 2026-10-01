@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "Connecting to tcp://qlhso-135-232-201-50.run.pinggy-free.link:35579 ..."
-ssh -o StrictHostKeyChecking=no -p 35579 root@qlhso-135-232-201-50.run.pinggy-free.link
+echo "Connecting to tcp://xzzjw-135-232-201-50.run.pinggy-free.link:44149 ..."
+ssh -o StrictHostKeyChecking=no -p 44149 root@xzzjw-135-232-201-50.run.pinggy-free.link
