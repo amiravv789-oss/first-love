@@ -81,12 +81,8 @@ jobs:
               HOST=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f1)
               PORT=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f2)
 
-              # ساخت client.sh
-              cat > client.sh << CLIENT
-#!/bin/bash
-echo "Connecting to $LINK ..."
-ssh -o StrictHostKeyChecking=no -p $PORT root@$HOST
-CLIENT
+              # ساخت client.sh بدون مشکل YAML
+              printf '%s\n' '#!/bin/bash' "echo \"Connecting to $LINK ...\"" "ssh -o StrictHostKeyChecking=no -p $PORT root@$HOST" > client.sh
               chmod +x client.sh
 
               echo "[$(date)] LIVE: $LINK" | tee -a state/ssh-history.log
