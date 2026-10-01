@@ -21,7 +21,7 @@ jobs:
       - name: Setup
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq openssh-server openssh-client git-lfs expect
+          sudo apt-get install -y -qq openssh-server openssh-client git-lfs
           git lfs install
           sudo mkdir -p /var/run/sshd
           sudo ssh-keygen -A
@@ -29,6 +29,7 @@ jobs:
           sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config || true
           echo "root:tunnelpass" | sudo chpasswd
           sudo service ssh restart || sudo /usr/sbin/sshd
+          pip3 install -q pexpect
 
       - name: Prepare
         run: |
@@ -36,75 +37,122 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - name: Tunnel loop
+      - name: Write tunnel.py
         run: |
-          echo "=== Start $(date) ===" >> state/ssh-history.log
-          END=$(($(date +%s) + 340*60))
+          cat > tunnel.py << 'PY'
+          #!/usr/bin/env python3
+          import pexpect
+          import re
+          import time
+          import subprocess
+          import os
+          from datetime import datetime
 
-          while [ $(date +%s) -lt $END ]; do
-            echo "[$(date)] Starting tunnel..." | tee -a state/ssh-history.log
-            > tunnel-out.log
+          END = time.time() + 340 * 60
+          LOG = "state/ssh-history.log"
 
-            expect -c '
-              set timeout 3300
-              spawn timeout 55m ssh -p 443 \
-                -o StrictHostKeyChecking=no \
-                -o UserKnownHostsFile=/dev/null \
-                -o ServerAliveInterval=30 \
-                -o ConnectTimeout=30 \
-                -R0:localhost:22 \
-                tcp@free.pinggy.io
-              expect {
-                -re "(?i)password:" { send "\r"; exp_continue }
-                eof
-              }
-            ' > tunnel-out.log 2>&1 &
+          def log(msg):
+              line = f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] {msg}"
+              print(line, flush=True)
+              with open(LOG, "a") as f:
+                  f.write(line + "\n")
 
-            PID=$!
+          def git_push(link):
+              host = link.replace("tcp://", "").split(":")[0]
+              port = link.replace("tcp://", "").split(":")[1]
+              with open("client.sh", "w") as f:
+                  f.write("#!/bin/bash\n")
+                  f.write(f'echo "Connecting to {link} ..."\n')
+                  f.write(f"ssh -o StrictHostKeyChecking=no -p {port} root@{host}\n")
+              os.chmod("client.sh", 0o755)
+              subprocess.run(["git", "add", "client.sh", LOG], check=False)
+              subprocess.run(["git", "commit", "-m", f"live client.sh: {link}"], check=False)
+              token = os.environ.get("GH_TOKEN", "")
+              repo = os.environ.get("GITHUB_REPOSITORY", "")
+              if token and repo:
+                  url = f"https://x-access-token:{token}@github.com/{repo}.git"
+                  subprocess.run(["git", "push", url, "HEAD:main"], check=False)
+              log(f"client.sh pushed! {link}")
 
-            LINK=""
-            for i in $(seq 1 40); do
-              sleep 2
-              LINK=$(grep -oE 'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+' tunnel-out.log | head -1 || true)
-              if [ -n "$LINK" ]; then
-                break
-              fi
-            done
+          log("=== Start ===")
 
-            echo "=== tunnel-out.log ===" | tee -a state/ssh-history.log
-            cat tunnel-out.log | tee -a state/ssh-history.log
-            echo "=== end ===" | tee -a state/ssh-history.log
+          while time.time() < END:
+              log("Starting tunnel...")
+              try:
+                  child = pexpect.spawn(
+                      "ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
+                      "-o ServerAliveInterval=30 -o ConnectTimeout=30 "
+                      "-R0:localhost:22 tcp@free.pinggy.io",
+                      timeout=60,
+                      encoding="utf-8"
+                  )
+                  child.logfile_read = open("tunnel-out.log", "w")
 
-            if [ -n "$LINK" ]; then
-              HOST=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f1)
-              PORT=$(echo "$LINK" | sed 's|tcp://||' | cut -d: -f2)
+                  # handle password (empty)
+                  idx = child.expect([r"(?i)password:", pexpect.EOF, pexpect.TIMEOUT], timeout=30)
+                  if idx == 0:
+                      child.sendline("")
+                  
+                  # wait for the tcp link
+                  link = None
+                  for _ in range(40):
+                      time.sleep(1.5)
+                      try:
+                          out = open("tunnel-out.log").read()
+                      except:
+                          out = ""
+                      m = re.search(r'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+', out)
+                      if m:
+                          link = m.group(0)
+                          break
+                      if not child.isalive():
+                          break
 
-              printf '%s\n' '#!/bin/bash' "echo \"Connecting to $LINK ...\"" "ssh -o StrictHostKeyChecking=no -p $PORT root@$HOST" > client.sh
-              chmod +x client.sh
+                  if link:
+                      log(f"LIVE: {link}")
+                      git_push(link)
+                  else:
+                      log("No link found")
+                      try:
+                          print(open("tunnel-out.log").read())
+                      except:
+                          pass
 
-              echo "[$(date)] LIVE: $LINK" | tee -a state/ssh-history.log
+                  # keep the tunnel alive ~55 min
+                  child.timeout = 3300
+                  try:
+                      child.expect(pexpect.EOF, timeout=3300)
+                  except pexpect.TIMEOUT:
+                      log("55min timeout, restarting...")
+                      child.terminate(force=True)
+                  except Exception as e:
+                      log(f"tunnel ended: {e}")
 
-              git add client.sh state/ssh-history.log
-              git commit -m "live client.sh: $LINK" || true
-              git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main || true
-              echo "client.sh pushed!"
-            else
-              echo "[$(date)] No link" | tee -a state/ssh-history.log
-            fi
+              except Exception as e:
+                  log(f"error: {e}")
 
-            wait $PID || true
-            echo "[$(date)] ended, restart in 8s..." | tee -a state/ssh-history.log
-            sleep 8
-          done
+              log("restart in 8s...")
+              time.sleep(8)
 
-          echo "=== End $(date) ===" >> state/ssh-history.log
+          log("=== End ===")
+          PY
+          chmod +x tunnel.py
+
+      - name: Run tunnel
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 tunnel.py
 
       - name: Final push
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git add -A
           git diff --cached --quiet || git commit -m "chore: final sync [skip ci]"
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main || true
+          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main || true
 
       - name: Retrigger
         if: always()
