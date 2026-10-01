@@ -203,3 +203,21 @@ Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted
 tcp://ftdmv-135-232-201-50.run.pinggy-free.link:35609
 === end ===
 [Thu Oct  1 17:24:21 UTC 2026] LIVE: tcp://ftdmv-135-232-201-50.run.pinggy-free.link:35609
+[Thu Oct  1 17:25:19 UTC 2026] ended, restart in 8s...
+[Thu Oct  1 17:25:27 UTC 2026] Starting tunnel...
+=== tunnel-out.log ===
+spawn timeout 55m ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ConnectTimeout=30 -R0:localhost:22 tcp@free.pinggy.io
+Warning: Permanently added '[free.pinggy.io]:443' (RSA) to the list of known hosts.
+Allocated port 8 for remote forward to localhost:22
+
+
+    ==CAUTION==
+    This is fallback mode as your terminal `` is not supported
+    Kindly use supported terminal
+
+
+You are not authenticated.
+Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted tunnels. https://dashboard.pinggy.io
+tcp://crmio-135-232-201-50.run.pinggy-free.link:44531
+=== end ===
+[Thu Oct  1 17:25:29 UTC 2026] LIVE: tcp://crmio-135-232-201-50.run.pinggy-free.link:44531
