@@ -1,7 +1,14 @@
-Pseudo-terminal will not be allocated because stdin is not a terminal.
-Warning: Permanently added '[free.pinggy.io]:443' (RSA) to the list of known hosts.
-Allocated port 6 for remote forward to localhost:22
+spawn timeout 55m ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ConnectTimeout=30 -R0:localhost:22 qr@free.pinggy.io
+Warning: Permanently added '[free.pinggy.io]:443' (RSA) to the list of known hosts.
+Allocated port 2 for remote forward to localhost:22
+
+
+    ==CAUTION==
+    This is fallback mode as your terminal `` is not supported
+    Kindly use supported terminal
+
+
 You are not authenticated.
 Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted tunnels. https://dashboard.pinggy.io
-https://ilgyt-20-127-247-150.run.pinggy-free.link
-https://tpxzz-20-127-247-150.free.pinggy.net
+https://ioctb-68-154-117-38.free.pinggy.net
+https://tupyu-68-154-117-38.run.pinggy-free.link
