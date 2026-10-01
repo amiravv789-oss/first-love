@@ -1,6 +1,5 @@
-spawn timeout 55m ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ConnectTimeout=30 -R0:localhost:22 tcp@free.pinggy.io
 Warning: Permanently added '[free.pinggy.io]:443' (RSA) to the list of known hosts.
-Allocated port 4 for remote forward to localhost:22
+Allocated port 9 for remote forward to localhost:22
 
 
     ==CAUTION==
@@ -10,4 +9,4 @@ Allocated port 4 for remote forward to localhost:22
 
 You are not authenticated.
 Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted tunnels. https://dashboard.pinggy.io
-tcp://ixjau-135-232-201-50.run.pinggy-free.link:33565
+tcp://dggne-4-236-166-151.run.pinggy-free.link:43245
