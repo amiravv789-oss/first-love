@@ -95,3 +95,21 @@ Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted
 tcp://xzzjw-135-232-201-50.run.pinggy-free.link:44149
 === end ===
 [Thu Oct  1 17:17:33 UTC 2026] LIVE: tcp://xzzjw-135-232-201-50.run.pinggy-free.link:44149
+[Thu Oct  1 17:18:31 UTC 2026] ended, restart in 8s...
+[Thu Oct  1 17:18:39 UTC 2026] Starting tunnel...
+=== tunnel-out.log ===
+spawn timeout 55m ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ConnectTimeout=30 -R0:localhost:22 tcp@free.pinggy.io
+Warning: Permanently added '[free.pinggy.io]:443' (RSA) to the list of known hosts.
+Allocated port 5 for remote forward to localhost:22
+
+
+    ==CAUTION==
+    This is fallback mode as your terminal `` is not supported
+    Kindly use supported terminal
+
+
+You are not authenticated.
+Your tunnel will expire in 60 minutes. Upgrade to Pinggy Pro to get unrestricted tunnels. https://dashboard.pinggy.io
+tcp://tsose-135-232-201-50.run.pinggy-free.link:42301
+=== end ===
+[Thu Oct  1 17:18:41 UTC 2026] LIVE: tcp://tsose-135-232-201-50.run.pinggy-free.link:42301
