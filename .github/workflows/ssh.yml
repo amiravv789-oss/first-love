@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ssh-runner2
+  group: ssh-runner
   cancel-in-progress: false
   
 jobs:
@@ -999,7 +999,8 @@ jobs:
                   "-o ServerAliveInterval=30 "
                   "-o ServerAliveCountMax=3 "
                   "-o ConnectTimeout=30 "
-                  "-R0:localhost:22 "
+                  "-N"
+                  "-R 2222:localhost:22 "
                   "tunnel@remote-respina-free.runflare.com"
               )
 
