@@ -7,40 +7,251 @@ jobs:
   tunnel:
     runs-on: ubuntu-latest
     timeout-minutes: 350
+
     permissions:
       contents: write
       actions: write
 
     steps:
+
+      # --------------------------------------------------
+      # Checkout
+      # --------------------------------------------------
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
           lfs: true
 
-      - name: Setup
+      # --------------------------------------------------
+      # Setup system
+      # --------------------------------------------------
+
+      - name: Setup Ubuntu
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
+          set -e
+
+          echo "Updating packages..."
+
           sudo apt-get update -qq
-          sudo apt-get install -y -qq openssh-server openssh-client git-lfs
+
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            openssh-server \
+            openssh-client \
+            xfce4 \
+            xfce4-goodies \
+            xrdp \
+            dbus-x11 \
+            git-lfs \
+            curl \
+            wget \
+            ca-certificates \
+            python3 \
+            python3-pip \
+            python3-venv \
+            python-is-python3 \
+            unzip
+
           git lfs install
+
+          # ------------------------------------------------
+          # Root password
+          # ------------------------------------------------
+
+          echo "root:${SSH_PASSWORD}" | sudo chpasswd
+
+          # ------------------------------------------------
+          # SSH configuration
+          # ------------------------------------------------
+
           sudo mkdir -p /var/run/sshd
+
           sudo ssh-keygen -A
-          sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config || true
-          sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config || true
-          echo "root:tunnelpass" | sudo chpasswd
-          sudo service ssh restart || sudo /usr/sbin/sshd
-          pip3 install -q pexpect
+
+          sudo sed -i \
+            's/^#\?PermitRootLogin .*/PermitRootLogin yes/' \
+            /etc/ssh/sshd_config
+
+          sudo sed -i \
+            's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' \
+            /etc/ssh/sshd_config
+
+          sudo sed -i \
+            's/^#\?UsePAM .*/UsePAM yes/' \
+            /etc/ssh/sshd_config
+
+          # Make sure the configuration contains these settings
+          grep -q '^PermitRootLogin' /etc/ssh/sshd_config || \
+            echo 'PermitRootLogin yes' | sudo tee -a /etc/ssh/sshd_config
+
+          grep -q '^PasswordAuthentication' /etc/ssh/sshd_config || \
+            echo 'PasswordAuthentication yes' | sudo tee -a /etc/ssh/sshd_config
+
+          # ------------------------------------------------
+          # XFCE
+          # ------------------------------------------------
+
+          echo "startxfce4" | sudo tee /root/.xsession
+
+          sudo chmod 644 /root/.xsession
+
+          # ------------------------------------------------
+          # XRDP
+          # ------------------------------------------------
+
+          sudo systemctl enable xrdp || true
+          sudo systemctl restart xrdp || true
+
+          # ------------------------------------------------
+          # SSH
+          # ------------------------------------------------
+
+          sudo systemctl restart ssh || true
+
+          if ! pgrep -x sshd >/dev/null; then
+            sudo /usr/sbin/sshd
+          fi
+
+          # ------------------------------------------------
+          # Python
+          # ------------------------------------------------
+
+          python3 --version
+          python --version
+          pip3 --version
+
+          # ------------------------------------------------
+          # Node.js - latest LTS via nvm
+          # ------------------------------------------------
+
+          export NVM_DIR="/root/.nvm"
+
+          if [ ! -d "$NVM_DIR" ]; then
+            curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
+              | bash
+          fi
+
+          export NVM_DIR="/root/.nvm"
+
+          if [ -s "$NVM_DIR/nvm.sh" ]; then
+            source "$NVM_DIR/nvm.sh"
+          fi
+
+          nvm install --lts
+          nvm alias default 'lts/*'
+          nvm use --lts
+
+          # Make Node available in future root shells
+          grep -qxF 'export NVM_DIR="/root/.nvm"' /root/.bashrc || \
+            echo 'export NVM_DIR="/root/.nvm"' >> /root/.bashrc
+
+          grep -qxF '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"' /root/.bashrc || \
+            echo '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"' >> /root/.bashrc
+
+          grep -qxF 'nvm use --silent --lts >/dev/null 2>&1 || true' /root/.bashrc || \
+            echo 'nvm use --silent --lts >/dev/null 2>&1 || true' >> /root/.bashrc
+
+          echo "Node:"
+          node --version
+
+          echo "NPM:"
+          npm --version
+
+          # ------------------------------------------------
+          # Google Chrome
+          # ------------------------------------------------
+
+          wget -q \
+            -O /tmp/google-chrome.deb \
+            https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+          sudo apt-get install -y -qq /tmp/google-chrome.deb
+
+          rm -f /tmp/google-chrome.deb
+
+          echo "Chrome:"
+          google-chrome --version
+
+          # ------------------------------------------------
+          # Python pexpect
+          # ------------------------------------------------
+
+          python3 -m pip install --break-system-packages -q pexpect
+
+          # ------------------------------------------------
+          # Diagnostics
+          # ------------------------------------------------
+
+          echo
+          echo "======================================"
+          echo "SYSTEM"
+          echo "======================================"
+
+          cat /etc/os-release | grep PRETTY_NAME
+
+          echo
+          echo "======================================"
+          echo "SSH"
+          echo "======================================"
+
+          sudo ss -lntp | grep ':22' || true
+
+          echo
+          echo "======================================"
+          echo "XRDP"
+          echo "======================================"
+
+          sudo ss -lntp | grep ':3389' || true
+
+          sudo systemctl --no-pager status xrdp || true
+
+          echo
+          echo "======================================"
+          echo "Python"
+          echo "======================================"
+
+          python --version
+
+          echo
+          echo "======================================"
+          echo "Node"
+          echo "======================================"
+
+          node --version
+          npm --version
+
+          echo
+          echo "======================================"
+          echo "Chrome"
+          echo "======================================"
+
+          google-chrome --version
+
+      # --------------------------------------------------
+      # Prepare
+      # --------------------------------------------------
 
       - name: Prepare
         run: |
+          set -e
+
           mkdir -p state
+
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+
+      # --------------------------------------------------
+      # Create tunnel.py
+      # --------------------------------------------------
 
       - name: Write tunnel.py
         run: |
           cat > tunnel.py << 'PY'
           #!/usr/bin/env python3
+
           import pexpect
           import re
           import time
@@ -48,95 +259,360 @@ jobs:
           import os
           from datetime import datetime
 
-          END = time.time() + 340 * 60
+
+          # Keep the runner alive for ~340 minutes
+          END = time.time() + (340 * 60)
+
           LOG = "state/ssh-history.log"
 
-          def log(msg):
-              line = f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] {msg}"
+
+          def log(message):
+              line = (
+                  f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
+                  f"{message}"
+              )
+
               print(line, flush=True)
+
               with open(LOG, "a") as f:
                   f.write(line + "\n")
 
+
           def git_push(link):
-              host = link.replace("tcp://", "").split(":")[0]
-              port = link.replace("tcp://", "").split(":")[1]
+
+              link = link.replace("tcp://", "")
+
+              host, port = link.rsplit(":", 1)
+
+              # ------------------------------------------------
+              # Generate client.sh
+              # ------------------------------------------------
+
               with open("client.sh", "w") as f:
+
                   f.write("#!/bin/bash\n")
-                  f.write(f'echo "Connecting to {link} ..."\n')
-                  f.write(f"ssh -o StrictHostKeyChecking=no -p {port} root@{host}\n")
+                  f.write("set -e\n\n")
+
+                  f.write(f'HOST="{host}"\n')
+                  f.write(f'PORT="{port}"\n\n')
+
+                  f.write('MODE="${1:-ssh}"\n\n')
+
+                  # ------------------------------------------------
+                  # SSH
+                  # ------------------------------------------------
+
+                  f.write('if [ "$MODE" = "ssh" ]; then\n')
+
+                  f.write(
+                      '    exec ssh '
+                      '-o StrictHostKeyChecking=no '
+                      '-o UserKnownHostsFile=/dev/null '
+                      '-p "$PORT" '
+                      'root@"$HOST"\n'
+                  )
+
+                  f.write("fi\n\n")
+
+                  # ------------------------------------------------
+                  # RDP
+                  # ------------------------------------------------
+
+                  f.write('if [ "$MODE" = "rdp" ]; then\n')
+
+                  f.write(
+                      '    ssh '
+                      '-o StrictHostKeyChecking=no '
+                      '-o UserKnownHostsFile=/dev/null '
+                      '-N '
+                      '-L 3389:127.0.0.1:3389 '
+                      '-p "$PORT" '
+                      'root@"$HOST" &\n'
+                  )
+
+                  f.write("    TUNNEL_PID=$!\n\n")
+
+                  f.write(
+                      '    trap "kill $TUNNEL_PID 2>/dev/null || true" EXIT\n'
+                  )
+
+                  f.write("    sleep 2\n\n")
+
+                  # Windows / Git Bash
+                  f.write(
+                      '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
+                  )
+
+                  f.write(
+                      '        mstsc.exe /v:127.0.0.1:3389\n'
+                  )
+
+                  f.write("        exit 0\n")
+                  f.write("    fi\n\n")
+
+                  # Linux
+                  f.write(
+                      '    if command -v xfreerdp >/dev/null 2>&1; then\n'
+                  )
+
+                  f.write(
+                      '        exec xfreerdp '
+                      '/v:127.0.0.1:3389 '
+                      '/u:root\n'
+                  )
+
+                  f.write("    fi\n\n")
+
+                  # macOS
+                  f.write(
+                      '    if command -v open >/dev/null 2>&1; then\n'
+                  )
+
+                  f.write(
+                      '        open '
+                      '"rdp://full%20address=s:127.0.0.1:3389"\n'
+                  )
+
+                  f.write("        wait\n")
+                  f.write("        exit 0\n")
+                  f.write("    fi\n\n")
+
+                  f.write(
+                      '    echo "No RDP client found."\n'
+                  )
+
+                  f.write("    exit 1\n")
+
+                  f.write("fi\n\n")
+
+                  f.write("exit 1\n")
+
               os.chmod("client.sh", 0o755)
-              subprocess.run(["git", "add", "client.sh", LOG], check=False)
-              subprocess.run(["git", "commit", "-m", f"live client.sh: {link}"], check=False)
+
+              # ------------------------------------------------
+              # Commit
+              # ------------------------------------------------
+
+              subprocess.run(
+                  ["git", "add", "client.sh", LOG],
+                  check=False
+              )
+
+              subprocess.run(
+                  [
+                      "git",
+                      "commit",
+                      "-m",
+                      f"live tunnel: {link}"
+                  ],
+                  check=False
+              )
+
+              # ------------------------------------------------
+              # Push
+              # ------------------------------------------------
+
               token = os.environ.get("GH_TOKEN", "")
               repo = os.environ.get("GITHUB_REPOSITORY", "")
-              if token and repo:
-                  url = f"https://x-access-token:{token}@github.com/{repo}.git"
-                  subprocess.run(["git", "push", url, "HEAD:main"], check=False)
-              log(f"client.sh pushed! {link}")
 
-          log("=== Start ===")
+              if token and repo:
+
+                  url = (
+                      f"https://x-access-token:{token}"
+                      f"@github.com/{repo}.git"
+                  )
+
+                  subprocess.run(
+                      [
+                          "git",
+                          "push",
+                          url,
+                          "HEAD:main"
+                      ],
+                      check=False
+                  )
+
+              log(f"client.sh pushed: {link}")
+
+
+          # --------------------------------------------------
+          # Main
+          # --------------------------------------------------
+
+          log("=== Tunnel service started ===")
 
           while time.time() < END:
-              log("Starting tunnel...")
+
+              log("Starting Pinggy tunnel...")
+
               try:
+
                   child = pexpect.spawn(
-                      "ssh -p 443 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-                      "-o ServerAliveInterval=30 -o ConnectTimeout=30 "
-                      "-R0:localhost:22 tcp@free.pinggy.io",
+                      "ssh "
+                      "-p 443 "
+                      "-o StrictHostKeyChecking=no "
+                      "-o UserKnownHostsFile=/dev/null "
+                      "-o ServerAliveInterval=30 "
+                      "-o ServerAliveCountMax=3 "
+                      "-o ConnectTimeout=30 "
+                      "-R0:localhost:22 "
+                      "tcp@free.pinggy.io",
                       timeout=60,
                       encoding="utf-8"
                   )
-                  child.logfile_read = open("tunnel-out.log", "w")
 
-                  # handle password (empty)
-                  idx = child.expect([r"(?i)password:", pexpect.EOF, pexpect.TIMEOUT], timeout=30)
-                  if idx == 0:
-                      child.sendline("")
-                  
-                  # wait for the tcp link
+                  logfile = open(
+                      "tunnel-out.log",
+                      "w"
+                  )
+
+                  child.logfile_read = logfile
+
+                  # ------------------------------------------------
+                  # Pinggy authentication / prompts
+                  # ------------------------------------------------
+
+                  try:
+
+                      idx = child.expect(
+                          [
+                              r"(?i)password:",
+                              r"(?i)yes/no",
+                              pexpect.EOF,
+                              pexpect.TIMEOUT
+                          ],
+                          timeout=30
+                      )
+
+                      if idx == 0:
+                          # Pinggy free endpoint
+                          child.sendline("")
+
+                      elif idx == 1:
+                          child.sendline("yes")
+
+                  except Exception as e:
+
+                      log(
+                          f"Initial connection handling: {e}"
+                      )
+
+                  # ------------------------------------------------
+                  # Wait for tcp:// URL
+                  # ------------------------------------------------
+
                   link = None
+
                   for _ in range(40):
+
                       time.sleep(1.5)
+
                       try:
-                          out = open("tunnel-out.log").read()
-                      except:
-                          out = ""
-                      m = re.search(r'tcp://[a-zA-Z0-9.-]+\.[a-zA-Z0-9.-]+:[0-9]+', out)
-                      if m:
-                          link = m.group(0)
+
+                          with open(
+                              "tunnel-out.log",
+                              "r"
+                          ) as f:
+                              output = f.read()
+
+                      except Exception:
+
+                          output = ""
+
+                      match = re.search(
+                          r'tcp://[a-zA-Z0-9.-]+:[0-9]+',
+                          output
+                      )
+
+                      if match:
+
+                          link = match.group(0)
+
                           break
+
                       if not child.isalive():
+
                           break
+
+                  # ------------------------------------------------
+                  # Got tunnel
+                  # ------------------------------------------------
 
                   if link:
+
                       log(f"LIVE: {link}")
+
                       git_push(link)
+
                   else:
-                      log("No link found")
+
+                      log("Pinggy tunnel URL was not found.")
+
                       try:
-                          print(open("tunnel-out.log").read())
-                      except:
+
+                          with open(
+                              "tunnel-out.log",
+                              "r"
+                          ) as f:
+                              print(f.read())
+
+                      except Exception:
                           pass
 
-                  # keep the tunnel alive ~55 min
-                  child.timeout = 3300
+                  # ------------------------------------------------
+                  # Keep alive
+                  # ------------------------------------------------
+
                   try:
-                      child.expect(pexpect.EOF, timeout=3300)
+
+                      child.expect(
+                          pexpect.EOF,
+                          timeout=3300
+                      )
+
                   except pexpect.TIMEOUT:
-                      log("55min timeout, restarting...")
-                      child.terminate(force=True)
+
+                      log(
+                          "Tunnel reached 55 minute timeout. "
+                          "Restarting..."
+                      )
+
+                      child.terminate(
+                          force=True
+                      )
+
                   except Exception as e:
-                      log(f"tunnel ended: {e}")
+
+                      log(
+                          f"Tunnel ended: {e}"
+                      )
+
+                  try:
+                      logfile.close()
+                  except Exception:
+                      pass
 
               except Exception as e:
-                  log(f"error: {e}")
 
-              log("restart in 8s...")
+                  log(
+                      f"Tunnel error: {e}"
+                  )
+
+              log(
+                  "Restarting tunnel in 8 seconds..."
+              )
+
               time.sleep(8)
 
-          log("=== End ===")
+          log("=== Tunnel service ended ===")
+
           PY
+
           chmod +x tunnel.py
+
+      # --------------------------------------------------
+      # Run tunnel
+      # --------------------------------------------------
 
       - name: Run tunnel
         env:
@@ -145,14 +621,28 @@ jobs:
         run: |
           python3 tunnel.py
 
+      # --------------------------------------------------
+      # Final sync
+      # --------------------------------------------------
+
       - name: Final push
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git add -A
-          git diff --cached --quiet || git commit -m "chore: final sync [skip ci]"
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main || true
+
+          git diff --cached --quiet || \
+            git commit \
+              -m "chore: final sync [skip ci]"
+
+          git push \
+            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
+            HEAD:main || true
+
+      # --------------------------------------------------
+      # Retrigger
+      # --------------------------------------------------
 
       - name: Retrigger
         if: always()
