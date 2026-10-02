@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-HOST="cooun-20-221-69-180.run.pinggy-free.link"
-PORT="45999"
+HOST="ycfok-128-24-163-99.run.pinggy-free.link"
+PORT="33191"
 
 MODE="${1:-ssh}"
 
 if [ "$MODE" = "ssh" ]; then
-    exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p "$PORT" root@"$HOST"
+    exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -p "$PORT" root@"$HOST"
 fi
 
 if [ "$MODE" = "rdp" ]; then
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -N -L 3389:127.0.0.1:3389 -p "$PORT" root@"$HOST" &
+    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -N -L 3389:127.0.0.1:3389 -p "$PORT" root@"$HOST" &
     TUNNEL_PID=$!
 
     trap "kill $TUNNEL_PID 2>/dev/null || true" EXIT
@@ -19,16 +19,18 @@ if [ "$MODE" = "rdp" ]; then
 
     if command -v mstsc.exe >/dev/null 2>&1; then
         mstsc.exe /v:127.0.0.1:3389
+        wait $TUNNEL_PID || true
         exit 0
     fi
 
     if command -v xfreerdp >/dev/null 2>&1; then
-        exec xfreerdp /v:127.0.0.1:3389 /u:root
+        xfreerdp /v:127.0.0.1:3389 /u:root
+        exit 0
     fi
 
     if command -v open >/dev/null 2>&1; then
         open "rdp://full%20address=s:127.0.0.1:3389"
-        wait
+        wait $TUNNEL_PID || true
         exit 0
     fi
 
