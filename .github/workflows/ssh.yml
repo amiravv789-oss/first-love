@@ -3,6 +3,10 @@ name: Ubuntu Desktop Remote
 on:
   workflow_dispatch:
 
+concurrency:
+  group: ssh-runner
+  cancel-in-progress: false
+  
 jobs:
   desktop:
     runs-on: ubuntu-latest
