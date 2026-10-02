@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ssh-runner
+  group: ssh-runner2
   cancel-in-progress: false
   
 jobs:
