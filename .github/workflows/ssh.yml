@@ -62,7 +62,7 @@ jobs:
           echo "root:${SSH_PASSWORD}" | sudo chpasswd
 
           # ==================================================
-          # SSH
+          # SSH configuration
           # ==================================================
 
           sudo mkdir -p /var/run/sshd
@@ -116,6 +116,7 @@ jobs:
           # Python
           # ==================================================
 
+          echo
           echo "======================================"
           echo "Python"
           echo "======================================"
@@ -125,46 +126,59 @@ jobs:
           pip3 --version
 
           # ==================================================
-          # Node.js / NVM
+          # Node.js LTS
           # ==================================================
 
+          echo
           echo "======================================"
-          echo "Installing Node.js LTS"
+          echo "Installing Node.js LTS for root"
           echo "======================================"
 
-          # GitHub runner may already define NVM_DIR.
-          # Remove it so NVM can be installed cleanly.
+          # The GitHub runner may have an NVM_DIR belonging
+          # to another user/environment. Do not use it.
 
-          unset NVM_DIR
+          sudo rm -rf /root/.nvm
 
-          rm -rf /root/.nvm
+          sudo mkdir -p /root/.nvm
 
-          export NVM_DIR="/root/.nvm"
+          sudo chown -R root:root /root/.nvm
 
-          curl -fsSL \
-            https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
-            | bash
+          # Install NVM as root
+          sudo env \
+            HOME=/root \
+            NVM_DIR=/root/.nvm \
+            bash -c '
+              set -e
 
-          export NVM_DIR="/root/.nvm"
+              curl -fsSL \
+                https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
+                | bash
 
-          if [ ! -s "$NVM_DIR/nvm.sh" ]; then
-            echo "ERROR: NVM installation failed"
-            exit 1
-          fi
+              export NVM_DIR="/root/.nvm"
 
-          source "$NVM_DIR/nvm.sh"
+              if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+                echo "ERROR: NVM installation failed"
+                exit 1
+              fi
 
-          # Install latest LTS
-          nvm install --lts
+              source "$NVM_DIR/nvm.sh"
 
-          # Set default
-          nvm alias default 'lts/*'
+              nvm install --lts
 
-          # Activate
-          nvm use --lts
+              nvm alias default "lts/*"
 
-          # Make available for root login shells
-          cat >> /root/.bashrc <<'EOF'
+              nvm use --lts
+
+              node --version
+              npm --version
+              npx --version
+            '
+
+          # ==================================================
+          # Root bash configuration
+          # ==================================================
+
+          sudo tee -a /root/.bashrc > /dev/null <<'EOF'
 
           export NVM_DIR="/root/.nvm"
 
@@ -177,19 +191,36 @@ jobs:
           fi
           EOF
 
-          echo "Node.js:"
-          node --version
+          # ==================================================
+          # Verify Node.js as root
+          # ==================================================
 
-          echo "NPM:"
-          npm --version
+          echo
+          echo "======================================"
+          echo "Node.js verification"
+          echo "======================================"
 
-          echo "NPX:"
-          npx --version
+          sudo -H -u root bash -lc '
+            export NVM_DIR="/root/.nvm"
+            source "$NVM_DIR/nvm.sh"
+
+            nvm use --lts
+
+            echo "Node:"
+            node --version
+
+            echo "NPM:"
+            npm --version
+
+            echo "NPX:"
+            npx --version
+          '
 
           # ==================================================
           # Google Chrome
           # ==================================================
 
+          echo
           echo "======================================"
           echo "Installing Google Chrome"
           echo "======================================"
@@ -254,13 +285,15 @@ jobs:
           echo "Node.js"
           echo "======================================"
 
-          source /root/.nvm/nvm.sh
+          sudo -H -u root bash -lc '
+            export NVM_DIR="/root/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            nvm use --lts
 
-          nvm use --lts
-
-          node --version
-          npm --version
-          npx --version
+            node --version
+            npm --version
+            npx --version
+          '
 
           echo
           echo "======================================"
@@ -451,7 +484,10 @@ jobs:
               # Push
               # ==================================================
 
-              token = os.environ.get("GH_TOKEN", "")
+              token = os.environ.get(
+                  "GH_TOKEN",
+                  ""
+              )
 
               repo = os.environ.get(
                   "GITHUB_REPOSITORY",
@@ -481,15 +517,19 @@ jobs:
 
 
           # ==================================================
-          # Main loop
+          # Main tunnel loop
           # ==================================================
 
-          log("=== Tunnel service started ===")
+          log(
+              "=== Tunnel service started ==="
+          )
 
 
           while time.time() < END:
 
-              log("Starting Pinggy tunnel...")
+              log(
+                  "Starting Pinggy tunnel..."
+              )
 
               try:
 
@@ -545,7 +585,7 @@ jobs:
                       )
 
                   # ==================================================
-                  # Find tunnel URL
+                  # Find public Pinggy URL
                   # ==================================================
 
                   link = None
@@ -607,7 +647,9 @@ jobs:
                               "r"
                           ) as f:
 
-                              print(f.read())
+                              print(
+                                  f.read()
+                              )
 
                       except Exception:
                           pass
