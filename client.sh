@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-HOST="onmjr-52-161-51-51.run.pinggy-free.link"
-PORT="40715"
+HOST="mskim-52-161-51-51.run.pinggy-free.link"
+PORT="39751"
 
 MODE="${1:-ssh}"
 
