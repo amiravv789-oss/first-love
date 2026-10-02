@@ -14,9 +14,9 @@ jobs:
 
     steps:
 
-      # --------------------------------------------------
+      # ==================================================
       # Checkout
-      # --------------------------------------------------
+      # ==================================================
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,17 +24,15 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           lfs: true
 
-      # --------------------------------------------------
-      # Setup system
-      # --------------------------------------------------
+      # ==================================================
+      # Setup Ubuntu
+      # ==================================================
 
       - name: Setup Ubuntu
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
-
-          echo "Updating packages..."
 
           sudo apt-get update -qq
 
@@ -57,15 +55,15 @@ jobs:
 
           git lfs install
 
-          # ------------------------------------------------
+          # ==================================================
           # Root password
-          # ------------------------------------------------
+          # ==================================================
 
           echo "root:${SSH_PASSWORD}" | sudo chpasswd
 
-          # ------------------------------------------------
-          # SSH configuration
-          # ------------------------------------------------
+          # ==================================================
+          # SSH
+          # ==================================================
 
           sudo mkdir -p /var/run/sshd
 
@@ -83,31 +81,30 @@ jobs:
             's/^#\?UsePAM .*/UsePAM yes/' \
             /etc/ssh/sshd_config
 
-          # Make sure the configuration contains these settings
           grep -q '^PermitRootLogin' /etc/ssh/sshd_config || \
             echo 'PermitRootLogin yes' | sudo tee -a /etc/ssh/sshd_config
 
           grep -q '^PasswordAuthentication' /etc/ssh/sshd_config || \
             echo 'PasswordAuthentication yes' | sudo tee -a /etc/ssh/sshd_config
 
-          # ------------------------------------------------
+          # ==================================================
           # XFCE
-          # ------------------------------------------------
+          # ==================================================
 
           echo "startxfce4" | sudo tee /root/.xsession
 
           sudo chmod 644 /root/.xsession
 
-          # ------------------------------------------------
+          # ==================================================
           # XRDP
-          # ------------------------------------------------
+          # ==================================================
 
           sudo systemctl enable xrdp || true
           sudo systemctl restart xrdp || true
 
-          # ------------------------------------------------
-          # SSH
-          # ------------------------------------------------
+          # ==================================================
+          # SSH service
+          # ==================================================
 
           sudo systemctl restart ssh || true
 
@@ -115,82 +112,118 @@ jobs:
             sudo /usr/sbin/sshd
           fi
 
-          # ------------------------------------------------
+          # ==================================================
           # Python
-          # ------------------------------------------------
+          # ==================================================
+
+          echo "======================================"
+          echo "Python"
+          echo "======================================"
 
           python3 --version
           python --version
           pip3 --version
 
-          # ------------------------------------------------
-          # Node.js - latest LTS via nvm
-          # ------------------------------------------------
+          # ==================================================
+          # Node.js / NVM
+          # ==================================================
+
+          echo "======================================"
+          echo "Installing Node.js LTS"
+          echo "======================================"
+
+          # GitHub runner may already define NVM_DIR.
+          # Remove it so NVM can be installed cleanly.
+
+          unset NVM_DIR
+
+          rm -rf /root/.nvm
 
           export NVM_DIR="/root/.nvm"
 
-          if [ ! -d "$NVM_DIR" ]; then
-            curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
-              | bash
+          curl -fsSL \
+            https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
+            | bash
+
+          export NVM_DIR="/root/.nvm"
+
+          if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+            echo "ERROR: NVM installation failed"
+            exit 1
           fi
+
+          source "$NVM_DIR/nvm.sh"
+
+          # Install latest LTS
+          nvm install --lts
+
+          # Set default
+          nvm alias default 'lts/*'
+
+          # Activate
+          nvm use --lts
+
+          # Make available for root login shells
+          cat >> /root/.bashrc <<'EOF'
 
           export NVM_DIR="/root/.nvm"
 
           if [ -s "$NVM_DIR/nvm.sh" ]; then
-            source "$NVM_DIR/nvm.sh"
+              source "$NVM_DIR/nvm.sh"
           fi
 
-          nvm install --lts
-          nvm alias default 'lts/*'
-          nvm use --lts
+          if command -v nvm >/dev/null 2>&1; then
+              nvm use --silent --lts >/dev/null 2>&1 || true
+          fi
+          EOF
 
-          # Make Node available in future root shells
-          grep -qxF 'export NVM_DIR="/root/.nvm"' /root/.bashrc || \
-            echo 'export NVM_DIR="/root/.nvm"' >> /root/.bashrc
-
-          grep -qxF '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"' /root/.bashrc || \
-            echo '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"' >> /root/.bashrc
-
-          grep -qxF 'nvm use --silent --lts >/dev/null 2>&1 || true' /root/.bashrc || \
-            echo 'nvm use --silent --lts >/dev/null 2>&1 || true' >> /root/.bashrc
-
-          echo "Node:"
+          echo "Node.js:"
           node --version
 
           echo "NPM:"
           npm --version
 
-          # ------------------------------------------------
+          echo "NPX:"
+          npx --version
+
+          # ==================================================
           # Google Chrome
-          # ------------------------------------------------
+          # ==================================================
+
+          echo "======================================"
+          echo "Installing Google Chrome"
+          echo "======================================"
 
           wget -q \
             -O /tmp/google-chrome.deb \
             https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-          sudo apt-get install -y -qq /tmp/google-chrome.deb
+          sudo apt-get install -y -qq \
+            /tmp/google-chrome.deb
 
           rm -f /tmp/google-chrome.deb
 
-          echo "Chrome:"
           google-chrome --version
 
-          # ------------------------------------------------
-          # Python pexpect
-          # ------------------------------------------------
+          # ==================================================
+          # Python packages
+          # ==================================================
 
-          python3 -m pip install --break-system-packages -q pexpect
+          python3 -m pip install \
+            --break-system-packages \
+            -q \
+            pexpect
 
-          # ------------------------------------------------
+          # ==================================================
           # Diagnostics
-          # ------------------------------------------------
+          # ==================================================
 
           echo
           echo "======================================"
           echo "SYSTEM"
           echo "======================================"
 
-          cat /etc/os-release | grep PRETTY_NAME
+          cat /etc/os-release
 
           echo
           echo "======================================"
@@ -214,14 +247,20 @@ jobs:
           echo "======================================"
 
           python --version
+          pip --version
 
           echo
           echo "======================================"
-          echo "Node"
+          echo "Node.js"
           echo "======================================"
+
+          source /root/.nvm/nvm.sh
+
+          nvm use --lts
 
           node --version
           npm --version
+          npx --version
 
           echo
           echo "======================================"
@@ -230,9 +269,9 @@ jobs:
 
           google-chrome --version
 
-      # --------------------------------------------------
+      # ==================================================
       # Prepare
-      # --------------------------------------------------
+      # ==================================================
 
       - name: Prepare
         run: |
@@ -243,9 +282,9 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      # --------------------------------------------------
-      # Create tunnel.py
-      # --------------------------------------------------
+      # ==================================================
+      # Write tunnel.py
+      # ==================================================
 
       - name: Write tunnel.py
         run: |
@@ -260,13 +299,13 @@ jobs:
           from datetime import datetime
 
 
-          # Keep the runner alive for ~340 minutes
           END = time.time() + (340 * 60)
 
           LOG = "state/ssh-history.log"
 
 
           def log(message):
+
               line = (
                   f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
                   f"{message}"
@@ -284,9 +323,9 @@ jobs:
 
               host, port = link.rsplit(":", 1)
 
-              # ------------------------------------------------
+              # ==================================================
               # Generate client.sh
-              # ------------------------------------------------
+              # ==================================================
 
               with open("client.sh", "w") as f:
 
@@ -298,9 +337,9 @@ jobs:
 
                   f.write('MODE="${1:-ssh}"\n\n')
 
-                  # ------------------------------------------------
+                  # ==================================================
                   # SSH
-                  # ------------------------------------------------
+                  # ==================================================
 
                   f.write('if [ "$MODE" = "ssh" ]; then\n')
 
@@ -314,9 +353,9 @@ jobs:
 
                   f.write("fi\n\n")
 
-                  # ------------------------------------------------
+                  # ==================================================
                   # RDP
-                  # ------------------------------------------------
+                  # ==================================================
 
                   f.write('if [ "$MODE" = "rdp" ]; then\n')
 
@@ -338,7 +377,7 @@ jobs:
 
                   f.write("    sleep 2\n\n")
 
-                  # Windows / Git Bash
+                  # Windows
                   f.write(
                       '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
                   )
@@ -389,9 +428,9 @@ jobs:
 
               os.chmod("client.sh", 0o755)
 
-              # ------------------------------------------------
+              # ==================================================
               # Commit
-              # ------------------------------------------------
+              # ==================================================
 
               subprocess.run(
                   ["git", "add", "client.sh", LOG],
@@ -408,12 +447,16 @@ jobs:
                   check=False
               )
 
-              # ------------------------------------------------
+              # ==================================================
               # Push
-              # ------------------------------------------------
+              # ==================================================
 
               token = os.environ.get("GH_TOKEN", "")
-              repo = os.environ.get("GITHUB_REPOSITORY", "")
+
+              repo = os.environ.get(
+                  "GITHUB_REPOSITORY",
+                  ""
+              )
 
               if token and repo:
 
@@ -432,14 +475,17 @@ jobs:
                       check=False
                   )
 
-              log(f"client.sh pushed: {link}")
+              log(
+                  f"client.sh pushed: {link}"
+              )
 
 
-          # --------------------------------------------------
-          # Main
-          # --------------------------------------------------
+          # ==================================================
+          # Main loop
+          # ==================================================
 
           log("=== Tunnel service started ===")
+
 
           while time.time() < END:
 
@@ -468,9 +514,9 @@ jobs:
 
                   child.logfile_read = logfile
 
-                  # ------------------------------------------------
-                  # Pinggy authentication / prompts
-                  # ------------------------------------------------
+                  # ==================================================
+                  # Handle Pinggy prompts
+                  # ==================================================
 
                   try:
 
@@ -485,10 +531,11 @@ jobs:
                       )
 
                       if idx == 0:
-                          # Pinggy free endpoint
+
                           child.sendline("")
 
                       elif idx == 1:
+
                           child.sendline("yes")
 
                   except Exception as e:
@@ -497,9 +544,9 @@ jobs:
                           f"Initial connection handling: {e}"
                       )
 
-                  # ------------------------------------------------
-                  # Wait for tcp:// URL
-                  # ------------------------------------------------
+                  # ==================================================
+                  # Find tunnel URL
+                  # ==================================================
 
                   link = None
 
@@ -513,6 +560,7 @@ jobs:
                               "tunnel-out.log",
                               "r"
                           ) as f:
+
                               output = f.read()
 
                       except Exception:
@@ -534,19 +582,23 @@ jobs:
 
                           break
 
-                  # ------------------------------------------------
-                  # Got tunnel
-                  # ------------------------------------------------
+                  # ==================================================
+                  # Tunnel found
+                  # ==================================================
 
                   if link:
 
-                      log(f"LIVE: {link}")
+                      log(
+                          f"LIVE: {link}"
+                      )
 
                       git_push(link)
 
                   else:
 
-                      log("Pinggy tunnel URL was not found.")
+                      log(
+                          "Pinggy tunnel URL was not found."
+                      )
 
                       try:
 
@@ -554,14 +606,15 @@ jobs:
                               "tunnel-out.log",
                               "r"
                           ) as f:
+
                               print(f.read())
 
                       except Exception:
                           pass
 
-                  # ------------------------------------------------
-                  # Keep alive
-                  # ------------------------------------------------
+                  # ==================================================
+                  # Keep tunnel alive
+                  # ==================================================
 
                   try:
 
@@ -573,8 +626,7 @@ jobs:
                   except pexpect.TIMEOUT:
 
                       log(
-                          "Tunnel reached 55 minute timeout. "
-                          "Restarting..."
+                          "55 minute timeout. Restarting..."
                       )
 
                       child.terminate(
@@ -604,15 +656,18 @@ jobs:
 
               time.sleep(8)
 
-          log("=== Tunnel service ended ===")
+
+          log(
+              "=== Tunnel service ended ==="
+          )
 
           PY
 
           chmod +x tunnel.py
 
-      # --------------------------------------------------
+      # ==================================================
       # Run tunnel
-      # --------------------------------------------------
+      # ==================================================
 
       - name: Run tunnel
         env:
@@ -621,9 +676,9 @@ jobs:
         run: |
           python3 tunnel.py
 
-      # --------------------------------------------------
-      # Final sync
-      # --------------------------------------------------
+      # ==================================================
+      # Final push
+      # ==================================================
 
       - name: Final push
         if: always()
@@ -640,9 +695,9 @@ jobs:
             "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
             HEAD:main || true
 
-      # --------------------------------------------------
+      # ==================================================
       # Retrigger
-      # --------------------------------------------------
+      # ==================================================
 
       - name: Retrigger
         if: always()
