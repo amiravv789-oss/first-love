@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-HOST="lrfis-128-24-163-99.run.pinggy-free.link"
-PORT="36645"
+HOST="cmlqa-128-24-163-99.run.pinggy-free.link"
+PORT="33581"
 
 MODE="${1:-ssh}"
 
