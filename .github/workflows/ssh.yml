@@ -646,8 +646,8 @@ jobs:
           RUNFLARE_PORT = "31212"
           RUNFLARE_USER = "tunnel"
 
-          RUNFLARE_PASSWORD = os.environ.get(
-              "RUNFLARE_PASSWORD",
+          SSH_PASSWORD = os.environ.get(
+              "SSH_PASSWORD",
               ""
           )
 
@@ -975,10 +975,10 @@ jobs:
 
           def run_tunnel():
 
-              if not RUNFLARE_PASSWORD:
+              if not SSH_PASSWORD:
 
                   log(
-                      "ERROR: RUNFLARE_PASSWORD secret is empty."
+                      "ERROR: SSH_PASSWORD secret is empty."
                   )
 
                   return False
@@ -1046,7 +1046,7 @@ jobs:
                       if index == 0:
 
                           child.sendline(
-                              RUNFLARE_PASSWORD
+                              SSH_PASSWORD
                           )
 
                       elif index == 1:
@@ -1301,7 +1301,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          RUNFLARE_PASSWORD: ${{ secrets.RUNFLARE_PASSWORD }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           python3 tunnel.py
 
