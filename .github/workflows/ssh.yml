@@ -1,10 +1,10 @@
-name: SSH Tunnel Host
+name: Ubuntu Desktop Remote
 
 on:
   workflow_dispatch:
 
 jobs:
-  tunnel:
+  desktop:
     runs-on: ubuntu-latest
     timeout-minutes: 350
 
@@ -15,7 +15,7 @@ jobs:
     steps:
 
       # ==================================================
-      # Checkout
+      # CHECKOUT
       # ==================================================
 
       - name: Checkout
@@ -25,44 +25,62 @@ jobs:
           lfs: true
 
       # ==================================================
-      # Setup Ubuntu
+      # INSTALL UBUNTU DESKTOP + XRDP + TOOLS
       # ==================================================
 
-      - name: Setup Ubuntu
+      - name: Install Ubuntu Desktop
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
 
+          echo "======================================"
+          echo "Updating APT"
+          echo "======================================"
+
           sudo apt-get update -qq
 
+          echo "======================================"
+          echo "Installing Ubuntu Desktop"
+          echo "======================================"
+
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            ubuntu-desktop \
+            xrdp \
+            xorgxrdp \
+            dbus-x11 \
             openssh-server \
             openssh-client \
-            xfce4 \
-            xfce4-goodies \
-            xrdp \
-            dbus-x11 \
             git-lfs \
             curl \
             wget \
             ca-certificates \
+            gnupg \
             python3 \
             python3-pip \
             python3-venv \
             python-is-python3 \
-            unzip
+            unzip \
+            software-properties-common
+
+          echo "======================================"
+          echo "Ubuntu Desktop installed"
+          echo "======================================"
+
+          # ==================================================
+          # GIT LFS
+          # ==================================================
 
           git lfs install
 
           # ==================================================
-          # Root password
+          # ROOT PASSWORD
           # ==================================================
 
           echo "root:${SSH_PASSWORD}" | sudo chpasswd
 
           # ==================================================
-          # SSH configuration
+          # SSH
           # ==================================================
 
           sudo mkdir -p /var/run/sshd
@@ -87,140 +105,139 @@ jobs:
           grep -q '^PasswordAuthentication' /etc/ssh/sshd_config || \
             echo 'PasswordAuthentication yes' | sudo tee -a /etc/ssh/sshd_config
 
-          # ==================================================
-          # XFCE
-          # ==================================================
+          # GitHub Actions runners may have this PAM module configured
+          # in a way that interferes with root SSH sessions.
 
-          echo "startxfce4" | sudo tee /root/.xsession
-
-          sudo chmod 644 /root/.xsession
+          if [ -f /etc/pam.d/sshd ]; then
+            sudo sed -i \
+              's/^\(session[[:space:]]\+required[[:space:]]\+pam_loginuid.so\)/#\1/' \
+              /etc/pam.d/sshd || true
+          fi
 
           # ==================================================
           # XRDP
           # ==================================================
 
-          sudo systemctl enable xrdp || true
-          sudo systemctl restart xrdp || true
+          echo "======================================"
+          echo "Configuring XRDP"
+          echo "======================================"
 
-          # ==================================================
-          # SSH service
-          # ==================================================
+          # Enable root XRDP login
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' \
+            /etc/xrdp/sesman.ini
 
-          sudo systemctl restart ssh || true
+          # If AllowRootLogin does not exist, add it.
+          if ! sudo grep -Eq '^[[:space:]]*AllowRootLogin=' /etc/xrdp/sesman.ini; then
+            sudo sed -i \
+              '/^\[Security\]/a AllowRootLogin=true' \
+              /etc/xrdp/sesman.ini
+          fi
 
-          if ! pgrep -x sshd >/dev/null; then
-            sudo /usr/sbin/sshd
+          # Do not require a special terminal-server group.
+          if sudo grep -Eq '^[[:space:]]*AlwaysGroupCheck=' /etc/xrdp/sesman.ini; then
+            sudo sed -i \
+              's/^[[:space:]]*AlwaysGroupCheck=.*/AlwaysGroupCheck=false/' \
+              /etc/xrdp/sesman.ini
+          else
+            sudo sed -i \
+              '/^\[Security\]/a AlwaysGroupCheck=false' \
+              /etc/xrdp/sesman.ini
           fi
 
           # ==================================================
-          # Python
+          # FORCE GNOME TO USE XORG
           # ==================================================
 
-          echo
           echo "======================================"
-          echo "Python"
-          echo "======================================"
-
-          python3 --version
-          python --version
-          pip3 --version
-
-          # ==================================================
-          # Node.js LTS
-          # ==================================================
-
-          echo
-          echo "======================================"
-          echo "Installing Node.js LTS for root"
+          echo "Configuring GNOME / Xorg"
           echo "======================================"
 
-          # The GitHub runner may have an NVM_DIR belonging
-          # to another user/environment. Do not use it.
+          sudo mkdir -p /etc/gdm3
 
-          sudo rm -rf /root/.nvm
-
-          sudo mkdir -p /root/.nvm
-
-          sudo chown -R root:root /root/.nvm
-
-          # Install NVM as root
-          sudo env \
-            HOME=/root \
-            NVM_DIR=/root/.nvm \
-            bash -c '
-              set -e
-
-              curl -fsSL \
-                https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
-                | bash
-
-              export NVM_DIR="/root/.nvm"
-
-              if [ ! -s "$NVM_DIR/nvm.sh" ]; then
-                echo "ERROR: NVM installation failed"
-                exit 1
-              fi
-
-              source "$NVM_DIR/nvm.sh"
-
-              nvm install --lts
-
-              nvm alias default "lts/*"
-
-              nvm use --lts
-
-              node --version
-              npm --version
-              npx --version
-            '
-
-          # ==================================================
-          # Root bash configuration
-          # ==================================================
-
-          sudo tee -a /root/.bashrc > /dev/null <<'EOF'
-
-          export NVM_DIR="/root/.nvm"
-
-          if [ -s "$NVM_DIR/nvm.sh" ]; then
-              source "$NVM_DIR/nvm.sh"
+          if [ -f /etc/gdm3/custom.conf ]; then
+            sudo cp \
+              /etc/gdm3/custom.conf \
+              /etc/gdm3/custom.conf.backup
           fi
 
-          if command -v nvm >/dev/null 2>&1; then
-              nvm use --silent --lts >/dev/null 2>&1 || true
+          if sudo grep -q '^\[daemon\]' /etc/gdm3/custom.conf; then
+
+            if sudo grep -q '^WaylandEnable=' /etc/gdm3/custom.conf; then
+              sudo sed -i \
+                's/^WaylandEnable=.*/WaylandEnable=false/' \
+                /etc/gdm3/custom.conf
+            else
+              sudo sed -i \
+                '/^\[daemon\]/a WaylandEnable=false' \
+                /etc/gdm3/custom.conf
+            fi
+
+          else
+
+            sudo tee /etc/gdm3/custom.conf > /dev/null <<'EOF'
+          [daemon]
+          WaylandEnable=false
+          EOF
+
+          fi
+
+          # ==================================================
+          # GNOME XRDP SESSION
+          # ==================================================
+
+          sudo tee /root/.xsession > /dev/null <<'EOF'
+          export GNOME_SHELL_SESSION_MODE=ubuntu
+          export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+          export XDG_SESSION_DESKTOP=ubuntu
+          export XDG_SESSION_TYPE=x11
+          export DESKTOP_SESSION=ubuntu
+          export GDK_BACKEND=x11
+
+          exec dbus-run-session -- gnome-session --session=ubuntu
+          EOF
+
+          sudo chmod 644 /root/.xsession
+
+          # ==================================================
+          # XRDP STARTWM
+          # ==================================================
+
+          sudo cp \
+            /etc/xrdp/startwm.sh \
+            /etc/xrdp/startwm.sh.backup
+
+          sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
+          #!/bin/sh
+
+          export LANG=C.UTF-8
+          export LANGUAGE=C.UTF-8
+          export LC_ALL=C.UTF-8
+
+          export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg/xdg-ubuntu:/etc/xdg
+          export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/usr/local/share:/usr/share
+
+          if [ -r /etc/profile ]; then
+              . /etc/profile
+          fi
+
+          if [ -r "$HOME/.profile" ]; then
+              . "$HOME/.profile"
+          fi
+
+          if [ -r "$HOME/.xsession" ]; then
+              . "$HOME/.xsession"
+          else
+              exec dbus-run-session -- gnome-session --session=ubuntu
           fi
           EOF
 
-          # ==================================================
-          # Verify Node.js as root
-          # ==================================================
-
-          echo
-          echo "======================================"
-          echo "Node.js verification"
-          echo "======================================"
-
-          sudo -H -u root bash -lc '
-            export NVM_DIR="/root/.nvm"
-            source "$NVM_DIR/nvm.sh"
-
-            nvm use --lts
-
-            echo "Node:"
-            node --version
-
-            echo "NPM:"
-            npm --version
-
-            echo "NPX:"
-            npx --version
-          '
+          sudo chmod +x /etc/xrdp/startwm.sh
 
           # ==================================================
-          # Google Chrome
+          # CHROME
           # ==================================================
 
-          echo
           echo "======================================"
           echo "Installing Google Chrome"
           echo "======================================"
@@ -237,8 +254,48 @@ jobs:
           google-chrome --version
 
           # ==================================================
-          # Python packages
+          # VS CODE
           # ==================================================
+
+          echo "======================================"
+          echo "Installing Visual Studio Code"
+          echo "======================================"
+
+          wget -qO- \
+            https://packages.microsoft.com/keys/microsoft.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
+
+          sudo chmod 644 \
+            /usr/share/keyrings/microsoft.gpg
+
+          sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null <<'EOF'
+          Types: deb
+          URIs: https://packages.microsoft.com/repos/code
+          Suites: stable
+          Components: main
+          Architectures: amd64,arm64,armhf
+          Signed-By: /usr/share/keyrings/microsoft.gpg
+          EOF
+
+          sudo apt-get update -qq
+
+          sudo DEBIAN_FRONTEND=noninteractive \
+            apt-get install -y -qq code
+
+          code --version
+
+          # ==================================================
+          # PYTHON
+          # ==================================================
+
+          echo "======================================"
+          echo "Python"
+          echo "======================================"
+
+          python3 --version
+          python --version
+          pip3 --version
 
           python3 -m pip install \
             --break-system-packages \
@@ -246,64 +303,196 @@ jobs:
             pexpect
 
           # ==================================================
-          # Diagnostics
+          # NODE.JS LTS FOR ROOT
+          # ==================================================
+
+          echo "======================================"
+          echo "Installing Node.js LTS for root"
+          echo "======================================"
+
+          sudo rm -rf /root/.nvm
+
+          sudo mkdir -p /root/.nvm
+
+          sudo chown -R root:root /root/.nvm
+
+          sudo env \
+            HOME=/root \
+            NVM_DIR=/root/.nvm \
+            bash -c '
+              set -e
+
+              curl -fsSL \
+                https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
+                | bash
+
+              export NVM_DIR="/root/.nvm"
+
+              source "$NVM_DIR/nvm.sh"
+
+              nvm install --lts
+
+              nvm alias default "lts/*"
+
+              nvm use --lts
+
+              echo "Node: $(node --version)"
+              echo "NPM:  $(npm --version)"
+              echo "NPX:  $(npx --version)"
+            '
+
+          # ==================================================
+          # ROOT BASHRC
+          # ==================================================
+
+          sudo tee -a /root/.bashrc > /dev/null <<'EOF'
+
+          export NVM_DIR="/root/.nvm"
+
+          if [ -s "$NVM_DIR/nvm.sh" ]; then
+              source "$NVM_DIR/nvm.sh"
+          fi
+
+          if command -v nvm >/dev/null 2>&1; then
+              nvm use --silent --lts >/dev/null 2>&1 || true
+          fi
+          EOF
+
+          # ==================================================
+          # CREATE DESKTOP
+          # SHORTCUTS
+          # ==================================================
+
+          echo "======================================"
+          echo "Creating Desktop shortcuts"
+          echo "======================================"
+
+          sudo mkdir -p /root/Desktop
+
+          # Chrome desktop shortcut
+          sudo cp \
+            /usr/share/applications/google-chrome.desktop \
+            /root/Desktop/google-chrome.desktop
+
+          # VS Code desktop shortcut
+          sudo cp \
+            /usr/share/applications/code.desktop \
+            /root/Desktop/code.desktop
+
+          sudo chmod +x \
+            /root/Desktop/google-chrome.desktop \
+            /root/Desktop/code.desktop
+
+          # Allow GNOME to trust the desktop files
+          sudo -H -u root dbus-run-session \
+            gio set \
+            /root/Desktop/google-chrome.desktop \
+            metadata::trusted true || true
+
+          sudo -H -u root dbus-run-session \
+            gio set \
+            /root/Desktop/code.desktop \
+            metadata::trusted true || true
+
+          # ==================================================
+          # PIN CHROME + VS CODE TO GNOME DOCK
+          # ==================================================
+
+          echo "======================================"
+          echo "Pinning applications to GNOME Dock"
+          echo "======================================"
+
+          sudo -H -u root dbus-run-session \
+            gsettings set \
+            org.gnome.shell \
+            favorite-apps \
+            "[
+              'org.gnome.Nautilus.desktop',
+              'google-chrome.desktop',
+              'code.desktop'
+            ]" || true
+
+          # ==================================================
+          # VERIFY APPLICATIONS
           # ==================================================
 
           echo
           echo "======================================"
-          echo "SYSTEM"
+          echo "APPLICATION CHECK"
           echo "======================================"
 
-          cat /etc/os-release
+          echo "Chrome:"
+          google-chrome --version
+
+          echo
+          echo "VS Code:"
+          code --version
+
+          echo
+          echo "Python:"
+          python3 --version
+
+          echo
+          echo "Node.js:"
+          sudo -H -u root bash -lc '
+            export NVM_DIR="/root/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            nvm use --lts
+            node --version
+            npm --version
+          '
+
+          # ==================================================
+          # XRDP / SSH START
+          # ==================================================
 
           echo
           echo "======================================"
-          echo "SSH"
+          echo "Starting SSH + XRDP"
+          echo "======================================"
+
+          sudo systemctl enable xrdp || true
+          sudo systemctl restart xrdp || true
+
+          sudo systemctl restart ssh || true
+
+          if ! pgrep -x sshd >/dev/null; then
+            sudo /usr/sbin/sshd
+          fi
+
+          # ==================================================
+          # DIAGNOSTICS
+          # ==================================================
+
+          echo
+          echo "======================================"
+          echo "PORTS"
           echo "======================================"
 
           sudo ss -lntp | grep ':22' || true
 
+          sudo ss -lntp | grep ':3389' || true
+
           echo
           echo "======================================"
-          echo "XRDP"
+          echo "XRDP STATUS"
           echo "======================================"
-
-          sudo ss -lntp | grep ':3389' || true
 
           sudo systemctl --no-pager status xrdp || true
 
           echo
           echo "======================================"
-          echo "Python"
+          echo "DESKTOP"
           echo "======================================"
 
-          python --version
-          pip --version
-
-          echo
-          echo "======================================"
-          echo "Node.js"
-          echo "======================================"
-
-          sudo -H -u root bash -lc '
-            export NVM_DIR="/root/.nvm"
-            source "$NVM_DIR/nvm.sh"
-            nvm use --lts
-
-            node --version
-            npm --version
-            npx --version
-          '
-
-          echo
-          echo "======================================"
-          echo "Chrome"
-          echo "======================================"
-
-          google-chrome --version
+          echo "Ubuntu Desktop installed."
+          echo "GNOME session configured."
+          echo "Chrome installed."
+          echo "VS Code installed."
+          echo "Chrome + VS Code pinned to GNOME Dock."
 
       # ==================================================
-      # Prepare
+      # PREPARE
       # ==================================================
 
       - name: Prepare
@@ -316,7 +505,7 @@ jobs:
           git config user.email "github-actions@github.com"
 
       # ==================================================
-      # Write tunnel.py
+      # WRITE TUNNEL.PY
       # ==================================================
 
       - name: Write tunnel.py
@@ -357,7 +546,7 @@ jobs:
               host, port = link.rsplit(":", 1)
 
               # ==================================================
-              # Generate client.sh
+              # CREATE CLIENT.SH
               # ==================================================
 
               with open("client.sh", "w") as f:
@@ -371,7 +560,7 @@ jobs:
                   f.write('MODE="${1:-ssh}"\n\n')
 
                   # ==================================================
-                  # SSH
+                  # SSH MODE
                   # ==================================================
 
                   f.write('if [ "$MODE" = "ssh" ]; then\n')
@@ -380,6 +569,8 @@ jobs:
                       '    exec ssh '
                       '-o StrictHostKeyChecking=no '
                       '-o UserKnownHostsFile=/dev/null '
+                      '-o ServerAliveInterval=30 '
+                      '-o ServerAliveCountMax=3 '
                       '-p "$PORT" '
                       'root@"$HOST"\n'
                   )
@@ -387,7 +578,7 @@ jobs:
                   f.write("fi\n\n")
 
                   # ==================================================
-                  # RDP
+                  # RDP MODE
                   # ==================================================
 
                   f.write('if [ "$MODE" = "rdp" ]; then\n')
@@ -396,6 +587,8 @@ jobs:
                       '    ssh '
                       '-o StrictHostKeyChecking=no '
                       '-o UserKnownHostsFile=/dev/null '
+                      '-o ServerAliveInterval=30 '
+                      '-o ServerAliveCountMax=3 '
                       '-N '
                       '-L 3389:127.0.0.1:3389 '
                       '-p "$PORT" '
@@ -410,7 +603,10 @@ jobs:
 
                   f.write("    sleep 2\n\n")
 
-                  # Windows
+                  # ==================================================
+                  # WINDOWS
+                  # ==================================================
+
                   f.write(
                       '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
                   )
@@ -419,23 +615,33 @@ jobs:
                       '        mstsc.exe /v:127.0.0.1:3389\n'
                   )
 
+                  # Keep SSH forwarding alive.
+                  f.write("        wait $TUNNEL_PID || true\n")
+
                   f.write("        exit 0\n")
                   f.write("    fi\n\n")
 
-                  # Linux
+                  # ==================================================
+                  # LINUX
+                  # ==================================================
+
                   f.write(
                       '    if command -v xfreerdp >/dev/null 2>&1; then\n'
                   )
 
                   f.write(
-                      '        exec xfreerdp '
+                      '        xfreerdp '
                       '/v:127.0.0.1:3389 '
                       '/u:root\n'
                   )
 
+                  f.write("        exit 0\n")
                   f.write("    fi\n\n")
 
-                  # macOS
+                  # ==================================================
+                  # MACOS
+                  # ==================================================
+
                   f.write(
                       '    if command -v open >/dev/null 2>&1; then\n'
                   )
@@ -445,7 +651,8 @@ jobs:
                       '"rdp://full%20address=s:127.0.0.1:3389"\n'
                   )
 
-                  f.write("        wait\n")
+                  f.write("        wait $TUNNEL_PID || true\n")
+
                   f.write("        exit 0\n")
                   f.write("    fi\n\n")
 
@@ -459,14 +666,22 @@ jobs:
 
                   f.write("exit 1\n")
 
-              os.chmod("client.sh", 0o755)
+              os.chmod(
+                  "client.sh",
+                  0o755
+              )
 
               # ==================================================
-              # Commit
+              # COMMIT
               # ==================================================
 
               subprocess.run(
-                  ["git", "add", "client.sh", LOG],
+                  [
+                      "git",
+                      "add",
+                      "client.sh",
+                      LOG
+                  ],
                   check=False
               )
 
@@ -481,7 +696,7 @@ jobs:
               )
 
               # ==================================================
-              # Push
+              # PUSH
               # ==================================================
 
               token = os.environ.get(
@@ -517,7 +732,7 @@ jobs:
 
 
           # ==================================================
-          # Main tunnel loop
+          # MAIN TUNNEL LOOP
           # ==================================================
 
           log(
@@ -555,7 +770,7 @@ jobs:
                   child.logfile_read = logfile
 
                   # ==================================================
-                  # Handle Pinggy prompts
+                  # PINGGY PROMPTS
                   # ==================================================
 
                   try:
@@ -571,11 +786,9 @@ jobs:
                       )
 
                       if idx == 0:
-
                           child.sendline("")
 
                       elif idx == 1:
-
                           child.sendline("yes")
 
                   except Exception as e:
@@ -585,7 +798,7 @@ jobs:
                       )
 
                   # ==================================================
-                  # Find public Pinggy URL
+                  # FIND PINGGY URL
                   # ==================================================
 
                   link = None
@@ -623,7 +836,7 @@ jobs:
                           break
 
                   # ==================================================
-                  # Tunnel found
+                  # TUNNEL FOUND
                   # ==================================================
 
                   if link:
@@ -655,7 +868,7 @@ jobs:
                           pass
 
                   # ==================================================
-                  # Keep tunnel alive
+                  # KEEP TUNNEL ALIVE
                   # ==================================================
 
                   try:
@@ -708,7 +921,7 @@ jobs:
           chmod +x tunnel.py
 
       # ==================================================
-      # Run tunnel
+      # RUN TUNNEL
       # ==================================================
 
       - name: Run tunnel
@@ -719,7 +932,7 @@ jobs:
           python3 tunnel.py
 
       # ==================================================
-      # Final push
+      # FINAL PUSH
       # ==================================================
 
       - name: Final push
@@ -738,7 +951,7 @@ jobs:
             HEAD:main || true
 
       # ==================================================
-      # Retrigger
+      # RETRIGGER
       # ==================================================
 
       - name: Retrigger
