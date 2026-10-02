@@ -25,7 +25,7 @@ jobs:
           lfs: true
 
       # ==================================================
-      # INSTALL UBUNTU DESKTOP + XRDP + TOOLS
+      # INSTALL UBUNTU DESKTOP
       # ==================================================
 
       - name: Install Ubuntu Desktop
@@ -33,6 +33,8 @@ jobs:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
+
+          export TERM=xterm-256color
 
           echo "======================================"
           echo "Updating APT"
@@ -61,15 +63,9 @@ jobs:
             python3-venv \
             python-is-python3 \
             unzip \
-            software-properties-common
-
-          echo "======================================"
-          echo "Ubuntu Desktop installed"
-          echo "======================================"
-
-          # ==================================================
-          # GIT LFS
-          # ==================================================
+            software-properties-common \
+            desktop-file-utils \
+            xdg-utils
 
           git lfs install
 
@@ -105,15 +101,6 @@ jobs:
           grep -q '^PasswordAuthentication' /etc/ssh/sshd_config || \
             echo 'PasswordAuthentication yes' | sudo tee -a /etc/ssh/sshd_config
 
-          # GitHub Actions runners may have this PAM module configured
-          # in a way that interferes with root SSH sessions.
-
-          if [ -f /etc/pam.d/sshd ]; then
-            sudo sed -i \
-              's/^\(session[[:space:]]\+required[[:space:]]\+pam_loginuid.so\)/#\1/' \
-              /etc/pam.d/sshd || true
-          fi
-
           # ==================================================
           # XRDP
           # ==================================================
@@ -122,31 +109,28 @@ jobs:
           echo "Configuring XRDP"
           echo "======================================"
 
-          # Enable root XRDP login
           sudo sed -i \
             's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' \
             /etc/xrdp/sesman.ini
 
-          # If AllowRootLogin does not exist, add it.
           if ! sudo grep -Eq '^[[:space:]]*AllowRootLogin=' /etc/xrdp/sesman.ini; then
             sudo sed -i \
               '/^\[Security\]/a AllowRootLogin=true' \
               /etc/xrdp/sesman.ini
           fi
 
-          # Do not require a special terminal-server group.
-          if sudo grep -Eq '^[[:space:]]*AlwaysGroupCheck=' /etc/xrdp/sesman.ini; then
-            sudo sed -i \
-              's/^[[:space:]]*AlwaysGroupCheck=.*/AlwaysGroupCheck=false/' \
-              /etc/xrdp/sesman.ini
-          else
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*AlwaysGroupCheck=.*/AlwaysGroupCheck=false/' \
+            /etc/xrdp/sesman.ini
+
+          if ! sudo grep -Eq '^[[:space:]]*AlwaysGroupCheck=' /etc/xrdp/sesman.ini; then
             sudo sed -i \
               '/^\[Security\]/a AlwaysGroupCheck=false' \
               /etc/xrdp/sesman.ini
           fi
 
           # ==================================================
-          # FORCE GNOME TO USE XORG
+          # GNOME / XORG
           # ==================================================
 
           echo "======================================"
@@ -183,7 +167,7 @@ jobs:
           fi
 
           # ==================================================
-          # GNOME XRDP SESSION
+          # ROOT GNOME SESSION
           # ==================================================
 
           sudo tee /root/.xsession > /dev/null <<'EOF'
@@ -214,7 +198,7 @@ jobs:
           export LANGUAGE=C.UTF-8
           export LC_ALL=C.UTF-8
 
-          export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg/xdg-ubuntu:/etc/xdg
+          export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg:/etc/xdg/xdg-gnome
           export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/usr/local/share:/usr/share
 
           if [ -r /etc/profile ]; then
@@ -235,7 +219,7 @@ jobs:
           sudo chmod +x /etc/xrdp/startwm.sh
 
           # ==================================================
-          # CHROME
+          # GOOGLE CHROME
           # ==================================================
 
           echo "======================================"
@@ -251,10 +235,11 @@ jobs:
 
           rm -f /tmp/google-chrome.deb
 
+          echo "Chrome:"
           google-chrome --version
 
           # ==================================================
-          # VS CODE
+          # VISUAL STUDIO CODE
           # ==================================================
 
           echo "======================================"
@@ -283,6 +268,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive \
             apt-get install -y -qq code
 
+          echo "VS Code:"
           code --version
 
           # ==================================================
@@ -303,11 +289,11 @@ jobs:
             pexpect
 
           # ==================================================
-          # NODE.JS LTS FOR ROOT
+          # NODE.JS LTS
           # ==================================================
 
           echo "======================================"
-          echo "Installing Node.js LTS for root"
+          echo "Installing Node.js LTS"
           echo "======================================"
 
           sudo rm -rf /root/.nvm
@@ -319,6 +305,7 @@ jobs:
           sudo env \
             HOME=/root \
             NVM_DIR=/root/.nvm \
+            TERM=xterm-256color \
             bash -c '
               set -e
 
@@ -359,57 +346,164 @@ jobs:
           EOF
 
           # ==================================================
-          # CREATE DESKTOP
-          # SHORTCUTS
+          # FIND DESKTOP FILES
           # ==================================================
 
           echo "======================================"
-          echo "Creating Desktop shortcuts"
+          echo "Finding Desktop Entries"
+          echo "======================================"
+
+          CHROME_DESKTOP=""
+
+          for f in \
+            /usr/share/applications/google-chrome.desktop \
+            /usr/share/applications/google-chrome-stable.desktop \
+            /usr/local/share/applications/google-chrome.desktop \
+            /root/.local/share/applications/google-chrome.desktop
+          do
+            if [ -f "$f" ]; then
+              CHROME_DESKTOP="$f"
+              break
+            fi
+          done
+
+          if [ -z "$CHROME_DESKTOP" ]; then
+            CHROME_DESKTOP="$(find /usr/share/applications \
+              /usr/local/share/applications \
+              -type f \
+              \( -iname '*chrome*.desktop' -o -iname '*google*chrome*.desktop' \) \
+              2>/dev/null | head -n 1 || true)"
+          fi
+
+          CODE_DESKTOP=""
+
+          for f in \
+            /usr/share/applications/code.desktop \
+            /usr/share/applications/visual-studio-code.desktop \
+            /usr/local/share/applications/code.desktop \
+            /root/.local/share/applications/code.desktop
+          do
+            if [ -f "$f" ]; then
+              CODE_DESKTOP="$f"
+              break
+            fi
+          done
+
+          if [ -z "$CODE_DESKTOP" ]; then
+            CODE_DESKTOP="$(find /usr/share/applications \
+              /usr/local/share/applications \
+              -type f \
+              \( -iname 'code.desktop' -o -iname '*visual*studio*code*.desktop' \) \
+              2>/dev/null | head -n 1 || true)"
+          fi
+
+          echo "Chrome desktop file:"
+          echo "${CHROME_DESKTOP:-NOT FOUND}"
+
+          echo "VS Code desktop file:"
+          echo "${CODE_DESKTOP:-NOT FOUND}"
+
+          # ==================================================
+          # CREATE ROOT DESKTOP
+          # ==================================================
+
+          echo "======================================"
+          echo "Creating Desktop Shortcuts"
           echo "======================================"
 
           sudo mkdir -p /root/Desktop
 
-          # Chrome desktop shortcut
-          sudo cp \
-            /usr/share/applications/google-chrome.desktop \
-            /root/Desktop/google-chrome.desktop
+          if [ -n "$CHROME_DESKTOP" ] && [ -f "$CHROME_DESKTOP" ]; then
 
-          # VS Code desktop shortcut
-          sudo cp \
-            /usr/share/applications/code.desktop \
-            /root/Desktop/code.desktop
+            sudo cp \
+              "$CHROME_DESKTOP" \
+              /root/Desktop/google-chrome.desktop
 
-          sudo chmod +x \
-            /root/Desktop/google-chrome.desktop \
-            /root/Desktop/code.desktop
+            sudo chmod +x \
+              /root/Desktop/google-chrome.desktop
 
-          # Allow GNOME to trust the desktop files
-          sudo -H -u root dbus-run-session \
+          else
+
+            sudo tee /root/Desktop/google-chrome.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Google Chrome
+          Comment=Web Browser
+          Exec=/usr/bin/google-chrome-stable %U
+          Icon=google-chrome
+          Terminal=false
+          Categories=Network;WebBrowser;
+          EOF
+
+            sudo chmod +x \
+              /root/Desktop/google-chrome.desktop
+
+          fi
+
+          if [ -n "$CODE_DESKTOP" ] && [ -f "$CODE_DESKTOP" ]; then
+
+            sudo cp \
+              "$CODE_DESKTOP" \
+              /root/Desktop/code.desktop
+
+            sudo chmod +x \
+              /root/Desktop/code.desktop
+
+          else
+
+            sudo tee /root/Desktop/code.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Visual Studio Code
+          Comment=Code Editing
+          Exec=/usr/bin/code --unity-launch %F
+          Icon=com.visualstudio.code
+          Terminal=false
+          Categories=Development;IDE;
+          StartupNotify=true
+          EOF
+
+            sudo chmod +x \
+              /root/Desktop/code.desktop
+
+          fi
+
+          # ==================================================
+          # TRUST DESKTOP FILES
+          # ==================================================
+
+          sudo -H -u root \
+            dbus-run-session \
             gio set \
             /root/Desktop/google-chrome.desktop \
             metadata::trusted true || true
 
-          sudo -H -u root dbus-run-session \
+          sudo -H -u root \
+            dbus-run-session \
             gio set \
             /root/Desktop/code.desktop \
             metadata::trusted true || true
 
           # ==================================================
-          # PIN CHROME + VS CODE TO GNOME DOCK
+          # GNOME DOCK
           # ==================================================
 
           echo "======================================"
-          echo "Pinning applications to GNOME Dock"
+          echo "Configuring GNOME Dock"
           echo "======================================"
 
-          sudo -H -u root dbus-run-session \
+          sudo -H -u root \
+            dbus-run-session \
             gsettings set \
             org.gnome.shell \
             favorite-apps \
             "[
               'org.gnome.Nautilus.desktop',
               'google-chrome.desktop',
-              'code.desktop'
+              'code.desktop',
+              'org.gnome.Terminal.desktop'
             ]" || true
 
           # ==================================================
@@ -434,16 +528,22 @@ jobs:
 
           echo
           echo "Node.js:"
+
           sudo -H -u root bash -lc '
+            export TERM=xterm-256color
             export NVM_DIR="/root/.nvm"
+
             source "$NVM_DIR/nvm.sh"
+
             nvm use --lts
+
             node --version
             npm --version
+            npx --version
           '
 
           # ==================================================
-          # XRDP / SSH START
+          # XRDP + SSH
           # ==================================================
 
           echo
@@ -461,7 +561,7 @@ jobs:
           fi
 
           # ==================================================
-          # DIAGNOSTICS
+          # PORT CHECK
           # ==================================================
 
           echo
@@ -470,8 +570,11 @@ jobs:
           echo "======================================"
 
           sudo ss -lntp | grep ':22' || true
-
           sudo ss -lntp | grep ':3389' || true
+
+          # ==================================================
+          # XRDP STATUS
+          # ==================================================
 
           echo
           echo "======================================"
@@ -482,14 +585,8 @@ jobs:
 
           echo
           echo "======================================"
-          echo "DESKTOP"
+          echo "UBUNTU DESKTOP READY"
           echo "======================================"
-
-          echo "Ubuntu Desktop installed."
-          echo "GNOME session configured."
-          echo "Chrome installed."
-          echo "VS Code installed."
-          echo "Chrome + VS Code pinned to GNOME Dock."
 
       # ==================================================
       # PREPARE
@@ -560,7 +657,7 @@ jobs:
                   f.write('MODE="${1:-ssh}"\n\n')
 
                   # ==================================================
-                  # SSH MODE
+                  # SSH
                   # ==================================================
 
                   f.write('if [ "$MODE" = "ssh" ]; then\n')
@@ -578,7 +675,7 @@ jobs:
                   f.write("fi\n\n")
 
                   # ==================================================
-                  # RDP MODE
+                  # RDP
                   # ==================================================
 
                   f.write('if [ "$MODE" = "rdp" ]; then\n')
@@ -603,10 +700,7 @@ jobs:
 
                   f.write("    sleep 2\n\n")
 
-                  # ==================================================
-                  # WINDOWS
-                  # ==================================================
-
+                  # Windows
                   f.write(
                       '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
                   )
@@ -615,16 +709,14 @@ jobs:
                       '        mstsc.exe /v:127.0.0.1:3389\n'
                   )
 
-                  # Keep SSH forwarding alive.
-                  f.write("        wait $TUNNEL_PID || true\n")
+                  f.write(
+                      '        wait $TUNNEL_PID || true\n'
+                  )
 
                   f.write("        exit 0\n")
                   f.write("    fi\n\n")
 
-                  # ==================================================
-                  # LINUX
-                  # ==================================================
-
+                  # Linux
                   f.write(
                       '    if command -v xfreerdp >/dev/null 2>&1; then\n'
                   )
@@ -638,10 +730,7 @@ jobs:
                   f.write("        exit 0\n")
                   f.write("    fi\n\n")
 
-                  # ==================================================
-                  # MACOS
-                  # ==================================================
-
+                  # macOS
                   f.write(
                       '    if command -v open >/dev/null 2>&1; then\n'
                   )
@@ -651,7 +740,9 @@ jobs:
                       '"rdp://full%20address=s:127.0.0.1:3389"\n'
                   )
 
-                  f.write("        wait $TUNNEL_PID || true\n")
+                  f.write(
+                      '        wait $TUNNEL_PID || true\n'
+                  )
 
                   f.write("        exit 0\n")
                   f.write("    fi\n\n")
@@ -732,7 +823,7 @@ jobs:
 
 
           # ==================================================
-          # MAIN TUNNEL LOOP
+          # MAIN LOOP
           # ==================================================
 
           log(
@@ -798,7 +889,7 @@ jobs:
                       )
 
                   # ==================================================
-                  # FIND PINGGY URL
+                  # FIND PUBLIC URL
                   # ==================================================
 
                   link = None
