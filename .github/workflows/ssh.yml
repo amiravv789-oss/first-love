@@ -33,7 +33,7 @@ jobs:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
-
+          
           export TERM=xterm-256color
 
           echo "======================================"
@@ -130,6 +130,48 @@ jobs:
           fi
 
           # ==================================================
+          # XRDP PERFORMANCE
+          # ==================================================
+
+          echo "======================================"
+          echo "Configuring XRDP Performance"
+          echo "======================================"
+
+          sudo cp \
+            /etc/xrdp/xrdp.ini \
+            /etc/xrdp/xrdp.ini.backup
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq '^[[:space:]]*tcp_nodelay=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i \
+              '/^\[Globals\]/a tcp_nodelay=true' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq '^[[:space:]]*use_fastpath=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i \
+              '/^\[Globals\]/a use_fastpath=both' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*crypt_level=.*/crypt_level=high/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq '^[[:space:]]*crypt_level=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i \
+              '/^\[Globals\]/a crypt_level=high' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          # ==================================================
           # GNOME / XORG
           # ==================================================
 
@@ -167,6 +209,35 @@ jobs:
           fi
 
           # ==================================================
+          # GNOME RDP PERFORMANCE
+          # ==================================================
+
+          echo "======================================"
+          echo "Optimizing GNOME"
+          echo "======================================"
+
+          sudo -H -u root \
+            dbus-run-session \
+            gsettings set \
+            org.gnome.desktop.interface \
+            enable-animations \
+            false || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            gsettings set \
+            org.gnome.desktop.interface \
+            enable-hot-corners \
+            false || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            gsettings set \
+            org.gnome.desktop.interface \
+            clock-show-seconds \
+            false || true
+
+          # ==================================================
           # ROOT GNOME SESSION
           # ==================================================
 
@@ -177,6 +248,9 @@ jobs:
           export XDG_SESSION_TYPE=x11
           export DESKTOP_SESSION=ubuntu
           export GDK_BACKEND=x11
+
+          export LIBGL_ALWAYS_SOFTWARE=1
+          export GSK_RENDERER=cairo
 
           exec dbus-run-session -- gnome-session --session=ubuntu
           EOF
@@ -200,6 +274,10 @@ jobs:
 
           export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg:/etc/xdg/xdg-gnome
           export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/share/gnome:/usr/local/share:/usr/share
+
+          export GDK_BACKEND=x11
+          export LIBGL_ALWAYS_SOFTWARE=1
+          export GSK_RENDERER=cairo
 
           if [ -r /etc/profile ]; then
               . /etc/profile
@@ -570,6 +648,7 @@ jobs:
           sudo systemctl enable xrdp || true
           sudo systemctl restart xrdp || true
 
+          sudo systemctl enable ssh || true
           sudo systemctl restart ssh || true
 
           if ! pgrep -x sshd >/dev/null; then
@@ -638,13 +717,15 @@ jobs:
           # CONFIGURATION
           # ==================================================
 
-          END = time.time() + (340 * 60)
 
           LOG = "state/ssh-history.log"
 
           RUNFLARE_HOST = "remote-respina-free.runflare.com"
           RUNFLARE_PORT = "31212"
           RUNFLARE_USER = "tunnel"
+
+          RDP_HOST = "remote-respina-free.runflare.com"
+          RDP_PORT = "31994"
 
           SSH_PASSWORD = os.environ.get(
               "SSH_PASSWORD",
@@ -702,7 +783,15 @@ jobs:
                   )
 
                   file.write(
-                      f'PORT="{port}"\n\n'
+                      f'PORT="{port}"\n'
+                  )
+
+                  file.write(
+                      f'RDP_HOST="{RDP_HOST}"\n'
+                  )
+
+                  file.write(
+                      f'RDP_PORT="{RDP_PORT}"\n\n'
                   )
 
                   file.write(
@@ -740,38 +829,12 @@ jobs:
                   )
 
                   file.write(
-                      '    ssh '
-                      '-o StrictHostKeyChecking=no '
-                      '-o UserKnownHostsFile=/dev/null '
-                      '-o ServerAliveInterval=30 '
-                      '-o ServerAliveCountMax=3 '
-                      '-N '
-                      '-L 3389:127.0.0.1:3389 '
-                      '-p "$PORT" '
-                      'root@"$HOST" &\n'
-                  )
-
-                  file.write(
-                      '    TUNNEL_PID=$!\n\n'
-                  )
-
-                  file.write(
-                      '    trap "kill $TUNNEL_PID '
-                      '2>/dev/null || true" EXIT\n'
-                  )
-
-                  file.write(
-                      "    sleep 2\n\n"
-                  )
-
-                  # Linux
-                  file.write(
                       '    if command -v xfreerdp >/dev/null 2>&1; then\n'
                   )
 
                   file.write(
                       '        xfreerdp '
-                      '/v:127.0.0.1:3389 '
+                      '/v:"$RDP_HOST:$RDP_PORT" '
                       '/u:root\n'
                   )
 
@@ -986,7 +1049,7 @@ jobs:
               log(
                   "Starting Runflare reverse SSH tunnel..."
               )
-
+              
               command = (
                   "ssh "
                   "-p 31212 "
@@ -995,8 +1058,10 @@ jobs:
                   "-o ServerAliveInterval=30 "
                   "-o ServerAliveCountMax=3 "
                   "-o ConnectTimeout=30 "
+                  "-o ExitOnForwardFailure=yes "
                   "-N "
                   "-R 2222:localhost:22 "
+                  "-R 13389:localhost:3389 "
                   "tunnel@remote-respina-free.runflare.com"
               )
 
@@ -1187,45 +1252,29 @@ jobs:
                   # Keep tunnel alive
                   # ------------------------------------------
 
-                  if child.isalive():
-
-                      remaining = max(
-                          1,
-                          int(END - time.time())
-                      )
+                  while child.isalive():
 
                       try:
 
                           child.expect(
                               pexpect.EOF,
-                              timeout=remaining
+                              timeout=60
                           )
 
                       except pexpect.TIMEOUT:
 
-                          log(
-                              "Workflow lifetime reached."
-                          )
-
-                          try:
-                              child.terminate(
-                                  force=True
-                              )
-                          except Exception:
-                              pass
+                          continue
 
                       except Exception as error:
 
                           log(
-                              f"Tunnel ended: {error}"
+                              f"Tunnel monitor error: {error}"
                           )
 
-                  return True
-
-              except Exception as error:
+                          break
 
                   log(
-                      f"Runflare tunnel error: {error}"
+                      "Runflare tunnel disconnected."
                   )
 
                   return False
@@ -1258,31 +1307,18 @@ jobs:
           log(
               "=== Runflare tunnel service started ==="
           )
-
-          while time.time() < END:
+          while True:
 
               success = run_tunnel()
 
-              if time.time() >= END:
-                  break
-
-              if success:
-
-                  log(
-                      "Runflare tunnel disconnected."
-                  )
-
-              else:
-
-                  log(
-                      "Runflare tunnel failed."
-                  )
+              log(
+                  "Runflare tunnel disconnected."
+              )
 
               log(
                   "Restarting Runflare tunnel..."
               )
 
-              # No intentional long delay.
               time.sleep(1)
 
 
