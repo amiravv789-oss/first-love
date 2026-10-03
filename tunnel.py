@@ -12,13 +12,15 @@ from datetime import datetime
 # CONFIGURATION
 # ==================================================
 
-END = time.time() + (340 * 60)
 
 LOG = "state/ssh-history.log"
 
 RUNFLARE_HOST = "remote-respina-free.runflare.com"
 RUNFLARE_PORT = "31212"
 RUNFLARE_USER = "tunnel"
+
+RDP_HOST = "remote-respina-free.runflare.com"
+RDP_PORT = "31994"
 
 SSH_PASSWORD = os.environ.get(
     "SSH_PASSWORD",
@@ -76,7 +78,15 @@ def create_client(host, port):
         )
 
         file.write(
-            f'PORT="{port}"\n\n'
+            f'PORT="{port}"\n'
+        )
+
+        file.write(
+            f'RDP_HOST="{RDP_HOST}"\n'
+        )
+
+        file.write(
+            f'RDP_PORT="{RDP_PORT}"\n\n'
         )
 
         file.write(
@@ -114,38 +124,12 @@ def create_client(host, port):
         )
 
         file.write(
-            '    ssh '
-            '-o StrictHostKeyChecking=no '
-            '-o UserKnownHostsFile=/dev/null '
-            '-o ServerAliveInterval=30 '
-            '-o ServerAliveCountMax=3 '
-            '-N '
-            '-L 3389:127.0.0.1:3389 '
-            '-p "$PORT" '
-            'root@"$HOST" &\n'
-        )
-
-        file.write(
-            '    TUNNEL_PID=$!\n\n'
-        )
-
-        file.write(
-            '    trap "kill $TUNNEL_PID '
-            '2>/dev/null || true" EXIT\n'
-        )
-
-        file.write(
-            "    sleep 2\n\n"
-        )
-
-        # Linux
-        file.write(
             '    if command -v xfreerdp >/dev/null 2>&1; then\n'
         )
 
         file.write(
             '        xfreerdp '
-            '/v:127.0.0.1:3389 '
+            '/v:"$RDP_HOST:$RDP_PORT" '
             '/u:root\n'
         )
 
@@ -360,7 +344,7 @@ def run_tunnel():
     log(
         "Starting Runflare reverse SSH tunnel..."
     )
-
+    
     command = (
         "ssh "
         "-p 31212 "
@@ -369,8 +353,10 @@ def run_tunnel():
         "-o ServerAliveInterval=30 "
         "-o ServerAliveCountMax=3 "
         "-o ConnectTimeout=30 "
+        "-o ExitOnForwardFailure=yes "
         "-N "
         "-R 2222:localhost:22 "
+        "-R 13389:localhost:3389 "
         "tunnel@remote-respina-free.runflare.com"
     )
 
@@ -561,45 +547,29 @@ def run_tunnel():
         # Keep tunnel alive
         # ------------------------------------------
 
-        if child.isalive():
-
-            remaining = max(
-                1,
-                int(END - time.time())
-            )
+        while child.isalive():
 
             try:
 
                 child.expect(
                     pexpect.EOF,
-                    timeout=remaining
+                    timeout=60
                 )
 
             except pexpect.TIMEOUT:
 
-                log(
-                    "Workflow lifetime reached."
-                )
-
-                try:
-                    child.terminate(
-                        force=True
-                    )
-                except Exception:
-                    pass
+                continue
 
             except Exception as error:
 
                 log(
-                    f"Tunnel ended: {error}"
+                    f"Tunnel monitor error: {error}"
                 )
 
-        return True
-
-    except Exception as error:
+                break
 
         log(
-            f"Runflare tunnel error: {error}"
+            "Runflare tunnel disconnected."
         )
 
         return False
@@ -632,31 +602,18 @@ def run_tunnel():
 log(
     "=== Runflare tunnel service started ==="
 )
-
-while time.time() < END:
+while True:
 
     success = run_tunnel()
 
-    if time.time() >= END:
-        break
-
-    if success:
-
-        log(
-            "Runflare tunnel disconnected."
-        )
-
-    else:
-
-        log(
-            "Runflare tunnel failed."
-        )
+    log(
+        "Runflare tunnel disconnected."
+    )
 
     log(
         "Restarting Runflare tunnel..."
     )
 
-    # No intentional long delay.
     time.sleep(1)
 
 
