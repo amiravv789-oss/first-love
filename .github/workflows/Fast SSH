@@ -1,0 +1,1033 @@
+name: Fast Ubuntu Remote Desktop
+
+on:
+  workflow_dispatch:
+
+jobs:
+  desktop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+
+      # ============================================================
+      # CHECKOUT
+      # ============================================================
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          lfs: true
+
+      # ============================================================
+      # INSTALL LIGHTWEIGHT DESKTOP + XRDP
+      # ============================================================
+
+      - name: Install XFCE + XRDP
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+        run: |
+          set -e
+
+          export DEBIAN_FRONTEND=noninteractive
+          export DEBCONF_NONINTERACTIVE_SEEN=true
+
+          echo "=========================================="
+          echo "Updating system"
+          echo "=========================================="
+
+          sudo apt-get update -qq
+          sudo apt-get upgrade -y -qq
+
+          echo "=========================================="
+          echo "Installing lightweight desktop"
+          echo "=========================================="
+
+          sudo apt-get install -y -qq \
+            xfce4 \
+            xfce4-goodies \
+            xrdp \
+            xorgxrdp \
+            dbus-x11 \
+            dbus-user-session \
+            openssh-server \
+            openssh-client \
+            git \
+            git-lfs \
+            curl \
+            wget \
+            ca-certificates \
+            gnupg \
+            unzip \
+            zip \
+            p7zip-full \
+            build-essential \
+            software-properties-common \
+            python3 \
+            python3-pip \
+            python3-venv \
+            python-is-python3 \
+            pipx \
+            xdg-utils \
+            desktop-file-utils \
+            snapd \
+            htop \
+            nano \
+            vim \
+            net-tools \
+            iproute2 \
+            procps \
+            psmisc \
+            lsof
+
+          git lfs install
+
+          echo "=========================================="
+          echo "Installing Firefox"
+          echo "=========================================="
+
+          sudo apt-get install -y firefox || true
+
+          echo "=========================================="
+          echo "Installing Google Chrome"
+          echo "=========================================="
+
+          wget -q \
+            -O /tmp/google-chrome.deb \
+            https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+          sudo apt-get install -y /tmp/google-chrome.deb
+
+          rm -f /tmp/google-chrome.deb
+
+          echo "=========================================="
+          echo "Installing Visual Studio Code"
+          echo "=========================================="
+
+          wget -qO- \
+            https://packages.microsoft.com/keys/microsoft.asc \
+            | gpg --dearmor \
+            | sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
+
+          sudo chmod 644 /usr/share/keyrings/microsoft.gpg
+
+          sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null <<'EOF'
+          Types: deb
+          URIs: https://packages.microsoft.com/repos/code
+          Suites: stable
+          Components: main
+          Architectures: amd64,arm64,armhf
+          Signed-By: /usr/share/keyrings/microsoft.gpg
+          EOF
+
+          sudo apt-get update -qq
+
+          sudo apt-get install -y -qq code
+
+          echo "=========================================="
+          echo "Application versions"
+          echo "=========================================="
+
+          echo "Firefox:"
+          firefox --version || true
+
+          echo "Chrome:"
+          google-chrome --version || true
+
+          echo "VS Code:"
+          code --version || true
+
+          echo "Python:"
+          python3 --version
+
+          echo "PIP:"
+          pip3 --version
+
+      # ============================================================
+      # PYTHON
+      # ============================================================
+
+      - name: Configure Python
+        run: |
+          set -e
+
+          python3 -m pip install \
+            --break-system-packages \
+            -q \
+            pexpect
+
+          python3 -m pip install \
+            --break-system-packages \
+            -q \
+            requests \
+            flask \
+            numpy \
+            pandas
+
+      # ============================================================
+      # NODE.JS
+      # ============================================================
+
+      - name: Install Node.js LTS
+        run: |
+          set -e
+
+          curl -fsSL \
+            https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
+            | bash
+
+          export NVM_DIR="$HOME/.nvm"
+
+          source "$NVM_DIR/nvm.sh"
+
+          nvm install --lts
+          nvm alias default "lts/*"
+
+          echo "Node:"
+          node --version
+
+          echo "NPM:"
+          npm --version
+
+      # ============================================================
+      # XFCE SESSION
+      # ============================================================
+
+      - name: Configure XFCE
+        run: |
+          set -e
+
+          echo "=========================================="
+          echo "Configuring XFCE"
+          echo "=========================================="
+
+          sudo tee /root/.xsession > /dev/null <<'EOF'
+          #!/bin/sh
+
+          export LANG=C.UTF-8
+          export LANGUAGE=C.UTF-8
+          export LC_ALL=C.UTF-8
+
+          export XDG_SESSION_TYPE=x11
+          export XDG_CURRENT_DESKTOP=XFCE
+          export XDG_SESSION_DESKTOP=xfce
+          export DESKTOP_SESSION=xfce
+
+          export GDK_BACKEND=x11
+
+          # Do NOT force software OpenGL.
+          # Let applications use whatever acceleration is available.
+
+          exec dbus-run-session -- startxfce4
+          EOF
+
+          sudo chmod +x /root/.xsession
+
+          sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
+          #!/bin/sh
+
+          export LANG=C.UTF-8
+          export LANGUAGE=C.UTF-8
+          export LC_ALL=C.UTF-8
+
+          export XDG_CONFIG_DIRS=/etc/xdg/xdg-xfce:/etc/xdg:/etc/xdg-ubuntu
+          export XDG_DATA_DIRS=/usr/share/xfce4:/usr/share:/usr/local/share
+
+          export GDK_BACKEND=x11
+
+          if [ -r /etc/profile ]; then
+              . /etc/profile
+          fi
+
+          if [ -r "$HOME/.profile" ]; then
+              . "$HOME/.profile"
+          fi
+
+          unset DBUS_SESSION_BUS_ADDRESS
+          unset XDG_RUNTIME_DIR
+
+          exec dbus-run-session -- startxfce4
+          EOF
+
+          sudo chmod +x /etc/xrdp/startwm.sh
+
+      # ============================================================
+      # XRDP PERFORMANCE
+      # ============================================================
+
+      - name: Optimize XRDP
+        run: |
+          set -e
+
+          echo "=========================================="
+          echo "Optimizing XRDP"
+          echo "=========================================="
+
+          sudo cp \
+            /etc/xrdp/xrdp.ini \
+            /etc/xrdp/xrdp.ini.backup
+
+          sudo cp \
+            /etc/xrdp/sesman.ini \
+            /etc/xrdp/sesman.ini.backup
+
+          # TCP optimizations
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq \
+            '^[[:space:]]*tcp_nodelay=' \
+            /etc/xrdp/xrdp.ini; then
+
+            sudo sed -i \
+              '/^\[Globals\]/a tcp_nodelay=true' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq \
+            '^[[:space:]]*use_fastpath=' \
+            /etc/xrdp/xrdp.ini; then
+
+            sudo sed -i \
+              '/^\[Globals\]/a use_fastpath=both' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          # Keep compression enabled.
+          # This is useful because the RDP connection is travelling
+          # through the internet/tunnel.
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*bitmap_compression=.*/bitmap_compression=true/' \
+            /etc/xrdp/xrdp.ini
+
+          if ! sudo grep -Eq \
+            '^[[:space:]]*bitmap_compression=' \
+            /etc/xrdp/xrdp.ini; then
+
+            sudo sed -i \
+              '/^\[Globals\]/a bitmap_compression=true' \
+              /etc/xrdp/xrdp.ini
+          fi
+
+          # Disable unnecessary xrdp channel features
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*max_bpp=.*/max_bpp=32/' \
+            /etc/xrdp/xrdp.ini
+
+          # Allow root RDP session
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' \
+            /etc/xrdp/sesman.ini
+
+          if ! sudo grep -Eq \
+            '^[[:space:]]*AllowRootLogin=' \
+            /etc/xrdp/sesman.ini; then
+
+            sudo sed -i \
+              '/^\[Security\]/a AllowRootLogin=true' \
+              /etc/xrdp/sesman.ini
+          fi
+
+          sudo sed -i \
+            's/^[#;]*[[:space:]]*AlwaysGroupCheck=.*/AlwaysGroupCheck=false/' \
+            /etc/xrdp/sesman.ini
+
+          if ! sudo grep -Eq \
+            '^[[:space:]]*AlwaysGroupCheck=' \
+            /etc/xrdp/sesman.ini; then
+
+            sudo sed -i \
+              '/^\[Security\]/a AlwaysGroupCheck=false' \
+              /etc/xrdp/sesman.ini
+          fi
+
+          # ========================================================
+          # XFCE VISUAL PERFORMANCE
+          # ========================================================
+
+          sudo -H -u root \
+            dbus-run-session \
+            xfconf-query \
+            -c xfwm4 \
+            -p /general/use_compositing \
+            -s false || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            xfconf-query \
+            -c xfwm4 \
+            -p /general/frame_opacity \
+            -s 100 || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            xfconf-query \
+            -c xfwm4 \
+            -p /general/box_move \
+            -s false || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            xfconf-query \
+            -c xfwm4 \
+            -p /general/box_resize \
+            -s false || true
+
+      # ============================================================
+      # SSH
+      # ============================================================
+
+      - name: Configure SSH
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+        run: |
+          set -e
+
+          echo "=========================================="
+          echo "Configuring SSH"
+          echo "=========================================="
+
+          echo "root:${SSH_PASSWORD}" | sudo chpasswd
+
+          sudo mkdir -p /var/run/sshd
+
+          sudo ssh-keygen -A
+
+          sudo sed -i \
+            's/^#\?PermitRootLogin .*/PermitRootLogin yes/' \
+            /etc/ssh/sshd_config
+
+          sudo sed -i \
+            's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' \
+            /etc/ssh/sshd_config
+
+          sudo sed -i \
+            's/^#\?UsePAM .*/UsePAM yes/' \
+            /etc/ssh/sshd_config
+
+          grep -q '^PermitRootLogin' \
+            /etc/ssh/sshd_config || \
+            echo 'PermitRootLogin yes' | \
+            sudo tee -a /etc/ssh/sshd_config
+
+          grep -q '^PasswordAuthentication' \
+            /etc/ssh/sshd_config || \
+            echo 'PasswordAuthentication yes' | \
+            sudo tee -a /etc/ssh/sshd_config
+
+      # ============================================================
+      # DESKTOP SHORTCUTS
+      # ============================================================
+
+      - name: Configure desktop shortcuts
+        run: |
+          set -e
+
+          sudo mkdir -p /root/Desktop
+
+          sudo tee /root/Desktop/chrome.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Google Chrome
+          Comment=Web Browser
+          Exec=/usr/bin/google-chrome-stable %U
+          Icon=google-chrome
+          Terminal=false
+          Categories=Network;WebBrowser;
+          EOF
+
+          sudo tee /root/Desktop/firefox.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Firefox
+          Comment=Web Browser
+          Exec=firefox %U
+          Icon=firefox
+          Terminal=false
+          Categories=Network;WebBrowser;
+          EOF
+
+          sudo tee /root/Desktop/code.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Visual Studio Code
+          Comment=Code Editor
+          Exec=/usr/bin/code --unity-launch %F
+          Icon=com.visualstudio.code
+          Terminal=false
+          Categories=Development;IDE;
+          EOF
+
+          sudo chmod +x /root/Desktop/*.desktop
+
+          sudo -H -u root \
+            dbus-run-session \
+            gio set \
+            /root/Desktop/chrome.desktop \
+            metadata::trusted true || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            gio set \
+            /root/Desktop/firefox.desktop \
+            metadata::trusted true || true
+
+          sudo -H -u root \
+            dbus-run-session \
+            gio set \
+            /root/Desktop/code.desktop \
+            metadata::trusted true || true
+
+      # ============================================================
+      # START SERVICES
+      # ============================================================
+
+      - name: Start SSH and XRDP
+        run: |
+          set -e
+
+          echo "=========================================="
+          echo "Starting SSH"
+          echo "=========================================="
+
+          sudo systemctl enable ssh || true
+          sudo systemctl restart ssh || true
+
+          if ! pgrep -x sshd >/dev/null; then
+            sudo /usr/sbin/sshd
+          fi
+
+          echo "=========================================="
+          echo "Starting XRDP"
+          echo "=========================================="
+
+          sudo systemctl enable xrdp
+          sudo systemctl restart xrdp
+
+          sleep 3
+
+          echo
+          echo "Listening ports:"
+          sudo ss -lntp | grep ':22' || true
+          sudo ss -lntp | grep ':3389' || true
+
+          echo
+          echo "XRDP status:"
+          sudo systemctl --no-pager status xrdp || true
+
+      # ============================================================
+      # CREATE TUNNEL SCRIPT
+      # ============================================================
+
+      - name: Create Runflare tunnel
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+        run: |
+
+          cat > tunnel.py <<'PY'
+          #!/usr/bin/env python3
+
+          import os
+          import re
+          import subprocess
+          import time
+          import pexpect
+          from datetime import datetime
+
+          LOG = "state/ssh-history.log"
+
+          RUNFLARE_HOST = "remote-respina-free.runflare.com"
+          RUNFLARE_PORT = "31212"
+          RUNFLARE_USER = "tunnel"
+
+          SSH_PASSWORD = os.environ.get(
+              "SSH_PASSWORD",
+              ""
+          )
+
+          os.makedirs(
+              "state",
+              exist_ok=True
+          )
+
+
+          def log(message):
+
+              line = (
+                  f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
+                  f"{message}"
+              )
+
+              print(
+                  line,
+                  flush=True
+              )
+
+              with open(
+                  LOG,
+                  "a"
+              ) as f:
+                  f.write(
+                      line + "\n"
+                  )
+
+
+          def find_endpoint(output):
+
+              patterns = [
+
+                  r'tcp://([A-Za-z0-9.-]+):([0-9]+)',
+
+                  r'tcp[^\n]*?([A-Za-z0-9.-]+):([0-9]+)',
+
+                  r'(?:forwarding|tunnel|remote)[^\n]*?'
+                  r'([A-Za-z0-9.-]+):([0-9]+)'
+              ]
+
+              for pattern in patterns:
+
+                  match = re.search(
+                      pattern,
+                      output,
+                      re.IGNORECASE
+                  )
+
+                  if not match:
+                      continue
+
+                  host = match.group(1)
+                  port = match.group(2)
+
+                  if host == RUNFLARE_HOST:
+                      continue
+
+                  return host, port
+
+              return None
+
+
+          def create_client(host, port):
+
+              with open(
+                  "client.sh",
+                  "w"
+              ) as f:
+
+                  f.write(
+                      "#!/bin/bash\n"
+                  )
+
+                  f.write(
+                      "set -e\n\n"
+                  )
+
+                  f.write(
+                      f'HOST="{host}"\n'
+                  )
+
+                  f.write(
+                      f'PORT="{port}"\n\n'
+                  )
+
+                  f.write(
+                      'MODE="${1:-ssh}"\n\n'
+                  )
+
+                  f.write(
+                      'if [ "$MODE" = "ssh" ]; then\n'
+                  )
+
+                  f.write(
+                      '    exec ssh '
+                      '-o StrictHostKeyChecking=no '
+                      '-o UserKnownHostsFile=/dev/null '
+                      '-o ServerAliveInterval=15 '
+                      '-o ServerAliveCountMax=4 '
+                      '-p "$PORT" '
+                      'root@"$HOST"\n'
+                  )
+
+                  f.write(
+                      "fi\n\n"
+                  )
+
+                  f.write(
+                      'if [ "$MODE" = "rdp" ]; then\n'
+                  )
+
+                  f.write(
+                      '    echo "RDP endpoint:"\n'
+                  )
+
+                  f.write(
+                      '    echo "$HOST:$PORT"\n'
+                  )
+
+                  f.write(
+                      "fi\n"
+                  )
+
+              os.chmod(
+                  "client.sh",
+                  0o755
+              )
+
+
+          def git_push(host, port):
+
+              create_client(
+                  host,
+                  port
+              )
+
+              subprocess.run(
+                  [
+                      "git",
+                      "add",
+                      "client.sh",
+                      LOG
+                  ],
+                  check=False
+              )
+
+              subprocess.run(
+                  [
+                      "git",
+                      "commit",
+                      "-m",
+                      f"live tunnel: {host}:{port}"
+                  ],
+                  check=False
+              )
+
+              token = os.environ.get(
+                  "GH_TOKEN",
+                  ""
+              )
+
+              repo = os.environ.get(
+                  "GITHUB_REPOSITORY",
+                  ""
+              )
+
+              if not token or not repo:
+                  log(
+                      "GH_TOKEN or repository is missing."
+                  )
+                  return
+
+              url = (
+                  f"https://x-access-token:{token}"
+                  f"@github.com/{repo}.git"
+              )
+
+              result = subprocess.run(
+                  [
+                      "git",
+                      "push",
+                      url,
+                      "HEAD:main"
+                  ],
+                  capture_output=True,
+                  text=True
+              )
+
+              if result.returncode != 0:
+
+                  log(
+                      "Git push failed: "
+                      + result.stderr[-1000:]
+                  )
+
+              else:
+
+                  log(
+                      "client.sh pushed successfully."
+                  )
+
+
+          def run_tunnel():
+
+              if not SSH_PASSWORD:
+
+                  log(
+                      "ERROR: SSH_PASSWORD is empty."
+                  )
+
+                  return False
+
+              log(
+                  "Starting Runflare tunnel..."
+              )
+
+              command = (
+                  "ssh "
+                  "-p 31212 "
+                  "-o StrictHostKeyChecking=no "
+                  "-o UserKnownHostsFile=/dev/null "
+                  "-o ServerAliveInterval=15 "
+                  "-o ServerAliveCountMax=4 "
+                  "-o ConnectTimeout=20 "
+                  "-o ExitOnForwardFailure=yes "
+                  "-N "
+                  "-R 2222:localhost:22 "
+                  "-R 13389:localhost:3389 "
+                  "tunnel@remote-respina-free.runflare.com"
+              )
+
+              child = None
+              logfile = None
+
+              try:
+
+                  child = pexpect.spawn(
+                      command,
+                      timeout=30,
+                      encoding="utf-8"
+                  )
+
+                  logfile = open(
+                      "runflare-out.log",
+                      "w"
+                  )
+
+                  child.logfile_read = logfile
+
+                  endpoint = None
+
+                  for _ in range(40):
+
+                      try:
+
+                          index = child.expect(
+                              [
+                                  r'(?i)password:',
+                                  r'(?i)yes/no',
+                                  r'(?i)fingerprint',
+                                  r'tcp://[A-Za-z0-9.-]+:[0-9]+',
+                                  pexpect.EOF,
+                                  pexpect.TIMEOUT
+                              ],
+                              timeout=3
+                          )
+
+                      except Exception:
+
+                          break
+
+                      if index == 0:
+
+                          child.sendline(
+                              SSH_PASSWORD
+                          )
+
+                      elif index == 1:
+
+                          child.sendline(
+                              "yes"
+                          )
+
+                      elif index == 2:
+
+                          child.sendline(
+                              "yes"
+                          )
+
+                      else:
+
+                          try:
+
+                              with open(
+                                  "runflare-out.log",
+                                  "r"
+                              ) as f:
+                                  output = f.read()
+
+                              endpoint = find_endpoint(
+                                  output
+                              )
+
+                          except Exception:
+
+                              endpoint = None
+
+                          if endpoint:
+                              break
+
+                  if not endpoint:
+
+                      for _ in range(20):
+
+                          time.sleep(1)
+
+                          try:
+
+                              with open(
+                                  "runflare-out.log",
+                                  "r"
+                              ) as f:
+                                  output = f.read()
+
+                              endpoint = find_endpoint(
+                                  output
+                              )
+
+                          except Exception:
+
+                              endpoint = None
+
+                          if endpoint:
+                              break
+
+                          if not child.isalive():
+                              break
+
+                  if endpoint:
+
+                      host, port = endpoint
+
+                      log(
+                          f"RUNFLARE LIVE: {host}:{port}"
+                      )
+
+                      git_push(
+                          host,
+                          port
+                      )
+
+                  else:
+
+                      log(
+                          "Runflare endpoint not found."
+                      )
+
+                      try:
+
+                          with open(
+                              "runflare-out.log",
+                              "r"
+                          ) as f:
+                              print(
+                                  f.read(),
+                                  flush=True
+                              )
+
+                      except Exception:
+                          pass
+
+                  while child.isalive():
+
+                      try:
+
+                          child.expect(
+                              pexpect.EOF,
+                              timeout=60
+                          )
+
+                      except pexpect.TIMEOUT:
+
+                          continue
+
+                      except Exception:
+
+                          break
+
+                  log(
+                      "Runflare tunnel disconnected."
+                  )
+
+                  return False
+
+              finally:
+
+                  try:
+
+                      if child and child.isalive():
+                          child.terminate(
+                              force=True
+                          )
+
+                  except Exception:
+                      pass
+
+                  try:
+
+                      if logfile:
+                          logfile.close()
+
+                  except Exception:
+                      pass
+
+
+          log(
+              "=== Fast Ubuntu RDP tunnel started ==="
+          )
+
+          while True:
+
+              run_tunnel()
+
+              log(
+                  "Restarting tunnel..."
+              )
+
+              time.sleep(2)
+
+          PY
+
+          chmod +x tunnel.py
+
+      # ============================================================
+      # RUN TUNNEL
+      # ============================================================
+
+      - name: Run Runflare tunnel
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+        run: |
+          python3 tunnel.py
+
+      # ============================================================
+      # FINAL PUSH
+      # ============================================================
+
+      - name: Final push
+        if: always()
+
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+        run: |
+
+          git add -A
+
+          git diff --cached --quiet || \
+            git commit \
+              -m "chore: final sync [skip ci]"
+
+          git push \
+            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
+            HEAD:main || true
