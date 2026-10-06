@@ -1,10 +1,10 @@
-name: Fast Ubuntu Remote Desktop
+name: Ubuntu XFCE Remote Desktop
 
 on:
   workflow_dispatch:
 
 jobs:
-  desktop:
+  ubuntu-rdp:
     runs-on: ubuntu-24.04
     timeout-minutes: 350
 
@@ -18,17 +18,17 @@ jobs:
       # CHECKOUT
       # ============================================================
 
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
           lfs: true
 
       # ============================================================
-      # INSTALL LIGHTWEIGHT DESKTOP + XRDP
+      # COMPLETE SERVER INSTALLATION
       # ============================================================
 
-      - name: Install XFCE + XRDP
+      - name: Install and configure complete Ubuntu desktop
         env:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
@@ -38,26 +38,54 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           export DEBCONF_NONINTERACTIVE_SEEN=true
 
-          echo "=========================================="
-          echo "Updating system"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Updating Ubuntu"
+          echo "=================================================="
 
           sudo apt-get update -qq
           sudo apt-get upgrade -y -qq
 
-          echo "=========================================="
-          echo "Installing lightweight desktop"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Installing XFCE + XRDP + Xorg + plugins"
+          echo "=================================================="
 
           sudo apt-get install -y -qq \
             xfce4 \
             xfce4-goodies \
+            xfce4-whiskermenu-plugin \
+            xfce4-pulseaudio-plugin \
+            xfce4-terminal \
             xrdp \
             xorgxrdp \
             dbus-x11 \
             dbus-user-session \
-            openssh-server \
-            openssh-client \
+            thunar \
+            thunar-archive-plugin \
+            file-roller \
+            mousepad \
+            ristretto \
+            mugshot \
+            network-manager \
+            network-manager-gnome \
+            policykit-1 \
+            policykit-1-gnome \
+            gvfs \
+            gvfs-backends \
+            gvfs-fuse \
+            udisks2 \
+            upower \
+            pulseaudio \
+            pavucontrol \
+            fonts-ubuntu \
+            fonts-ubuntu-console \
+            fonts-noto \
+            fonts-noto-cjk \
+            fonts-liberation \
+            papirus-icon-theme \
+            ubuntu-wallpapers \
+            yaru-theme-gtk \
+            yaru-theme-icon \
+            yaru-theme-sound \
             git \
             git-lfs \
             curl \
@@ -70,13 +98,11 @@ jobs:
             build-essential \
             software-properties-common \
             python3 \
+            python3-dev \
             python3-pip \
             python3-venv \
             python-is-python3 \
             pipx \
-            xdg-utils \
-            desktop-file-utils \
-            snapd \
             htop \
             nano \
             vim \
@@ -84,31 +110,38 @@ jobs:
             iproute2 \
             procps \
             psmisc \
-            lsof
+            lsof \
+            openssh-server \
+            openssh-client \
+            sudo \
+            dbus \
+            xdg-utils \
+            desktop-file-utils
 
           git lfs install
 
-          echo "=========================================="
-          echo "Installing Firefox"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Installing Firefox (snap - stable on 24.04)"
+          echo "=================================================="
 
-          sudo apt-get install -y firefox || true
+          sudo snap install firefox || true
 
-          echo "=========================================="
+          echo "=================================================="
           echo "Installing Google Chrome"
-          echo "=========================================="
+          echo "=================================================="
 
           wget -q \
             -O /tmp/google-chrome.deb \
             https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-          sudo apt-get install -y /tmp/google-chrome.deb
+          sudo apt-get install -y /tmp/google-chrome.deb || \
+            sudo apt-get install -f -y
 
           rm -f /tmp/google-chrome.deb
 
-          echo "=========================================="
+          echo "=================================================="
           echo "Installing Visual Studio Code"
-          echo "=========================================="
+          echo "=================================================="
 
           wget -qO- \
             https://packages.microsoft.com/keys/microsoft.asc \
@@ -127,40 +160,21 @@ jobs:
           EOF
 
           sudo apt-get update -qq
-
           sudo apt-get install -y -qq code
 
-          echo "=========================================="
-          echo "Application versions"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Installing Node.js LTS"
+          echo "=================================================="
 
-          echo "Firefox:"
-          firefox --version || true
+          curl -fsSL \
+            https://deb.nodesource.com/setup_22.x \
+            | sudo -E bash -
 
-          echo "Chrome:"
-          google-chrome --version || true
+          sudo apt-get install -y nodejs
 
-          echo "VS Code:"
-          code --version || true
-
-          echo "Python:"
-          python3 --version
-
-          echo "PIP:"
-          pip3 --version
-
-      # ============================================================
-      # PYTHON
-      # ============================================================
-
-      - name: Configure Python
-        run: |
-          set -e
-
-          python3 -m pip install \
-            --break-system-packages \
-            -q \
-            pexpect
+          echo "=================================================="
+          echo "Installing Python packages"
+          echo "=================================================="
 
           python3 -m pip install \
             --break-system-packages \
@@ -168,83 +182,125 @@ jobs:
             requests \
             flask \
             numpy \
-            pandas
+            pandas \
+            pexpect
 
-      # ============================================================
-      # NODE.JS
-      # ============================================================
+          echo "=================================================="
+          echo "Configuring XFCE (Yaru-dark + performance)"
+          echo "=================================================="
 
-      - name: Install Node.js LTS
-        run: |
-          set -e
+          sudo mkdir -p /etc/xdg/xfce4/xfconf/xfce-perchannel-xml
 
-          curl -fsSL \
-            https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \
-            | bash
+          sudo tee /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml > /dev/null <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <channel name="xsettings" version="1.0">
+            <property name="Net" type="empty">
+              <property name="ThemeName" type="string" value="Yaru-dark"/>
+              <property name="IconThemeName" type="string" value="Yaru"/>
+              <property name="CursorThemeName" type="string" value="Yaru"/>
+              <property name="DoubleClickTime" type="int" value="400"/>
+              <property name="DoubleClickDistance" type="int" value="5"/>
+            </property>
+            <property name="Gtk" type="empty">
+              <property name="FontName" type="string" value="Ubuntu 10"/>
+              <property name="MonospaceFontName" type="string" value="Ubuntu Mono 10"/>
+              <property name="ToolbarStyle" type="string" value="icons"/>
+              <property name="MenuImages" type="bool" value="true"/>
+              <property name="ButtonImages" type="bool" value="true"/>
+            </property>
+          </channel>
+          EOF
 
-          export NVM_DIR="$HOME/.nvm"
+          echo "=================================================="
+          echo "Configuring XFCE window manager (no compositing)"
+          echo "=================================================="
 
-          source "$NVM_DIR/nvm.sh"
+          sudo tee /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml > /dev/null <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <channel name="xfwm4" version="1.0">
+            <property name="general" type="empty">
+              <property name="use_compositing" type="bool" value="false"/>
+              <property name="show_dock_shadow" type="bool" value="false"/>
+              <property name="show_frame_shadow" type="bool" value="false"/>
+              <property name="box_move" type="bool" value="false"/>
+              <property name="box_resize" type="bool" value="false"/>
+              <property name="frame_opacity" type="int" value="100"/>
+              <property name="inactive_opacity" type="int" value="100"/>
+              <property name="active_opacity" type="int" value="100"/>
+              <property name="vblank_mode" type="string" value="off"/>
+            </property>
+          </channel>
+          EOF
 
-          nvm install --lts
-          nvm alias default "lts/*"
+          echo "=================================================="
+          echo "Configuring clean Ubuntu-style panel"
+          echo "=================================================="
 
-          echo "Node:"
-          node --version
+          sudo mkdir -p /etc/xdg/xfce4/panel
 
-          echo "NPM:"
-          npm --version
+          sudo tee /etc/xdg/xfce4/panel/default.xml > /dev/null <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <channel name="xfce4-panel" version="1.0">
+            <property name="configver" type="int" value="2"/>
+            <property name="panels" type="array">
+              <value type="int" value="1"/>
+              <property name="panel-1" type="empty">
+                <property name="position" type="string" value="p=6;x=0;y=0"/>
+                <property name="position-locked" type="bool" value="true"/>
+                <property name="length" type="uint" value="100"/>
+                <property name="size" type="uint" value="32"/>
+                <property name="mode" type="uint" value="0"/>
+                <property name="autohide-behavior" type="uint" value="0"/>
+                <property name="background-style" type="uint" value="0"/>
+                <property name="plugin-ids" type="array">
+                  <value type="int" value="1"/>
+                  <value type="int" value="2"/>
+                  <value type="int" value="3"/>
+                  <value type="int" value="4"/>
+                  <value type="int" value="5"/>
+                  <value type="int" value="6"/>
+                  <value type="int" value="7"/>
+                </property>
+              </property>
+            </property>
+            <property name="plugins" type="empty">
+              <property name="plugin-1" type="string" value="whiskermenu"/>
+              <property name="plugin-2" type="string" value="tasklist">
+                <property name="show-handle" type="bool" value="false"/>
+                <property name="show-labels" type="bool" value="true"/>
+              </property>
+              <property name="plugin-3" type="string" value="separator">
+                <property name="expand" type="bool" value="true"/>
+                <property name="style" type="uint" value="0"/>
+              </property>
+              <property name="plugin-4" type="string" value="systray"/>
+              <property name="plugin-5" type="string" value="pulseaudio"/>
+              <property name="plugin-6" type="string" value="clock">
+                <property name="digital-format" type="string" value="%H:%M"/>
+              </property>
+              <property name="plugin-7" type="string" value="separator"/>
+            </property>
+          </channel>
+          EOF
 
-      # ============================================================
-      # XFCE SESSION
-      # ============================================================
+          echo "=================================================="
+          echo "Configuring XFCE session for XRDP"
+          echo "=================================================="
 
-      - name: Configure XFCE
-        run: |
-          set -e
-
-          echo "=========================================="
-          echo "Configuring XFCE"
-          echo "=========================================="
-
-          sudo tee /root/.xsession > /dev/null <<'EOF'
+          sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
           #!/bin/sh
-
           export LANG=C.UTF-8
           export LANGUAGE=C.UTF-8
           export LC_ALL=C.UTF-8
-
           export XDG_SESSION_TYPE=x11
           export XDG_CURRENT_DESKTOP=XFCE
           export XDG_SESSION_DESKTOP=xfce
           export DESKTOP_SESSION=xfce
-
-          export GDK_BACKEND=x11
-
-          # Do NOT force software OpenGL.
-          # Let applications use whatever acceleration is available.
-
-          exec dbus-run-session -- startxfce4
-          EOF
-
-          sudo chmod +x /root/.xsession
-
-          sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
-          #!/bin/sh
-
-          export LANG=C.UTF-8
-          export LANGUAGE=C.UTF-8
-          export LC_ALL=C.UTF-8
-
-          export XDG_CONFIG_DIRS=/etc/xdg/xdg-xfce:/etc/xdg:/etc/xdg-ubuntu
-          export XDG_DATA_DIRS=/usr/share/xfce4:/usr/share:/usr/local/share
-
           export GDK_BACKEND=x11
 
           if [ -r /etc/profile ]; then
               . /etc/profile
           fi
-
           if [ -r "$HOME/.profile" ]; then
               . "$HOME/.profile"
           fi
@@ -257,203 +313,72 @@ jobs:
 
           sudo chmod +x /etc/xrdp/startwm.sh
 
-      # ============================================================
-      # XRDP PERFORMANCE
-      # ============================================================
+          # Also set for root user session
+          sudo mkdir -p /root/.config/xfce4
+          sudo tee /root/.xsession > /dev/null <<'EOF'
+          #!/bin/sh
+          exec startxfce4
+          EOF
+          sudo chmod +x /root/.xsession
 
-      - name: Optimize XRDP
-        run: |
-          set -e
+          echo "=================================================="
+          echo "Configuring XRDP for speed"
+          echo "=================================================="
 
-          echo "=========================================="
-          echo "Optimizing XRDP"
-          echo "=========================================="
+          sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.ini.backup
 
-          sudo cp \
-            /etc/xrdp/xrdp.ini \
-            /etc/xrdp/xrdp.ini.backup
-
-          sudo cp \
-            /etc/xrdp/sesman.ini \
-            /etc/xrdp/sesman.ini.backup
-
-          # TCP optimizations
-
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' \
-            /etc/xrdp/xrdp.ini
-
-          if ! sudo grep -Eq \
-            '^[[:space:]]*tcp_nodelay=' \
-            /etc/xrdp/xrdp.ini; then
-
-            sudo sed -i \
-              '/^\[Globals\]/a tcp_nodelay=true' \
-              /etc/xrdp/xrdp.ini
+          sudo sed -i 's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' /etc/xrdp/xrdp.ini
+          if ! sudo grep -q '^[[:space:]]*tcp_nodelay=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i '/^\[Globals\]/a tcp_nodelay=true' /etc/xrdp/xrdp.ini
           fi
 
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' \
-            /etc/xrdp/xrdp.ini
-
-          if ! sudo grep -Eq \
-            '^[[:space:]]*use_fastpath=' \
-            /etc/xrdp/xrdp.ini; then
-
-            sudo sed -i \
-              '/^\[Globals\]/a use_fastpath=both' \
-              /etc/xrdp/xrdp.ini
+          sudo sed -i 's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' /etc/xrdp/xrdp.ini
+          if ! sudo grep -q '^[[:space:]]*use_fastpath=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i '/^\[Globals\]/a use_fastpath=both' /etc/xrdp/xrdp.ini
           fi
 
-          # Keep compression enabled.
-          # This is useful because the RDP connection is travelling
-          # through the internet/tunnel.
-
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*bitmap_compression=.*/bitmap_compression=true/' \
-            /etc/xrdp/xrdp.ini
-
-          if ! sudo grep -Eq \
-            '^[[:space:]]*bitmap_compression=' \
-            /etc/xrdp/xrdp.ini; then
-
-            sudo sed -i \
-              '/^\[Globals\]/a bitmap_compression=true' \
-              /etc/xrdp/xrdp.ini
+          sudo sed -i 's/^[#;]*[[:space:]]*bitmap_compression=.*/bitmap_compression=true/' /etc/xrdp/xrdp.ini
+          if ! sudo grep -q '^[[:space:]]*bitmap_compression=' /etc/xrdp/xrdp.ini; then
+            sudo sed -i '/^\[Globals\]/a bitmap_compression=true' /etc/xrdp/xrdp.ini
           fi
 
-          # Disable unnecessary xrdp channel features
+          # Extra speed tweaks
+          sudo sed -i 's/^[#;]*[[:space:]]*crypt_level=.*/crypt_level=low/' /etc/xrdp/xrdp.ini || true
+          sudo sed -i 's/^[#;]*[[:space:]]*max_bpp=.*/max_bpp=16/' /etc/xrdp/xrdp.ini || true
 
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*max_bpp=.*/max_bpp=32/' \
-            /etc/xrdp/xrdp.ini
-
-          # Allow root RDP session
-
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' \
-            /etc/xrdp/sesman.ini
-
-          if ! sudo grep -Eq \
-            '^[[:space:]]*AllowRootLogin=' \
-            /etc/xrdp/sesman.ini; then
-
-            sudo sed -i \
-              '/^\[Security\]/a AllowRootLogin=true' \
-              /etc/xrdp/sesman.ini
-          fi
-
-          sudo sed -i \
-            's/^[#;]*[[:space:]]*AlwaysGroupCheck=.*/AlwaysGroupCheck=false/' \
-            /etc/xrdp/sesman.ini
-
-          if ! sudo grep -Eq \
-            '^[[:space:]]*AlwaysGroupCheck=' \
-            /etc/xrdp/sesman.ini; then
-
-            sudo sed -i \
-              '/^\[Security\]/a AlwaysGroupCheck=false' \
-              /etc/xrdp/sesman.ini
-          fi
-
-          # ========================================================
-          # XFCE VISUAL PERFORMANCE
-          # ========================================================
-
-          sudo -H -u root \
-            dbus-run-session \
-            xfconf-query \
-            -c xfwm4 \
-            -p /general/use_compositing \
-            -s false || true
-
-          sudo -H -u root \
-            dbus-run-session \
-            xfconf-query \
-            -c xfwm4 \
-            -p /general/frame_opacity \
-            -s 100 || true
-
-          sudo -H -u root \
-            dbus-run-session \
-            xfconf-query \
-            -c xfwm4 \
-            -p /general/box_move \
-            -s false || true
-
-          sudo -H -u root \
-            dbus-run-session \
-            xfconf-query \
-            -c xfwm4 \
-            -p /general/box_resize \
-            -s false || true
-
-      # ============================================================
-      # SSH
-      # ============================================================
-
-      - name: Configure SSH
-        env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-
-        run: |
-          set -e
-
-          echo "=========================================="
-          echo "Configuring SSH"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Configuring SSH (root login)"
+          echo "=================================================="
 
           echo "root:${SSH_PASSWORD}" | sudo chpasswd
 
           sudo mkdir -p /var/run/sshd
-
           sudo ssh-keygen -A
 
-          sudo sed -i \
-            's/^#\?PermitRootLogin .*/PermitRootLogin yes/' \
-            /etc/ssh/sshd_config
+          sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-          sudo sed -i \
-            's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' \
-            /etc/ssh/sshd_config
-
-          sudo sed -i \
-            's/^#\?UsePAM .*/UsePAM yes/' \
-            /etc/ssh/sshd_config
-
-          grep -q '^PermitRootLogin' \
-            /etc/ssh/sshd_config || \
-            echo 'PermitRootLogin yes' | \
-            sudo tee -a /etc/ssh/sshd_config
-
-          grep -q '^PasswordAuthentication' \
-            /etc/ssh/sshd_config || \
-            echo 'PasswordAuthentication yes' | \
-            sudo tee -a /etc/ssh/sshd_config
-
-      # ============================================================
-      # DESKTOP SHORTCUTS
-      # ============================================================
-
-      - name: Configure desktop shortcuts
-        run: |
-          set -e
+          echo "=================================================="
+          echo "Creating desktop shortcuts (fixed chmod)"
+          echo "=================================================="
 
           sudo mkdir -p /root/Desktop
+          sudo chmod 755 /root/Desktop
 
-          sudo tee /root/Desktop/chrome.desktop > /dev/null <<'EOF'
+          sudo tee /root/Desktop/Chrome.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
           Type=Application
           Name=Google Chrome
           Comment=Web Browser
-          Exec=/usr/bin/google-chrome-stable %U
+          Exec=google-chrome-stable %U
           Icon=google-chrome
           Terminal=false
           Categories=Network;WebBrowser;
+          StartupNotify=true
           EOF
 
-          sudo tee /root/Desktop/firefox.desktop > /dev/null <<'EOF'
+          sudo tee /root/Desktop/Firefox.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
           Type=Application
@@ -463,80 +388,88 @@ jobs:
           Icon=firefox
           Terminal=false
           Categories=Network;WebBrowser;
+          StartupNotify=true
           EOF
 
-          sudo tee /root/Desktop/code.desktop > /dev/null <<'EOF'
+          sudo tee /root/Desktop/Visual-Studio-Code.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
           Type=Application
           Name=Visual Studio Code
           Comment=Code Editor
-          Exec=/usr/bin/code --unity-launch %F
+          Exec=code %F
           Icon=com.visualstudio.code
           Terminal=false
           Categories=Development;IDE;
+          StartupNotify=true
           EOF
 
-          sudo chmod +x /root/Desktop/*.desktop
+          # FIX: chmod each file explicitly (avoids glob expansion failure as non-root)
+          sudo chmod 755 /root/Desktop/Chrome.desktop
+          sudo chmod 755 /root/Desktop/Firefox.desktop
+          sudo chmod 755 /root/Desktop/Visual-Studio-Code.desktop
 
-          sudo -H -u root \
-            dbus-run-session \
-            gio set \
-            /root/Desktop/chrome.desktop \
-            metadata::trusted true || true
+          # Mark as trusted for XFCE (no "Untrusted" dialog)
+          sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
+          sudo gio set /root/Desktop/Firefox.desktop metadata::trusted true 2>/dev/null || true
+          sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
 
-          sudo -H -u root \
-            dbus-run-session \
-            gio set \
-            /root/Desktop/firefox.desktop \
-            metadata::trusted true || true
-
-          sudo -H -u root \
-            dbus-run-session \
-            gio set \
-            /root/Desktop/code.desktop \
-            metadata::trusted true || true
-
-      # ============================================================
-      # START SERVICES
-      # ============================================================
-
-      - name: Start SSH and XRDP
-        run: |
-          set -e
-
-          echo "=========================================="
-          echo "Starting SSH"
-          echo "=========================================="
-
-          sudo systemctl enable ssh || true
-          sudo systemctl restart ssh || true
-
-          if ! pgrep -x sshd >/dev/null; then
-            sudo /usr/sbin/sshd
-          fi
-
-          echo "=========================================="
-          echo "Starting XRDP"
-          echo "=========================================="
+          echo "=================================================="
+          echo "Enabling services"
+          echo "=================================================="
 
           sudo systemctl enable xrdp
+          sudo systemctl enable ssh
           sudo systemctl restart xrdp
+          sudo systemctl restart ssh
 
-          sleep 3
+          echo "=================================================="
+          echo "Installation complete"
+          echo "=================================================="
 
-          echo
-          echo "Listening ports:"
-          sudo ss -lntp | grep ':22' || true
-          sudo ss -lntp | grep ':3389' || true
+          echo "Ubuntu:"
+          lsb_release -ds || true
 
-          echo
-          echo "XRDP status:"
-          sudo systemctl --no-pager status xrdp || true
+          echo "XFCE:"
+          xfce4-session --version 2>/dev/null || true
+
+          echo "Python:"
+          python3 --version
+
+          echo "Node:"
+          node --version
+
+          echo "NPM:"
+          npm --version
+
+          echo "Chrome:"
+          google-chrome --version 2>/dev/null || true
+
+          echo "Firefox:"
+          firefox --version 2>/dev/null || snap run firefox --version 2>/dev/null || true
+
+          echo "VS Code:"
+          code --version 2>/dev/null || true
+
+          echo "=================================================="
+          echo "Listening ports"
+          echo "=================================================="
+
+          sudo ss -lntp | grep -E ':22|:3389' || true
+
+          echo "Desktop files:"
+          sudo ls -la /root/Desktop/
 
       # ============================================================
-      # CREATE TUNNEL SCRIPT
+      # RUNFLARE TUNNEL
       # ============================================================
+
+      - name: Install tunnel dependency
+        run: |
+          python3 -m pip install \
+            --break-system-packages \
+            -q \
+            pexpect
 
       - name: Create Runflare tunnel
         env:
@@ -554,16 +487,15 @@ jobs:
           import pexpect
           from datetime import datetime
 
-          LOG = "state/ssh-history.log"
-
           RUNFLARE_HOST = "remote-respina-free.runflare.com"
           RUNFLARE_PORT = "31212"
-          RUNFLARE_USER = "tunnel"
 
           SSH_PASSWORD = os.environ.get(
               "SSH_PASSWORD",
               ""
           )
+
+          LOG = "state/ssh-history.log"
 
           os.makedirs(
               "state",
@@ -921,20 +853,6 @@ jobs:
                           "Runflare endpoint not found."
                       )
 
-                      try:
-
-                          with open(
-                              "runflare-out.log",
-                              "r"
-                          ) as f:
-                              print(
-                                  f.read(),
-                                  flush=True
-                              )
-
-                      except Exception:
-                          pass
-
                   while child.isalive():
 
                       try:
@@ -980,7 +898,7 @@ jobs:
 
 
           log(
-              "=== Fast Ubuntu RDP tunnel started ==="
+              "=== Ubuntu XFCE RDP tunnel started ==="
           )
 
           while True:
@@ -998,10 +916,10 @@ jobs:
           chmod +x tunnel.py
 
       # ============================================================
-      # RUN TUNNEL
+      # START TUNNEL
       # ============================================================
 
-      - name: Run Runflare tunnel
+      - name: Start Runflare
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -1011,10 +929,10 @@ jobs:
           python3 tunnel.py
 
       # ============================================================
-      # FINAL PUSH
+      # FINAL SYNC
       # ============================================================
 
-      - name: Final push
+      - name: Final repository sync
         if: always()
 
         env:
