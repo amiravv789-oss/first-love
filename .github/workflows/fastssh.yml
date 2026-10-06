@@ -121,7 +121,7 @@ jobs:
           git lfs install
 
           echo "=================================================="
-          echo "Installing Firefox (snap - stable on 24.04)"
+          echo "Installing Firefox (snap)"
           echo "=================================================="
 
           sudo snap install firefox || true
@@ -313,7 +313,6 @@ jobs:
 
           sudo chmod +x /etc/xrdp/startwm.sh
 
-          # Also set for root user session
           sudo mkdir -p /root/.config/xfce4
           sudo tee /root/.xsession > /dev/null <<'EOF'
           #!/bin/sh
@@ -342,9 +341,13 @@ jobs:
             sudo sed -i '/^\[Globals\]/a bitmap_compression=true' /etc/xrdp/xrdp.ini
           fi
 
-          # Extra speed tweaks
           sudo sed -i 's/^[#;]*[[:space:]]*crypt_level=.*/crypt_level=low/' /etc/xrdp/xrdp.ini || true
           sudo sed -i 's/^[#;]*[[:space:]]*max_bpp=.*/max_bpp=16/' /etc/xrdp/xrdp.ini || true
+
+          sudo sed -i 's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' /etc/xrdp/sesman.ini
+          if ! sudo grep -Eq '^[[:space:]]*AllowRootLogin=' /etc/xrdp/sesman.ini; then
+            sudo sed -i '/^\[Security\]/a AllowRootLogin=true' /etc/xrdp/sesman.ini
+          fi
 
           echo "=================================================="
           echo "Configuring SSH (root login)"
@@ -404,12 +407,10 @@ jobs:
           StartupNotify=true
           EOF
 
-          # FIX: chmod each file explicitly (avoids glob expansion failure as non-root)
           sudo chmod 755 /root/Desktop/Chrome.desktop
           sudo chmod 755 /root/Desktop/Firefox.desktop
           sudo chmod 755 /root/Desktop/Visual-Studio-Code.desktop
 
-          # Mark as trusted for XFCE (no "Untrusted" dialog)
           sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Firefox.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
@@ -461,47 +462,47 @@ jobs:
           sudo ls -la /root/Desktop/
 
       # ============================================================
-      # RUNFLARE TUNNEL
+      # WRITE RUNFLARE TUNNEL.PY  (exact working version from first-love)
       # ============================================================
 
-      - name: Install tunnel dependency
+      - name: Write tunnel.py
         run: |
-          python3 -m pip install \
-            --break-system-packages \
-            -q \
-            pexpect
-
-      - name: Create Runflare tunnel
-        env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-
-        run: |
-
-          cat > tunnel.py <<'PY'
+          cat > tunnel.py << 'PY'
           #!/usr/bin/env python3
 
           import os
+          import pexpect
           import re
           import subprocess
           import time
-          import pexpect
           from datetime import datetime
+
+
+          # ==================================================
+          # CONFIGURATION
+          # ==================================================
+
+
+          LOG = "state/ssh-history.log"
+
+          os.makedirs("state", exist_ok=True)
 
           RUNFLARE_HOST = "remote-respina-free.runflare.com"
           RUNFLARE_PORT = "31212"
+          RUNFLARE_USER = "tunnel"
+
+          RDP_HOST = "remote-respina-free.runflare.com"
+          RDP_PORT = "31994"
 
           SSH_PASSWORD = os.environ.get(
               "SSH_PASSWORD",
               ""
           )
 
-          LOG = "state/ssh-history.log"
 
-          os.makedirs(
-              "state",
-              exist_ok=True
-          )
-
+          # ==================================================
+          # LOG
+          # ==================================================
 
           def log(message):
 
@@ -518,105 +519,157 @@ jobs:
               with open(
                   LOG,
                   "a"
-              ) as f:
-                  f.write(
+              ) as file:
+
+                  file.write(
                       line + "\n"
                   )
 
 
-          def find_endpoint(output):
-
-              patterns = [
-
-                  r'tcp://([A-Za-z0-9.-]+):([0-9]+)',
-
-                  r'tcp[^\n]*?([A-Za-z0-9.-]+):([0-9]+)',
-
-                  r'(?:forwarding|tunnel|remote)[^\n]*?'
-                  r'([A-Za-z0-9.-]+):([0-9]+)'
-              ]
-
-              for pattern in patterns:
-
-                  match = re.search(
-                      pattern,
-                      output,
-                      re.IGNORECASE
-                  )
-
-                  if not match:
-                      continue
-
-                  host = match.group(1)
-                  port = match.group(2)
-
-                  if host == RUNFLARE_HOST:
-                      continue
-
-                  return host, port
-
-              return None
-
+          # ==================================================
+          # CREATE CLIENT.SH
+          # ==================================================
 
           def create_client(host, port):
 
               with open(
                   "client.sh",
                   "w"
-              ) as f:
+              ) as file:
 
-                  f.write(
+                  file.write(
                       "#!/bin/bash\n"
                   )
 
-                  f.write(
+                  file.write(
                       "set -e\n\n"
                   )
 
-                  f.write(
+                  file.write(
                       f'HOST="{host}"\n'
                   )
 
-                  f.write(
-                      f'PORT="{port}"\n\n'
+                  file.write(
+                      f'PORT="{port}"\n'
                   )
 
-                  f.write(
+                  file.write(
+                      f'RDP_HOST="{RDP_HOST}"\n'
+                  )
+
+                  file.write(
+                      f'RDP_PORT="{RDP_PORT}"\n\n'
+                  )
+
+                  file.write(
                       'MODE="${1:-ssh}"\n\n'
                   )
 
-                  f.write(
+                  # ------------------------------------------
+                  # SSH
+                  # ------------------------------------------
+
+                  file.write(
                       'if [ "$MODE" = "ssh" ]; then\n'
                   )
 
-                  f.write(
+                  file.write(
                       '    exec ssh '
                       '-o StrictHostKeyChecking=no '
                       '-o UserKnownHostsFile=/dev/null '
-                      '-o ServerAliveInterval=15 '
-                      '-o ServerAliveCountMax=4 '
+                      '-o ServerAliveInterval=30 '
+                      '-o ServerAliveCountMax=3 '
                       '-p "$PORT" '
                       'root@"$HOST"\n'
                   )
 
-                  f.write(
+                  file.write(
                       "fi\n\n"
                   )
 
-                  f.write(
+                  # ------------------------------------------
+                  # RDP
+                  # ------------------------------------------
+
+                  file.write(
                       'if [ "$MODE" = "rdp" ]; then\n'
                   )
 
-                  f.write(
-                      '    echo "RDP endpoint:"\n'
+                  file.write(
+                      '    if command -v xfreerdp >/dev/null 2>&1; then\n'
                   )
 
-                  f.write(
-                      '    echo "$HOST:$PORT"\n'
+                  file.write(
+                      '        xfreerdp '
+                      '/v:"$RDP_HOST:$RDP_PORT" '
+                      '/u:root\n'
                   )
 
-                  f.write(
-                      "fi\n"
+                  file.write(
+                      '        exit 0\n'
+                  )
+
+                  file.write(
+                      '    fi\n\n'
+                  )
+
+                  # Windows
+                  file.write(
+                      '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
+                  )
+
+                  file.write(
+                      '        mstsc.exe /v:127.0.0.1:3389\n'
+                  )
+
+                  file.write(
+                      '        wait $TUNNEL_PID || true\n'
+                  )
+
+                  file.write(
+                      '        exit 0\n'
+                  )
+
+                  file.write(
+                      '    fi\n\n'
+                  )
+
+                  # macOS
+                  file.write(
+                      '    if command -v open >/dev/null 2>&1; then\n'
+                  )
+
+                  file.write(
+                      '        open '
+                      '"rdp://full%20address=s:127.0.0.1:3389"\n'
+                  )
+
+                  file.write(
+                      '        wait $TUNNEL_PID || true\n'
+                  )
+
+                  file.write(
+                      '        exit 0\n'
+                  )
+
+                  file.write(
+                      '    fi\n\n'
+                  )
+
+                  file.write(
+                      '    echo "No RDP client found."\n'
+                  )
+
+                  file.write(
+                      '    exit 1\n'
+                  )
+
+                  file.write(
+                      "fi\n\n"
+                  )
+
+                  file.write(
+                      "exit 1\n"
                   )
 
               os.chmod(
@@ -624,6 +677,10 @@ jobs:
                   0o755
               )
 
+
+          # ==================================================
+          # GIT PUSH
+          # ==================================================
 
           def git_push(host, port):
 
@@ -647,7 +704,7 @@ jobs:
                       "git",
                       "commit",
                       "-m",
-                      f"live tunnel: {host}:{port}"
+                      f"live Runflare tunnel: {host}:{port}"
                   ],
                   check=False
               )
@@ -662,54 +719,102 @@ jobs:
                   ""
               )
 
-              if not token or not repo:
-                  log(
-                      "GH_TOKEN or repository is missing."
-                  )
-                  return
+              if token and repo:
 
-              url = (
-                  f"https://x-access-token:{token}"
-                  f"@github.com/{repo}.git"
+                  url = (
+                      f"https://x-access-token:{token}"
+                      f"@github.com/{repo}.git"
+                  )
+
+                  result = subprocess.run(
+                      [
+                          "git",
+                          "push",
+                          url,
+                          "HEAD:main"
+                      ],
+                      capture_output=True,
+                      text=True
+                  )
+
+                  if result.returncode != 0:
+
+                      log(
+                          "Git push failed: "
+                          + result.stderr[-1000:]
+                      )
+
+                  else:
+
+                      log(
+                          "client.sh pushed successfully."
+                      )
+
+              log(
+                  f"client.sh endpoint: {host}:{port}"
               )
 
-              result = subprocess.run(
-                  [
-                      "git",
-                      "push",
-                      url,
-                      "HEAD:main"
-                  ],
-                  capture_output=True,
-                  text=True
-              )
 
-              if result.returncode != 0:
+          # ==================================================
+          # PARSE RUNFLARE OUTPUT
+          # ==================================================
 
-                  log(
-                      "Git push failed: "
-                      + result.stderr[-1000:]
+          def find_endpoint(output):
+
+              patterns = [
+
+                  # tcp://host:port
+                  r'tcp://([A-Za-z0-9.-]+):([0-9]+)',
+
+                  # tcp host:port
+                  r'tcp[^\n]*?([A-Za-z0-9.-]+):([0-9]+)',
+
+                  # Forwarding / Tunnel style
+                  r'(?:forwarding|tunnel|remote)[^\n]*?'
+                  r'([A-Za-z0-9.-]+):([0-9]+)'
+
+              ]
+
+              for pattern in patterns:
+
+                  match = re.search(
+                      pattern,
+                      output,
+                      re.IGNORECASE
                   )
 
-              else:
+                  if match:
 
-                  log(
-                      "client.sh pushed successfully."
-                  )
+                      host = match.group(1)
+                      port = match.group(2)
 
+                      if (
+                          host
+                          and port
+                          and host != RUNFLARE_HOST
+                      ):
+
+                          return host, port
+
+              return None
+
+
+          # ==================================================
+          # RUN RUNFLARE
+          # ==================================================
 
           def run_tunnel():
 
               if not SSH_PASSWORD:
 
                   log(
-                      "ERROR: SSH_PASSWORD is empty."
+                      "ERROR: SSH_PASSWORD secret is empty."
                   )
 
                   return False
 
               log(
-                  "Starting Runflare tunnel..."
+                  "Starting Runflare reverse SSH tunnel..."
               )
 
               command = (
@@ -717,9 +822,9 @@ jobs:
                   "-p 31212 "
                   "-o StrictHostKeyChecking=no "
                   "-o UserKnownHostsFile=/dev/null "
-                  "-o ServerAliveInterval=15 "
-                  "-o ServerAliveCountMax=4 "
-                  "-o ConnectTimeout=20 "
+                  "-o ServerAliveInterval=30 "
+                  "-o ServerAliveCountMax=3 "
+                  "-o ConnectTimeout=30 "
                   "-o ExitOnForwardFailure=yes "
                   "-N "
                   "-R 2222:localhost:22 "
@@ -734,7 +839,7 @@ jobs:
 
                   child = pexpect.spawn(
                       command,
-                      timeout=30,
+                      timeout=60,
                       encoding="utf-8"
                   )
 
@@ -747,7 +852,11 @@ jobs:
 
                   endpoint = None
 
-                  for _ in range(40):
+                  # ------------------------------------------
+                  # Handle initial SSH interaction
+                  # ------------------------------------------
+
+                  for _ in range(30):
 
                       try:
 
@@ -756,11 +865,11 @@ jobs:
                                   r'(?i)password:',
                                   r'(?i)yes/no',
                                   r'(?i)fingerprint',
-                                  r'tcp://[A-Za-z0-9.-]+:[0-9]+',
+                                  r'(?i)tcp://[A-Za-z0-9.-]+:[0-9]+',
                                   pexpect.EOF,
                                   pexpect.TIMEOUT
                               ],
-                              timeout=3
+                              timeout=5
                           )
 
                       except Exception:
@@ -785,6 +894,33 @@ jobs:
                               "yes"
                           )
 
+                      elif index == 3:
+
+                          try:
+
+                              output = ""
+
+                              with open(
+                                  "runflare-out.log",
+                                  "r"
+                              ) as file:
+
+                                  output = file.read()
+
+                              endpoint = find_endpoint(
+                                  output
+                              )
+
+                          except Exception:
+                              pass
+
+                          if endpoint:
+                              break
+
+                      elif index == 4:
+
+                          break
+
                       else:
 
                           try:
@@ -792,19 +928,23 @@ jobs:
                               with open(
                                   "runflare-out.log",
                                   "r"
-                              ) as f:
-                                  output = f.read()
+                              ) as file:
+
+                                  output = file.read()
 
                               endpoint = find_endpoint(
                                   output
                               )
 
                           except Exception:
-
-                              endpoint = None
+                              pass
 
                           if endpoint:
                               break
+
+                  # ------------------------------------------
+                  # Search output again
+                  # ------------------------------------------
 
                   if not endpoint:
 
@@ -817,8 +957,9 @@ jobs:
                               with open(
                                   "runflare-out.log",
                                   "r"
-                              ) as f:
-                                  output = f.read()
+                              ) as file:
+
+                                  output = file.read()
 
                               endpoint = find_endpoint(
                                   output
@@ -826,13 +967,17 @@ jobs:
 
                           except Exception:
 
-                              endpoint = None
+                              output = ""
 
                           if endpoint:
                               break
 
                           if not child.isalive():
                               break
+
+                  # ------------------------------------------
+                  # Endpoint found
+                  # ------------------------------------------
 
                   if endpoint:
 
@@ -850,8 +995,29 @@ jobs:
                   else:
 
                       log(
-                          "Runflare endpoint not found."
+                          "Runflare endpoint was not found."
                       )
+
+                      try:
+
+                          with open(
+                              "runflare-out.log",
+                              "r"
+                          ) as file:
+
+                              output = file.read()
+
+                          print(
+                              output,
+                              flush=True
+                          )
+
+                      except Exception:
+                          pass
+
+                  # ------------------------------------------
+                  # Keep tunnel alive
+                  # ------------------------------------------
 
                   while child.isalive():
 
@@ -866,7 +1032,11 @@ jobs:
 
                           continue
 
-                      except Exception:
+                      except Exception as error:
+
+                          log(
+                              f"Tunnel monitor error: {error}"
+                          )
 
                           break
 
@@ -897,20 +1067,31 @@ jobs:
                       pass
 
 
-          log(
-              "=== Ubuntu XFCE RDP tunnel started ==="
-          )
+          # ==================================================
+          # MAIN LOOP
+          # ==================================================
 
+          log(
+              "=== Runflare tunnel service started ==="
+          )
           while True:
 
-              run_tunnel()
+              success = run_tunnel()
 
               log(
-                  "Restarting tunnel..."
+                  "Runflare tunnel disconnected."
               )
 
-              time.sleep(2)
+              log(
+                  "Restarting Runflare tunnel..."
+              )
 
+              time.sleep(1)
+
+
+          log(
+              "=== Runflare tunnel service ended ==="
+          )
           PY
 
           chmod +x tunnel.py
