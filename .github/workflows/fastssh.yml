@@ -5,7 +5,7 @@ on:
 
 jobs:
   ubuntu-rdp:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 350
 
     permissions:
@@ -461,9 +461,9 @@ jobs:
           echo "Desktop files:"
           sudo ls -la /root/Desktop/
 
-      # ============================================================
-      # WRITE RUNFLARE TUNNEL.PY  (exact working version from first-love)
-      # ============================================================
+      # ==================================================
+      # WRITE RUNFLARE TUNNEL.PY
+      # ==================================================
 
       - name: Write tunnel.py
         run: |
@@ -484,8 +484,6 @@ jobs:
 
 
           LOG = "state/ssh-history.log"
-
-          os.makedirs("state", exist_ok=True)
 
           RUNFLARE_HOST = "remote-respina-free.runflare.com"
           RUNFLARE_PORT = "31212"
@@ -816,7 +814,7 @@ jobs:
               log(
                   "Starting Runflare reverse SSH tunnel..."
               )
-
+              
               command = (
                   "ssh "
                   "-p 31212 "
@@ -1092,20 +1090,20 @@ jobs:
           log(
               "=== Runflare tunnel service ended ==="
           )
+
           PY
 
           chmod +x tunnel.py
 
-      # ============================================================
-      # START TUNNEL
-      # ============================================================
+      # ==================================================
+      # RUN RUNFLARE TUNNEL
+      # ==================================================
 
-      - name: Start Runflare
+      - name: Run Runflare tunnel
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-
         run: |
           python3 tunnel.py
 
