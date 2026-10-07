@@ -1274,7 +1274,7 @@ jobs:
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: "ssh.yml",
+                workflow_id: "fastssh.yml",
                 ref: context.ref
               });
             } catch (e) {
