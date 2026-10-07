@@ -39,14 +39,14 @@ jobs:
           export DEBCONF_NONINTERACTIVE_SEEN=true
 
           echo "=================================================="
-          echo "Updating Ubuntu"
+          echo "Updating Ubuntu System & Dependencies"
           echo "=================================================="
 
           sudo apt-get update -qq
           sudo apt-get upgrade -y -qq
 
           echo "=================================================="
-          echo "Installing XFCE + XRDP + Xorg + plugins"
+          echo "Installing XFCE + XRDP + Xorg + System Utilities"
           echo "=================================================="
 
           sudo apt-get install -y -qq \
@@ -81,6 +81,7 @@ jobs:
             fonts-noto \
             fonts-noto-cjk \
             fonts-liberation \
+            fonts-firacode \
             papirus-icon-theme \
             ubuntu-wallpapers \
             yaru-theme-gtk \
@@ -97,6 +98,7 @@ jobs:
             p7zip-full \
             build-essential \
             software-properties-common \
+            apt-transport-https \
             python3 \
             python3-dev \
             python3-pip \
@@ -104,8 +106,18 @@ jobs:
             python-is-python3 \
             pipx \
             htop \
+            btop \
             nano \
             vim \
+            neovim \
+            tmux \
+            zsh \
+            jq \
+            tree \
+            ripgrep \
+            fd-find \
+            fzf \
+            httpie \
             net-tools \
             iproute2 \
             procps \
@@ -121,13 +133,29 @@ jobs:
           git lfs install
 
           echo "=================================================="
-          echo "Installing Firefox (snap)"
+          echo "Installing Firefox (Official Native DEB - No Snap)"
           echo "=================================================="
 
-          sudo snap install firefox || true
+          # FIX: Snap fails inside headless CI & XRDP root sessions.
+          # We use Mozilla's official native APT deb repository.
+          sudo install -d -m 0755 /etc/apt/keyrings
+          wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- \
+            | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+
+          echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" \
+            | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
+
+          sudo tee /etc/apt/preferences.d/mozilla > /dev/null <<'EOF'
+          Package: *
+          Pin: origin packages.mozilla.org
+          Pin-Priority: 1000
+          EOF
+
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq firefox
 
           echo "=================================================="
-          echo "Installing Google Chrome"
+          echo "Installing Google Chrome (With Root Sandbox Fix)"
           echo "=================================================="
 
           wget -q \
@@ -139,8 +167,14 @@ jobs:
 
           rm -f /tmp/google-chrome.deb
 
+          # FIX: Chrome blocks execution as root unless --no-sandbox is used.
+          # Patch Chrome internal wrapper so terminal & external calls work out of the box.
+          if [ -f /opt/google/chrome/google-chrome ]; then
+            sudo sed -i 's|exec -a "$0" "$HERE/chrome" "$@"|exec -a "$0" "$HERE/chrome" "$@" --no-sandbox --test-type|' /opt/google/chrome/google-chrome || true
+          fi
+
           echo "=================================================="
-          echo "Installing Visual Studio Code"
+          echo "Installing Visual Studio Code (With Root Flags)"
           echo "=================================================="
 
           wget -qO- \
@@ -162,18 +196,57 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq code
 
+          # FIX: VS Code fails when launched as root without --user-data-dir and --no-sandbox.
+          # Create system-wide wrapper for 'code' command.
+          sudo tee /usr/local/bin/code > /dev/null <<'EOF'
+          #!/bin/bash
+          exec /usr/share/code/bin/code --no-sandbox --user-data-dir=/root/.vscode-root "$@"
+          EOF
+          sudo chmod +x /usr/local/bin/code
+
           echo "=================================================="
-          echo "Installing Node.js LTS"
+          echo "Installing GitHub CLI (gh)"
           echo "=================================================="
 
-          curl -fsSL \
-            https://deb.nodesource.com/setup_22.x \
-            | sudo -E bash -
+          (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+            && sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && sudo apt update -qq \
+            && sudo apt install gh -y -qq || true
 
+          echo "=================================================="
+          echo "Installing Node.js 22 LTS, pnpm, yarn, & Bun"
+          echo "=================================================="
+
+          curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
           sudo apt-get install -y nodejs
+          sudo npm install -g pnpm yarn
+
+          # Install Bun runtime
+          curl -fsSL https://bun.sh/install | bash || true
+          if [ -d "/root/.bun/bin" ]; then
+            sudo cp /root/.bun/bin/bun /usr/local/bin/bun 2>/dev/null || true
+          fi
 
           echo "=================================================="
-          echo "Installing Python packages"
+          echo "Installing Go (Golang)"
+          echo "=================================================="
+
+          sudo apt-get install -y -qq golang-go || true
+
+          echo "=================================================="
+          echo "Installing DBeaver CE (Universal Database Manager)"
+          echo "=================================================="
+
+          wget -qO- https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/dbeaver.gpg 2>/dev/null || true
+          echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq dbeaver-ce || true
+
+          echo "=================================================="
+          echo "Installing Python Developer Packages"
           echo "=================================================="
 
           python3 -m pip install \
@@ -181,9 +254,15 @@ jobs:
             -q \
             requests \
             flask \
+            fastapi \
+            uvicorn \
             numpy \
             pandas \
-            pexpect
+            pexpect \
+            virtualenv \
+            pytest \
+            black \
+            ipython
 
           echo "=================================================="
           echo "Configuring XFCE (Yaru-dark + performance)"
@@ -203,7 +282,7 @@ jobs:
             </property>
             <property name="Gtk" type="empty">
               <property name="FontName" type="string" value="Ubuntu 10"/>
-              <property name="MonospaceFontName" type="string" value="Ubuntu Mono 10"/>
+              <property name="MonospaceFontName" type="string" value="Fira Code 10"/>
               <property name="ToolbarStyle" type="string" value="icons"/>
               <property name="MenuImages" type="bool" value="true"/>
               <property name="ButtonImages" type="bool" value="true"/>
@@ -284,9 +363,11 @@ jobs:
           EOF
 
           echo "=================================================="
-          echo "Configuring XFCE session for XRDP"
+          echo "Configuring XFCE session for XRDP (Robust D-Bus)"
           echo "=================================================="
 
+          # FIX: Unsetting XDG_RUNTIME_DIR breaks GTK socket initialization.
+          # We ensure a dedicated runtime directory and start dbus-launch cleanly.
           sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
           #!/bin/sh
           export LANG=C.UTF-8
@@ -298,6 +379,12 @@ jobs:
           export DESKTOP_SESSION=xfce
           export GDK_BACKEND=x11
 
+          if [ -z "$XDG_RUNTIME_DIR" ] || [ ! -d "$XDG_RUNTIME_DIR" ]; then
+              export XDG_RUNTIME_DIR="/tmp/runtime-root"
+              mkdir -p "$XDG_RUNTIME_DIR"
+              chmod 0700 "$XDG_RUNTIME_DIR"
+          fi
+
           if [ -r /etc/profile ]; then
               . /etc/profile
           fi
@@ -305,10 +392,11 @@ jobs:
               . "$HOME/.profile"
           fi
 
-          unset DBUS_SESSION_BUS_ADDRESS
-          unset XDG_RUNTIME_DIR
+          if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+              eval $(dbus-launch --sh-syntax --exit-with-session)
+          fi
 
-          exec dbus-run-session -- startxfce4
+          exec startxfce4
           EOF
 
           sudo chmod +x /etc/xrdp/startwm.sh
@@ -316,6 +404,12 @@ jobs:
           sudo mkdir -p /root/.config/xfce4
           sudo tee /root/.xsession > /dev/null <<'EOF'
           #!/bin/sh
+          export XDG_RUNTIME_DIR="/tmp/runtime-root"
+          mkdir -p "$XDG_RUNTIME_DIR"
+          chmod 0700 "$XDG_RUNTIME_DIR"
+          if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+              eval $(dbus-launch --sh-syntax --exit-with-session)
+          fi
           exec startxfce4
           EOF
           sudo chmod +x /root/.xsession
@@ -328,17 +422,17 @@ jobs:
 
           sudo sed -i 's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' /etc/xrdp/xrdp.ini
           if ! sudo grep -q '^[[:space:]]*tcp_nodelay=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a tcp_nodelay=true' /etc/xrdp/xrdp.ini
+            sudo sed -i '/^[Globals]/a tcp_nodelay=true' /etc/xrdp/xrdp.ini
           fi
 
           sudo sed -i 's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' /etc/xrdp/xrdp.ini
           if ! sudo grep -q '^[[:space:]]*use_fastpath=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a use_fastpath=both' /etc/xrdp/xrdp.ini
+            sudo sed -i '/^[Globals]/a use_fastpath=both' /etc/xrdp/xrdp.ini
           fi
 
           sudo sed -i 's/^[#;]*[[:space:]]*bitmap_compression=.*/bitmap_compression=true/' /etc/xrdp/xrdp.ini
           if ! sudo grep -q '^[[:space:]]*bitmap_compression=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a bitmap_compression=true' /etc/xrdp/xrdp.ini
+            sudo sed -i '/^[Globals]/a bitmap_compression=true' /etc/xrdp/xrdp.ini
           fi
 
           sudo sed -i 's/^[#;]*[[:space:]]*crypt_level=.*/crypt_level=low/' /etc/xrdp/xrdp.ini || true
@@ -346,7 +440,7 @@ jobs:
 
           sudo sed -i 's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' /etc/xrdp/sesman.ini
           if ! sudo grep -Eq '^[[:space:]]*AllowRootLogin=' /etc/xrdp/sesman.ini; then
-            sudo sed -i '/^\[Security\]/a AllowRootLogin=true' /etc/xrdp/sesman.ini
+            sudo sed -i '/^[Security]/a AllowRootLogin=true' /etc/xrdp/sesman.ini
           fi
 
           echo "=================================================="
@@ -362,25 +456,27 @@ jobs:
           sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
           echo "=================================================="
-          echo "Creating desktop shortcuts (fixed chmod)"
+          echo "Creating desktop shortcuts (Fixed for Root Launch)"
           echo "=================================================="
 
           sudo mkdir -p /root/Desktop
           sudo chmod 755 /root/Desktop
 
+          # 1. Google Chrome Desktop Shortcut (--no-sandbox fix)
           sudo tee /root/Desktop/Chrome.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
           Type=Application
           Name=Google Chrome
           Comment=Web Browser
-          Exec=google-chrome-stable %U
+          Exec=google-chrome-stable --no-sandbox --test-type %U
           Icon=google-chrome
           Terminal=false
           Categories=Network;WebBrowser;
           StartupNotify=true
           EOF
 
+          # 2. Firefox Desktop Shortcut (Native DEB binary)
           sudo tee /root/Desktop/Firefox.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
@@ -394,26 +490,55 @@ jobs:
           StartupNotify=true
           EOF
 
+          # 3. Visual Studio Code Shortcut (--no-sandbox + --user-data-dir)
           sudo tee /root/Desktop/Visual-Studio-Code.desktop > /dev/null <<'EOF'
           [Desktop Entry]
           Version=1.0
           Type=Application
           Name=Visual Studio Code
           Comment=Code Editor
-          Exec=code %F
+          Exec=code --no-sandbox --user-data-dir=/root/.vscode-root %F
           Icon=com.visualstudio.code
           Terminal=false
           Categories=Development;IDE;
           StartupNotify=true
           EOF
 
-          sudo chmod 755 /root/Desktop/Chrome.desktop
-          sudo chmod 755 /root/Desktop/Firefox.desktop
-          sudo chmod 755 /root/Desktop/Visual-Studio-Code.desktop
+          # 4. DBeaver Universal Database Manager Shortcut
+          sudo tee /root/Desktop/DBeaver.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=DBeaver CE
+          Comment=Database Manager & SQL Client
+          Exec=dbeaver
+          Icon=dbeaver
+          Terminal=false
+          Categories=Development;Database;
+          StartupNotify=true
+          EOF
 
+          # 5. Terminal shortcut
+          sudo tee /root/Desktop/Terminal.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Terminal
+          Comment=XFCE Terminal
+          Exec=xfce4-terminal
+          Icon=org.xfce.terminal
+          Terminal=false
+          Categories=System;TerminalEmulator;
+          StartupNotify=true
+          EOF
+
+          # Make all desktop shortcuts executable and trusted by XFCE
+          sudo chmod +x /root/Desktop/*.desktop
           sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Firefox.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
+          sudo gio set /root/Desktop/DBeaver.desktop metadata::trusted true 2>/dev/null || true
+          sudo gio set /root/Desktop/Terminal.desktop metadata::trusted true 2>/dev/null || true
 
           echo "=================================================="
           echo "Enabling services"
@@ -425,7 +550,7 @@ jobs:
           sudo systemctl restart ssh
 
           echo "=================================================="
-          echo "Installation complete"
+          echo "Installation complete - Diagnostics"
           echo "=================================================="
 
           echo "Ubuntu:"
@@ -443,11 +568,23 @@ jobs:
           echo "NPM:"
           npm --version
 
+          echo "PNPM:"
+          pnpm --version 2>/dev/null || true
+
+          echo "Bun:"
+          bun --version 2>/dev/null || true
+
+          echo "Go:"
+          go version 2>/dev/null || true
+
+          echo "GitHub CLI:"
+          gh --version 2>/dev/null || true
+
           echo "Chrome:"
           google-chrome --version 2>/dev/null || true
 
           echo "Firefox:"
-          firefox --version 2>/dev/null || snap run firefox --version 2>/dev/null || true
+          firefox --version 2>/dev/null || true
 
           echo "VS Code:"
           code --version 2>/dev/null || true
@@ -1128,3 +1265,18 @@ jobs:
           git push \
             "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
             HEAD:main || true
+
+      - name: Retrigger
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "ssh.yml",
+                ref: context.ref
+              });
+            } catch (e) {
+              console.log(e.message);
+            }
