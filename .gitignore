@@ -1,0 +1,4 @@
+/iran/tunnel-server
+/agent/tunnel-agent
+.env
+*.pem
