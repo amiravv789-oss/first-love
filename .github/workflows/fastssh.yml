@@ -15,7 +15,7 @@ jobs:
     steps:
 
       # ============================================================
-      # CHECKOUT REPOSITORY
+      # CHECKOUT REPOSITORY & CONFIGURE GIT
       # ============================================================
 
       - name: Checkout repository
@@ -23,6 +23,11 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           lfs: true
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # ============================================================
       # START RUNFLARE TUNNEL IMMEDIATELY IN BACKGROUND
@@ -1171,8 +1176,8 @@ jobs:
           StartupNotify=true
           EOF
 
-          # Desktop icon permissions
-          sudo chmod +x /root/Desktop/*.desktop
+          # Desktop icon permissions - safely handled without breaking set -e
+          sudo chmod +x /root/Desktop/*.desktop 2>/dev/null || true
           sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Firefox.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
@@ -1235,56 +1240,24 @@ jobs:
           sudo ss -lntp | grep -E ':22|:3389' || true
 
           echo "Desktop files:"
-          sudo ls -la /root/Desktop/
+          sudo ls -la /root/Desktop/ 2>/dev/null || true
 
       # ============================================================
-      # KEEPALIVE & EARLY RETRIGGER (15 MINUTES BEFORE TIMEOUT)
+      # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
       # ============================================================
 
-      - name: Keepalive & 15-minute early retrigger
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+      - name: Keep session alive
         run: |
-          python3 - << 'EOF'
-          import os, time, requests, subprocess
-
-          TOTAL_MINUTES = 350
-          EARLY_TRIGGER_MINUTES = 15
-          WAIT_BEFORE_TRIGGER_SEC = (TOTAL_MINUTES - EARLY_TRIGGER_MINUTES) * 60  # 335 minutes
-          REMAINING_AFTER_TRIGGER_SEC = EARLY_TRIGGER_MINUTES * 60 - 60          # ~14 minutes
-
-          token = os.environ.get("GH_TOKEN", "")
-          repo = os.environ.get("GITHUB_REPOSITORY", "")
-
-          print(f"=== Keepalive Service Running ===", flush=True)
-          print(f"Monitoring background tunnel. Next runner triggers in {TOTAL_MINUTES - EARLY_TRIGGER_MINUTES} minutes...", flush=True)
-
-          start_time = time.time()
-          while True:
-              elapsed = time.time() - start_time
-              if elapsed >= WAIT_BEFORE_TRIGGER_SEC:
-                  break
-              time.sleep(30)
-
-          print("=== 15 MINUTES BEFORE TIMEOUT: Triggering next workflow now ===", flush=True)
-          if token and repo:
-              try:
-                  url = f"https://api.github.com/repos/{repo}/actions/workflows/fastssh.yml/dispatches"
-                  headers = {
-                      "Authorization": f"Bearer {token}",
-                      "Accept": "application/vnd.github+json"
-                  }
-                  resp = requests.post(url, headers=headers, json={"ref": "main"}, timeout=30)
-                  print(f"Workflow dispatch status: {resp.status_code}", flush=True)
-              except Exception as err:
-                  print(f"Workflow dispatch trigger error: {err}", flush=True)
-
-          print("Waiting remaining 14 minutes for seamless transition to next runner...", flush=True)
-          time.sleep(REMAINING_AFTER_TRIGGER_SEC)
-          print("Handoff window complete.", flush=True)
-          EOF
+          echo "=== Desktop and Runflare tunnel are active ==="
+          echo "Keeping runner alive for full duration..."
+          # Loop up to 335 minutes (670 iterations * 30 seconds)
+          for i in $(seq 1 670); do
+            if ! pgrep -f "tunnel.py" > /dev/null; then
+              echo "Re-spawning background tunnel service..."
+              nohup python3 tunnel.py > runflare-runner.log 2>&1 &
+            fi
+            sleep 30
+          done
 
       # ============================================================
       # FINAL REPOSITORY SYNC
@@ -1295,10 +1268,32 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --cached --quiet || \
             git commit \
-              -m "chore: final sync [skip ci]"
+              -m "chore: final sync [skip ci]" || true
           git push \
             "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
             HEAD:main || true
+
+      # ============================================================
+      # STANDARD GITHUB ACTIONS RETRIGGER
+      # ============================================================
+
+      - name: Retrigger
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "fastssh.yml",
+                ref: context.ref
+              });
+            } catch (e) {
+              console.log(e.message);
+            }
