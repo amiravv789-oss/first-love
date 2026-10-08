@@ -207,3 +207,23 @@ jobs:
           echo "Xray or the tunnel agent exited." >&2
           tail -n 80 "${log}" >&2 || true
           exit 1
+
+      # ============================================================
+      # STANDARD GITHUB ACTIONS RETRIGGER
+      # ============================================================
+
+      - name: Retrigger
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "tcp-reverse-tunnel.yml",
+                ref: context.ref
+              });
+            } catch (e) {
+              console.log(e.message);
+            }
