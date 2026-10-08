@@ -33,16 +33,16 @@ jobs:
       - name: Install Xray, start proxies, and run the tunnel
         env:
           XRAY_VERSION: v26.9.30
-          TUNNEL_ADDR: ${{ secrets.TUNNEL_ADDR }}
+          TUNNEL_ADDR: "v2ray-46d-v2r.runflare.cloud:8787"
           TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
           TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
           ALLOW_PORTS: "443,8443,1080,8081"
-          VLESS_UUID: ${{ secrets.VLESS_UUID }}
-          VMESS_UUID: ${{ secrets.VMESS_UUID }}
-          SOCKS_USERNAME: ${{ secrets.SOCKS_USERNAME }}
-          SOCKS_PASSWORD: ${{ secrets.SOCKS_PASSWORD }}
-          HTTP_USERNAME: ${{ secrets.HTTP_USERNAME }}
-          HTTP_PASSWORD: ${{ secrets.HTTP_PASSWORD }}
+          VLESS_UUID: "VLESS_UUID"
+          VMESS_UUID: "VMESS_UUID"
+          SOCKS_USERNAME: "SOCKS"
+          SOCKS_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          HTTP_USERNAME: "HTTP"
+          HTTP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         shell: bash
         run: |
           set -euo pipefail
