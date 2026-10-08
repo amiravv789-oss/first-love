@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT }}   # ← اینجا از PAT استفاده کن (نه GITHUB_TOKEN)
+          token: ${{ secrets.GH_TOKEN }}   # ← اینجا از PAT استفاده کن (نه GITHUB_TOKEN)
           fetch-depth: 0
 
       - name: Find and extract ZIP files
