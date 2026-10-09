@@ -61,7 +61,7 @@ jobs:
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: context.repo.workflow_id,
+                workflow_id: context.workflow_id,
                 ref: context.ref
               });
             } catch (e) {
