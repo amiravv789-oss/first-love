@@ -31,7 +31,7 @@ jobs:
         env:
           TUNNEL_ADDR: "remote-respina-free.runflare.com:31943"
           TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
-          TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
+          TUNNEL_TLS_SHA256: ''
         shell: bash
         run: |
           set -euo pipefail
