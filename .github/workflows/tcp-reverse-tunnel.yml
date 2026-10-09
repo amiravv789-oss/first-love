@@ -2,22 +2,20 @@ name: Run TCP reverse tunnel
 
 on:
   workflow_dispatch:
-  # Keeping this job alive all day spends roughly 1440 GitHub Actions minutes
-  # per day. Uncomment only if the repository can afford that.
-  # schedule:
-  #   - cron: "20 */5 * * *"
 
 permissions:
-  contents: read
-
-concurrency:
-  group: iran-tcp-reverse-tunnel
-  cancel-in-progress: true
+  contents: write
+  actions: write
 
 jobs:
   tunnel:
     runs-on: ubuntu-latest
     timeout-minutes: 350
+
+    permissions:
+      contents: write
+      actions: write
+      
     steps:
       - name: Checkout
         uses: actions/checkout@v4
