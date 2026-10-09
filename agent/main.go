@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"crypto/tls"
+	"crypto/x509"
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
@@ -76,7 +77,7 @@ func tlsConfig(pin string) (*tls.Config, error) {
 	if err != nil || len(want) != 32 {
 		return nil, errors.New("TUNNEL_TLS_SHA256 must be 64 hex chars or empty/insecure")
 	}
-	cfg.VerifyPeerCertificate = func(rawCerts [][]byte, _ [][]*tls.Certificate) error {
+	cfg.VerifyPeerCertificate = func(rawCerts [][]byte, _ [][]*x509.Certificate) error {
 		if len(rawCerts) == 0 {
 			return errors.New("no certificate")
 		}
