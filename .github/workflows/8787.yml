@@ -1,0 +1,54 @@
+name: Run TCP reverse tunnel (exit node)
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "20 */5 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: iran-exit-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  tunnel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.x"
+          cache-dependency-path: agent/go.sum
+
+      - name: Run exit-node agent
+        env:
+          TUNNEL_ADDR: ${{ secrets.TUNNEL_ADDR }}
+          TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
+          TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          if [ -z "${TUNNEL_ADDR}" ] || [ -z "${TUNNEL_TOKEN}" ]; then
+            echo "Set secrets TUNNEL_ADDR and TUNNEL_TOKEN." >&2
+            exit 1
+          fi
+          if [ "${#TUNNEL_TOKEN}" -lt 32 ]; then
+            echo "TUNNEL_TOKEN must be at least 32 characters." >&2
+            exit 1
+          fi
+          case "${TUNNEL_ADDR}" in
+            *://*) echo "TUNNEL_ADDR must be host:port, not a URL." >&2; exit 1 ;;
+          esac
+
+          cd "${GITHUB_WORKSPACE}/agent"
+          go build -mod=vendor -trimpath -ldflags="-s -w" -o "${RUNNER_TEMP}/tunnel-agent" .
+          exec "${RUNNER_TEMP}/tunnel-agent"
