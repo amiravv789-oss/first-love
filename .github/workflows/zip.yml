@@ -1,5 +1,4 @@
 name: Extract ZIP files
-
 on:
   push:
     paths:
@@ -7,9 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  workflows: write
-  
+  contents: write   # برای commit و push معمولی
 
 jobs:
   extract:
@@ -18,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}   # ← اینجا از PAT استفاده کن (نه GITHUB_TOKEN)
           fetch-depth: 0
 
       - name: Find and extract ZIP files
