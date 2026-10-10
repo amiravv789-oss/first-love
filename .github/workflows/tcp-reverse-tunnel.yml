@@ -33,7 +33,7 @@ jobs:
           XRAY_VERSION: v26.9.30
           TUNNEL_ADDR: "remote-respina-free.runflare.com:31889"
           TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
-          TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
+          TUNNEL_TLS_SHA256: ''
           ALLOW_PORTS: "443,8443,1080,8081"
           VLESS_UUID: "6c7ff9a7-eeb3-441f-b11c-bcf30f14a16e"
           VMESS_UUID: "6c7ff9a7-eeb3-441f-b11c-bcf30f14a16e"
