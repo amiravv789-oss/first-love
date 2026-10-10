@@ -31,7 +31,7 @@ jobs:
       - name: Install Xray, start proxies, and run the tunnel
         env:
           XRAY_VERSION: v26.9.30
-          TUNNEL_ADDR: "remote-respina-free.runflare.com:31943"
+          TUNNEL_ADDR: "remote-respina-free.runflare.com:31889"
           TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
           TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
           ALLOW_PORTS: "443,8443,1080,8081"
