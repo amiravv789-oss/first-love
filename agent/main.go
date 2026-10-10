@@ -4,15 +4,15 @@ import (
 	"crypto/sha256"
 	"crypto/subtle"
 	"crypto/tls"
-	"crypto/x509"
 	"encoding/binary"
 	"encoding/hex"
 	"errors"
-	"strconv"
+	"fmt"
 	"io"
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -37,16 +37,24 @@ func main() {
 	if len(token) < 32 || len(token) > 512 {
 		log.Fatal("TUNNEL_TOKEN must be 32 to 512 characters")
 	}
+	ports, err := parsePorts(env("ALLOW_PORTS", "443,8443,1080,8081"))
+	if err != nil {
+		log.Fatalf("ALLOW_PORTS: %v", err)
+	}
+	allow := make(map[uint16]struct{}, len(ports))
+	for _, p := range ports {
+		allow[p] = struct{}{}
+	}
 	tlsCfg, err := tlsConfig(os.Getenv("TUNNEL_TLS_SHA256"))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("exit-node agent connecting to %s", addr)
+	log.Printf("forwarding to 127.0.0.1 on ports %s", env("ALLOW_PORTS", "443,8443,1080,8081"))
 
 	backoff := 3 * time.Second
 	for {
 		start := time.Now()
-		err := run(addr, token, tlsCfg)
+		err := run(addr, token, tlsCfg, allow)
 		if err != nil {
 			log.Printf("tunnel disconnected: %v", err)
 		}
@@ -60,38 +68,88 @@ func main() {
 	}
 }
 
+func env(key, fallback string) string {
+	if v := strings.TrimSpace(os.Getenv(key)); v != "" {
+		return v
+	}
+	return fallback
+}
+
+func parsePorts(raw string) ([]uint16, error) {
+	seen := make(map[uint16]struct{})
+	var out []uint16
+	for _, part := range strings.Split(raw, ",") {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+		n, err := strconv.Atoi(part)
+		if err != nil || n < 1 || n > 65535 {
+			return nil, fmt.Errorf("invalid port %q", part)
+		}
+		p := uint16(n)
+		if _, ok := seen[p]; ok {
+			continue
+		}
+		seen[p] = struct{}{}
+		out = append(out, p)
+	}
+	if len(out) == 0 {
+		return nil, errors.New("port list is empty")
+	}
+	return out, nil
+}
+
 func tlsConfig(pin string) (*tls.Config, error) {
-	normalized := strings.TrimSpace(strings.ToLower(pin))
+	normalized, err := normalizePin(pin)
+	if err != nil {
+		return nil, err
+	}
 	cfg := &tls.Config{
 		MinVersion: tls.VersionTLS12,
 		ServerName: "iran-tcp-tunnel",
 	}
-	if normalized == "" || normalized == "insecure" {
+	if normalized == "insecure" {
 		cfg.InsecureSkipVerify = true
-		if normalized == "insecure" {
-			log.Printf("TLS certificate verification disabled")
-		}
+		log.Printf("TLS certificate is not pinned; the tunnel connects anyway. VPN apps do not use this certificate")
 		return cfg, nil
 	}
-	want, err := hex.DecodeString(normalized)
-	if err != nil || len(want) != 32 {
-		return nil, errors.New("TUNNEL_TLS_SHA256 must be 64 hex chars or empty/insecure")
-	}
-	cfg.VerifyPeerCertificate = func(rawCerts [][]byte, _ [][]*x509.Certificate) error {
-		if len(rawCerts) == 0 {
-			return errors.New("no certificate")
+	// Hostname/CA verification cannot succeed for the auto-generated certificate.
+	// VerifyConnection still checks the exact certificate hash below.
+	cfg.InsecureSkipVerify = true
+	cfg.VerifyConnection = func(cs tls.ConnectionState) error {
+		if len(cs.PeerCertificates) == 0 {
+			return errors.New("iran server presented no certificate")
 		}
-		sum := sha256.Sum256(rawCerts[0])
-		if subtle.ConstantTimeCompare(sum[:], want) != 1 {
-			return errors.New("certificate pin mismatch")
+		sum := sha256.Sum256(cs.PeerCertificates[0].Raw)
+		got := hex.EncodeToString(sum[:])
+		if subtle.ConstantTimeCompare([]byte(got), []byte(normalized)) != 1 {
+			return fmt.Errorf("TLS pin mismatch: server presented %s", got)
 		}
 		return nil
 	}
-	cfg.InsecureSkipVerify = true
 	return cfg, nil
 }
 
-func run(addr, token string, cfg *tls.Config) error {
+func normalizePin(pin string) (string, error) {
+	pin = strings.ToLower(strings.TrimSpace(pin))
+	pin = strings.TrimPrefix(pin, "tls_sha256=")
+	pin = strings.TrimPrefix(pin, "sha256:")
+	pin = strings.TrimPrefix(pin, "sha256/")
+	pin = strings.ReplaceAll(pin, ":", "")
+	pin = strings.ReplaceAll(pin, " ", "")
+	if pin == "" || pin == "insecure" {
+		return "insecure", nil
+	}
+	if len(pin) != 64 || strings.IndexFunc(pin, func(r rune) bool {
+		return (r < '0' || r > '9') && (r < 'a' || r > 'f')
+	}) >= 0 {
+		return "", errors.New("TUNNEL_TLS_SHA256 must be 64 hex characters, optionally prefixed with tls_sha256=, or the word insecure")
+	}
+	return pin, nil
+}
+
+func run(addr, token string, cfg *tls.Config, allow map[uint16]struct{}) error {
 	dialer := net.Dialer{
 		Timeout:         15 * time.Second,
 		KeepAliveConfig: net.KeepAliveConfig{Enable: true, Interval: 30 * time.Second},
@@ -135,57 +193,40 @@ func run(addr, token string, cfg *tls.Config) error {
 		return err
 	}
 	defer mux.Close()
-	log.Printf("connected to %s (exit node ready)", addr)
+	log.Printf("connected to %s", addr)
 	for {
 		stream, err := mux.Accept()
 		if err != nil {
 			return err
 		}
-		go handleStream(stream)
+		go handle(stream, allow)
 	}
 }
 
-func handleStream(stream net.Conn) {
+func handle(stream net.Conn, allow map[uint16]struct{}) {
 	defer stream.Close()
-	_ = stream.SetReadDeadline(time.Now().Add(20 * time.Second))
-
-	// Protocol: 1 byte hostLen + host + 2 byte port (big endian)
-	var lenb [1]byte
-	if _, err := io.ReadFull(stream, lenb[:]); err != nil {
-		return
-	}
-	hostLen := int(lenb[0])
-	if hostLen < 1 || hostLen > 253 {
-		return
-	}
-	hostBuf := make([]byte, hostLen)
-	if _, err := io.ReadFull(stream, hostBuf); err != nil {
-		return
-	}
-	var portb [2]byte
-	if _, err := io.ReadFull(stream, portb[:]); err != nil {
+	_ = stream.SetReadDeadline(time.Now().Add(15 * time.Second))
+	var hdr [2]byte
+	if _, err := io.ReadFull(stream, hdr[:]); err != nil {
 		return
 	}
 	_ = stream.SetDeadline(time.Time{})
-	port := binary.BigEndian.Uint16(portb[:])
-	host := string(hostBuf)
-	target := net.JoinHostPort(host, itoa(int(port)))
-
+	port := binary.BigEndian.Uint16(hdr[:])
+	if _, ok := allow[port]; !ok {
+		log.Printf("rejected forwarded port %d", port)
+		return
+	}
 	dialer := net.Dialer{
-		Timeout:         15 * time.Second,
+		Timeout:         10 * time.Second,
 		KeepAliveConfig: net.KeepAliveConfig{Enable: true, Interval: 30 * time.Second},
 	}
-	dst, err := dialer.Dial("tcp", target)
+	dst, err := dialer.Dial("tcp", net.JoinHostPort("127.0.0.1", strconv.Itoa(int(port))))
 	if err != nil {
-		log.Printf("dial %s: %v", target, err)
+		log.Printf("dial local port %d: %v", port, err)
 		return
 	}
 	defer dst.Close()
 	proxy(dst, stream)
-}
-
-func itoa(n int) string {
-	return strconv.Itoa(n)
 }
 
 func proxy(a, b net.Conn) {

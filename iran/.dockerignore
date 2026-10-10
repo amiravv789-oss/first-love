@@ -1,0 +1,5 @@
+*_test.go
+docker-compose.yml
+.env
+.env.*
+README.md

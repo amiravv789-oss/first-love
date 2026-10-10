@@ -1,0 +1,227 @@
+name: Run TCP reverse tunnel
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  tunnel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    permissions:
+      contents: write
+      actions: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.x"
+          cache-dependency-path: agent/go.sum
+
+      - name: Install Xray, start proxies, and run the tunnel
+        env:
+          XRAY_VERSION: v26.9.30
+          TUNNEL_ADDR: "remote-respina-free.runflare.com:31943"
+          TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
+          TUNNEL_TLS_SHA256: ${{ secrets.TUNNEL_TLS_SHA256 }}
+          ALLOW_PORTS: "443,8443,1080,8081"
+          VLESS_UUID: "6c7ff9a7-eeb3-441f-b11c-bcf30f14a16e"
+          VMESS_UUID: "6c7ff9a7-eeb3-441f-b11c-bcf30f14a16e"
+          SOCKS_USERNAME: "SOCKS"
+          SOCKS_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          HTTP_USERNAME: "HTTP"
+          HTTP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          if [ -z "${TUNNEL_ADDR}" ] || [ -z "${TUNNEL_TOKEN}" ]; then
+            echo "Set secrets TUNNEL_ADDR and TUNNEL_TOKEN." >&2
+            exit 1
+          fi
+          if [ "${#TUNNEL_TOKEN}" -lt 32 ]; then
+            echo "TUNNEL_TOKEN must be at least 32 characters." >&2
+            exit 1
+          fi
+          case "${TUNNEL_ADDR}" in
+            *://*) echo "TUNNEL_ADDR must be host:port, not a URL." >&2; exit 1 ;;
+          esac
+
+          case "$(uname -m)" in
+            x86_64|amd64)
+              asset="Xray-linux-64.zip"
+              sum="f851110beaff16e78d643f0ccfd9524b4a44dfd59bae3e34bb52bba378f7690e"
+              ;;
+            aarch64|arm64)
+              asset="Xray-linux-arm64-v8a.zip"
+              sum="9886f077f9fd8e6713b84c377c1c7db4e53b9bfa8c276a5bd12561139522b473"
+              ;;
+            *)
+              echo "unsupported architecture: $(uname -m)" >&2
+              exit 1
+              ;;
+          esac
+
+          work="${RUNNER_TEMP}/xray-dist"
+          mkdir -p "${work}"
+          curl -fL --retry 5 --retry-delay 2 -o "${work}/xray.zip" \
+            "https://github.com/XTLS/Xray-core/releases/download/${XRAY_VERSION}/${asset}"
+          echo "${sum}  ${work}/xray.zip" | sha256sum -c -
+          python3 -c 'import sys,zipfile; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])' \
+            "${work}/xray.zip" "${work}/files"
+          sudo install -d -m 0755 /usr/local/bin /usr/local/share/xray
+          sudo install -m 0755 "${work}/files/xray" /usr/local/bin/xray
+          sudo install -m 0644 "${work}/files/geoip.dat" "${work}/files/geosite.dat" /usr/local/share/xray/
+          xray version
+
+          # Let the runner user bind the local Xray ports 443 and 8443.
+          sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0 >/dev/null
+
+          export XRAY_CONFIG="${RUNNER_TEMP}/xray-config.json"
+          python3 - <<'PY'
+          import json, os, uuid
+          def need(key):
+              value = os.environ.get(key, "")
+              if not value:
+                  raise SystemExit(f"missing secret {key}")
+              return value
+          def need_uuid(key):
+              value = need(key)
+              uuid.UUID(value)
+              return value
+          cfg = {
+              "log": {"loglevel": "warning"},
+              "inbounds": [
+                  {
+                      "tag": "vless-in",
+                      "listen": "127.0.0.1",
+                      "port": 443,
+                      "protocol": "vless",
+                      "settings": {
+                          "clients": [{"id": need_uuid("VLESS_UUID")}],
+                          "decryption": "none",
+                      },
+                      "streamSettings": {"network": "tcp", "security": "none"},
+                  },
+                  {
+                      "tag": "vmess-in",
+                      "listen": "127.0.0.1",
+                      "port": 8443,
+                      "protocol": "vmess",
+                      "settings": {"clients": [{"id": need_uuid("VMESS_UUID"), "alterId": 0}]},
+                      "streamSettings": {"network": "tcp", "security": "none"},
+                  },
+                  {
+                      "tag": "socks-in",
+                      "listen": "127.0.0.1",
+                      "port": 1080,
+                      "protocol": "socks",
+                      "settings": {
+                          "auth": "password",
+                          "accounts": [{"user": need("SOCKS_USERNAME"), "pass": need("SOCKS_PASSWORD")}],
+                          "udp": False,
+                      },
+                  },
+                  {
+                      "tag": "http-in",
+                      "listen": "127.0.0.1",
+                      "port": 8081,
+                      "protocol": "http",
+                      "settings": {
+                          "accounts": [{"user": need("HTTP_USERNAME"), "pass": need("HTTP_PASSWORD")}],
+                          "allowTransparent": False,
+                      },
+                  },
+              ],
+              "outbounds": [{"tag": "direct", "protocol": "freedom", "settings": {}}],
+              "routing": {"domainStrategy": "AsIs", "rules": []},
+          }
+          path = os.environ["XRAY_CONFIG"]
+          with open(path, "w", encoding="utf-8") as fh:
+              json.dump(cfg, fh)
+          os.chmod(path, 0o600)
+          PY
+          xray run -test -c "${XRAY_CONFIG}"
+
+          log="${RUNNER_TEMP}/xray.log"
+          XPID=""
+          APID=""
+          cleanup() {
+            if [ -n "${APID}" ]; then kill "${APID}" 2>/dev/null || true; fi
+            if [ -n "${XPID}" ]; then kill "${XPID}" 2>/dev/null || true; fi
+          }
+          trap cleanup EXIT
+
+          env -u TUNNEL_TOKEN -u TUNNEL_TLS_SHA256 -u TUNNEL_ADDR \
+            xray run -c "${XRAY_CONFIG}" >"${log}" 2>&1 &
+          XPID=$!
+
+          if ! python3 - <<'PY'
+          import socket, sys, time
+          ports = [443, 8443, 1080, 8081]
+          last = []
+          for _ in range(30):
+              last = []
+              for port in ports:
+                  sock = socket.socket()
+                  sock.settimeout(0.4)
+                  try:
+                      sock.connect(("127.0.0.1", port))
+                  except Exception:
+                      last.append(port)
+                  finally:
+                      sock.close()
+              if not last:
+                  sys.exit(0)
+              time.sleep(1)
+          sys.exit("Xray did not open ports: " + ",".join(str(p) for p in last))
+          PY
+          then
+            echo "Xray log:" >&2
+            cat "${log}" >&2 || true
+            exit 1
+          fi
+
+          (
+            cd "${GITHUB_WORKSPACE}/agent"
+            go build -mod=vendor -trimpath -ldflags="-s -w" -o "${RUNNER_TEMP}/tunnel-agent" .
+          )
+          "${RUNNER_TEMP}/tunnel-agent" &
+          APID=$!
+
+          while kill -0 "${XPID}" 2>/dev/null && kill -0 "${APID}" 2>/dev/null; do
+            sleep 5
+          done
+          echo "Xray or the tunnel agent exited." >&2
+          tail -n 80 "${log}" >&2 || true
+          exit 1
+
+      # ============================================================
+      # STANDARD GITHUB ACTIONS RETRIGGER
+      # ============================================================
+
+      - name: Retrigger
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "tcp-reverse-tunnel.yml",
+                ref: context.ref
+              });
+            } catch (e) {
+              console.log(e.message);
+            }
