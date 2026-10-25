@@ -114,13 +114,12 @@ jobs:
                       "streamSettings": {"network": "tcp", "security": "none"},
                   },
                   {
-                      "tag": "vmess-in",
+                      "tag": "vless-xhttp-in",
                       "listen": "127.0.0.1",
                       "port": 8443,
-                      "protocol": "vmess",
-                      "settings": {"clients": [{"id": need_uuid("VMESS_UUID"), "alterId": 0}]},
-                      "streamSettings": {"network": "tcp", "security": "none"},
-                  },
+                      "protocol": "vless",
+                      "settings": {"clients": [{"id": need_uuid("VLESS_UUID"), "decryption": "none", "alterId": 0}]},
+                      "streamSettings": {"network": "xhttp", "security": "none", "xhttpSettings": {"path": "/", "mode": "auto"}},
                   {
                       "tag": "socks-in",
                       "listen": "127.0.0.1",
