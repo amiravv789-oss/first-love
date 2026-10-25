@@ -344,7 +344,7 @@ def run_tunnel():
     log(
         "Starting Runflare reverse SSH tunnel..."
     )
-    
+
     command = (
         "ssh "
         "-p 31212 "
