@@ -111,15 +111,29 @@ jobs:
                           "clients": [{"id": need_uuid("VLESS_UUID")}],
                           "decryption": "none",
                       },
-                      "streamSettings": {"network": "tcp", "security": "none"},
+                      "streamSettings": {
+                          "network": "tcp",
+                          "security": "none",
+                      },
                   },
                   {
                       "tag": "vless-xhttp-in",
-                      "listen": "127.0.0.1",
+                      "listen": "0.0.0.0",
                       "port": 8443,
                       "protocol": "vless",
-                      "settings": {"clients": [{"id": need_uuid("VLESS_UUID"), "decryption": "none", "alterId": 0}]},
-                      "streamSettings": {"network": "xhttp", "security": "none", "xhttpSettings": {"path": "/", "mode": "auto"}},
+                      "settings": {
+                          "clients": [{"id": need_uuid("VLESS_UUID")}],
+                          "decryption": "none",
+                      },
+                      "streamSettings": {
+                          "network": "xhttp",
+                          "security": "none",
+                          "xhttpSettings": {
+                              "path": "/",
+                              "mode": "auto",
+                          },
+                      },
+                  },
                   {
                       "tag": "socks-in",
                       "listen": "127.0.0.1",
@@ -127,7 +141,12 @@ jobs:
                       "protocol": "socks",
                       "settings": {
                           "auth": "password",
-                          "accounts": [{"user": need("SOCKS_USERNAME"), "pass": need("SOCKS_PASSWORD")}],
+                          "accounts": [
+                              {
+                                  "user": need("SOCKS_USERNAME"),
+                                  "pass": need("SOCKS_PASSWORD"),
+                              }
+                          ],
                           "udp": False,
                       },
                   },
@@ -137,13 +156,27 @@ jobs:
                       "port": 8081,
                       "protocol": "http",
                       "settings": {
-                          "accounts": [{"user": need("HTTP_USERNAME"), "pass": need("HTTP_PASSWORD")}],
+                          "accounts": [
+                              {
+                                  "user": need("HTTP_USERNAME"),
+                                  "pass": need("HTTP_PASSWORD"),
+                              }
+                          ],
                           "allowTransparent": False,
                       },
                   },
               ],
-              "outbounds": [{"tag": "direct", "protocol": "freedom", "settings": {}}],
-              "routing": {"domainStrategy": "AsIs", "rules": []},
+              "outbounds": [
+                  {
+                      "tag": "direct",
+                      "protocol": "freedom",
+                      "settings": {},
+                  }
+              ],
+              "routing": {
+                  "domainStrategy": "AsIs",
+                  "rules": [],
+              },
           }
           path = os.environ["XRAY_CONFIG"]
           with open(path, "w", encoding="utf-8") as fh:
