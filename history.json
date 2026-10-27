@@ -218614,8 +218614,320 @@
       "size": 466999,
       "status": "ok",
       "file_name": "sakura M!X.txt",
-      "first_seen": "2026-10-27T03:04:30.422050",
-      "done_at": "2026-10-27T03:04:30.945355"
+      "first_seen": "2026-10-27T03:04:30.422050"
+    },
+    "Wolf HOTMA!LS [312].txt::11669": {
+      "size": 11669,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [312].txt",
+      "first_seen": "2026-10-27T03:34:28.554573"
+    },
+    "Norway_Part0_@RdpCr4ck.txt::26215": {
+      "size": 26215,
+      "status": "ok",
+      "file_name": "Norway_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-10-27T03:51:25.573469"
+    },
+    "sakura M!X.txt::19712": {
+      "size": 19712,
+      "status": "ok",
+      "file_name": "sakura M!X.txt",
+      "first_seen": "2026-10-27T03:51:50.671616"
+    },
+    "sakura M!X.txt::18499": {
+      "size": 18499,
+      "status": "ok",
+      "file_name": "sakura M!X.txt",
+      "first_seen": "2026-10-27T03:54:45.890286"
+    },
+    "SAFECLOUD - EVERYTHING -  ULPs and LOGs #9.txt::2928091": {
+      "size": 2928091,
+      "status": "ok",
+      "file_name": "SAFECLOUD - EVERYTHING -  ULPs and LOGs #9.txt",
+      "first_seen": "2026-10-27T03:55:49.197124"
+    },
+    "SAFECLOUD - EVERYTHING - LIVE TRAFFIC #10.txt::2928091": {
+      "size": 2928091,
+      "status": "ok",
+      "file_name": "SAFECLOUD - EVERYTHING - LIVE TRAFFIC #10.txt",
+      "first_seen": "2026-10-27T03:55:50.144879"
+    },
+    "[4395] MK2 CLOUD M!X.txt::154283": {
+      "size": 154283,
+      "status": "ok",
+      "file_name": "[4395] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T04:01:50.033933"
+    },
+    "آزمون_۹_زیست_دوازدهم_و_مرور_دهم_@Digimaze.pdf::7887003": {
+      "size": 7887003,
+      "status": "ok",
+      "file_name": "آزمون_۹_زیست_دوازدهم_و_مرور_دهم_@Digimaze.pdf",
+      "first_seen": "2026-10-27T04:03:48.593070"
+    },
+    "[19036] MK2 CLOUD M!X.txt::641686": {
+      "size": 641686,
+      "status": "ok",
+      "file_name": "[19036] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T04:10:36.905478"
+    },
+    "Hotmails FRESH.txt::56113": {
+      "size": 56113,
+      "status": "ok",
+      "file_name": "Hotmails FRESH.txt",
+      "first_seen": "2026-10-27T04:14:19.904931"
+    },
+    "2026.10.26 - @LOGS_CENTER_NEW.rar::2427955918": {
+      "size": 2427955918,
+      "status": "ok",
+      "file_name": "2026.10.26 - @LOGS_CENTER_NEW.rar",
+      "first_seen": "2026-10-27T04:15:57.752457"
+    },
+    "sakura HOTMA!LS.txt::79314": {
+      "size": 79314,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-10-27T04:21:07.830699"
+    },
+    "MIX FRESH.txt::15097": {
+      "size": 15097,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-10-27T04:28:20.903954"
+    },
+    "15k HOTMAIL GOODS D4RKNETHUB CLOUD.txt::552314": {
+      "size": 552314,
+      "status": "ok",
+      "file_name": "15k HOTMAIL GOODS D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-10-27T04:34:06.269114"
+    },
+    "Wolf HOTMA!LS [2360].txt::82400": {
+      "size": 82400,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [2360].txt",
+      "first_seen": "2026-10-27T04:34:16.568858"
+    },
+    "Semi Valide FA [2026-10-27 04-57-10 UTC].txt::242073": {
+      "size": 242073,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-10-27 04-57-10 UTC].txt",
+      "first_seen": "2026-10-27T04:57:14.788233"
+    },
+    "[516] MK2 CLOUD M!X.txt::19369": {
+      "size": 19369,
+      "status": "ok",
+      "file_name": "[516] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T04:58:47.913715"
+    },
+    "China_Part6_@RdpCr4ck.txt::299338": {
+      "size": 299338,
+      "status": "ok",
+      "file_name": "China_Part6_@RdpCr4ck.txt",
+      "first_seen": "2026-10-27T05:00:23.657023"
+    },
+    "[498] MK2 CLOUD M!X.txt::18150": {
+      "size": 18150,
+      "status": "ok",
+      "file_name": "[498] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T05:01:59.610093"
+    },
+    "6.5k Hotmail  .txt::236971": {
+      "size": 236971,
+      "status": "ok",
+      "file_name": "6.5k Hotmail  .txt",
+      "first_seen": "2026-10-27T05:06:04.089523"
+    },
+    "26k Mail With Valid MIX [FREE TG] 27.10.26.txt::921720": {
+      "size": 921720,
+      "status": "ok",
+      "file_name": "26k Mail With Valid MIX [FREE TG] 27.10.26.txt",
+      "first_seen": "2026-10-27T05:12:08.763654"
+    },
+    "[2612] MK2 CLOUD HOTMA!LS.txt::95298": {
+      "size": 95298,
+      "status": "ok",
+      "file_name": "[2612] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-27T05:27:34.237136"
+    },
+    "412x UHQ Hotmails @MalfaBack.txt::14966": {
+      "size": 14966,
+      "status": "ok",
+      "file_name": "412x UHQ Hotmails @MalfaBack.txt",
+      "first_seen": "2026-10-27T05:28:38.999944"
+    },
+    "Wolf M!X [9017].txt::300384": {
+      "size": 300384,
+      "status": "ok",
+      "file_name": "Wolf M!X [9017].txt",
+      "first_seen": "2026-10-27T05:34:07.227955"
+    },
+    "300 .CA  MAIL ACCESS.txt::11008": {
+      "size": 11008,
+      "status": "ok",
+      "file_name": "300 .CA  MAIL ACCESS.txt",
+      "first_seen": "2026-10-27T05:42:29.591227"
+    },
+    "USA.txt::194479": {
+      "size": 194479,
+      "status": "ok",
+      "file_name": "USA.txt",
+      "first_seen": "2026-10-27T05:42:29.944875"
+    },
+    "21K MIX.txt::740946": {
+      "size": 740946,
+      "status": "ok",
+      "file_name": "21K MIX.txt",
+      "first_seen": "2026-10-27T05:42:31.291351"
+    },
+    "sakura HOTMA!LS.txt::44834": {
+      "size": 44834,
+      "status": "ok",
+      "file_name": "sakura HOTMA!LS.txt",
+      "first_seen": "2026-10-27T05:44:58.952772"
+    },
+    "Rawen_Cloud_2026-10-27_ms_001_1262L.txt::44510": {
+      "size": 44510,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-10-27_ms_001_1262L.txt",
+      "first_seen": "2026-10-27T05:55:14.208288"
+    },
+    "Rawen_Cloud_2026-10-26_mix_001_4672L.txt::160322": {
+      "size": 160322,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-10-26_mix_001_4672L.txt",
+      "first_seen": "2026-10-27T05:55:14.668102"
+    },
+    "11M+ UHQ ULPs @MalfaBack.txt::743968619": {
+      "size": 743968619,
+      "status": "ok",
+      "file_name": "11M+ UHQ ULPs @MalfaBack.txt",
+      "first_seen": "2026-10-27T05:58:43.658067"
+    },
+    "@RUNXCLOUD FREE ULP 2026-10-27.txt::209723231": {
+      "size": 209723231,
+      "status": "ok",
+      "file_name": "@RUNXCLOUD FREE ULP 2026-10-27.txt",
+      "first_seen": "2026-10-27T06:04:22.704319"
+    },
+    "تیزهوشان- درستیو 30 مهر.zip::25008035": {
+      "size": 25008035,
+      "status": "ok",
+      "file_name": "تیزهوشان- درستیو 30 مهر.zip",
+      "first_seen": "2026-10-27T06:09:26.432329"
+    },
+    "خیلی سبز برنامه تستی1405.zip::67806712": {
+      "size": 67806712,
+      "status": "ok",
+      "file_name": "خیلی سبز برنامه تستی1405.zip",
+      "first_seen": "2026-10-27T06:09:58.129951"
+    },
+    "خیلی سبز برنامه تشریحی 1405.zip::24843030": {
+      "size": 24843030,
+      "status": "ok",
+      "file_name": "خیلی سبز برنامه تشریحی 1405.zip",
+      "first_seen": "2026-10-27T06:10:03.997439"
+    },
+    "12E- ماز 1 آبان.zip::30824107": {
+      "size": 30824107,
+      "status": "ok",
+      "file_name": "12E- ماز 1 آبان.zip",
+      "first_seen": "2026-10-27T06:15:01.988279"
+    },
+    "11E-ماز  1 آبان.zip::25772201": {
+      "size": 25772201,
+      "status": "ok",
+      "file_name": "11E-ماز  1 آبان.zip",
+      "first_seen": "2026-10-27T06:15:02.332875"
+    },
+    "10E-ماز  1 آبان.zip::21321749": {
+      "size": 21321749,
+      "status": "ok",
+      "file_name": "10E-ماز  1 آبان.zip",
+      "first_seen": "2026-10-27T06:15:02.667667"
+    },
+    "2.1k @plutobearz.rar::29074868": {
+      "size": 29074868,
+      "status": "ok",
+      "file_name": "2.1k @plutobearz.rar",
+      "first_seen": "2026-10-27T06:25:03.135155"
+    },
+    "@MnemoCloud - Free ULP (30).txt::245791502": {
+      "size": 245791502,
+      "status": "ok",
+      "file_name": "@MnemoCloud - Free ULP (30).txt",
+      "first_seen": "2026-10-27T06:26:04.467085"
+    },
+    "[1220] MK2 CLOUD HOTMA!LS.txt::45095": {
+      "size": 45095,
+      "status": "ok",
+      "file_name": "[1220] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-27T06:51:29.492139"
+    },
+    "nugget wallahi   polyphony_digital.m4a::1380488": {
+      "size": 1380488,
+      "status": "ok",
+      "file_name": "nugget wallahi   polyphony_digital.m4a",
+      "first_seen": "2026-10-27T06:59:23.133686"
+    },
+    "YAMETE KUDASAI FUNK (Speed Up).m4a::926746": {
+      "size": 926746,
+      "status": "ok",
+      "file_name": "YAMETE KUDASAI FUNK (Speed Up).m4a",
+      "first_seen": "2026-10-27T07:02:42.303915"
+    },
+    "e5be061c_69d8_4ef9_8881_8db6677f7bb7Femboy_140_audio_only_medi.m4a::3670526": {
+      "size": 3670526,
+      "status": "ok",
+      "file_name": "e5be061c_69d8_4ef9_8881_8db6677f7bb7Femboy_140_audio_only_medi.m4a",
+      "first_seen": "2026-10-27T07:04:12.056514"
+    },
+    "Reza_$adeghi_Faryad_Official_Lyric_Video_موزیک_فریاد_از_رضا.m4a::4071644": {
+      "size": 4071644,
+      "status": "ok",
+      "file_name": "Reza_$adeghi_Faryad_Official_Lyric_Video_موزیک_فریاد_از_رضا.m4a",
+      "first_seen": "2026-10-27T07:08:37.741486"
+    },
+    "Ordinary.m4a::3026848": {
+      "size": 3026848,
+      "status": "ok",
+      "file_name": "Ordinary.m4a",
+      "first_seen": "2026-10-27T07:13:15.680143"
+    },
+    "c_10_1792577073.pdf::742635": {
+      "size": 742635,
+      "status": "ok",
+      "file_name": "c_10_1792577073.pdf",
+      "first_seen": "2026-10-27T07:14:23.052470"
+    },
+    "معاینات پزشکی.pdf::162103": {
+      "size": 162103,
+      "status": "ok",
+      "file_name": "معاینات پزشکی.pdf",
+      "first_seen": "2026-10-27T07:14:23.397324"
+    },
+    "[DarkCloud] UHQ Private Mix x1775.txt::58587": {
+      "size": 58587,
+      "status": "ok",
+      "file_name": "[DarkCloud] UHQ Private Mix x1775.txt",
+      "first_seen": "2026-10-27T07:17:41.681482"
+    },
+    "[DarkCloud] UHQ Hotmails x547.txt::19816": {
+      "size": 19816,
+      "status": "ok",
+      "file_name": "[DarkCloud] UHQ Hotmails x547.txt",
+      "first_seen": "2026-10-27T07:17:42.108406"
+    },
+    "Testing file 🥲🥲.dark::1637": {
+      "size": 1637,
+      "status": "ok",
+      "file_name": "Testing file 🥲🥲.dark",
+      "first_seen": "2026-10-27T07:49:52.422491"
+    },
+    "ChkX_486732.txt::3320": {
+      "size": 3320,
+      "status": "ok",
+      "file_name": "ChkX_486732.txt",
+      "first_seen": "2026-10-27T08:35:58.551664",
+      "done_at": "2026-10-27T08:35:58.985348"
     }
   },
   "last_check": 1789221710.379466
