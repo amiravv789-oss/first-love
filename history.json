@@ -219574,8 +219574,86 @@
       "size": 2041332,
       "status": "ok",
       "file_name": "جزوه کل قواعد و نکات مبحث ترجمه(1).pdf",
-      "first_seen": "2026-10-27T19:20:07.231606",
-      "done_at": "2026-10-27T19:20:07.807583"
+      "first_seen": "2026-10-27T19:20:07.231606"
+    },
+    "[238] MK2 CLOUD HOTMA!LS.txt::9583": {
+      "size": 9583,
+      "status": "ok",
+      "file_name": "[238] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-27T19:42:51.182568"
+    },
+    "[2442] MK2 CLOUD M!X.txt::92398": {
+      "size": 92398,
+      "status": "ok",
+      "file_name": "[2442] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T20:21:41.702743"
+    },
+    "[136] MK2 CLOUD M!X.txt::5661": {
+      "size": 5661,
+      "status": "ok",
+      "file_name": "[136] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T20:34:56.922329"
+    },
+    "Home   Vivian Roost.m4a::4077732": {
+      "size": 4077732,
+      "status": "ok",
+      "file_name": "Home   Vivian Roost.m4a",
+      "first_seen": "2026-10-27T20:36:14.033027"
+    },
+    "[588] MK2 CLOUD HOTMA!LS.txt::22613": {
+      "size": 22613,
+      "status": "ok",
+      "file_name": "[588] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-27T20:56:16.838358"
+    },
+    "Hotmail PandaCloud.txt::3795": {
+      "size": 3795,
+      "status": "ok",
+      "file_name": "Hotmail PandaCloud.txt",
+      "first_seen": "2026-10-27T22:03:03.660098"
+    },
+    "[2605] MK2 CLOUD HOTMA!LS.txt::94812": {
+      "size": 94812,
+      "status": "ok",
+      "file_name": "[2605] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-27T22:32:17.781530"
+    },
+    "[19053] MK2 CLOUD M!X.txt::643643": {
+      "size": 643643,
+      "status": "ok",
+      "file_name": "[19053] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T22:54:04.130341"
+    },
+    "[7877] MK2 CLOUD M!X.txt::297318": {
+      "size": 297318,
+      "status": "ok",
+      "file_name": "[7877] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T23:02:04.655877"
+    },
+    "[3951] MK2 CLOUD M!X.txt::140195": {
+      "size": 140195,
+      "status": "ok",
+      "file_name": "[3951] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T23:05:35.788177"
+    },
+    "[140] MK2 CLOUD M!X.txt::5974": {
+      "size": 5974,
+      "status": "ok",
+      "file_name": "[140] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-27T23:09:06.602576"
+    },
+    "[308] MK2 CLOUD HOTMA!LS.txt::11951": {
+      "size": 11951,
+      "status": "ok",
+      "file_name": "[308] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-10-28T00:42:25.054932"
+    },
+    "[1825] MK2 CLOUD M!X.txt::68636": {
+      "size": 68636,
+      "status": "ok",
+      "file_name": "[1825] MK2 CLOUD M!X.txt",
+      "first_seen": "2026-10-28T00:45:53.582166",
+      "done_at": "2026-10-28T00:45:53.982410"
     }
   },
   "last_check": 1789221710.379466
