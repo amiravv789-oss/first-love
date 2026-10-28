@@ -53,6 +53,7 @@ jobs:
           # Fixed test endpoint: no workflow_dispatch inputs required.
           PROXY_TEST_HOST: "remote-respina-free.runflare.com"
           PROXY_TEST_PORT: "32046"
+          PROXY_TEST_CLIENT_HOST: "relay.internal"
           MAX_RUNS: "5"
           ITERATION: ${{ github.event.client_payload.iteration || 1 }}
         shell: bash
@@ -91,8 +92,8 @@ jobs:
             echo "::error::Set repository secret SSH_PASSWORD."
             exit 1
           fi
-          if ! [[ "${PROXY_TEST_PORT}" =~ ^[0-9]+$ ]] || (( PROXY_TEST_PORT < 1 || PROXY_TEST_PORT > 65535 )); then
-            echo "::error::Invalid PROXY_TEST_PORT."
+          if [[ "${PROXY_TEST_PORT}" != "32046" ]]; then
+            echo "::error::PROXY_TEST_PORT must be exactly 32046; refusing to test another port."
             exit 1
           fi
 
@@ -282,7 +283,7 @@ jobs:
           sleep 12
           tail -n 40 "${alog}" || true
 
-          echo "========== TCP REACHABILITY CHECK =========="
+          echo "========== TCP REACHABILITY CHECK (FIXED PORT 32046) =========="
           python3 - <<'PY'
           import os, socket, time
           host = os.environ["PROXY_TEST_HOST"]
@@ -304,7 +305,24 @@ jobs:
               print("No TCP samples succeeded. The relay may not expose this public port.")
           PY
 
-          echo "========== REAL VLESS / HTTPUpgrade PROXY TEST =========="
+          echo "========== REAL VLESS / HTTPUpgrade PROXY TEST (FIXED PORT 32046) =========="
+          # Xray 26.9.30 blocks plaintext VLESS outbound to public domains.
+          # relay.internal is a local-only private-domain alias mapped to the relay's resolved IPv4.
+          # The TCP destination remains the relay endpoint on port 32046; no relay settings change.
+          relay_ip="$(python3 - <<'PY'
+          import os, socket, sys
+          host = os.environ["PROXY_TEST_HOST"]
+          try:
+              values = sorted({item[4][0] for item in socket.getaddrinfo(host, None, socket.AF_INET, socket.SOCK_STREAM)})
+          except OSError as exc:
+              sys.exit(f"Could not resolve relay host {host}: {exc}")
+          if not values:
+              sys.exit(f"No IPv4 address found for relay host {host}")
+          print(values[0])
+          PY
+          )"
+          echo "Relay resolved IPv4: ${relay_ip}"
+          echo "${relay_ip} ${PROXY_TEST_CLIENT_HOST}" | sudo tee -a /etc/hosts >/dev/null
           export XRAY_CLIENT_CONFIG="${RUNNER_TEMP}/xray-client.json"
           python3 - <<'PY'
           import json, os, uuid
@@ -324,7 +342,7 @@ jobs:
                   "protocol": "vless",
                   "settings": {
                       "vnext": [{
-                          "address": os.environ["PROXY_TEST_HOST"],
+                          "address": os.environ["PROXY_TEST_CLIENT_HOST"],
                           "port": int(os.environ["PROXY_TEST_PORT"]),
                           "users": [{"id": uid, "encryption": "none"}]
                       }]
@@ -363,16 +381,34 @@ jobs:
                   time.sleep(1)
           sys.exit("Xray test client did not open port 10808")
           PY
+            vless_ok=0
+            vless_failed=0
             for i in 1 2 3 4 5; do
-              echo "--- VLESS HTTP request ${i}/5 ---"
-              curl --silent --show-error --output /dev/null \
+              echo "--- VLESS HTTP request ${i}/5 via ${PROXY_TEST_HOST}:${PROXY_TEST_PORT} ---"
+              if result=$(curl --silent --show-error --output /dev/null \
                 --socks5-hostname 127.0.0.1:10808 \
                 --connect-timeout 12 --max-time 25 \
-                --write-out 'http_code=%{http_code} total=%{time_total}s connect=%{time_connect}s tls=%{time_appconnect}s\n' \
-                https://www.gstatic.com/generate_204 \
-                || echo "VLESS request failed (curl exit $?)"
+                --write-out 'http_code=%{http_code} total=%{time_total}s connect=%{time_connect}s tls=%{time_appconnect}s' \
+                https://www.gstatic.com/generate_204); then
+                echo "${result}"
+                if [[ "${result}" == http_code=204* ]]; then
+                  vless_ok=$((vless_ok + 1))
+                  echo "VLESS_RESULT=PASS"
+                else
+                  vless_failed=$((vless_failed + 1))
+                  echo "VLESS_RESULT=FAIL (unexpected HTTP status)"
+                fi
+              else
+                rc=$?
+                vless_failed=$((vless_failed + 1))
+                echo "VLESS_RESULT=FAIL (curl exit ${rc})"
+              fi
               sleep 1
             done
+            echo "VLESS requests passed: ${vless_ok}/5; failed: ${vless_failed}/5"
+            if (( vless_ok == 0 )); then
+              echo "::warning::No HTTP request succeeded through VLESS on fixed port 32046. Check the existing relay port mapping to Runner port 8443."
+            fi
             kill "${CPID}" 2>/dev/null || true
             CPID=""
             echo "========== XRAY CLIENT LOG =========="
@@ -384,8 +420,9 @@ jobs:
           echo "========== TEST SUMMARY =========="
           echo "Runner egress IP and approximate GeoIP are logged above."
           echo "TCP samples measure Runner -> relay public endpoint."
-          echo "VLESS request times are real HTTP requests through the configured VLESS/HTTPUpgrade client."
-          echo "If the proxy test fails, verify that the relay's existing mapping exposes ${PROXY_TEST_HOST}:${PROXY_TEST_PORT} to this Runner's port 8443."
+          echo "VLESS request times are real HTTP requests through the configured VLESS/HTTPUpgrade client at fixed public port 32046."
+          echo "The workflow refuses to run if PROXY_TEST_PORT is anything other than 32046."
+          echo "If the proxy test fails, verify that the relay's existing mapping exposes ${PROXY_TEST_HOST}:32046 to this Runner's port 8443. The client uses a local-only private-domain alias to satisfy Xray's plaintext-VLESS validation rule; its resolved address is the relay IPv4."
           echo "No changes are made to the relay server by this workflow."
 
           echo "========== KEEPING XRAY AND REVERSE TUNNEL ALIVE =========="
