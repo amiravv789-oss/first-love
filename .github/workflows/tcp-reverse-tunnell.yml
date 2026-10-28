@@ -1,11 +1,17 @@
-name: Run TCP reverse tunnel
+name: Run TCP reverse tunnel and measure VLESS proxy delay
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [retrigger-tunnel]
 
 permissions:
   contents: write
   actions: write
+
+concurrency:
+  group: tcp-reverse-tunnel-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   tunnel:
@@ -15,7 +21,7 @@ jobs:
     permissions:
       contents: write
       actions: write
-      
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,8 +34,10 @@ jobs:
           go-version: "1.24.x"
           cache-dependency-path: agent/go.sum
 
-      - name: Install Xray, start proxies, and run the tunnel
+      - name: Log Runner region, start Xray and reverse tunnel, test VLESS delay
+        timeout-minutes: 345
         env:
+          # Existing environment/settings retained from the original workflow.
           XRAY_VERSION: v26.9.30
           TUNNEL_ADDR: "remote-respina-free.runflare.com:31889"
           TUNNEL_TOKEN: ${{ secrets.TUNNEL_TOKEN }}
@@ -41,21 +49,56 @@ jobs:
           SOCKS_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           HTTP_USERNAME: "HTTP"
           HTTP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+          # Fixed test endpoint: no workflow_dispatch inputs required.
+          PROXY_TEST_HOST: "remote-respina-free.runflare.com"
+          PROXY_TEST_PORT: "32046"
+          MAX_RUNS: "5"
+          ITERATION: ${{ github.event.client_payload.iteration || 1 }}
         shell: bash
         run: |
-          set -euo pipefail
+          set -Eeuo pipefail
           umask 077
-          if [ -z "${TUNNEL_ADDR}" ] || [ -z "${TUNNEL_TOKEN}" ]; then
-            echo "Set secrets TUNNEL_ADDR and TUNNEL_TOKEN." >&2
+
+          echo "========== RUNNER IDENTITY =========="
+          echo "Run ID: ${GITHUB_RUN_ID}"
+          echo "Run number: ${GITHUB_RUN_NUMBER}"
+          echo "Run attempt: ${GITHUB_RUN_ATTEMPT}"
+          echo "Iteration: ${ITERATION}"
+          echo "Runner OS: ${RUNNER_OS}"
+          echo "Runner architecture: ${RUNNER_ARCH}"
+          echo "Runner environment: ${RUNNER_ENVIRONMENT}"
+          echo "UTC time: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
+          echo "========== RUNNER PUBLIC IP / GEOIP =========="
+          curl -fsS --retry 2 --connect-timeout 5 --max-time 12 https://ipinfo.io/json \
+            || echo "GeoIP lookup failed"
+          echo
+          echo "GeoIP estimates the egress IP location; it does not guarantee the physical Runner location."
+
+          if [[ -z "${TUNNEL_ADDR}" || -z "${TUNNEL_TOKEN:-}" ]]; then
+            echo "::error::Set the existing TUNNEL_ADDR and TUNNEL_TOKEN values."
             exit 1
           fi
-          if [ "${#TUNNEL_TOKEN}" -lt 32 ]; then
-            echo "TUNNEL_TOKEN must be at least 32 characters." >&2
+          if [[ "${#TUNNEL_TOKEN}" -lt 32 ]]; then
+            echo "::error::TUNNEL_TOKEN must be at least 32 characters."
             exit 1
           fi
           case "${TUNNEL_ADDR}" in
-            *://*) echo "TUNNEL_ADDR must be host:port, not a URL." >&2; exit 1 ;;
+            *://*) echo "::error::TUNNEL_ADDR must be host:port, not a URL."; exit 1 ;;
           esac
+          if [[ -z "${SOCKS_PASSWORD:-}" ]]; then
+            echo "::error::Set repository secret SSH_PASSWORD."
+            exit 1
+          fi
+          if ! [[ "${PROXY_TEST_PORT}" =~ ^[0-9]+$ ]] || (( PROXY_TEST_PORT < 1 || PROXY_TEST_PORT > 65535 )); then
+            echo "::error::Invalid PROXY_TEST_PORT."
+            exit 1
+          fi
+
+          echo "========== TEST ENDPOINT =========="
+          echo "Relay public endpoint: ${PROXY_TEST_HOST}:${PROXY_TEST_PORT}"
+          echo "Tunnel control endpoint: ${TUNNEL_ADDR}"
 
           case "$(uname -m)" in
             x86_64|amd64)
@@ -67,7 +110,7 @@ jobs:
               sum="9886f077f9fd8e6713b84c377c1c7db4e53b9bfa8c276a5bd12561139522b473"
               ;;
             *)
-              echo "unsupported architecture: $(uname -m)" >&2
+              echo "::error::Unsupported architecture: $(uname -m)"
               exit 1
               ;;
           esac
@@ -84,21 +127,26 @@ jobs:
           sudo install -m 0644 "${work}/files/geoip.dat" "${work}/files/geosite.dat" /usr/local/share/xray/
           xray version
 
-          # Let the runner user bind the local Xray ports 443 and 8443.
+          # Keep compatibility with the existing workflow's inbound ports.
           sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0 >/dev/null
-
           export XRAY_CONFIG="${RUNNER_TEMP}/xray-config.json"
+
           python3 - <<'PY'
           import json, os, uuid
+
           def need(key):
               value = os.environ.get(key, "")
               if not value:
-                  raise SystemExit(f"missing secret {key}")
+                  raise SystemExit(f"missing required value: {key}")
               return value
+
           def need_uuid(key):
               value = need(key)
               uuid.UUID(value)
               return value
+
+          password = need("SOCKS_PASSWORD")
+          uid = need_uuid("VLESS_UUID")
           cfg = {
               "log": {"loglevel": "warning"},
               "inbounds": [
@@ -108,32 +156,31 @@ jobs:
                       "port": 443,
                       "protocol": "vless",
                       "settings": {
-                          "clients": [{"id": need_uuid("VLESS_UUID")}],
-                          "decryption": "none",
+                          "clients": [{"id": uid}],
+                          "decryption": "none"
                       },
                       "streamSettings": {
                           "network": "tcp",
-                          "security": "none",
-                      },
-                  },                  {
+                          "security": "none"
+                      }
+                  },
+                  {
                       "tag": "vless-httpupgrade-in",
                       "listen": "0.0.0.0",
                       "port": 8443,
                       "protocol": "vless",
                       "settings": {
-                          "clients": [
-                              {"id": need_uuid("VLESS_UUID")}
-                          ],
-                          "decryption": "none",
+                          "clients": [{"id": uid}],
+                          "decryption": "none"
                       },
                       "streamSettings": {
                           "network": "httpupgrade",
                           "security": "none",
                           "httpupgradeSettings": {
                               "path": "/",
-                              "host": "connectivitycheck.android.com",
-                          },
-                      },
+                              "host": "connectivitycheck.android.com"
+                          }
+                      }
                   },
                   {
                       "tag": "socks-in",
@@ -142,14 +189,12 @@ jobs:
                       "protocol": "socks",
                       "settings": {
                           "auth": "password",
-                          "accounts": [
-                              {
-                                  "user": need("SOCKS_USERNAME"),
-                                  "pass": need("SOCKS_PASSWORD"),
-                              }
-                          ],
-                          "udp": False,
-                      },
+                          "accounts": [{
+                              "user": need("SOCKS_USERNAME"),
+                              "pass": password
+                          }],
+                          "udp": False
+                      }
                   },
                   {
                       "tag": "http-in",
@@ -157,71 +202,72 @@ jobs:
                       "port": 8081,
                       "protocol": "http",
                       "settings": {
-                          "accounts": [
-                              {
-                                  "user": need("HTTP_USERNAME"),
-                                  "pass": need("HTTP_PASSWORD"),
-                              }
-                          ],
-                          "allowTransparent": False,
-                      },
-                  },
-              ],
-              "outbounds": [
-                  {
-                      "tag": "direct",
-                      "protocol": "freedom",
-                      "settings": {},
+                          "accounts": [{
+                              "user": need("HTTP_USERNAME"),
+                              "pass": need("HTTP_PASSWORD")
+                          }],
+                          "allowTransparent": False
+                      }
                   }
               ],
+              "outbounds": [{
+                  "tag": "direct",
+                  "protocol": "freedom",
+                  "settings": {}
+              }],
               "routing": {
                   "domainStrategy": "AsIs",
-                  "rules": [],
-              },
+                  "rules": []
+              }
           }
           path = os.environ["XRAY_CONFIG"]
-          with open(path, "w", encoding="utf-8") as fh:
-              json.dump(cfg, fh)
+          with open(path, "w", encoding="utf-8") as f:
+              json.dump(cfg, f)
           os.chmod(path, 0o600)
           PY
+
           xray run -test -c "${XRAY_CONFIG}"
 
-          log="${RUNNER_TEMP}/xray.log"
+          xlog="${RUNNER_TEMP}/xray.log"
+          alog="${RUNNER_TEMP}/tunnel-agent.log"
+          clog="${RUNNER_TEMP}/xray-client.log"
           XPID=""
           APID=""
+          CPID=""
           cleanup() {
-            if [ -n "${APID}" ]; then kill "${APID}" 2>/dev/null || true; fi
-            if [ -n "${XPID}" ]; then kill "${XPID}" 2>/dev/null || true; fi
+            [[ -n "${CPID}" ]] && kill "${CPID}" 2>/dev/null || true
+            [[ -n "${APID}" ]] && kill "${APID}" 2>/dev/null || true
+            [[ -n "${XPID}" ]] && kill "${XPID}" 2>/dev/null || true
           }
           trap cleanup EXIT
 
           env -u TUNNEL_TOKEN -u TUNNEL_TLS_SHA256 -u TUNNEL_ADDR \
-            xray run -c "${XRAY_CONFIG}" >"${log}" 2>&1 &
+            xray run -c "${XRAY_CONFIG}" >"${xlog}" 2>&1 &
           XPID=$!
 
           if ! python3 - <<'PY'
           import socket, sys, time
           ports = [443, 8443, 1080, 8081]
-          last = []
+          missing = ports
           for _ in range(30):
-              last = []
+              missing = []
               for port in ports:
-                  sock = socket.socket()
-                  sock.settimeout(0.4)
+                  s = socket.socket()
+                  s.settimeout(0.4)
                   try:
-                      sock.connect(("127.0.0.1", port))
-                  except Exception:
-                      last.append(port)
+                      s.connect(("127.0.0.1", port))
+                  except OSError:
+                      missing.append(port)
                   finally:
-                      sock.close()
-              if not last:
+                      s.close()
+              if not missing:
+                  print("All local Xray inbounds are listening.")
                   sys.exit(0)
               time.sleep(1)
-          sys.exit("Xray did not open ports: " + ",".join(str(p) for p in last))
+          sys.exit("Xray did not open ports: " + ",".join(map(str, missing)))
           PY
           then
-            echo "Xray log:" >&2
-            cat "${log}" >&2 || true
+            cat "${xlog}" >&2 || true
             exit 1
           fi
 
@@ -229,32 +275,151 @@ jobs:
             cd "${GITHUB_WORKSPACE}/agent"
             go build -mod=vendor -trimpath -ldflags="-s -w" -o "${RUNNER_TEMP}/tunnel-agent" .
           )
-          "${RUNNER_TEMP}/tunnel-agent" &
+          "${RUNNER_TEMP}/tunnel-agent" >"${alog}" 2>&1 &
           APID=$!
 
+          echo "========== WAIT FOR REVERSE TUNNEL =========="
+          sleep 12
+          tail -n 40 "${alog}" || true
+
+          echo "========== TCP REACHABILITY CHECK =========="
+          python3 - <<'PY'
+          import os, socket, time
+          host = os.environ["PROXY_TEST_HOST"]
+          port = int(os.environ["PROXY_TEST_PORT"])
+          samples = []
+          for i in range(5):
+              start = time.perf_counter()
+              try:
+                  with socket.create_connection((host, port), timeout=8):
+                      ms = (time.perf_counter() - start) * 1000
+                      samples.append(ms)
+                      print(f"TCP sample {i+1}: {ms:.2f} ms")
+              except Exception as e:
+                  print(f"TCP sample {i+1}: FAILED ({e})")
+              time.sleep(1)
+          if samples:
+              print(f"TCP min/avg/max: {min(samples):.2f}/{sum(samples)/len(samples):.2f}/{max(samples):.2f} ms")
+          else:
+              print("No TCP samples succeeded. The relay may not expose this public port.")
+          PY
+
+          echo "========== REAL VLESS / HTTPUpgrade PROXY TEST =========="
+          export XRAY_CLIENT_CONFIG="${RUNNER_TEMP}/xray-client.json"
+          python3 - <<'PY'
+          import json, os, uuid
+          uid = os.environ["VLESS_UUID"]
+          uuid.UUID(uid)
+          cfg = {
+              "log": {"loglevel": "warning"},
+              "inbounds": [{
+                  "tag": "test-socks-in",
+                  "listen": "127.0.0.1",
+                  "port": 10808,
+                  "protocol": "socks",
+                  "settings": {"udp": False}
+              }],
+              "outbounds": [{
+                  "tag": "test-vless-out",
+                  "protocol": "vless",
+                  "settings": {
+                      "vnext": [{
+                          "address": os.environ["PROXY_TEST_HOST"],
+                          "port": int(os.environ["PROXY_TEST_PORT"]),
+                          "users": [{"id": uid, "encryption": "none"}]
+                      }]
+                  },
+                  "streamSettings": {
+                      "network": "httpupgrade",
+                      "security": "none",
+                      "httpupgradeSettings": {
+                          "path": "/",
+                          "host": "connectivitycheck.android.com"
+                      }
+                  }
+              }]
+          }
+          path = os.environ["XRAY_CLIENT_CONFIG"]
+          with open(path, "w", encoding="utf-8") as f:
+              json.dump(cfg, f)
+          os.chmod(path, 0o600)
+          PY
+
+          if xray run -test -c "${XRAY_CLIENT_CONFIG}"; then
+            xray run -c "${XRAY_CLIENT_CONFIG}" >"${clog}" 2>&1 &
+            CPID=$!
+            python3 - <<'PY'
+          import socket, sys, time
+          for _ in range(25):
+              s = socket.socket()
+              s.settimeout(.3)
+              try:
+                  s.connect(("127.0.0.1", 10808))
+                  s.close()
+                  print("Xray test SOCKS listener is ready.")
+                  sys.exit(0)
+              except OSError:
+                  s.close()
+                  time.sleep(1)
+          sys.exit("Xray test client did not open port 10808")
+          PY
+            for i in 1 2 3 4 5; do
+              echo "--- VLESS HTTP request ${i}/5 ---"
+              curl --silent --show-error --output /dev/null \
+                --socks5-hostname 127.0.0.1:10808 \
+                --connect-timeout 12 --max-time 25 \
+                --write-out 'http_code=%{http_code} total=%{time_total}s connect=%{time_connect}s tls=%{time_appconnect}s\n' \
+                https://www.gstatic.com/generate_204 \
+                || echo "VLESS request failed (curl exit $?)"
+              sleep 1
+            done
+            kill "${CPID}" 2>/dev/null || true
+            CPID=""
+            echo "========== XRAY CLIENT LOG =========="
+            tail -n 60 "${clog}" || true
+          else
+            echo "Xray client config validation failed; proxy test skipped."
+          fi
+
+          echo "========== TEST SUMMARY =========="
+          echo "Runner egress IP and approximate GeoIP are logged above."
+          echo "TCP samples measure Runner -> relay public endpoint."
+          echo "VLESS request times are real HTTP requests through the configured VLESS/HTTPUpgrade client."
+          echo "If the proxy test fails, verify that the relay's existing mapping exposes ${PROXY_TEST_HOST}:${PROXY_TEST_PORT} to this Runner's port 8443."
+          echo "No changes are made to the relay server by this workflow."
+
+          echo "========== KEEPING XRAY AND REVERSE TUNNEL ALIVE =========="
           while kill -0 "${XPID}" 2>/dev/null && kill -0 "${APID}" 2>/dev/null; do
             sleep 5
           done
           echo "Xray or the tunnel agent exited." >&2
-          tail -n 80 "${log}" >&2 || true
+          tail -n 80 "${xlog}" >&2 || true
+          tail -n 80 "${alog}" >&2 || true
           exit 1
 
-      # ============================================================
-      # STANDARD GITHUB ACTIONS RETRIGGER
-      # ============================================================
-
-      - name: Retrigger
+      - name: Retrigger (bounded, no manual inputs)
         if: always()
         uses: actions/github-script@v7
+        env:
+          CURRENT_ITERATION: ${{ github.event.client_payload.iteration || 1 }}
+          MAX_RUNS: "5"
         with:
           script: |
+            const current = Number(process.env.CURRENT_ITERATION);
+            const maximum = Number(process.env.MAX_RUNS);
+            if (!Number.isInteger(current) || current < 1 ||
+                !Number.isInteger(maximum) || maximum < 1 || current >= maximum) {
+              core.info(`Retrigger stopped: iteration ${current}, maximum ${maximum}.`);
+              return;
+            }
             try {
-              await github.rest.actions.createWorkflowDispatch({
+              await github.rest.repos.createDispatchEvent({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: "tcp-reverse-tunnell.yml",
-                ref: context.ref
+                event_type: "retrigger-tunnel",
+                client_payload: { iteration: current + 1 }
               });
-            } catch (e) {
-              console.log(e.message);
+              core.info(`Started next run ${current + 1}/${maximum}.`);
+            } catch (error) {
+              core.setFailed(`Retrigger failed: ${error.message}`);
             }
