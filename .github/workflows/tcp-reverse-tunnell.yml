@@ -101,6 +101,58 @@ jobs:
           echo "Relay public endpoint: ${PROXY_TEST_HOST}:${PROXY_TEST_PORT}"
           echo "Tunnel control endpoint: ${TUNNEL_ADDR}"
 
+          echo "========== GENERATED PLAINTEXT VLESS PROFILE MATRIX =========="
+          # These are candidate client URIs based on the user's supplied Host/SNI
+          # values. Security-related parameters are intentionally omitted/disabled.
+          # SNI is retained as a label/compatibility test field only; it has no TLS
+          # effect when security=none. The active reverse relay must map public
+          # port 32046 to a matching inbound transport for a profile to connect.
+          python3 - <<'PYPROFILES'
+          from urllib.parse import urlencode, quote
+          import os
+          uid = os.environ['VLESS_UUID']
+          endpoint = os.environ['PROXY_TEST_HOST']
+          port = os.environ['PROXY_TEST_PORT']
+          # Keep the exact SNI string supplied by the user in every generated
+          # URI for completeness/inspection. With security=none it is inert: SNI
+          # is a TLS ClientHello field and cannot affect a plaintext connection.
+          default_sni = 'br1q4t7w0z3c6f9i2l5o8r1u4x7a0d3g6j9m2p5s8v.mobileahmadreza.ir'
+          profiles = [
+              ('TCP-None', 'tcp', 'none', '', '', '', 'auto'),
+              ('TCP-HTTP-connectivitycheck', 'tcp', 'http', 'connectivitycheck.android.com', '', '', 'auto'),
+              ('TCP-HTTP-play-google', 'tcp', 'http', 'play.google.com', '', '', 'auto'),
+              ('TCP-HTTP-dynu', 'tcp', 'http', 'dynu.com', '', '', 'auto'),
+              ('TCP-HTTP-tgju', 'tcp', 'http', 'tgju.org', '', '', 'auto'),
+              ('HTTPUpgrade-connectivitycheck', 'httpupgrade', '', 'connectivitycheck.android.com', '/', '', 'auto'),
+              ('HTTPUpgrade-play-google', 'httpupgrade', '', 'play.google.com', '/', '', 'auto'),
+              ('XHTTP-auto-mobileahmadreza', 'xhttp', '', 'mobileahmadreza.ir', '/?ed=2048', default_sni, 'auto'),
+              ('XHTTP-stream-up-re', 'xhttp', '', 're.lanzivo.ir', '/', default_sni, 'stream-up'),
+              ('XHTTP-stream-up-zm', 'xhttp', '', 'zm.lanzivo.ir', '/', default_sni, 'stream-up'),
+              ('XHTTP-stream-up-we', 'xhttp', '', 'we.lanzivo.ir', '/', default_sni, 'stream-up'),
+              ('XHTTP-auto-aparat-SNI', 'xhttp', '', 'soft98.ir', '/', default_sni, 'auto'),
+              ('XHTTP-auto-firefox-SNI-fastly', 'xhttp', '', 'ukcoreshopingmove.global.ssl.fastly.net', '/?ed=2048', default_sni, 'auto'),
+              ('XHTTP-auto-steamstatic-SNI-fastly', 'xhttp', '', 'hdhdh.global.ssl.fastly.net', '/?ed=2048', default_sni, 'auto'),
+              ('XHTTP-auto-cdn-SNI-fastly', 'xhttp', '', 'anazshopmarket.global.ssl.fastly.net', '/', default_sni, 'auto'),
+              ('XHTTP-auto-connectivitycheck', 'xhttp', '', 'connectivitycheck.android.com', '/', default_sni, 'auto'),
+              ('XHTTP-auto-cde-azrping', 'xhttp', '', 'cde.azrping.com', '/', default_sni, 'auto'),
+          ]
+          for name, transport, header, host, path, sni, mode in profiles:
+              q = {'encryption': 'none', 'security': 'none', 'type': transport, 'sni': sni or default_sni}
+              if header:
+                  q['headerType'] = header
+              if host:
+                  q['host'] = host
+              if path:
+                  q['path'] = path
+              if transport == 'xhttp':
+                  q['mode'] = mode
+                  # Known non-security XHTTP padding option from the supplied URI.
+                  q['extra'] = '{"xPaddingBytes":"100-1000"}'
+              uri = f"vless://{uid}@{endpoint}:{port}?{urlencode(q)}#{quote(name)}"
+              print(uri)
+          print(f"Generated {len(profiles)} plaintext profile candidates; SNI is retained as requested but is not active with security=none.")
+          PYPROFILES
+
           case "$(uname -m)" in
             x86_64|amd64)
               asset="Xray-linux-64.zip"
