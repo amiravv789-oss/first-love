@@ -1,4 +1,16 @@
 /home/runner/work/first-love/first-love/tunnel.py:38: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
   f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
-[2026-10-29 15:46:13 UTC] === Runflare tunnel service started ===
-[2026-10-29 15:46:13 UTC] Starting Runflare reverse SSH tunnel...
+[2026-10-29 15:49:18 UTC] === Runflare tunnel service started ===
+[2026-10-29 15:49:18 UTC] Starting Runflare reverse SSH tunnel...
+[2026-10-29 15:52:05 UTC] Runflare endpoint was not found.
+Warning: Permanently added '[remote-respina-free.runflare.com]:31212' (ED25519) to the list of known hosts.
+
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+
+** This session may be vulnerable to "store now, decrypt later" attacks.
+
+** The server may need to be upgraded. See https://openssh.com/pq.html
+
+
+tunnel@remote-respina-free.runflare.com's password: 
+
