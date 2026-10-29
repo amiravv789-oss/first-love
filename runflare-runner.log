@@ -1,4 +1,4 @@
 /home/runner/work/first-love/first-love/tunnel.py:38: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
   f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
-[2026-10-29 13:22:18 UTC] === Runflare tunnel service started ===
-[2026-10-29 13:22:18 UTC] Starting Runflare reverse SSH tunnel...
+[2026-10-29 13:23:32 UTC] === Runflare tunnel service started ===
+[2026-10-29 13:23:32 UTC] Starting Runflare reverse SSH tunnel...
