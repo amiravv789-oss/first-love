@@ -686,7 +686,8 @@ jobs:
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
         run: |
-          set -e
+          # Don't stop the whole job on individual package failures
+          set +e
 
           export DEBIAN_FRONTEND=noninteractive
           export DEBCONF_NONINTERACTIVE_SEEN=true
@@ -702,86 +703,94 @@ jobs:
           echo "Installing XFCE + XRDP + Xorg + System Utilities"
           echo "=================================================="
 
-          sudo apt-get install -y -qq \
-            xfce4 \
-            xfce4-goodies \
-            xfce4-whiskermenu-plugin \
-            xfce4-pulseaudio-plugin \
-            xfce4-terminal \
-            xrdp \
-            xorgxrdp \
-            dbus-x11 \
-            dbus-user-session \
-            thunar \
-            thunar-archive-plugin \
-            file-roller \
-            mousepad \
-            ristretto \
-            mugshot \
-            network-manager \
-            network-manager-gnome \
-            policykit-1 \
-            policykit-1-gnome \
-            gvfs \
-            gvfs-backends \
-            gvfs-fuse \
-            udisks2 \
-            upower \
-            pulseaudio \
-            pavucontrol \
-            fonts-ubuntu \
-            fonts-ubuntu-console \
-            fonts-noto \
-            fonts-noto-cjk \
-            fonts-liberation \
-            fonts-firacode \
-            papirus-icon-theme \
-            ubuntu-wallpapers \
-            yaru-theme-gtk \
-            yaru-theme-icon \
-            yaru-theme-sound \
-            git \
-            git-lfs \
-            curl \
-            wget \
-            ca-certificates \
-            gnupg \
-            unzip \
-            zip \
-            p7zip-full \
-            build-essential \
-            software-properties-common \
-            apt-transport-https \
-            python3 \
-            python3-dev \
-            python3-pip \
-            python3-venv \
-            python-is-python3 \
-            pipx \
-            htop \
-            btop \
-            nano \
-            vim \
-            neovim \
-            tmux \
-            zsh \
-            jq \
-            tree \
-            ripgrep \
-            fd-find \
-            fzf \
-            httpie \
-            net-tools \
-            iproute2 \
-            procps \
-            psmisc \
-            lsof \
-            openssh-server \
-            openssh-client \
-            sudo \
-            dbus \
-            xdg-utils \
+          # Install packages one-by-one so missing packages don't stop the whole job
+          PACKAGES=(
+            xfce4
+            xfce4-goodies
+            xfce4-whiskermenu-plugin
+            xfce4-pulseaudio-plugin
+            xfce4-terminal
+            xrdp
+            xorgxrdp
+            dbus-x11
+            dbus-user-session
+            thunar
+            thunar-archive-plugin
+            file-roller
+            mousepad
+            ristretto
+            mugshot
+            network-manager
+            network-manager-gnome
+            polkitd
+            pkexec
+            policykit-1-gnome
+            gvfs
+            gvfs-backends
+            gvfs-fuse
+            udisks2
+            upower
+            pulseaudio
+            pavucontrol
+            fonts-ubuntu
+            fonts-ubuntu-console
+            fonts-noto
+            fonts-noto-cjk
+            fonts-liberation
+            fonts-firacode
+            papirus-icon-theme
+            ubuntu-wallpapers
+            yaru-theme-gtk
+            yaru-theme-icon
+            yaru-theme-sound
+            git
+            git-lfs
+            curl
+            wget
+            ca-certificates
+            gnupg
+            unzip
+            zip
+            p7zip-full
+            build-essential
+            software-properties-common
+            apt-transport-https
+            python3
+            python3-dev
+            python3-pip
+            python3-venv
+            python-is-python3
+            pipx
+            htop
+            btop
+            nano
+            vim
+            neovim
+            tmux
+            zsh
+            jq
+            tree
+            ripgrep
+            fd-find
+            fzf
+            httpie
+            net-tools
+            iproute2
+            procps
+            psmisc
+            lsof
+            openssh-server
+            openssh-client
+            sudo
+            dbus
+            xdg-utils
             desktop-file-utils
+          )
+
+          for pkg in "${PACKAGES[@]}"; do
+            echo "Installing: $pkg"
+            sudo apt-get install -y -qq "$pkg" || echo "WARNING: failed to install $pkg (skipped)"
+          done
 
           git lfs install || true
 
