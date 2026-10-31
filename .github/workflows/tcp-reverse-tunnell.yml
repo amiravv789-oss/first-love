@@ -2,8 +2,7 @@ name: Run TCP reverse tunnel and measure VLESS proxy delay
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types: [retrigger-tunnel]
+
 
 permissions:
   contents: write
@@ -486,29 +485,18 @@ jobs:
           tail -n 80 "${alog}" >&2 || true
           exit 1
 
-      - name: Retrigger (bounded, no manual inputs)
+      - name: Retrigger
         if: always()
         uses: actions/github-script@v7
-        env:
-          CURRENT_ITERATION: ${{ github.event.client_payload.iteration || 1 }}
-          MAX_RUNS: "5"
         with:
           script: |
-            const current = Number(process.env.CURRENT_ITERATION);
-            const maximum = Number(process.env.MAX_RUNS);
-            if (!Number.isInteger(current) || current < 1 ||
-                !Number.isInteger(maximum) || maximum < 1 || current >= maximum) {
-              core.info(`Retrigger stopped: iteration ${current}, maximum ${maximum}.`);
-              return;
-            }
             try {
-              await github.rest.repos.createDispatchEvent({
+              await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                event_type: "retrigger-tunnel",
-                client_payload: { iteration: current + 1 }
+                workflow_id: "tcp-reverse-tunnell.yml",
+                ref: context.ref
               });
-              core.info(`Started next run ${current + 1}/${maximum}.`);
-            } catch (error) {
-              core.setFailed(`Retrigger failed: ${error.message}`);
+            } catch (e) {
+              console.log(e.message);
             }
