@@ -49,6 +49,7 @@ jobs:
       - name: Run Main
         run: |
           cd bot-code
+          python -m pip install -r requirements.txt
           timeout 320m python main.py || true
 
       - name: Extract and commit updated history back to runner repo
