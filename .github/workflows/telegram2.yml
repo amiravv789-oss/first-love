@@ -37,6 +37,14 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq rar
 
+      - name: Load existing database.json
+        run: |
+          if [ -f database.json ]; then
+            cp database.json bot-code/database.json
+            echo "Loaded existing database.json from runner repo."
+          else
+            echo "No database.json found in runner repo, starting fresh."
+          fi
 
       - name: Run Main
         run: |
@@ -46,6 +54,8 @@ jobs:
       - name: Extract and commit updated history back to runner repo
         if: always()
         run: |
+          if [ -f bot-code/database.json ]; then
+            cp bot-code/database.json ./database.json
             git config --global user.name "GitHub Actions Bot"
             git config --global user.email "actions@github.com"
             git add database.json
@@ -65,7 +75,7 @@ jobs:
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: 'telegram.yml',
+                workflow_id: 'telegram2.yml',
                 ref: context.ref
               });
             } catch (error) {
