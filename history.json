@@ -257920,8 +257920,1544 @@
       "size": 1816785,
       "status": "ok",
       "file_name": "Iran_Part0_@RdpCr4ck.txt",
-      "first_seen": "2026-11-06T17:05:49.283107",
-      "done_at": "2026-11-06T17:05:49.724163"
+      "first_seen": "2026-11-06T17:05:49.283107"
+    },
+    "#35_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::37714438": {
+      "size": 37714438,
+      "status": "ok",
+      "file_name": "#35_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:27.406879"
+    },
+    "#36_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::38212598": {
+      "size": 38212598,
+      "status": "ok",
+      "file_name": "#36_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:28.950977"
+    },
+    "#25_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::38568342": {
+      "size": 38568342,
+      "status": "ok",
+      "file_name": "#25_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:30.541408"
+    },
+    "#26_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::38800374": {
+      "size": 38800374,
+      "status": "ok",
+      "file_name": "#26_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:32.063650"
+    },
+    "#27_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::36553894": {
+      "size": 36553894,
+      "status": "ok",
+      "file_name": "#27_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:33.584729"
+    },
+    "#28_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::34013974": {
+      "size": 34013974,
+      "status": "ok",
+      "file_name": "#28_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:35.037323"
+    },
+    "#29_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::33430726": {
+      "size": 33430726,
+      "status": "ok",
+      "file_name": "#29_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:36.561534"
+    },
+    "#30_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::38827558": {
+      "size": 38827558,
+      "status": "ok",
+      "file_name": "#30_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:39.752120"
+    },
+    "#31_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::38351814": {
+      "size": 38351814,
+      "status": "ok",
+      "file_name": "#31_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:40.989704"
+    },
+    "#32_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::37285926": {
+      "size": 37285926,
+      "status": "ok",
+      "file_name": "#32_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:42.454158"
+    },
+    "#33_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::37193798": {
+      "size": 37193798,
+      "status": "ok",
+      "file_name": "#33_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:44.293745"
+    },
+    "#34_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar::37765094": {
+      "size": 37765094,
+      "status": "ok",
+      "file_name": "#34_@LZBases_2,000,000_20_October_2026_a2d73a4b_2f8d_4332_8eb2_fc7aba521ed7.rar",
+      "first_seen": "2026-11-06T17:09:46.102348"
+    },
+    "@MnemoCloud - Free ULP (40).txt::227078576": {
+      "size": 227078576,
+      "status": "ok",
+      "file_name": "@MnemoCloud - Free ULP (40).txt",
+      "first_seen": "2026-11-06T17:16:56.532218"
+    },
+    "حفظیات دوازدهم 1405 کانال.pdf::9921212": {
+      "size": 9921212,
+      "status": "ok",
+      "file_name": "حفظیات دوازدهم 1405 کانال.pdf",
+      "first_seen": "2026-11-06T17:17:58.408777"
+    },
+    "@Aryo_Nahaei.pdf::42877224": {
+      "size": 42877224,
+      "status": "ok",
+      "file_name": "@Aryo_Nahaei.pdf",
+      "first_seen": "2026-11-06T17:18:53.592555"
+    },
+    "@AryoJozve.pdf::325649862": {
+      "size": 325649862,
+      "status": "ok",
+      "file_name": "@AryoJozve.pdf",
+      "first_seen": "2026-11-06T17:19:43.689375"
+    },
+    "700k Gaming Streamin Shopping (8).txt::23405333": {
+      "size": 23405333,
+      "status": "ok",
+      "file_name": "700k Gaming Streamin Shopping (8).txt",
+      "first_seen": "2026-11-06T17:21:10.629011"
+    },
+    "Hotmail_2026_06_11_1.txt::5167": {
+      "size": 5167,
+      "status": "ok",
+      "file_name": "Hotmail_2026_06_11_1.txt",
+      "first_seen": "2026-11-06T17:22:06.346202"
+    },
+    "5.5k Spain D4RKNETHUB CLOUD.txt::214688": {
+      "size": 214688,
+      "status": "ok",
+      "file_name": "5.5k Spain D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-11-06T17:32:03.256376"
+    },
+    "Apple Premium Cookies.zip::116683": {
+      "size": 116683,
+      "status": "ok",
+      "file_name": "Apple Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:21.160382"
+    },
+    "Canal+ Premium Cookies.zip::397798": {
+      "size": 397798,
+      "status": "ok",
+      "file_name": "Canal+ Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:22.109276"
+    },
+    "Hulu Premium Cookies.zip::202643": {
+      "size": 202643,
+      "status": "ok",
+      "file_name": "Hulu Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:23.626853"
+    },
+    "Neflix Premium Cookies.zip::808468": {
+      "size": 808468,
+      "status": "ok",
+      "file_name": "Neflix Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:25.072459"
+    },
+    "HboMax Premium Cookies.zip::2279360": {
+      "size": 2279360,
+      "status": "ok",
+      "file_name": "HboMax Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:26.602853"
+    },
+    "Paramount+ Premium Cookies.zip::280286": {
+      "size": 280286,
+      "status": "ok",
+      "file_name": "Paramount+ Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:28.107038"
+    },
+    "Jiohotstar Premium Cookies.zip::505575": {
+      "size": 505575,
+      "status": "ok",
+      "file_name": "Jiohotstar Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:29.606932"
+    },
+    "PrimeVideo Premium Cookies.zip::1525258": {
+      "size": 1525258,
+      "status": "ok",
+      "file_name": "PrimeVideo Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:31.116719"
+    },
+    "Crunchyroll Premium Cookies.zip::338882": {
+      "size": 338882,
+      "status": "ok",
+      "file_name": "Crunchyroll Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:32.613207"
+    },
+    "ChatGpt Premium Cookies.zip::407728": {
+      "size": 407728,
+      "status": "ok",
+      "file_name": "ChatGpt Premium Cookies.zip",
+      "first_seen": "2026-11-06T17:38:34.134259"
+    },
+    "جزوه طلایی ماز یازدهم.pdf::395883032": {
+      "size": 395883032,
+      "status": "ok",
+      "file_name": "جزوه طلایی ماز یازدهم.pdf",
+      "first_seen": "2026-11-06T17:42:07.223036"
+    },
+    "جزوه طلایی ماز دوازدهم.pdf::198372521": {
+      "size": 198372521,
+      "status": "ok",
+      "file_name": "جزوه طلایی ماز دوازدهم.pdf",
+      "first_seen": "2026-11-06T17:42:07.566356"
+    },
+    "Good.txt::6483": {
+      "size": 6483,
+      "status": "ok",
+      "file_name": "Good.txt",
+      "first_seen": "2026-11-06T17:44:46.942613"
+    },
+    "onic premium 🔥🔥✅Dark tunnel::8661": {
+      "size": 8661,
+      "status": "ok",
+      "file_name": "onic premium 🔥🔥✅Dark tunnel",
+      "first_seen": "2026-11-06T17:47:25.979673"
+    },
+    "Good Mixmail.txt::85062": {
+      "size": 85062,
+      "status": "ok",
+      "file_name": "Good Mixmail.txt",
+      "first_seen": "2026-11-06T17:47:31.512030"
+    },
+    "جزوه طلایی ماز دهم.pdf::267921227": {
+      "size": 267921227,
+      "status": "ok",
+      "file_name": "جزوه طلایی ماز دهم.pdf",
+      "first_seen": "2026-11-06T18:00:32.215051"
+    },
+    "973X H0tm0ail V0alid By @Kommander0 06.11.txt::34525": {
+      "size": 34525,
+      "status": "ok",
+      "file_name": "973X H0tm0ail V0alid By @Kommander0 06.11.txt",
+      "first_seen": "2026-11-06T18:06:34.262100"
+    },
+    "HQ HOTMAILS.txt::6690": {
+      "size": 6690,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-11-06T18:07:45.625182"
+    },
+    "@AryoJozve.pdf::28079690": {
+      "size": 28079690,
+      "status": "ok",
+      "file_name": "@AryoJozve.pdf",
+      "first_seen": "2026-11-06T18:07:56.217716"
+    },
+    "Semi Valide FA [2026-11-06 18-10-33 UTC].txt::512332": {
+      "size": 512332,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-11-06 18-10-33 UTC].txt",
+      "first_seen": "2026-11-06T18:10:35.319194"
+    },
+    "50k MIX LOW Valid [FREE TG] (2).txt::1810287": {
+      "size": 1810287,
+      "status": "ok",
+      "file_name": "50k MIX LOW Valid [FREE TG] (2).txt",
+      "first_seen": "2026-11-06T18:11:09.891239"
+    },
+    "14k Hotmail LOW Valid [FREE TG] (2).txt::537608": {
+      "size": 537608,
+      "status": "ok",
+      "file_name": "14k Hotmail LOW Valid [FREE TG] (2).txt",
+      "first_seen": "2026-11-06T18:11:11.400195"
+    },
+    "Hotmail_2026_06_11_2.txt::8236": {
+      "size": 8236,
+      "status": "ok",
+      "file_name": "Hotmail_2026_06_11_2.txt",
+      "first_seen": "2026-11-06T18:13:38.662250"
+    },
+    "UDP_CONFIG NWA.ziv::2886": {
+      "size": 2886,
+      "status": "ok",
+      "file_name": "UDP_CONFIG NWA.ziv",
+      "first_seen": "2026-11-06T18:17:11.916283"
+    },
+    "Brooks Hotmail @Brooks_Mail2.txt::6310": {
+      "size": 6310,
+      "status": "ok",
+      "file_name": "Brooks Hotmail @Brooks_Mail2.txt",
+      "first_seen": "2026-11-06T18:19:41.565699"
+    },
+    "@assclnscrv - 333x.txt::15115": {
+      "size": 15115,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T18:25:00.404275"
+    },
+    "Sober.m4a::4937876": {
+      "size": 4937876,
+      "status": "ok",
+      "file_name": "Sober.m4a",
+      "first_seen": "2026-11-06T18:25:03.721447"
+    },
+    "@assclnscrv - 55x.txt::2445": {
+      "size": 2445,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:25:53.414069"
+    },
+    "@assclnscrv - 11x.txt::495": {
+      "size": 495,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:25:58.744151"
+    },
+    "@assclnscrv - 111x.txt::4906": {
+      "size": 4906,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:26:32.420498"
+    },
+    "@assclnscrv - 11x.txt::487": {
+      "size": 487,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:26:39.881009"
+    },
+    "Unchecked mix by @Yuriv707.txt::405000": {
+      "size": 405000,
+      "status": "ok",
+      "file_name": "Unchecked mix by @Yuriv707.txt",
+      "first_seen": "2026-11-06T18:26:48.785425"
+    },
+    "@assclnscrv - 333x.txt::14875": {
+      "size": 14875,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T18:27:53.098508"
+    },
+    "@assclnscrv - 111x.txt::4976": {
+      "size": 4976,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:28:18.111499"
+    },
+    "@assclnscrv - 111x.txt::4957": {
+      "size": 4957,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:28:44.223647"
+    },
+    "@assclnscrv - 11x.txt::470": {
+      "size": 470,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:28:45.994977"
+    },
+    "@assclnscrv - 11x.txt::482": {
+      "size": 482,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:28:47.428914"
+    },
+    "@assclnscrv - 111x.txt::4925": {
+      "size": 4925,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:29:04.529403"
+    },
+    "valids_hotmailes_1100.txt::54507": {
+      "size": 54507,
+      "status": "ok",
+      "file_name": "valids_hotmailes_1100.txt",
+      "first_seen": "2026-11-06T18:29:04.865746"
+    },
+    "@assclnscrv - 55x.txt::2427": {
+      "size": 2427,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:29:18.197917"
+    },
+    "@assclnscrv - 111x.txt::4937": {
+      "size": 4937,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:29:40.118563"
+    },
+    "Microsoft by @ZLr8x.zip::21408": {
+      "size": 21408,
+      "status": "ok",
+      "file_name": "Microsoft by @ZLr8x.zip",
+      "first_seen": "2026-11-06T18:29:45.228593"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1330 (3).txt::648108883": {
+      "size": 648108883,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1330 (3).txt",
+      "first_seen": "2026-11-06T18:30:14.875380"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1329 (1).txt::647260310": {
+      "size": 647260310,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1329 (1).txt",
+      "first_seen": "2026-11-06T18:30:16.334019"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1330 (2).txt::654621936": {
+      "size": 654621936,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1330 (2).txt",
+      "first_seen": "2026-11-06T18:30:17.839258"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1329 (4).txt::729458218": {
+      "size": 729458218,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1329 (4).txt",
+      "first_seen": "2026-11-06T18:30:19.314873"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1329 (2).txt::634207409": {
+      "size": 634207409,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1329 (2).txt",
+      "first_seen": "2026-11-06T18:30:20.814036"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1329 (3).txt::49623560": {
+      "size": 49623560,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1329 (3).txt",
+      "first_seen": "2026-11-06T18:30:22.288053"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1330 (1).txt::645710692": {
+      "size": 645710692,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1330 (1).txt",
+      "first_seen": "2026-11-06T18:30:23.854013"
+    },
+    "AMRTECH-TXTLOG-ULP-FREE-1330 (4).txt::647227354": {
+      "size": 647227354,
+      "status": "ok",
+      "file_name": "AMRTECH-TXTLOG-ULP-FREE-1330 (4).txt",
+      "first_seen": "2026-11-06T18:30:25.346515"
+    },
+    "1070x UHQ Hotmails @Entitilo0_0.txt::39881": {
+      "size": 39881,
+      "status": "ok",
+      "file_name": "1070x UHQ Hotmails @Entitilo0_0.txt",
+      "first_seen": "2026-11-06T18:34:01.673032"
+    },
+    "IMG_20260427_043001_142.jpg::125394": {
+      "size": 125394,
+      "status": "pending",
+      "file_name": "IMG_20260427_043001_142.jpg",
+      "first_seen": "2026-11-06T18:34:30.805897"
+    },
+    "Wolf M!X [2119].txt::59967": {
+      "size": 59967,
+      "status": "ok",
+      "file_name": "Wolf M!X [2119].txt",
+      "first_seen": "2026-11-06T18:34:32.973773"
+    },
+    "@assclnscrv - 333x.txt::14928": {
+      "size": 14928,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T18:34:53.159773"
+    },
+    "Hotmail Valids.txt::4295": {
+      "size": 4295,
+      "status": "ok",
+      "file_name": "Hotmail Valids.txt",
+      "first_seen": "2026-11-06T18:36:14.398844"
+    },
+    "@shadeXtxt_#8400.txt::95875641": {
+      "size": 95875641,
+      "status": "ok",
+      "file_name": "@shadeXtxt_#8400.txt",
+      "first_seen": "2026-11-06T18:36:48.656858"
+    },
+    "@assclnscrv - 111x.txt::5063": {
+      "size": 5063,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:37:54.659747"
+    },
+    "Rawen_Cloud_2026-11-06_ms_001_1991L.txt::67268": {
+      "size": 67268,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-11-06_ms_001_1991L.txt",
+      "first_seen": "2026-11-06T18:38:11.806486"
+    },
+    "Rawen_Cloud_2026-11-06_mix_001_905L.txt::32321": {
+      "size": 32321,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-11-06_mix_001_905L.txt",
+      "first_seen": "2026-11-06T18:38:12.742716"
+    },
+    "@assclnscrv - 55x.txt::2504": {
+      "size": 2504,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:39:20.085318"
+    },
+    "@assclnscrv - 111x.txt::5087": {
+      "size": 5087,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T18:41:26.901085"
+    },
+    "@assclnscrv - 55x.txt::2522": {
+      "size": 2522,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:42:32.800455"
+    },
+    "@BankFilmkonkor.pdf::467753479": {
+      "size": 467753479,
+      "status": "ok",
+      "file_name": "@BankFilmkonkor.pdf",
+      "first_seen": "2026-11-06T18:44:17.387646"
+    },
+    "@assclnscrv - 333x.txt::15195": {
+      "size": 15195,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T18:49:42.059954"
+    },
+    "@assclnscrv - 55x.txt::2461": {
+      "size": 2461,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:50:55.285264"
+    },
+    "@assclnscrv - 55x.txt::2486": {
+      "size": 2486,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:52:04.020994"
+    },
+    "@assclnscrv - 11x.txt::498": {
+      "size": 498,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:52:18.892558"
+    },
+    "HOTMAIL VALIDS .txt::55515": {
+      "size": 55515,
+      "status": "ok",
+      "file_name": "HOTMAIL VALIDS .txt",
+      "first_seen": "2026-11-06T18:53:16.037368"
+    },
+    "@assclnscrv - 55x.txt::2535": {
+      "size": 2535,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T18:53:36.680360"
+    },
+    "@assclnscrv - 11x.txt::509": {
+      "size": 509,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T18:53:44.276133"
+    },
+    "@CryptogoL12.rar::1350109337": {
+      "size": 1350109337,
+      "status": "ok",
+      "file_name": "@CryptogoL12.rar",
+      "first_seen": "2026-11-06T18:55:40.780709"
+    },
+    "@CryptogoL12 (2).rar::1826565631": {
+      "size": 1826565631,
+      "status": "ok",
+      "file_name": "@CryptogoL12 (2).rar",
+      "first_seen": "2026-11-06T18:55:41.677156"
+    },
+    "@CryptogoL12 (3).rar::696511255": {
+      "size": 696511255,
+      "status": "ok",
+      "file_name": "@CryptogoL12 (3).rar",
+      "first_seen": "2026-11-06T18:55:43.250471"
+    },
+    "@CryptogoL12 (4).rar::691930429": {
+      "size": 691930429,
+      "status": "ok",
+      "file_name": "@CryptogoL12 (4).rar",
+      "first_seen": "2026-11-06T18:55:44.685439"
+    },
+    "@CryptogoL12 (5).rar::676224166": {
+      "size": 676224166,
+      "status": "ok",
+      "file_name": "@CryptogoL12 (5).rar",
+      "first_seen": "2026-11-06T18:55:46.204625"
+    },
+    "Brazil_Part0_@RdpCr4ck.txt::669057": {
+      "size": 669057,
+      "status": "ok",
+      "file_name": "Brazil_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-06T18:56:12.332614"
+    },
+    "X650 Full Valide Mix UHQ.txt::25241": {
+      "size": 25241,
+      "status": "ok",
+      "file_name": "X650 Full Valide Mix UHQ.txt",
+      "first_seen": "2026-11-06T18:57:51.014818"
+    },
+    "@assclnscrv - 333x.txt::15122": {
+      "size": 15122,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T19:00:54.718514"
+    },
+    "15k Mail With Valid MIX [FREE TG] 06.11.26 (2).txt::542674": {
+      "size": 542674,
+      "status": "ok",
+      "file_name": "15k Mail With Valid MIX [FREE TG] 06.11.26 (2).txt",
+      "first_seen": "2026-11-06T19:03:30.091151"
+    },
+    "4.3k Hotmail With Valid [FREE TG] 06.11.26 (2).txt::158422": {
+      "size": 158422,
+      "status": "ok",
+      "file_name": "4.3k Hotmail With Valid [FREE TG] 06.11.26 (2).txt",
+      "first_seen": "2026-11-06T19:03:31.007517"
+    },
+    "@assclnscrv - 222x.txt::9898": {
+      "size": 9898,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T19:04:54.690856"
+    },
+    "@assclnscrv - 11x.txt::494": {
+      "size": 494,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T19:05:05.248873"
+    },
+    "@assclnscrv - 11x.txt::503": {
+      "size": 503,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T19:05:27.002638"
+    },
+    "MIX Unique Combo_4_33000.txt::1215871": {
+      "size": 1215871,
+      "status": "ok",
+      "file_name": "MIX Unique Combo_4_33000.txt",
+      "first_seen": "2026-11-06T19:07:02.823915"
+    },
+    "[637.265] HQ Gmail Combolist.txt::25941409": {
+      "size": 25941409,
+      "status": "ok",
+      "file_name": "[637.265] HQ Gmail Combolist.txt",
+      "first_seen": "2026-11-06T19:11:39.413902"
+    },
+    "[45.104] UHQ Hotmail @BasedTXT.txt::1742550": {
+      "size": 1742550,
+      "status": "ok",
+      "file_name": "[45.104] UHQ Hotmail @BasedTXT.txt",
+      "first_seen": "2026-11-06T19:12:17.057654"
+    },
+    "[22.473] HQ Yahoo Domains.txt::817279": {
+      "size": 817279,
+      "status": "ok",
+      "file_name": "[22.473] HQ Yahoo Domains.txt",
+      "first_seen": "2026-11-06T19:12:33.689760"
+    },
+    "@assclnscrv - 333x.txt::15073": {
+      "size": 15073,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T19:13:04.859363"
+    },
+    "@assclnscrv - 55x.txt::2497": {
+      "size": 2497,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T19:14:25.127917"
+    },
+    "ACRTIXX1 HOTMAIL UHQ.txt::33944": {
+      "size": 33944,
+      "status": "ok",
+      "file_name": "ACRTIXX1 HOTMAIL UHQ.txt",
+      "first_seen": "2026-11-06T19:15:02.114753"
+    },
+    "[10251] MK2 CLOUD HOTMA!LS.txt::362114": {
+      "size": 362114,
+      "status": "ok",
+      "file_name": "[10251] MK2 CLOUD HOTMA!LS.txt",
+      "first_seen": "2026-11-06T19:19:29.448006"
+    },
+    "@assclnscrv - 222x.txt::10043": {
+      "size": 10043,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T19:19:55.575822"
+    },
+    "طبقه منفی‌یک ریاضیات!.pdf::16005437": {
+      "size": 16005437,
+      "status": "ok",
+      "file_name": "طبقه منفی‌یک ریاضیات!.pdf",
+      "first_seen": "2026-11-06T19:21:53.108461"
+    },
+    "جزوه کامل جانوری .PDF::32653155": {
+      "size": 32653155,
+      "status": "ok",
+      "file_name": "جزوه کامل جانوری .PDF",
+      "first_seen": "2026-11-06T19:22:04.222365"
+    },
+    "جزوه جامع.pdf::34045290": {
+      "size": 34045290,
+      "status": "ok",
+      "file_name": "جزوه جامع.pdf",
+      "first_seen": "2026-11-06T19:22:15.063209"
+    },
+    "14010312p267k8i857.pdf::480632": {
+      "size": 480632,
+      "status": "ok",
+      "file_name": "14010312p267k8i857.pdf",
+      "first_seen": "2026-11-06T19:22:20.583132"
+    },
+    "@assclnscrv - 111x.txt::5022": {
+      "size": 5022,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T19:22:45.773425"
+    },
+    "گزینه دو دوازدهم 15 آبان.zip::51476451": {
+      "size": 51476451,
+      "status": "ok",
+      "file_name": "گزینه دو دوازدهم 15 آبان.zip",
+      "first_seen": "2026-11-06T19:30:44.194801"
+    },
+    "گزینه دو یازدهم ۱۵ آبان.zip::27051671": {
+      "size": 27051671,
+      "status": "ok",
+      "file_name": "گزینه دو یازدهم ۱۵ آبان.zip",
+      "first_seen": "2026-11-06T19:30:44.571235"
+    },
+    "گزینه دو دهم ۱۵ آبان.zip::16164159": {
+      "size": 16164159,
+      "status": "ok",
+      "file_name": "گزینه دو دهم ۱۵ آبان.zip",
+      "first_seen": "2026-11-06T19:30:44.902191"
+    },
+    "@assclnscrv - 333x.txt::14972": {
+      "size": 14972,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T19:31:05.437947"
+    },
+    "6.6k China D4RKNETHUB CLOUD.txt::224987": {
+      "size": 224987,
+      "status": "ok",
+      "file_name": "6.6k China D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-11-06T19:32:03.165142"
+    },
+    "Wolf M!X [766].txt::30569": {
+      "size": 30569,
+      "status": "ok",
+      "file_name": "Wolf M!X [766].txt",
+      "first_seen": "2026-11-06T19:34:28.275750"
+    },
+    "HQ HOTMAILS.txt::17207": {
+      "size": 17207,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-11-06T19:38:25.646806"
+    },
+    "@assclnscrv - 333x.txt::15061": {
+      "size": 15061,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T19:40:05.086621"
+    },
+    "@assclnscrv - 111x.txt::5109": {
+      "size": 5109,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T19:42:55.346492"
+    },
+    "@assclnscrv - 11x.txt::500": {
+      "size": 500,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T19:43:15.287797"
+    },
+    "@assclnscrv - 55x.txt::2476": {
+      "size": 2476,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T19:44:45.675340"
+    },
+    "@assclnscrv - 11x.txt::472": {
+      "size": 472,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T19:45:03.844860"
+    },
+    "Premium.txt::417": {
+      "size": 417,
+      "status": "ok",
+      "file_name": "Premium.txt",
+      "first_seen": "2026-11-06T19:45:50.220870"
+    },
+    "Expired.txt::2561": {
+      "size": 2561,
+      "status": "ok",
+      "file_name": "Expired.txt",
+      "first_seen": "2026-11-06T19:45:51.140257"
+    },
+    "Free.txt::5266": {
+      "size": 5266,
+      "status": "ok",
+      "file_name": "Free.txt",
+      "first_seen": "2026-11-06T19:45:52.632481"
+    },
+    "@assclnscrv - 111x.txt::5026": {
+      "size": 5026,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T19:48:16.519594"
+    },
+    "microsoft.txt::34901": {
+      "size": 34901,
+      "status": "ok",
+      "file_name": "microsoft.txt",
+      "first_seen": "2026-11-06T19:55:56.694724"
+    },
+    "@assclnscrv - 333x.txt::15051": {
+      "size": 15051,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T19:57:20.430941"
+    },
+    "@assclnscrv - 55x.txt::2477": {
+      "size": 2477,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T19:59:08.691688"
+    },
+    "@assclnscrv - 111x.txt::4986": {
+      "size": 4986,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T20:02:00.260226"
+    },
+    "@assclnscrv - 55x.txt::2404": {
+      "size": 2404,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T20:02:10.907993"
+    },
+    "@assclnscrv - 11x.txt::493": {
+      "size": 493,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T20:02:12.920753"
+    },
+    "@assclnscrv - 55x.txt::2430": {
+      "size": 2430,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T20:02:27.074190"
+    },
+    "@assclnscrv - 111x.txt::4756": {
+      "size": 4756,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T20:02:42.695656"
+    },
+    "@assclnscrv - 222x.txt::9821": {
+      "size": 9821,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:03:02.762109"
+    },
+    "@assclnscrv - 222x.txt::9969": {
+      "size": 9969,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:03:21.946637"
+    },
+    "@assclnscrv - 11x.txt::492": {
+      "size": 492,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T20:03:26.950104"
+    },
+    "@assclnscrv - 333x.txt::15183": {
+      "size": 15183,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T20:03:45.641589"
+    },
+    "@assclnscrv - 222x.txt::9643": {
+      "size": 9643,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:04:11.029092"
+    },
+    "@assclnscrv - 222x.txt::9971": {
+      "size": 9971,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:09:00.318404"
+    },
+    "Semi Valide FA [2026-11-06 20-11-12 UTC].txt::315616": {
+      "size": 315616,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-11-06 20-11-12 UTC].txt",
+      "first_seen": "2026-11-06T20:11:14.077344"
+    },
+    "@assclnscrv - 222x.txt::10149": {
+      "size": 10149,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:14:59.048470"
+    },
+    "google_pro_6_12_24.rar::10886": {
+      "size": 10886,
+      "status": "ok",
+      "file_name": "google_pro_6_12_24.rar",
+      "first_seen": "2026-11-06T20:15:07.515824"
+    },
+    "NETFLIX_HITS.txt::1766583": {
+      "size": 1766583,
+      "status": "ok",
+      "file_name": "NETFLIX_HITS.txt",
+      "first_seen": "2026-11-06T20:19:49.271887"
+    },
+    "@assclnscrv - 333x.txt::15100": {
+      "size": 15100,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T20:24:09.321710"
+    },
+    "FRESH ULP @LegioN_LeakeRs_part0003.txt::1073741936": {
+      "size": 1073741936,
+      "status": "ok",
+      "file_name": "FRESH ULP @LegioN_LeakeRs_part0003.txt",
+      "first_seen": "2026-11-06T20:24:25.106471"
+    },
+    "@assclnscrv - 11x.txt::488": {
+      "size": 488,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T20:24:30.653698"
+    },
+    "WATERCLOUD_INFO - 2927 FILES 06.11.2026 - THANKS FOR SUB.rar::3920309230": {
+      "size": 3920309230,
+      "status": "ok",
+      "file_name": "WATERCLOUD_INFO - 2927 FILES 06.11.2026 - THANKS FOR SUB.rar",
+      "first_seen": "2026-11-06T20:28:24.772807"
+    },
+    "Ecstasy ECPR027 Unique.txt::77935122": {
+      "size": 77935122,
+      "status": "ok",
+      "file_name": "Ecstasy ECPR027 Unique.txt",
+      "first_seen": "2026-11-06T20:29:11.537610"
+    },
+    "🔒 2.4M Syskey✮Private #6.txt::205897679": {
+      "size": 205897679,
+      "status": "ok",
+      "file_name": "🔒 2.4M Syskey✮Private #6.txt",
+      "first_seen": "2026-11-06T20:29:26.449033"
+    },
+    "🔒 2.8M Syskey✮Private #7.txt::247133773": {
+      "size": 247133773,
+      "status": "ok",
+      "file_name": "🔒 2.8M Syskey✮Private #7.txt",
+      "first_seen": "2026-11-06T20:29:27.978469"
+    },
+    "Obsidian Private 2.6M #1.txt::175071500": {
+      "size": 175071500,
+      "status": "ok",
+      "file_name": "Obsidian Private 2.6M #1.txt",
+      "first_seen": "2026-11-06T20:30:21.804905"
+    },
+    "Obsidian Private 2.3M #2.txt::165123129": {
+      "size": 165123129,
+      "status": "ok",
+      "file_name": "Obsidian Private 2.3M #2.txt",
+      "first_seen": "2026-11-06T20:30:23.316006"
+    },
+    "3xYOUTUBE_COKI@Akirro_GG.txt::40182": {
+      "size": 40182,
+      "status": "ok",
+      "file_name": "3xYOUTUBE_COKI@Akirro_GG.txt",
+      "first_seen": "2026-11-06T20:31:39.997317"
+    },
+    "PRIME_VIDEO_COKI@Akirro_GG.txt::175393": {
+      "size": 175393,
+      "status": "ok",
+      "file_name": "PRIME_VIDEO_COKI@Akirro_GG.txt",
+      "first_seen": "2026-11-06T20:33:46.089394"
+    },
+    "65xSPOTIFY_COKI@Akirro_GG.txt::206556": {
+      "size": 206556,
+      "status": "ok",
+      "file_name": "65xSPOTIFY_COKI@Akirro_GG.txt",
+      "first_seen": "2026-11-06T20:33:55.265882"
+    },
+    "Wolf M!X [686].txt::21969": {
+      "size": 21969,
+      "status": "ok",
+      "file_name": "Wolf M!X [686].txt",
+      "first_seen": "2026-11-06T20:34:20.865586"
+    },
+    "@assclnscrv - 333x.txt::15220": {
+      "size": 15220,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T20:34:50.634563"
+    },
+    "@assclnscrv - 55x.txt::2507": {
+      "size": 2507,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T20:36:25.435657"
+    },
+    "@assclnscrv - 55x.txt::2502": {
+      "size": 2502,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T20:38:06.640973"
+    },
+    "@assclnscrv - 11x.txt::485": {
+      "size": 485,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T20:38:25.843173"
+    },
+    "@assclnscrv - 55x.txt::2531": {
+      "size": 2531,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T20:40:02.818532"
+    },
+    "AMG (ft. Destroy Lonely)   Playboi Carti.m4a::2984849": {
+      "size": 2984849,
+      "status": "ok",
+      "file_name": "AMG (ft. Destroy Lonely)   Playboi Carti.m4a",
+      "first_seen": "2026-11-06T20:42:23.895187"
+    },
+    "HQ HOTMAILS.txt::5271": {
+      "size": 5271,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-11-06T20:42:38.194076"
+    },
+    "@assclnscrv - 222x.txt::9996": {
+      "size": 9996,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:45:18.569701"
+    },
+    "Shoppy-Checker-V3-Capsolver.py::24914": {
+      "size": 24914,
+      "status": "ok",
+      "file_name": "Shoppy-Checker-V3-Capsolver.py",
+      "first_seen": "2026-11-06T20:45:59.694534"
+    },
+    "ok.txt::2428": {
+      "size": 2428,
+      "status": "ok",
+      "file_name": "ok.txt",
+      "first_seen": "2026-11-06T20:46:41.314200"
+    },
+    "Ya No Confio   Under Vato.m4a::2509164": {
+      "size": 2509164,
+      "status": "ok",
+      "file_name": "Ya No Confio   Under Vato.m4a",
+      "first_seen": "2026-11-06T20:50:01.062278"
+    },
+    "@assclnscrv - 222x.txt::10119": {
+      "size": 10119,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:51:22.926338"
+    },
+    "@baseurl_JAjxRx2Y.txt::104866356": {
+      "size": 104866356,
+      "status": "ok",
+      "file_name": "@baseurl_JAjxRx2Y.txt",
+      "first_seen": "2026-11-06T20:54:59.033474"
+    },
+    "ACRTIXX1 MIX UHQ.txt::31469": {
+      "size": 31469,
+      "status": "ok",
+      "file_name": "ACRTIXX1 MIX UHQ.txt",
+      "first_seen": "2026-11-06T20:55:22.201370"
+    },
+    "2.2K MIX FRESH.txt::70891": {
+      "size": 70891,
+      "status": "ok",
+      "file_name": "2.2K MIX FRESH.txt",
+      "first_seen": "2026-11-06T20:56:02.223051"
+    },
+    "1.8K MIX FRESH.txt::67244": {
+      "size": 67244,
+      "status": "ok",
+      "file_name": "1.8K MIX FRESH.txt",
+      "first_seen": "2026-11-06T20:56:03.703029"
+    },
+    "4.6K MIX FRESH.txt::175109": {
+      "size": 175109,
+      "status": "ok",
+      "file_name": "4.6K MIX FRESH.txt",
+      "first_seen": "2026-11-06T20:56:05.211021"
+    },
+    "10K MIX FRESH.txt::332714": {
+      "size": 332714,
+      "status": "ok",
+      "file_name": "10K MIX FRESH.txt",
+      "first_seen": "2026-11-06T20:56:06.739195"
+    },
+    "2K HOTMAIL FRESH.txt::70050": {
+      "size": 70050,
+      "status": "ok",
+      "file_name": "2K HOTMAIL FRESH.txt",
+      "first_seen": "2026-11-06T20:56:08.244033"
+    },
+    "3.5K HOTMAIL FRESH.txt::128434": {
+      "size": 128434,
+      "status": "ok",
+      "file_name": "3.5K HOTMAIL FRESH.txt",
+      "first_seen": "2026-11-06T20:56:09.737110"
+    },
+    "4K HOTMAIL FRESH.txt::169386": {
+      "size": 169386,
+      "status": "ok",
+      "file_name": "4K HOTMAIL FRESH.txt",
+      "first_seen": "2026-11-06T20:56:11.263148"
+    },
+    "GlockUlp #75 (3706476).txt::236339835": {
+      "size": 236339835,
+      "status": "ok",
+      "file_name": "GlockUlp #75 (3706476).txt",
+      "first_seen": "2026-11-06T20:56:12.704130"
+    },
+    "1K HOTMAIL FRESH.txt::37347": {
+      "size": 37347,
+      "status": "ok",
+      "file_name": "1K HOTMAIL FRESH.txt",
+      "first_seen": "2026-11-06T20:56:31.608866"
+    },
+    "@assclnscrv - 222x.txt::10100": {
+      "size": 10100,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T20:57:05.468955"
+    },
+    "@assclnscrv - 222x.txt::10123": {
+      "size": 10123,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T21:02:56.063469"
+    },
+    "@assclnscrv - 222x.txt::10074": {
+      "size": 10074,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T21:08:55.960424"
+    },
+    "@assclnscrv - 55x.txt::2545": {
+      "size": 2545,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T21:10:21.424306"
+    },
+    "@WindyCloud9999_MIX.txt::87022": {
+      "size": 87022,
+      "status": "ok",
+      "file_name": "@WindyCloud9999_MIX.txt",
+      "first_seen": "2026-11-06T21:12:26.193745"
+    },
+    "WEB.DE +1800 VALID 1.txt::66958": {
+      "size": 66958,
+      "status": "ok",
+      "file_name": "WEB.DE +1800 VALID 1.txt",
+      "first_seen": "2026-11-06T21:18:12.041018"
+    },
+    "@assclnscrv - 333x.txt::15298": {
+      "size": 15298,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T21:18:40.266820"
+    },
+    "@assclnscrv - 111x.txt::4987": {
+      "size": 4987,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T21:21:09.840549"
+    },
+    "7206X VALID SUHQ MIXED ACCESS BY @SyntaX.txt::266006": {
+      "size": 266006,
+      "status": "ok",
+      "file_name": "7206X VALID SUHQ MIXED ACCESS BY @SyntaX.txt",
+      "first_seen": "2026-11-06T21:22:38.420048"
+    },
+    "958X VALID SUHQ HOTMAIL ACCESS BY @SyntaX.txt::33944": {
+      "size": 33944,
+      "status": "ok",
+      "file_name": "958X VALID SUHQ HOTMAIL ACCESS BY @SyntaX.txt",
+      "first_seen": "2026-11-06T21:22:39.895431"
+    },
+    "@assclnscrv - 55x.txt::2381": {
+      "size": 2381,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T21:22:46.596956"
+    },
+    "05. Alan Walker - Lonely.flac::26049547": {
+      "size": 26049547,
+      "status": "ok",
+      "file_name": "05. Alan Walker - Lonely.flac",
+      "first_seen": "2026-11-06T21:29:28.579348"
+    },
+    "@assclnscrv - 333x.txt::14830": {
+      "size": 14830,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T21:30:19.531097"
+    },
+    "@assclnscrv - 55x.txt::2564": {
+      "size": 2564,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T21:31:43.579249"
+    },
+    "7.2k Czech D4RKNETHUB CLOUD.txt::234393": {
+      "size": 234393,
+      "status": "ok",
+      "file_name": "7.2k Czech D4RKNETHUB CLOUD.txt",
+      "first_seen": "2026-11-06T21:32:02.889074"
+    },
+    "05. Poets Of The Fall - Standstill.flac::41707862": {
+      "size": 41707862,
+      "status": "ok",
+      "file_name": "05. Poets Of The Fall - Standstill.flac",
+      "first_seen": "2026-11-06T21:33:46.047504"
+    },
+    "Wolf HOTMA!LS [372].txt::13800": {
+      "size": 13800,
+      "status": "ok",
+      "file_name": "Wolf HOTMA!LS [372].txt",
+      "first_seen": "2026-11-06T21:34:12.602225"
+    },
+    "@assclnscrv - 222x.txt::9988": {
+      "size": 9988,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T21:36:45.941024"
+    },
+    "socks5_7515_proxies.txt::141458": {
+      "size": 141458,
+      "status": "ok",
+      "file_name": "socks5_7515_proxies.txt",
+      "first_seen": "2026-11-06T21:37:20.872956"
+    },
+    "https_8708_proxies.txt::161275": {
+      "size": 161275,
+      "status": "ok",
+      "file_name": "https_8708_proxies.txt",
+      "first_seen": "2026-11-06T21:37:21.658879"
+    },
+    "@assclnscrv - 222x.txt::10184": {
+      "size": 10184,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T21:41:23.229537"
+    },
+    "MIX FRESH.txt::3033474": {
+      "size": 3033474,
+      "status": "ok",
+      "file_name": "MIX FRESH.txt",
+      "first_seen": "2026-11-06T21:46:15.883911"
+    },
+    "@assclnscrv - 333x.txt::15119": {
+      "size": 15119,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T21:49:22.409673"
+    },
+    "@assclnscrv - 11x.txt::496": {
+      "size": 496,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T21:49:36.378338"
+    },
+    "Sargardan.m4a::5508228": {
+      "size": 5508228,
+      "status": "ok",
+      "file_name": "Sargardan.m4a",
+      "first_seen": "2026-11-06T21:49:45.090359"
+    },
+    "@assclnscrv - 111x.txt::5038": {
+      "size": 5038,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T21:52:36.998753"
+    },
+    "@assclnscrv - 11x.txt::486": {
+      "size": 486,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T21:53:16.142936"
+    },
+    "01 - Love Struck Baby.dsf::101447233": {
+      "size": 101447233,
+      "status": "ok",
+      "file_name": "01 - Love Struck Baby.dsf",
+      "first_seen": "2026-11-06T21:58:32.037329"
+    },
+    "01. Love Struck Baby.flac::15630526": {
+      "size": 15630526,
+      "status": "ok",
+      "file_name": "01. Love Struck Baby.flac",
+      "first_seen": "2026-11-06T21:58:48.685312"
+    },
+    "DC.m4a::3925994": {
+      "size": 3925994,
+      "status": "ok",
+      "file_name": "DC.m4a",
+      "first_seen": "2026-11-06T21:59:49.455056"
+    },
+    "45X Countries.zip::11980": {
+      "size": 11980,
+      "status": "ok",
+      "file_name": "45X Countries.zip",
+      "first_seen": "2026-11-06T22:02:08.593076"
+    },
+    "+120X UHQ FRESH HOTMAILS @NovaCloudChannels.txt::4401": {
+      "size": 4401,
+      "status": "ok",
+      "file_name": "+120X UHQ FRESH HOTMAILS @NovaCloudChannels.txt",
+      "first_seen": "2026-11-06T22:02:09.546405"
+    },
+    "973X HOTMAIL UHQ FRESH.txt::34525": {
+      "size": 34525,
+      "status": "ok",
+      "file_name": "973X HOTMAIL UHQ FRESH.txt",
+      "first_seen": "2026-11-06T22:02:18.475627"
+    },
+    "7kX MIX UHQ FRESH.txt::266755": {
+      "size": 266755,
+      "status": "ok",
+      "file_name": "7kX MIX UHQ FRESH.txt",
+      "first_seen": "2026-11-06T22:02:19.979320"
+    },
+    "@assclnscrv - 333x.txt::15042": {
+      "size": 15042,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T22:02:26.148581"
+    },
+    "@assclnscrv - 222x.txt::9111": {
+      "size": 9111,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T22:02:37.816249"
+    },
+    "@assclnscrv - 333x.txt::13656": {
+      "size": 13656,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T22:02:39.445755"
+    },
+    "@assclnscrv - 11x.txt::462": {
+      "size": 462,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T22:02:40.229399"
+    },
+    "@assclnscrv - 111x.txt::4716": {
+      "size": 4716,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T22:03:42.582188"
+    },
+    "Silent Cloud - Logs - 06-11-2026.zip::1700387706": {
+      "size": 1700387706,
+      "status": "ok",
+      "file_name": "Silent Cloud - Logs - 06-11-2026.zip",
+      "first_seen": "2026-11-06T22:03:58.235977"
+    },
+    "02. Alan Walker - Lost Control.flac::26859865": {
+      "size": 26859865,
+      "status": "ok",
+      "file_name": "02. Alan Walker - Lost Control.flac",
+      "first_seen": "2026-11-06T22:04:49.804824"
+    },
+    "@assclnscrv - 55x.txt::2495": {
+      "size": 2495,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-06T22:05:10.094549"
+    },
+    "MIX Unique Combo_5_33000.txt::1216525": {
+      "size": 1216525,
+      "status": "ok",
+      "file_name": "MIX Unique Combo_5_33000.txt",
+      "first_seen": "2026-11-06T22:07:03.404839"
+    },
+    "Netflix.txt::7756": {
+      "size": 7756,
+      "status": "ok",
+      "file_name": "Netflix.txt",
+      "first_seen": "2026-11-06T22:07:55.363106"
+    },
+    "@assclnscrv - 111x.txt::5053": {
+      "size": 5053,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-06T22:08:13.773413"
+    },
+    "@assclnscrv - 11x.txt::504": {
+      "size": 504,
+      "status": "ok",
+      "file_name": "@assclnscrv - 11x.txt",
+      "first_seen": "2026-11-06T22:08:30.615448"
+    },
+    "Iran_Part0_@RdpCr4ck.txt::180701": {
+      "size": 180701,
+      "status": "ok",
+      "file_name": "Iran_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-06T22:09:16.391875"
+    },
+    "Mix.txt::33924": {
+      "size": 33924,
+      "status": "ok",
+      "file_name": "Mix.txt",
+      "first_seen": "2026-11-06T22:10:17.020431"
+    },
+    "Semi Valide FA [2026-11-06 22-11-46 UTC].txt::366642": {
+      "size": 366642,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-11-06 22-11-46 UTC].txt",
+      "first_seen": "2026-11-06T22:11:47.800811"
+    },
+    "@TXTMASTER_PUBLIC FREE TXT 06-11-2026 #41.zip::794643839": {
+      "size": 794643839,
+      "status": "ok",
+      "file_name": "@TXTMASTER_PUBLIC FREE TXT 06-11-2026 #41.zip",
+      "first_seen": "2026-11-06T22:12:42.084258"
+    },
+    "@assclnscrv - 222x.txt::9951": {
+      "size": 9951,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-06T22:14:15.681874"
+    },
+    "03. Alan Walker - I Don't Wanna Go.flac::19911623": {
+      "size": 19911623,
+      "status": "ok",
+      "file_name": "03. Alan Walker - I Don't Wanna Go.flac",
+      "first_seen": "2026-11-06T22:15:30.194326"
+    },
+    "capcut_hit.txt::93313": {
+      "size": 93313,
+      "status": "ok",
+      "file_name": "capcut_hit.txt",
+      "first_seen": "2026-11-06T22:18:10.044899"
+    },
+    "crunchyroll.zip::25225": {
+      "size": 25225,
+      "status": "ok",
+      "file_name": "crunchyroll.zip",
+      "first_seen": "2026-11-06T22:18:11.532462"
+    },
+    "Disney+.txt::4272": {
+      "size": 4272,
+      "status": "ok",
+      "file_name": "Disney+.txt",
+      "first_seen": "2026-11-06T22:18:13.071113"
+    },
+    "expressvpn.txt::498": {
+      "size": 498,
+      "status": "ok",
+      "file_name": "expressvpn.txt",
+      "first_seen": "2026-11-06T22:18:14.555195"
+    },
+    "hbo_max_hits.zip::54412": {
+      "size": 54412,
+      "status": "ok",
+      "file_name": "hbo_max_hits.zip",
+      "first_seen": "2026-11-06T22:18:22.615505"
+    },
+    "Like a Stone   Audioslave.m4a::4881624": {
+      "size": 4881624,
+      "status": "ok",
+      "file_name": "Like a Stone   Audioslave.m4a",
+      "first_seen": "2026-11-06T22:18:35.122247"
+    },
+    "خیلی سبز دوازدهم تجربی ۱۵ آبان.pdf::66621477": {
+      "size": 66621477,
+      "status": "ok",
+      "file_name": "خیلی سبز دوازدهم تجربی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:04.578636"
+    },
+    "خیلی سبز دوازدهم ریاضی ۱۵ آبان.pdf::26814170": {
+      "size": 26814170,
+      "status": "ok",
+      "file_name": "خیلی سبز دوازدهم ریاضی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:04.913181"
+    },
+    "خیلی سبز دوازدهم انسانی ۱۵ آبان.pdf::48161071": {
+      "size": 48161071,
+      "status": "ok",
+      "file_name": "خیلی سبز دوازدهم انسانی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:05.245138"
+    },
+    "خیلی سبز یازدهم تجربی ۱۵ آبان.pdf::27744479": {
+      "size": 27744479,
+      "status": "ok",
+      "file_name": "خیلی سبز یازدهم تجربی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:05.563112"
+    },
+    "خیلی سبز یازدهم ریاضی ۱۵ آبان.pdf::25625416": {
+      "size": 25625416,
+      "status": "ok",
+      "file_name": "خیلی سبز یازدهم ریاضی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:05.886772"
+    },
+    "خیلی سبز یازدهم انسانی ۱۵ آبان.pdf::23795220": {
+      "size": 23795220,
+      "status": "ok",
+      "file_name": "خیلی سبز یازدهم انسانی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:06.529249"
+    },
+    "خیلی سبز دهم تجربی ۱۵ آبان.pdf::30143099": {
+      "size": 30143099,
+      "status": "ok",
+      "file_name": "خیلی سبز دهم تجربی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:07.160791"
+    },
+    "خیلی سبز دهم ریاضی ۱۵ آبان.pdf::16796048": {
+      "size": 16796048,
+      "status": "ok",
+      "file_name": "خیلی سبز دهم ریاضی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:08.118840"
+    },
+    "خیلی سبز دهم انسانی ۱۵ آبان.pdf::27677892": {
+      "size": 27677892,
+      "status": "ok",
+      "file_name": "خیلی سبز دهم انسانی ۱۵ آبان.pdf",
+      "first_seen": "2026-11-06T22:21:08.765344"
+    },
+    "@assclnscrv - 333x.txt::15133": {
+      "size": 15133,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-06T22:24:33.055269"
+    },
+    "MIX UHQ.txt::266006": {
+      "size": 266006,
+      "status": "ok",
+      "file_name": "MIX UHQ.txt",
+      "first_seen": "2026-11-06T22:24:49.227371"
+    },
+    "ACRTIXX1 MIX UHQ.txt::266006": {
+      "size": 266006,
+      "status": "ok",
+      "file_name": "ACRTIXX1 MIX UHQ.txt",
+      "first_seen": "2026-11-06T22:25:01.261617",
+      "done_at": "2026-11-06T22:25:01.707860"
     }
   },
   "last_check": 1789221710.379466
