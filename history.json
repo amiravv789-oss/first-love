@@ -274324,8 +274324,2798 @@
       "size": 14790,
       "status": "ok",
       "file_name": "@assclnscrv - 333x.txt",
-      "first_seen": "2026-11-08T22:31:26.309004",
-      "done_at": "2026-11-08T22:31:26.951217"
+      "first_seen": "2026-11-08T22:31:26.309004"
+    },
+    "@assclnscrv - 222x.txt::9921": {
+      "size": 9921,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:32:31.839099"
+    },
+    "@assclnscrv - 333x.txt::14888": {
+      "size": 14888,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:32:59.685547"
+    },
+    "@assclnscrv - 333x.txt::14958": {
+      "size": 14958,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:33:00.999585"
+    },
+    "@assclnscrv - 55x.txt::2470": {
+      "size": 2470,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:33:06.146334"
+    },
+    "@KATANA_CLOUD FREE.rar::325823423": {
+      "size": 325823423,
+      "status": "ok",
+      "file_name": "@KATANA_CLOUD FREE.rar",
+      "first_seen": "2026-11-08T22:33:07.521245"
+    },
+    "@assclnscrv - 111x.txt::4917": {
+      "size": 4917,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:33:15.271611"
+    },
+    "@assclnscrv - 222x.txt::9742": {
+      "size": 9742,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:33:37.264672"
+    },
+    "Wolf M!X [2934].txt::100380": {
+      "size": 100380,
+      "status": "ok",
+      "file_name": "Wolf M!X [2934].txt",
+      "first_seen": "2026-11-08T22:34:37.099591"
+    },
+    "@assclnscrv - 333x.txt::14978": {
+      "size": 14978,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:36:49.327126"
+    },
+    "@assclnscrv - 55x.txt::2487": {
+      "size": 2487,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:38:33.959808"
+    },
+    "@assclnscrv - 55x.txt::2481": {
+      "size": 2481,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:38:44.987602"
+    },
+    "@assclnscrv - 111x.txt::4979": {
+      "size": 4979,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:39:31.250554"
+    },
+    "@assclnscrv - 333x.txt::14816": {
+      "size": 14816,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:40:36.133133"
+    },
+    "@assclnscrv - 111x.txt::4956": {
+      "size": 4956,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:41:00.505682"
+    },
+    "@assclnscrv - 55x.txt::2451": {
+      "size": 2451,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:41:48.516508"
+    },
+    "@assclnscrv - 111x.txt::4964": {
+      "size": 4964,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:42:14.108922"
+    },
+    "@assclnscrv - 333x.txt::14809": {
+      "size": 14809,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:43:42.524715"
+    },
+    "@assclnscrv - 222x.txt::9895": {
+      "size": 9895,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:44:33.225817"
+    },
+    "@assclnscrv - 111x.txt::5007": {
+      "size": 5007,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:46:27.041518"
+    },
+    "@assclnscrv - 222x.txt::9757": {
+      "size": 9757,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:48:30.254964"
+    },
+    "@assclnscrv - 222x.txt::9789": {
+      "size": 9789,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:49:54.378123"
+    },
+    "@assclnscrv - 222x.txt::10005": {
+      "size": 10005,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:51:25.805584"
+    },
+    "@assclnscrv - 333x.txt::14924": {
+      "size": 14924,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:52:28.961609"
+    },
+    "@assclnscrv - 333x.txt::14704": {
+      "size": 14704,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:54:50.812899"
+    },
+    "@assclnscrv - 333x.txt::14914": {
+      "size": 14914,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:55:47.180643"
+    },
+    "@assclnscrv - 111x.txt::4991": {
+      "size": 4991,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:56:36.594009"
+    },
+    "@assclnscrv - 333x.txt::14941": {
+      "size": 14941,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T22:57:47.133648"
+    },
+    "@assclnscrv - 222x.txt::9853": {
+      "size": 9853,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:58:31.150232"
+    },
+    "@assclnscrv - 55x.txt::2478": {
+      "size": 2478,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:58:43.256736"
+    },
+    "@assclnscrv - 111x.txt::4963": {
+      "size": 4963,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T22:59:04.908366"
+    },
+    "@assclnscrv - 222x.txt::9704": {
+      "size": 9704,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T22:59:11.758221"
+    },
+    "@assclnscrv - 55x.txt::2401": {
+      "size": 2401,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:59:13.908721"
+    },
+    "@assclnscrv - 55x.txt::2553": {
+      "size": 2553,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T22:59:33.058754"
+    },
+    "@assclnscrv - 222x.txt::10055": {
+      "size": 10055,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:00:13.574407"
+    },
+    "@assclnscrv - 333x.txt::14895": {
+      "size": 14895,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:01:27.162729"
+    },
+    "@assclnscrv - 333x.txt::14984": {
+      "size": 14984,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:04:15.718007"
+    },
+    "@assclnscrv - 222x.txt::9914": {
+      "size": 9914,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:04:43.740236"
+    },
+    "@assclnscrv - 111x.txt::5058": {
+      "size": 5058,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:04:57.642603"
+    },
+    "@assclnscrv - 55x.txt::2460": {
+      "size": 2460,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:05:06.302131"
+    },
+    "@assclnscrv - 222x.txt::10006": {
+      "size": 10006,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:05:52.641639"
+    },
+    "@assclnscrv - 222x.txt::9934": {
+      "size": 9934,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:06:20.361378"
+    },
+    "@assclnscrv - 111x.txt::4934": {
+      "size": 4934,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:07:02.232521"
+    },
+    "@assclnscrv - 333x.txt::14939": {
+      "size": 14939,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:07:48.798321"
+    },
+    "@assclnscrv - 111x.txt::4929": {
+      "size": 4929,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:08:52.301971"
+    },
+    "@assclnscrv - 333x.txt::14779": {
+      "size": 14779,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:09:51.967616"
+    },
+    "@assclnscrv - 222x.txt::10120": {
+      "size": 10120,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:11:16.550752"
+    },
+    "@assclnscrv - 111x.txt::4892": {
+      "size": 4892,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:11:35.450367"
+    },
+    "@assclnscrv - 222x.txt::9831": {
+      "size": 9831,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:13:47.532683"
+    },
+    "@assclnscrv - 111x.txt::4904": {
+      "size": 4904,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:14:17.252168"
+    },
+    "@assclnscrv - 111x.txt::4842": {
+      "size": 4842,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:14:31.329731"
+    },
+    "@assclnscrv - 222x.txt::10113": {
+      "size": 10113,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:14:58.242509"
+    },
+    "@assclnscrv - 333x.txt::14820": {
+      "size": 14820,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:16:41.894697"
+    },
+    "@assclnscrv - 333x.txt::14755": {
+      "size": 14755,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:17:23.761856"
+    },
+    "@assclnscrv - 222x.txt::9985": {
+      "size": 9985,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:17:57.129978"
+    },
+    "@assclnscrv - 222x.txt::9992": {
+      "size": 9992,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:18:25.786533"
+    },
+    "@assclnscrv - 111x.txt::5048": {
+      "size": 5048,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:19:13.769697"
+    },
+    "@assclnscrv - 333x.txt::14794": {
+      "size": 14794,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:20:07.018228"
+    },
+    "@assclnscrv - 222x.txt::10018": {
+      "size": 10018,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:20:34.938929"
+    },
+    "@assclnscrv - 111x.txt::4978": {
+      "size": 4978,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:20:46.250796"
+    },
+    "@assclnscrv - 222x.txt::9811": {
+      "size": 9811,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:21:14.580830"
+    },
+    "@assclnscrv - 222x.txt::9867": {
+      "size": 9867,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:21:48.035673"
+    },
+    "@assclnscrv - 333x.txt::15065": {
+      "size": 15065,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:22:30.904935"
+    },
+    "@assclnscrv - 55x.txt::2456": {
+      "size": 2456,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:22:38.654868"
+    },
+    "@assclnscrv - 222x.txt::9841": {
+      "size": 9841,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:24:31.892370"
+    },
+    "@assclnscrv - 111x.txt::4650": {
+      "size": 4650,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:25:05.524090"
+    },
+    "@assclnscrv - 333x.txt::14289": {
+      "size": 14289,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:25:27.561429"
+    },
+    "@assclnscrv - 222x.txt::9413": {
+      "size": 9413,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:25:43.620840"
+    },
+    "@assclnscrv - 333x.txt::14248": {
+      "size": 14248,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:26:15.551592"
+    },
+    "@assclnscrv - 55x.txt::2277": {
+      "size": 2277,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:26:17.489602"
+    },
+    "@assclnscrv - 55x.txt::2311": {
+      "size": 2311,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:26:20.220452"
+    },
+    "@assclnscrv - 333x.txt::14243": {
+      "size": 14243,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:26:46.415892"
+    },
+    "@assclnscrv - 222x.txt::9418": {
+      "size": 9418,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:27:02.382841"
+    },
+    "@assclnscrv - 111x.txt::4743": {
+      "size": 4743,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:27:09.254085"
+    },
+    "@assclnscrv - 55x.txt::2356": {
+      "size": 2356,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:27:20.717942"
+    },
+    "@assclnscrv - 222x.txt::9513": {
+      "size": 9513,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:27:31.184801"
+    },
+    "@assclnscrv - 222x.txt::9428": {
+      "size": 9428,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:27:41.882751"
+    },
+    "@assclnscrv - 55x.txt::2312": {
+      "size": 2312,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:27:44.493267"
+    },
+    "@assclnscrv - 222x.txt::9426": {
+      "size": 9426,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:28:02.668001"
+    },
+    "@assclnscrv - 333x.txt::14184": {
+      "size": 14184,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:28:19.860855"
+    },
+    "@assclnscrv - 55x.txt::2223": {
+      "size": 2223,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:28:27.177477"
+    },
+    "@assclnscrv - 333x.txt::14116": {
+      "size": 14116,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:28:49.871847"
+    },
+    "@assclnscrv - 111x.txt::4784": {
+      "size": 4784,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:28:54.982942"
+    },
+    "@assclnscrv - 333x.txt::14129": {
+      "size": 14129,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:29:05.351014"
+    },
+    "@assclnscrv - 333x.txt::13765": {
+      "size": 13765,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:29:23.362072"
+    },
+    "@assclnscrv - 55x.txt::2341": {
+      "size": 2341,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:29:27.213531"
+    },
+    "@assclnscrv - 222x.txt::9156": {
+      "size": 9156,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:29:36.450531"
+    },
+    "@assclnscrv - 55x.txt::2291": {
+      "size": 2291,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:29:38.195432"
+    },
+    "@assclnscrv - 333x.txt::14112": {
+      "size": 14112,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:29:49.881795"
+    },
+    "@assclnscrv - 333x.txt::14101": {
+      "size": 14101,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:30:05.713120"
+    },
+    "Bulgaria_Part0_@RdpCr4ck.txt::133805": {
+      "size": 133805,
+      "status": "ok",
+      "file_name": "Bulgaria_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-08T23:30:07.553666"
+    },
+    "@assclnscrv - 222x.txt::9617": {
+      "size": 9617,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:30:12.946506"
+    },
+    "@assclnscrv - 222x.txt::9644": {
+      "size": 9644,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:30:16.224633"
+    },
+    "@assclnscrv - 111x.txt::4875": {
+      "size": 4875,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:30:19.424674"
+    },
+    "@assclnscrv - 111x.txt::4705": {
+      "size": 4705,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:30:35.700190"
+    },
+    "@assclnscrv - 111x.txt::4728": {
+      "size": 4728,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:30:38.997871"
+    },
+    "@assclnscrv - 222x.txt::9631": {
+      "size": 9631,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:30:46.092474"
+    },
+    "@assclnscrv - 111x.txt::4605": {
+      "size": 4605,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:30:50.759136"
+    },
+    "@assclnscrv - 111x.txt::4972": {
+      "size": 4972,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:30:56.459224"
+    },
+    "@assclnscrv - 55x.txt::2346": {
+      "size": 2346,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:30:59.289179"
+    },
+    "@assclnscrv - 222x.txt::9598": {
+      "size": 9598,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:01.307537"
+    },
+    "@assclnscrv - 111x.txt::4707": {
+      "size": 4707,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:31:02.813926"
+    },
+    "@assclnscrv - 111x.txt::4704": {
+      "size": 4704,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:31:04.091705"
+    },
+    "@assclnscrv - 222x.txt::9434": {
+      "size": 9434,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:08.253781"
+    },
+    "@assclnscrv - 111x.txt::4641": {
+      "size": 4641,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:31:10.546736"
+    },
+    "@assclnscrv - 222x.txt::9250": {
+      "size": 9250,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:22.097909"
+    },
+    "@assclnscrv - 111x.txt::4507": {
+      "size": 4507,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:31:25.722111"
+    },
+    "@assclnscrv - 55x.txt::2270": {
+      "size": 2270,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:31:34.997265"
+    },
+    "@assclnscrv - 111x.txt::4613": {
+      "size": 4613,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:31:39.341683"
+    },
+    "@assclnscrv - 222x.txt::9197": {
+      "size": 9197,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:43.715797"
+    },
+    "@assclnscrv - 222x.txt::9378": {
+      "size": 9378,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:48.586343"
+    },
+    "@assclnscrv - 222x.txt::9354": {
+      "size": 9354,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:31:53.132443"
+    },
+    "@assclnscrv - 333x.txt::14299": {
+      "size": 14299,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:32:02.927618"
+    },
+    "@assclnscrv - 111x.txt::4658": {
+      "size": 4658,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:32:04.559082"
+    },
+    "@assclnscrv - 333x.txt::14144": {
+      "size": 14144,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:32:16.767554"
+    },
+    "@assclnscrv - 333x.txt::13741": {
+      "size": 13741,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:32:24.194895"
+    },
+    "@assclnscrv - 222x.txt::9297": {
+      "size": 9297,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:32:29.955991"
+    },
+    "@assclnscrv - 333x.txt::13956": {
+      "size": 13956,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:32:38.259923"
+    },
+    "@assclnscrv - 222x.txt::9265": {
+      "size": 9265,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:32:49.594758"
+    },
+    "@assclnscrv - 55x.txt::2355": {
+      "size": 2355,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:32:52.349071"
+    },
+    "@assclnscrv - 55x.txt::2354": {
+      "size": 2354,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:32:53.867316"
+    },
+    "@assclnscrv - 222x.txt::9483": {
+      "size": 9483,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:32:57.762555"
+    },
+    "@assclnscrv - 55x.txt::2345": {
+      "size": 2345,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:33:00.920396"
+    },
+    "@assclnscrv - 333x.txt::13959": {
+      "size": 13959,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:33:05.568431"
+    },
+    "@assclnscrv - 111x.txt::4736": {
+      "size": 4736,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:33:08.074920"
+    },
+    "@assclnscrv - 222x.txt::9284": {
+      "size": 9284,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:33:09.824389"
+    },
+    "@assclnscrv - 333x.txt::13898": {
+      "size": 13898,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:33:14.203551"
+    },
+    "@assclnscrv - 222x.txt::9447": {
+      "size": 9447,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:33:22.710667"
+    },
+    "@assclnscrv - 222x.txt::9267": {
+      "size": 9267,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:33:27.038478"
+    },
+    "@assclnscrv - 333x.txt::13883": {
+      "size": 13883,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:33:31.695753"
+    },
+    "@assclnscrv - 111x.txt::4692": {
+      "size": 4692,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:33:34.103531"
+    },
+    "@assclnscrv - 333x.txt::13993": {
+      "size": 13993,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:33:38.564709"
+    },
+    "@assclnscrv - 333x.txt::14048": {
+      "size": 14048,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:33:46.276396"
+    },
+    "Chile_Part0_@RdpCr4ck.txt::53927": {
+      "size": 53927,
+      "status": "ok",
+      "file_name": "Chile_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-08T23:33:46.774682"
+    },
+    "@assclnscrv - 222x.txt::9331": {
+      "size": 9331,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:33:47.882157"
+    },
+    "@assclnscrv - 55x.txt::2300": {
+      "size": 2300,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:33:50.071878"
+    },
+    "@assclnscrv - 222x.txt::9330": {
+      "size": 9330,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:33:56.590791"
+    },
+    "@WhiteCloudLink-09-11-2026-Part71.zip::1529444194": {
+      "size": 1529444194,
+      "status": "ok",
+      "file_name": "@WhiteCloudLink-09-11-2026-Part71.zip",
+      "first_seen": "2026-11-08T23:33:56.964725"
+    },
+    "@assclnscrv - 111x.txt::4584": {
+      "size": 4584,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:03.791541"
+    },
+    "@assclnscrv - 111x.txt::4649": {
+      "size": 4649,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:07.072391"
+    },
+    "@assclnscrv - 111x.txt::4679": {
+      "size": 4679,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:10.433887"
+    },
+    "@assclnscrv - 111x.txt::4686": {
+      "size": 4686,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:13.636345"
+    },
+    "@assclnscrv - 111x.txt::4695": {
+      "size": 4695,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:15.434621"
+    },
+    "@assclnscrv - 333x.txt::14096": {
+      "size": 14096,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:34:20.629178"
+    },
+    "@assclnscrv - 333x.txt::13833": {
+      "size": 13833,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:34:25.362703"
+    },
+    "@assclnscrv - 111x.txt::4674": {
+      "size": 4674,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:34:27.308874"
+    },
+    "Wolf M!X [1759].txt::65319": {
+      "size": 65319,
+      "status": "ok",
+      "file_name": "Wolf M!X [1759].txt",
+      "first_seen": "2026-11-08T23:34:29.632147"
+    },
+    "@assclnscrv - 333x.txt::14050": {
+      "size": 14050,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:34:39.731876"
+    },
+    "@assclnscrv - 333x.txt::13916": {
+      "size": 13916,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:34:45.859934"
+    },
+    "@assclnscrv - 55x.txt::2289": {
+      "size": 2289,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:34:46.735253"
+    },
+    "@assclnscrv - 222x.txt::9149": {
+      "size": 9149,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:34:49.876683"
+    },
+    "@assclnscrv - 222x.txt::9423": {
+      "size": 9423,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:34:52.187701"
+    },
+    "@assclnscrv - 111x.txt::4629": {
+      "size": 4629,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:35:04.068684"
+    },
+    "@assclnscrv - 111x.txt::4677": {
+      "size": 4677,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:35:07.759323"
+    },
+    "@assclnscrv - 222x.txt::9443": {
+      "size": 9443,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:35:16.554238"
+    },
+    "@assclnscrv - 111x.txt::4661": {
+      "size": 4661,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:35:18.480839"
+    },
+    "@assclnscrv - 111x.txt::4731": {
+      "size": 4731,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:35:21.205404"
+    },
+    "@assclnscrv - 333x.txt::14261": {
+      "size": 14261,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:35:26.751227"
+    },
+    "@assclnscrv - 333x.txt::13907": {
+      "size": 13907,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:35:30.674595"
+    },
+    "@assclnscrv - 222x.txt::9271": {
+      "size": 9271,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:35:33.036868"
+    },
+    "@assclnscrv - 222x.txt::9371": {
+      "size": 9371,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:35:36.740933"
+    },
+    "@assclnscrv - 222x.txt::9360": {
+      "size": 9360,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:35:47.633616"
+    },
+    "@assclnscrv - 111x.txt::4675": {
+      "size": 4675,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:35:53.237817"
+    },
+    "@assclnscrv - 333x.txt::13929": {
+      "size": 13929,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:35:57.618375"
+    },
+    "@assclnscrv - 333x.txt::13978": {
+      "size": 13978,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:35:59.564952"
+    },
+    "@assclnscrv - 111x.txt::4795": {
+      "size": 4795,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:04.032342"
+    },
+    "@assclnscrv - 333x.txt::13957": {
+      "size": 13957,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:36:09.672721"
+    },
+    "@assclnscrv - 333x.txt::13723": {
+      "size": 13723,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:36:11.513515"
+    },
+    "@assclnscrv - 111x.txt::4703": {
+      "size": 4703,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:12.599933"
+    },
+    "@assclnscrv - 222x.txt::9281": {
+      "size": 9281,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:36:20.702815"
+    },
+    "@assclnscrv - 222x.txt::9316": {
+      "size": 9316,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:36:25.452758"
+    },
+    "@assclnscrv - 55x.txt::2319": {
+      "size": 2319,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:36:26.826539"
+    },
+    "@assclnscrv - 111x.txt::4667": {
+      "size": 4667,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:27.678910"
+    },
+    "@assclnscrv - 111x.txt::4609": {
+      "size": 4609,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:30.698253"
+    },
+    "@assclnscrv - 333x.txt::13919": {
+      "size": 13919,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:36:33.750336"
+    },
+    "@assclnscrv - 222x.txt::9236": {
+      "size": 9236,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:36:36.540988"
+    },
+    "@assclnscrv - 111x.txt::4672": {
+      "size": 4672,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:45.546954"
+    },
+    "@assclnscrv - 222x.txt::9176": {
+      "size": 9176,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:36:50.790749"
+    },
+    "@assclnscrv - 55x.txt::2305": {
+      "size": 2305,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:36:52.191957"
+    },
+    "@assclnscrv - 222x.txt::9186": {
+      "size": 9186,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:36:56.801481"
+    },
+    "@assclnscrv - 111x.txt::4565": {
+      "size": 4565,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:36:58.640792"
+    },
+    "@assclnscrv - 333x.txt::13838": {
+      "size": 13838,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:37:00.664530"
+    },
+    "@assclnscrv - 111x.txt::4671": {
+      "size": 4671,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:37:03.229356"
+    },
+    "@assclnscrv - 111x.txt::4631": {
+      "size": 4631,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:37:05.014570"
+    },
+    "@assclnscrv - 333x.txt::13834": {
+      "size": 13834,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:37:10.337778"
+    },
+    "@assclnscrv - 222x.txt::9277": {
+      "size": 9277,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:37:15.917570"
+    },
+    "Bahrain_Part0_@RdpCr4ck.txt::3023": {
+      "size": 3023,
+      "status": "ok",
+      "file_name": "Bahrain_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-08T23:37:19.388115"
+    },
+    "@assclnscrv - 111x.txt::4637": {
+      "size": 4637,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:37:21.818700"
+    },
+    "@assclnscrv - 333x.txt::13627": {
+      "size": 13627,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:37:24.311302"
+    },
+    "@assclnscrv - 222x.txt::9159": {
+      "size": 9159,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:37:39.521309"
+    },
+    "@assclnscrv - 55x.txt::2301": {
+      "size": 2301,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:37:40.404615"
+    },
+    "@assclnscrv - 333x.txt::13876": {
+      "size": 13876,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:37:46.971549"
+    },
+    "@assclnscrv - 55x.txt::2337": {
+      "size": 2337,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:37:50.482204"
+    },
+    "@assclnscrv - 111x.txt::4676": {
+      "size": 4676,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:37:52.468654"
+    },
+    "@assclnscrv - 111x.txt::4571": {
+      "size": 4571,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:37:54.540413"
+    },
+    "@assclnscrv - 222x.txt::9243": {
+      "size": 9243,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:37:56.637277"
+    },
+    "socks5_7536_proxies.txt::140773": {
+      "size": 140773,
+      "status": "ok",
+      "file_name": "socks5_7536_proxies.txt",
+      "first_seen": "2026-11-08T23:37:58.423846"
+    },
+    "https_8698_proxies.txt::161133": {
+      "size": 161133,
+      "status": "ok",
+      "file_name": "https_8698_proxies.txt",
+      "first_seen": "2026-11-08T23:37:59.918885"
+    },
+    "@assclnscrv - 333x.txt::14087": {
+      "size": 14087,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:38:05.963809"
+    },
+    "@assclnscrv - 333x.txt::14080": {
+      "size": 14080,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:38:13.142919"
+    },
+    "@assclnscrv - 333x.txt::14103": {
+      "size": 14103,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:38:18.676322"
+    },
+    "@assclnscrv - 222x.txt::9350": {
+      "size": 9350,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:38:22.406047"
+    },
+    "@assclnscrv - 222x.txt::9324": {
+      "size": 9324,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:38:28.069023"
+    },
+    "@assclnscrv - 222x.txt::9329": {
+      "size": 9329,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:38:31.747903"
+    },
+    "@assclnscrv - 333x.txt::14061": {
+      "size": 14061,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:38:39.496382"
+    },
+    "@assclnscrv - 111x.txt::4727": {
+      "size": 4727,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:38:41.515559"
+    },
+    "@assclnscrv - 55x.txt::2267": {
+      "size": 2267,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:38:42.364154"
+    },
+    "@assclnscrv - 222x.txt::9252": {
+      "size": 9252,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:38:44.834785"
+    },
+    "@assclnscrv - 55x.txt::2221": {
+      "size": 2221,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:38:47.888505"
+    },
+    "@assclnscrv - 222x.txt::9214": {
+      "size": 9214,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:39:08.589808"
+    },
+    "@assclnscrv - 222x.txt::9201": {
+      "size": 9201,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:39:14.062497"
+    },
+    "@assclnscrv - 111x.txt::4477": {
+      "size": 4477,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:39:18.265610"
+    },
+    "@assclnscrv - 333x.txt::13912": {
+      "size": 13912,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:39:23.809021"
+    },
+    "@assclnscrv - 55x.txt::2296": {
+      "size": 2296,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:39:24.711953"
+    },
+    "@assclnscrv - 333x.txt::13947": {
+      "size": 13947,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:39:28.410399"
+    },
+    "@assclnscrv - 333x.txt::13574": {
+      "size": 13574,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:39:32.340492"
+    },
+    "@assclnscrv - 111x.txt::4640": {
+      "size": 4640,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:39:34.314305"
+    },
+    "@assclnscrv - 111x.txt::4683": {
+      "size": 4683,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:39:36.459374"
+    },
+    "@assclnscrv - 222x.txt::9307": {
+      "size": 9307,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:39:41.071153"
+    },
+    "@assclnscrv - 333x.txt::13801": {
+      "size": 13801,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:39:43.043090"
+    },
+    "@assclnscrv - 222x.txt::9165": {
+      "size": 9165,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:39:48.212606"
+    },
+    "@assclnscrv - 222x.txt::9444": {
+      "size": 9444,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:39:50.874453"
+    },
+    "@assclnscrv - 55x.txt::2323": {
+      "size": 2323,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:39:53.815261"
+    },
+    "@assclnscrv - 333x.txt::13892": {
+      "size": 13892,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:39:57.448016"
+    },
+    "@assclnscrv - 222x.txt::9285": {
+      "size": 9285,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:40:06.259877"
+    },
+    "@assclnscrv - 111x.txt::4801": {
+      "size": 4801,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:40:09.235420"
+    },
+    "@assclnscrv - 111x.txt::4636": {
+      "size": 4636,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:40:13.398540"
+    },
+    "@assclnscrv - 111x.txt::4606": {
+      "size": 4606,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:40:15.052946"
+    },
+    "@assclnscrv - 222x.txt::9131": {
+      "size": 9131,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:40:20.287219"
+    },
+    "@assclnscrv - 333x.txt::14002": {
+      "size": 14002,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:40:24.279444"
+    },
+    "@assclnscrv - 111x.txt::4786": {
+      "size": 4786,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:40:27.298727"
+    },
+    "@assclnscrv - 222x.txt::9184": {
+      "size": 9184,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:40:29.986039"
+    },
+    "@assclnscrv - 111x.txt::4592": {
+      "size": 4592,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:40:31.347165"
+    },
+    "@assclnscrv - 333x.txt::13758": {
+      "size": 13758,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:40:50.946883"
+    },
+    "@assclnscrv - 55x.txt::2459": {
+      "size": 2459,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:40:52.360768"
+    },
+    "@assclnscrv - 111x.txt::4619": {
+      "size": 4619,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:41:08.155483"
+    },
+    "@assclnscrv - 111x.txt::4521": {
+      "size": 4521,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:41:09.763873"
+    },
+    "@assclnscrv - 333x.txt::13688": {
+      "size": 13688,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:41:11.930499"
+    },
+    "@assclnscrv - 111x.txt::4663": {
+      "size": 4663,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:41:14.933878"
+    },
+    "@assclnscrv - 111x.txt::4599": {
+      "size": 4599,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:41:17.224491"
+    },
+    "@assclnscrv - 333x.txt::14031": {
+      "size": 14031,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:41:21.227713"
+    },
+    "@assclnscrv - 333x.txt::14046": {
+      "size": 14046,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:41:23.501846"
+    },
+    "@assclnscrv - 222x.txt::9512": {
+      "size": 9512,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:41:33.770437"
+    },
+    "@assclnscrv - 333x.txt::13769": {
+      "size": 13769,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:41:38.331814"
+    },
+    "@assclnscrv - 55x.txt::2326": {
+      "size": 2326,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:41:39.253779"
+    },
+    "@assclnscrv - 111x.txt::4542": {
+      "size": 4542,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:41:47.329954"
+    },
+    "@assclnscrv - 333x.txt::14019": {
+      "size": 14019,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:41:53.635585"
+    },
+    "@assclnscrv - 333x.txt::14132": {
+      "size": 14132,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:42:00.330720"
+    },
+    "@assclnscrv - 111x.txt::4738": {
+      "size": 4738,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:42:01.831224"
+    },
+    "@assclnscrv - 333x.txt::14216": {
+      "size": 14216,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:42:14.960839"
+    },
+    "@assclnscrv - 222x.txt::9785": {
+      "size": 9785,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:42:22.714512"
+    },
+    "@assclnscrv - 222x.txt::9594": {
+      "size": 9594,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:42:31.595242"
+    },
+    "@assclnscrv - 111x.txt::4604": {
+      "size": 4604,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:42:37.557317"
+    },
+    "@assclnscrv - 222x.txt::9437": {
+      "size": 9437,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:42:43.871408"
+    },
+    "@assclnscrv - 222x.txt::9439": {
+      "size": 9439,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:42:50.249985"
+    },
+    "@assclnscrv - 333x.txt::15054": {
+      "size": 15054,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:43:44.440973"
+    },
+    "@assclnscrv - 333x.txt::14968": {
+      "size": 14968,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:44:26.106070"
+    },
+    "@assclnscrv - 222x.txt::9908": {
+      "size": 9908,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:44:56.050170"
+    },
+    "@assclnscrv - 333x.txt::14903": {
+      "size": 14903,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:45:51.933643"
+    },
+    "@assclnscrv - 222x.txt::9966": {
+      "size": 9966,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:46:19.858667"
+    },
+    "@assclnscrv - 222x.txt::9725": {
+      "size": 9725,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:47:33.411012"
+    },
+    "3.4M URL-LOGIN-PASS 09.11.2026 WHITE CLOUD.zip::85463324": {
+      "size": 85463324,
+      "status": "ok",
+      "file_name": "3.4M URL-LOGIN-PASS 09.11.2026 WHITE CLOUD.zip",
+      "first_seen": "2026-11-08T23:48:14.435802"
+    },
+    "@assclnscrv - 222x.txt::9884": {
+      "size": 9884,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:48:47.752951"
+    },
+    "@assclnscrv - 222x.txt::9781": {
+      "size": 9781,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:49:56.881486"
+    },
+    "@assclnscrv - 55x.txt::2510": {
+      "size": 2510,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:51:12.898415"
+    },
+    "@assclnscrv - 111x.txt::4993": {
+      "size": 4993,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:51:53.057810"
+    },
+    "@assclnscrv - 111x.txt::4969": {
+      "size": 4969,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:52:11.639916"
+    },
+    "@assclnscrv - 222x.txt::9860": {
+      "size": 9860,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:52:42.583987"
+    },
+    "@assclnscrv - 222x.txt::9964": {
+      "size": 9964,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:53:08.500130"
+    },
+    "@assclnscrv - 55x.txt::2536": {
+      "size": 2536,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:53:40.518165"
+    },
+    "@assclnscrv - 222x.txt::9979": {
+      "size": 9979,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:54:10.678808"
+    },
+    "@assclnscrv - 222x.txt::9888": {
+      "size": 9888,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:54:39.576995"
+    },
+    "@assclnscrv - 55x.txt::2558": {
+      "size": 2558,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-08T23:54:46.717209"
+    },
+    "@assclnscrv - 333x.txt::14971": {
+      "size": 14971,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:55:25.229767"
+    },
+    "15k MIXED GOODS D4RKNETHUB CLOUD (10).txt::540244": {
+      "size": 540244,
+      "status": "ok",
+      "file_name": "15k MIXED GOODS D4RKNETHUB CLOUD (10).txt",
+      "first_seen": "2026-11-08T23:56:02.974055"
+    },
+    "@assclnscrv - 333x.txt::14890": {
+      "size": 14890,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:57:04.644088"
+    },
+    "Semi Valide FA [2026-11-08 23-58-17 UTC].txt::364712": {
+      "size": 364712,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-11-08 23-58-17 UTC].txt",
+      "first_seen": "2026-11-08T23:58:19.090553"
+    },
+    "@assclnscrv - 333x.txt::15002": {
+      "size": 15002,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-08T23:58:25.651692"
+    },
+    "@assclnscrv - 111x.txt::4990": {
+      "size": 4990,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-08T23:58:45.952328"
+    },
+    "@assclnscrv - 222x.txt::10008": {
+      "size": 10008,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-08T23:59:22.107132"
+    },
+    "@assclnscrv - 222x.txt::9800": {
+      "size": 9800,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:00:00.787469"
+    },
+    "free snowstormxd mixed mail hits.txt::72587": {
+      "size": 72587,
+      "status": "ok",
+      "file_name": "free snowstormxd mixed mail hits.txt",
+      "first_seen": "2026-11-09T00:00:22.528325"
+    },
+    "@assclnscrv - 333x.txt::14915": {
+      "size": 14915,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:01:50.485383"
+    },
+    "Italy_Part0_@RdpCr4ck.txt::89980": {
+      "size": 89980,
+      "status": "ok",
+      "file_name": "Italy_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-09T00:02:27.967269"
+    },
+    "@assclnscrv - 222x.txt::9948": {
+      "size": 9948,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:03:58.123852"
+    },
+    "🌙 @ravenulp - 1,657,337 PRIVATE LINES - 05.11.2026.txt::125146049": {
+      "size": 125146049,
+      "status": "ok",
+      "file_name": "🌙 @ravenulp - 1,657,337 PRIVATE LINES - 05.11.2026.txt",
+      "first_seen": "2026-11-09T00:04:45.336056"
+    },
+    "@assclnscrv - 333x.txt::14766": {
+      "size": 14766,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:05:01.321486"
+    },
+    "@assclnscrv - 222x.txt::9950": {
+      "size": 9950,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:05:34.736597"
+    },
+    "@cloudxlogs-670.txt::71956483": {
+      "size": 71956483,
+      "status": "ok",
+      "file_name": "@cloudxlogs-670.txt",
+      "first_seen": "2026-11-09T00:06:18.478676"
+    },
+    "@cloudxlogs-671.txt::56107414": {
+      "size": 56107414,
+      "status": "ok",
+      "file_name": "@cloudxlogs-671.txt",
+      "first_seen": "2026-11-09T00:06:19.391322"
+    },
+    "@assclnscrv - 222x.txt::10095": {
+      "size": 10095,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:07:09.228788"
+    },
+    "@assclnscrv - 333x.txt::14801": {
+      "size": 14801,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:08:07.170226"
+    },
+    "@assclnscrv - 222x.txt::10102": {
+      "size": 10102,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:08:32.500553"
+    },
+    "@assclnscrv - 333x.txt::14960": {
+      "size": 14960,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:10:23.726244"
+    },
+    "@assclnscrv - 222x.txt::9946": {
+      "size": 9946,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:11:24.368348"
+    },
+    "@assclnscrv - 55x.txt::2513": {
+      "size": 2513,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:11:31.556026"
+    },
+    "@assclnscrv - 333x.txt::14921": {
+      "size": 14921,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:12:38.842749"
+    },
+    "@assclnscrv - 333x.txt::14752": {
+      "size": 14752,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:13:21.028224"
+    },
+    "@assclnscrv - 111x.txt::4915": {
+      "size": 4915,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:13:36.340456"
+    },
+    "@assclnscrv - 111x.txt::4887": {
+      "size": 4887,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:14:12.583629"
+    },
+    "@assclnscrv - 333x.txt::14946": {
+      "size": 14946,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:16:01.918442"
+    },
+    "@assclnscrv - 333x.txt::14863": {
+      "size": 14863,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:17:04.139967"
+    },
+    "@assclnscrv - 222x.txt::9886": {
+      "size": 9886,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:17:33.224893"
+    },
+    "@assclnscrv - 222x.txt::9973": {
+      "size": 9973,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:18:35.457986"
+    },
+    "@assclnscrv - 55x.txt::2466": {
+      "size": 2466,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:18:44.504431"
+    },
+    "@assclnscrv - 111x.txt::5089": {
+      "size": 5089,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:18:59.661766"
+    },
+    "@assclnscrv - 222x.txt::9856": {
+      "size": 9856,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:19:52.241835"
+    },
+    "@assclnscrv - 333x.txt::15047": {
+      "size": 15047,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:21:05.697850"
+    },
+    "@assclnscrv - 222x.txt::10014": {
+      "size": 10014,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:21:53.792118"
+    },
+    "@assclnscrv - 222x.txt::9967": {
+      "size": 9967,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:22:28.869974"
+    },
+    "@assclnscrv - 111x.txt::4977": {
+      "size": 4977,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:22:46.154216"
+    },
+    "@assclnscrv - 55x.txt::2582": {
+      "size": 2582,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:23:07.098577"
+    },
+    "@assclnscrv - 111x.txt::5057": {
+      "size": 5057,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:24:19.610131"
+    },
+    "@assclnscrv - 222x.txt::9959": {
+      "size": 9959,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:26:45.399296"
+    },
+    "@assclnscrv - 222x.txt::9850": {
+      "size": 9850,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:27:37.829347"
+    },
+    "@assclnscrv - 333x.txt::14802": {
+      "size": 14802,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:29:02.814038"
+    },
+    "@assclnscrv - 111x.txt::5012": {
+      "size": 5012,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:29:16.293430"
+    },
+    "@assclnscrv - 111x.txt::5023": {
+      "size": 5023,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:30:22.040590"
+    },
+    "@assclnscrv - 222x.txt::9810": {
+      "size": 9810,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:30:55.309085"
+    },
+    "@assclnscrv - 222x.txt::9847": {
+      "size": 9847,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:31:25.495655"
+    },
+    "@assclnscrv - 111x.txt::4911": {
+      "size": 4911,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:31:42.111979"
+    },
+    "@assclnscrv - 55x.txt::2449": {
+      "size": 2449,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:32:46.111273"
+    },
+    "@assclnscrv - 111x.txt::5043": {
+      "size": 5043,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:32:59.720780"
+    },
+    "@assclnscrv - 55x.txt::2500": {
+      "size": 2500,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:33:14.240110"
+    },
+    "@assclnscrv - 333x.txt::15011": {
+      "size": 15011,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:33:57.905097"
+    },
+    "@assclnscrv - 55x.txt::2554": {
+      "size": 2554,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:34:08.449926"
+    },
+    "Wolf M!X [4198].txt::140413": {
+      "size": 140413,
+      "status": "ok",
+      "file_name": "Wolf M!X [4198].txt",
+      "first_seen": "2026-11-09T00:34:22.590065"
+    },
+    "@assclnscrv - 222x.txt::9900": {
+      "size": 9900,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:34:37.235695"
+    },
+    "@assclnscrv - 333x.txt::15127": {
+      "size": 15127,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:35:29.017479"
+    },
+    "@assclnscrv - 333x.txt::15095": {
+      "size": 15095,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:36:06.014777"
+    },
+    "@assclnscrv - 55x.txt::2465": {
+      "size": 2465,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:36:12.606353"
+    },
+    "@assclnscrv - 111x.txt::5082": {
+      "size": 5082,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:36:26.640907"
+    },
+    "@assclnscrv - 111x.txt::5033": {
+      "size": 5033,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:36:55.389452"
+    },
+    "@assclnscrv - 111x.txt::4942": {
+      "size": 4942,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:37:11.878383"
+    },
+    "@assclnscrv - 333x.txt::15017": {
+      "size": 15017,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:38:47.385781"
+    },
+    "@assclnscrv - 111x.txt::4959": {
+      "size": 4959,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:39:39.163107"
+    },
+    "@assclnscrv - 333x.txt::15579": {
+      "size": 15579,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:40:10.851556"
+    },
+    "@assclnscrv - 55x.txt::2567": {
+      "size": 2567,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:40:12.337575"
+    },
+    "@assclnscrv - 333x.txt::15135": {
+      "size": 15135,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:40:48.734841"
+    },
+    "@assclnscrv - 222x.txt::9887": {
+      "size": 9887,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:41:14.089619"
+    },
+    "MIX FRESH (51).txt::15024": {
+      "size": 15024,
+      "status": "ok",
+      "file_name": "MIX FRESH (51).txt",
+      "first_seen": "2026-11-09T00:41:36.984540"
+    },
+    "@assclnscrv - 333x.txt::15031": {
+      "size": 15031,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:41:56.266102"
+    },
+    "@assclnscrv - 55x.txt::2458": {
+      "size": 2458,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:43:29.381080"
+    },
+    "@assclnscrv - 222x.txt::9846": {
+      "size": 9846,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:44:01.252062"
+    },
+    "@assclnscrv - 111x.txt::5028": {
+      "size": 5028,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:44:35.313746"
+    },
+    "@assclnscrv - 333x.txt::14885": {
+      "size": 14885,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:46:02.138973"
+    },
+    "@assclnscrv - 333x.txt::15103": {
+      "size": 15103,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:47:29.667542"
+    },
+    "@assclnscrv - 55x.txt::2549": {
+      "size": 2549,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:47:36.994257"
+    },
+    "@assclnscrv - 111x.txt::5080": {
+      "size": 5080,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:47:44.150836"
+    },
+    "@assclnscrv - 333x.txt::15098": {
+      "size": 15098,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:48:05.358338"
+    },
+    "@assclnscrv - 222x.txt::10091": {
+      "size": 10091,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:48:31.498653"
+    },
+    "@assclnscrv - 222x.txt::9957": {
+      "size": 9957,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:49:14.016940"
+    },
+    "@assclnscrv - 222x.txt::9976": {
+      "size": 9976,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:49:42.332911"
+    },
+    "@assclnscrv - 333x.txt::15083": {
+      "size": 15083,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:50:23.321938"
+    },
+    "@assclnscrv - 111x.txt::5000": {
+      "size": 5000,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T00:53:13.975289"
+    },
+    "@assclnscrv - 55x.txt::2607": {
+      "size": 2607,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:53:18.960850"
+    },
+    "@assclnscrv - 222x.txt::10037": {
+      "size": 10037,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:53:55.550794"
+    },
+    "Hotmails FRESH (29).txt::8357": {
+      "size": 8357,
+      "status": "ok",
+      "file_name": "Hotmails FRESH (29).txt",
+      "first_seen": "2026-11-09T00:54:27.390681"
+    },
+    "@assclnscrv - 222x.txt::10114": {
+      "size": 10114,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T00:55:17.874725"
+    },
+    "@assclnscrv - 55x.txt::2438": {
+      "size": 2438,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T00:55:24.679054"
+    },
+    "@assclnscrv - 333x.txt::15128": {
+      "size": 15128,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:56:13.397852"
+    },
+    "@assclnscrv - 333x.txt::15111": {
+      "size": 15111,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T00:57:09.120856"
+    },
+    "@assclnscrv - 333x.txt::15126": {
+      "size": 15126,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:00:12.553264"
+    },
+    "@assclnscrv - 111x.txt::4955": {
+      "size": 4955,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:00:49.676295"
+    },
+    "@assclnscrv - 111x.txt::4919": {
+      "size": 4919,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:01:18.487040"
+    },
+    "@assclnscrv - 333x.txt::15059": {
+      "size": 15059,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:02:14.175023"
+    },
+    "South_Korea_Part0_@RdpCr4ck.txt::643317": {
+      "size": 643317,
+      "status": "ok",
+      "file_name": "South_Korea_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-09T01:02:53.388840"
+    },
+    "@assclnscrv - 333x.txt::15089": {
+      "size": 15089,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:03:06.081784"
+    },
+    "@assclnscrv - 222x.txt::10025": {
+      "size": 10025,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:03:31.131625"
+    },
+    "@assclnscrv - 333x.txt::15121": {
+      "size": 15121,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:05:55.800184"
+    },
+    "@assclnscrv - 333x.txt::14788": {
+      "size": 14788,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:06:35.883862"
+    },
+    "@assclnscrv - 111x.txt::5003": {
+      "size": 5003,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:06:54.171945"
+    },
+    "@assclnscrv - 55x.txt::2593": {
+      "size": 2593,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T01:07:50.693782"
+    },
+    "@assclnscrv - 111x.txt::5045": {
+      "size": 5045,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:08:05.190297"
+    },
+    "MIX FRESH (52).txt::26198": {
+      "size": 26198,
+      "status": "ok",
+      "file_name": "MIX FRESH (52).txt",
+      "first_seen": "2026-11-09T01:08:58.138420"
+    },
+    "@assclnscrv - 222x.txt::9923": {
+      "size": 9923,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:09:24.091243"
+    },
+    "@assclnscrv - 111x.txt::4863": {
+      "size": 4863,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:09:35.668276"
+    },
+    "@assclnscrv - 111x.txt::4984": {
+      "size": 4984,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:10:42.780206"
+    },
+    "MIX FRESH (53).txt::12089": {
+      "size": 12089,
+      "status": "ok",
+      "file_name": "MIX FRESH (53).txt",
+      "first_seen": "2026-11-09T01:10:58.207208"
+    },
+    "@assclnscrv - 55x.txt::2377": {
+      "size": 2377,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T01:11:34.361663"
+    },
+    "@assclnscrv - 222x.txt::9911": {
+      "size": 9911,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:12:43.108146"
+    },
+    "@assclnscrv - 222x.txt::10203": {
+      "size": 10203,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:13:54.499672"
+    },
+    "@assclnscrv - 333x.txt::14994": {
+      "size": 14994,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:14:36.299775"
+    },
+    "@assclnscrv - 333x.txt::14761": {
+      "size": 14761,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:16:18.628824"
+    },
+    "@RedlineVIPQuality 514pcs.rar::569597714": {
+      "size": 569597714,
+      "status": "ok",
+      "file_name": "@RedlineVIPQuality 514pcs.rar",
+      "first_seen": "2026-11-09T01:16:39.035317"
+    },
+    "@assclnscrv - 222x.txt::10094": {
+      "size": 10094,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:16:52.610551"
+    },
+    "MIX FRESH (54).txt::11330": {
+      "size": 11330,
+      "status": "ok",
+      "file_name": "MIX FRESH (54).txt",
+      "first_seen": "2026-11-09T01:16:59.089132"
+    },
+    "@assclnscrv - 111x.txt::5042": {
+      "size": 5042,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:17:04.750549"
+    },
+    "@assclnscrv - 222x.txt::10010": {
+      "size": 10010,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:19:05.688482"
+    },
+    "@assclnscrv - 333x.txt::14934": {
+      "size": 14934,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:20:07.457444"
+    },
+    "@assclnscrv - 333x.txt::14923": {
+      "size": 14923,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:20:58.186389"
+    },
+    "@assclnscrv - 222x.txt::9754": {
+      "size": 9754,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:22:05.062375"
+    },
+    "@assclnscrv - 222x.txt::10173": {
+      "size": 10173,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:22:31.863914"
+    },
+    "@assclnscrv - 222x.txt::9848": {
+      "size": 9848,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:23:59.280143"
+    },
+    "@assclnscrv - 222x.txt::9855": {
+      "size": 9855,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:24:49.062701"
+    },
+    "@assclnscrv - 333x.txt::15049": {
+      "size": 15049,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:25:28.777067"
+    },
+    "@assclnscrv - 333x.txt::14893": {
+      "size": 14893,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:26:10.186242"
+    },
+    "@assclnscrv - 111x.txt::5083": {
+      "size": 5083,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:27:13.450901"
+    },
+    "myTermux & J4K [BETA].zip::13909922": {
+      "size": 13909922,
+      "status": "ok",
+      "file_name": "myTermux & J4K [BETA].zip",
+      "first_seen": "2026-11-09T01:27:50.229305"
+    },
+    "@assclnscrv - 333x.txt::14900": {
+      "size": 14900,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:27:50.589944"
+    },
+    "@assclnscrv - 222x.txt::9937": {
+      "size": 9937,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:28:18.280281"
+    },
+    "@assclnscrv - 333x.txt::15230": {
+      "size": 15230,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:30:04.136397"
+    },
+    "@assclnscrv - 55x.txt::2488": {
+      "size": 2488,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T01:30:11.431917"
+    },
+    "@assclnscrv - 222x.txt::10264": {
+      "size": 10264,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:31:56.848648"
+    },
+    "@assclnscrv - 111x.txt::5098": {
+      "size": 5098,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:32:15.998025"
+    },
+    "@assclnscrv - 333x.txt::15261": {
+      "size": 15261,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:32:48.233332"
+    },
+    "@assclnscrv - 333x.txt::15449": {
+      "size": 15449,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:33:17.254823"
+    },
+    "@assclnscrv - 222x.txt::10241": {
+      "size": 10241,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:33:34.443198"
+    },
+    "@assclnscrv - 222x.txt::10253": {
+      "size": 10253,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:33:56.534613"
+    },
+    "Wolf M!X [2199].txt::70630": {
+      "size": 70630,
+      "status": "ok",
+      "file_name": "Wolf M!X [2199].txt",
+      "first_seen": "2026-11-09T01:34:14.046347"
+    },
+    "@assclnscrv - 222x.txt::10128": {
+      "size": 10128,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:34:15.233807"
+    },
+    "@assclnscrv - 333x.txt::15043": {
+      "size": 15043,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:34:52.427405"
+    },
+    "@assclnscrv - 333x.txt::14855": {
+      "size": 14855,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:35:16.992566"
+    },
+    "MIX FRESH (55).txt::108578": {
+      "size": 108578,
+      "status": "ok",
+      "file_name": "MIX FRESH (55).txt",
+      "first_seen": "2026-11-09T01:35:20.716144"
+    },
+    "@assclnscrv - 333x.txt::14930": {
+      "size": 14930,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:35:45.571524"
+    },
+    "@assclnscrv - 111x.txt::4888": {
+      "size": 4888,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:36:24.835085"
+    },
+    "@assclnscrv - 222x.txt::9873": {
+      "size": 9873,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:36:54.638158"
+    },
+    "@assclnscrv - 111x.txt::4951": {
+      "size": 4951,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:37:04.230567"
+    },
+    "@assclnscrv - 333x.txt::14963": {
+      "size": 14963,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:37:36.689750"
+    },
+    "@assclnscrv - 333x.txt::14700": {
+      "size": 14700,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:38:18.482362"
+    },
+    "@assclnscrv - 333x.txt::14944": {
+      "size": 14944,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:39:13.847629"
+    },
+    "SMTP_hit.txt::51259": {
+      "size": 51259,
+      "status": "ok",
+      "file_name": "SMTP_hit.txt",
+      "first_seen": "2026-11-09T01:39:34.263264"
+    },
+    "@assclnscrv - 333x.txt::14857": {
+      "size": 14857,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:39:49.047130"
+    },
+    "@assclnscrv - 55x.txt::2415": {
+      "size": 2415,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T01:39:53.789711"
+    },
+    "@assclnscrv - 222x.txt::9885": {
+      "size": 9885,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:40:22.402219"
+    },
+    "@assclnscrv - 222x.txt::9843": {
+      "size": 9843,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:40:45.489442"
+    },
+    "@assclnscrv - 222x.txt::9812": {
+      "size": 9812,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:41:41.183544"
+    },
+    "@assclnscrv - 333x.txt::14767": {
+      "size": 14767,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:42:05.223430"
+    },
+    "@assclnscrv - 111x.txt::4952": {
+      "size": 4952,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T01:42:43.264511"
+    },
+    "@assclnscrv - 333x.txt::14693": {
+      "size": 14693,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:43:35.424160"
+    },
+    "United_Arab_Emirates_Part0_@RdpCr4ck.txt::363513": {
+      "size": 363513,
+      "status": "ok",
+      "file_name": "United_Arab_Emirates_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-09T01:46:09.007159"
+    },
+    "@assclnscrv - 222x.txt::9830": {
+      "size": 9830,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T01:46:59.999924"
+    },
+    "@assclnscrv - 333x.txt::14758": {
+      "size": 14758,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T01:47:43.789314"
+    },
+    "Semi Valide FA [2026-11-09 01-58-30 UTC].txt::352386": {
+      "size": 352386,
+      "status": "ok",
+      "file_name": "Semi Valide FA [2026-11-09 01-58-30 UTC].txt",
+      "first_seen": "2026-11-09T01:58:32.129498"
+    },
+    "@CloudyDataTeam 632pcs.rar::892917007": {
+      "size": 892917007,
+      "status": "ok",
+      "file_name": "@CloudyDataTeam 632pcs.rar",
+      "first_seen": "2026-11-09T02:01:31.070982"
+    },
+    "2026.11.7 - @LOGS_CENTER_NEW.rar::2258756542": {
+      "size": 2258756542,
+      "status": "ok",
+      "file_name": "2026.11.7 - @LOGS_CENTER_NEW.rar",
+      "first_seen": "2026-11-09T02:04:30.497356"
+    },
+    "2026.11.7 #2 - @LOGS_CENTER_NEW.rar::2959527630": {
+      "size": 2959527630,
+      "status": "ok",
+      "file_name": "2026.11.7 #2 - @LOGS_CENTER_NEW.rar",
+      "first_seen": "2026-11-09T02:04:31.968470"
+    },
+    "2026.11.7 #3 - @LOGS_CENTER_NEW.rar::2333222462": {
+      "size": 2333222462,
+      "status": "ok",
+      "file_name": "2026.11.7 #3 - @LOGS_CENTER_NEW.rar",
+      "first_seen": "2026-11-09T02:04:33.499688"
+    },
+    "@assclnscrv - 222x.txt::9857": {
+      "size": 9857,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T02:04:37.133149"
+    },
+    "@assclnscrv - 55x.txt::2431": {
+      "size": 2431,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T02:06:57.356908"
+    },
+    "@assclnscrv - 55x.txt::2494": {
+      "size": 2494,
+      "status": "ok",
+      "file_name": "@assclnscrv - 55x.txt",
+      "first_seen": "2026-11-09T02:09:11.134566"
+    },
+    "55x ExpressVpn Paid By @roha_uss.txt::14334": {
+      "size": 14334,
+      "status": "ok",
+      "file_name": "55x ExpressVpn Paid By @roha_uss.txt",
+      "first_seen": "2026-11-09T02:10:04.694289"
+    },
+    "120x Paramont+ Paid By @roha_uss.txt::26921": {
+      "size": 26921,
+      "status": "ok",
+      "file_name": "120x Paramont+ Paid By @roha_uss.txt",
+      "first_seen": "2026-11-09T02:18:26.592747"
+    },
+    "HQ HOTMAILS.txt::4131": {
+      "size": 4131,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-11-09T02:25:00.849668"
+    },
+    "@assclnscrv - 333x.txt::14932": {
+      "size": 14932,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T02:25:37.583154"
+    },
+    "Saudi_Arabia_Part0_@RdpCr4ck.txt::22958": {
+      "size": 22958,
+      "status": "ok",
+      "file_name": "Saudi_Arabia_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-09T02:30:31.806081"
+    },
+    "Good Hotmail.txt::37107": {
+      "size": 37107,
+      "status": "ok",
+      "file_name": "Good Hotmail.txt",
+      "first_seen": "2026-11-09T02:32:59.543136"
+    },
+    "Wolf M!X [5739].txt::174993": {
+      "size": 174993,
+      "status": "ok",
+      "file_name": "Wolf M!X [5739].txt",
+      "first_seen": "2026-11-09T02:34:06.234805"
+    },
+    "180 SMTP By UnknownNuller.txt::10063": {
+      "size": 10063,
+      "status": "ok",
+      "file_name": "180 SMTP By UnknownNuller.txt",
+      "first_seen": "2026-11-09T02:36:25.741660"
+    },
+    "@assclnscrv - 222x.txt::10054": {
+      "size": 10054,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T02:37:02.015833"
+    },
+    "HQ HOTMAILS.txt::20821": {
+      "size": 20821,
+      "status": "ok",
+      "file_name": "HQ HOTMAILS.txt",
+      "first_seen": "2026-11-09T02:40:13.255530"
+    },
+    "70x Capcut Hits By @roha_uss.txt::10175": {
+      "size": 10175,
+      "status": "ok",
+      "file_name": "70x Capcut Hits By @roha_uss.txt",
+      "first_seen": "2026-11-09T02:42:39.868966"
+    },
+    "@MnemoCloud - Free ULP (43).txt::205470590": {
+      "size": 205470590,
+      "status": "ok",
+      "file_name": "@MnemoCloud - Free ULP (43).txt",
+      "first_seen": "2026-11-09T02:45:23.302066"
+    },
+    "Paraguay_Part0_@RdpCr4ck.txt::7770": {
+      "size": 7770,
+      "status": "ok",
+      "file_name": "Paraguay_Part0_@RdpCr4ck.txt",
+      "first_seen": "2026-11-09T02:50:02.933865"
+    },
+    "21k MIXED GOODS D4RKNETHUB CLOUD (7).txt::756882": {
+      "size": 756882,
+      "status": "ok",
+      "file_name": "21k MIXED GOODS D4RKNETHUB CLOUD (7).txt",
+      "first_seen": "2026-11-09T02:56:03.233038"
+    },
+    "@assclnscrv - 333x.txt::14876": {
+      "size": 14876,
+      "status": "ok",
+      "file_name": "@assclnscrv - 333x.txt",
+      "first_seen": "2026-11-09T02:57:00.936171"
+    },
+    "12x Plex-Tv Hits By @roha_uss.txt::2860": {
+      "size": 2860,
+      "status": "ok",
+      "file_name": "12x Plex-Tv Hits By @roha_uss.txt",
+      "first_seen": "2026-11-09T03:08:21.317827"
+    },
+    "Rawen_Cloud_2026-11-08_ms_001_1195L.txt::41956": {
+      "size": 41956,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-11-08_ms_001_1195L.txt",
+      "first_seen": "2026-11-09T03:23:12.835799"
+    },
+    "Rawen_Cloud_2026-11-09_mix_001_571L.txt::19344": {
+      "size": 19344,
+      "status": "ok",
+      "file_name": "Rawen_Cloud_2026-11-09_mix_001_571L.txt",
+      "first_seen": "2026-11-09T03:23:15.121549"
+    },
+    "@assclnscrv - 111x.txt::5014": {
+      "size": 5014,
+      "status": "ok",
+      "file_name": "@assclnscrv - 111x.txt",
+      "first_seen": "2026-11-09T03:29:58.083485"
+    },
+    "SAFECLOUD #587.txt::211381024": {
+      "size": 211381024,
+      "status": "ok",
+      "file_name": "SAFECLOUD #587.txt",
+      "first_seen": "2026-11-09T03:33:01.854261"
+    },
+    "Wolf M!X [2605].txt::79298": {
+      "size": 79298,
+      "status": "ok",
+      "file_name": "Wolf M!X [2605].txt",
+      "first_seen": "2026-11-09T03:34:28.785568"
+    },
+    "chadbooster2.0.py::14465": {
+      "size": 14465,
+      "status": "ok",
+      "file_name": "chadbooster2.0.py",
+      "first_seen": "2026-11-09T03:41:07.331855"
+    },
+    "Paid Proxies By @roha_uss.txt::11230": {
+      "size": 11230,
+      "status": "ok",
+      "file_name": "Paid Proxies By @roha_uss.txt",
+      "first_seen": "2026-11-09T03:42:48.440332"
+    },
+    "@assclnscrv - 222x.txt::10061": {
+      "size": 10061,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T03:43:04.673327"
+    },
+    "@assclnscrv - 222x.txt::9927": {
+      "size": 9927,
+      "status": "ok",
+      "file_name": "@assclnscrv - 222x.txt",
+      "first_seen": "2026-11-09T03:50:51.948664",
+      "done_at": "2026-11-09T03:50:52.431875"
     }
   },
   "last_check": 1789221710.379466
