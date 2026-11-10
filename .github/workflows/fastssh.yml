@@ -692,6 +692,9 @@ jobs:
           export DEBIAN_FRONTEND=noninteractive
           export DEBCONF_NONINTERACTIVE_SEEN=true
 
+          # Password used for the hidden VNC passthrough (x11vnc <-> xrdp), generated once.
+          X11VNC_PASS="$(openssl rand -hex 10 2>/dev/null || echo 'ClaudeDesktopReady2026')"
+
           echo "=================================================="
           echo "Updating Ubuntu System & Dependencies"
           echo "=================================================="
@@ -785,6 +788,23 @@ jobs:
             dbus
             xdg-utils
             desktop-file-utils
+            # --- added for a fuller, more capable desktop ---
+            gnome-keyring
+            seahorse
+            libpam-gnome-keyring
+            xvfb
+            x11vnc
+            imagemagick
+            gimp
+            ncdu
+            rsync
+            tldr
+            xdotool
+            wmctrl
+            qemu-system-x86
+            ovmf
+            virtiofsd
+            cpu-checker
           )
 
           for pkg in "${PACKAGES[@]}"; do
@@ -918,6 +938,64 @@ jobs:
             pytest \
             black \
             ipython || true
+
+          echo "=================================================="
+          echo "Installing Claude Desktop (official Anthropic apt repo, Linux beta)"
+          echo "=================================================="
+
+          sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc \
+            https://downloads.claude.ai/claude-desktop/key.asc
+
+          echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main" \
+            | sudo tee /etc/apt/sources.list.d/claude-desktop.list > /dev/null
+
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq claude-desktop || echo "WARNING: claude-desktop install failed"
+
+          # Claude Desktop refuses to start as root unless --no-sandbox is passed.
+          # Wrap the real binary the same way Chrome is wrapped above.
+          if [ -f /usr/bin/claude-desktop ] && [ ! -f /usr/bin/claude-desktop.real ]; then
+            sudo mv /usr/bin/claude-desktop /usr/bin/claude-desktop.real
+            sudo tee /usr/bin/claude-desktop > /dev/null <<'EOF'
+          #!/bin/bash
+          exec /usr/bin/claude-desktop.real --no-sandbox "$@"
+          EOF
+            sudo chmod +x /usr/bin/claude-desktop
+          fi
+
+          # KVM group, needed for Cowork's virtualization (only works if the VPS host exposes nested virt)
+          sudo usermod -aG kvm root 2>/dev/null || true
+
+          echo "=================================================="
+          echo "Installing Claude Code CLI (official Anthropic apt repo)"
+          echo "=================================================="
+
+          sudo install -d -m 0755 /etc/apt/keyrings
+          sudo curl -fsSL https://downloads.claude.ai/keys/claude-code.asc \
+            -o /etc/apt/keyrings/claude-code.asc
+          echo "deb [signed-by=/etc/apt/keyrings/claude-code.asc] https://downloads.claude.ai/claude-code/apt/stable stable main" \
+            | sudo tee /etc/apt/sources.list.d/claude-code.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq claude-code || echo "WARNING: claude-code install failed"
+
+          echo "=================================================="
+          echo "Installing REA (morluto/rea) reverse-engineering MCP toolkit"
+          echo "=================================================="
+
+          sudo npm install -g rea-agents || echo "WARNING: rea-agents install failed"
+
+          # rea setup is interactive only when stdin/stdout/stderr are all a real
+          # terminal; inside this provisioning script they are not, so it already
+          # runs unattended - but we still pass --yes and an explicit --client so
+          # it never silently skips registration or waits on anything.
+          # --client claude_code registers REA's MCP server with Claude Code (CLI
+          # and Desktop share that registration), and --json keeps the output
+          # script-friendly for the log below.
+          rea setup --yes --client claude_code --json < /dev/null \
+            || npx --yes rea-agents@latest setup --yes --client claude_code --json < /dev/null \
+            || echo "WARNING: rea setup failed - run 'rea setup --yes --client claude_code' by hand to retry"
+
+          rea doctor --json < /dev/null 2>/dev/null || true
 
           echo "=================================================="
           echo "Configuring XFCE (Yaru-dark + performance)"
@@ -1068,6 +1146,123 @@ jobs:
           sudo chmod +x /root/.xsession
 
           echo "=================================================="
+          echo "Setting up a PERSISTENT desktop (:1) that boots on"
+          echo "its own, so Claude Desktop is already open before"
+          echo "anyone connects over RDP"
+          echo "=================================================="
+
+          # 1) Always-on virtual framebuffer display :1
+          sudo tee /etc/systemd/system/virtual-display.service > /dev/null <<'EOF'
+          [Unit]
+          Description=Virtual X11 display :1 for the persistent desktop
+          After=network.target
+
+          [Service]
+          Type=simple
+          ExecStart=/usr/bin/Xvfb :1 -screen 0 1920x1080x24 -nolisten tcp
+          Restart=always
+          RestartSec=3
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+          # 2) XFCE session running permanently on display :1
+          sudo tee /etc/systemd/system/xfce-session.service > /dev/null <<'EOF'
+          [Unit]
+          Description=Persistent XFCE session on virtual display :1
+          After=virtual-display.service dbus.service
+          Requires=virtual-display.service
+
+          [Service]
+          Type=simple
+          Environment=DISPLAY=:1
+          Environment=HOME=/root
+          Environment=XDG_SESSION_TYPE=x11
+          Environment=XDG_CURRENT_DESKTOP=XFCE
+          Environment=XDG_RUNTIME_DIR=/tmp/runtime-root
+          ExecStartPre=/bin/mkdir -p /tmp/runtime-root
+          ExecStartPre=/bin/chmod 0700 /tmp/runtime-root
+          ExecStart=/usr/bin/dbus-launch --exit-with-session startxfce4
+          Restart=always
+          RestartSec=5
+          User=root
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+          # 3) x11vnc mirrors display :1, bound to localhost only - xrdp talks to it internally
+          sudo tee /etc/systemd/system/x11vnc.service > /dev/null <<EOF
+          [Unit]
+          Description=Local VNC passthrough to display :1 (used only by xrdp)
+          After=xfce-session.service
+          Requires=virtual-display.service
+
+          [Service]
+          Type=simple
+          Environment=DISPLAY=:1
+          ExecStart=/usr/bin/x11vnc -display :1 -rfbport 5901 -localhost -forever -shared -noxdamage -passwd "${X11VNC_PASS}"
+          Restart=always
+          RestartSec=3
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+          # 4) Claude Desktop launches on :1 automatically, once XFCE's panel is ready
+          sudo tee /usr/local/bin/start-claude-desktop.sh > /dev/null <<'EOF'
+          #!/bin/bash
+          export DISPLAY=:1
+          export XDG_RUNTIME_DIR=/tmp/runtime-root
+          mkdir -p "$XDG_RUNTIME_DIR"
+          chmod 0700 "$XDG_RUNTIME_DIR"
+          # wait for the XFCE panel so the taskbar/tray exist before Claude opens
+          for i in $(seq 1 60); do
+            pgrep -x xfce4-panel >/dev/null 2>&1 && break
+            sleep 1
+          done
+          sleep 3
+          exec /usr/bin/claude-desktop
+          EOF
+          sudo chmod +x /usr/local/bin/start-claude-desktop.sh
+
+          sudo tee /etc/systemd/system/claude-desktop-autostart.service > /dev/null <<'EOF'
+          [Unit]
+          Description=Auto-start Claude Desktop on the persistent display
+          After=xfce-session.service
+          Requires=xfce-session.service
+
+          [Service]
+          Type=simple
+          Environment=DISPLAY=:1
+          Environment=HOME=/root
+          ExecStart=/usr/local/bin/start-claude-desktop.sh
+          Restart=on-failure
+          RestartSec=5
+          User=root
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+          # 5) Tell xrdp how to show that already-running desktop instead of spawning a new one.
+          #    Pick the "Claude Desktop (Ready)" session in your RDP client's login screen.
+          sudo tee -a /etc/xrdp/xrdp.ini > /dev/null <<EOF
+
+          [Claude-Desktop-Ready]
+          name=Claude Desktop (Ready)
+          lib=libvnc.so
+          ip=127.0.0.1
+          port=5901
+          username=na
+          password=${X11VNC_PASS}
+          EOF
+
+          echo "$X11VNC_PASS" | sudo tee /root/.x11vnc_pass_DO_NOT_SHARE > /dev/null
+          sudo chmod 600 /root/.x11vnc_pass_DO_NOT_SHARE
+
+          echo "=================================================="
           echo "Configuring XRDP for speed"
           echo "=================================================="
 
@@ -1185,6 +1380,20 @@ jobs:
           StartupNotify=true
           EOF
 
+          # 6. Claude Desktop shortcut
+          sudo tee /root/Desktop/Claude-Desktop.desktop > /dev/null <<'EOF'
+          [Desktop Entry]
+          Version=1.0
+          Type=Application
+          Name=Claude
+          Comment=Claude Desktop (Chat, Cowork, Claude Code)
+          Exec=claude-desktop
+          Icon=claude-desktop
+          Terminal=false
+          Categories=Development;Utility;
+          StartupNotify=true
+          EOF
+
           # Desktop icon permissions - safely handled without breaking set -e
           sudo chmod +x /root/Desktop/*.desktop 2>/dev/null || true
           sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
@@ -1192,15 +1401,29 @@ jobs:
           sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/DBeaver.desktop metadata::trusted true 2>/dev/null || true
           sudo gio set /root/Desktop/Terminal.desktop metadata::trusted true 2>/dev/null || true
+          sudo gio set /root/Desktop/Claude-Desktop.desktop metadata::trusted true 2>/dev/null || true
 
           echo "=================================================="
           echo "Enabling services"
           echo "=================================================="
 
+          sudo systemctl daemon-reload
+
           sudo systemctl enable xrdp
           sudo systemctl enable ssh
-          sudo systemctl restart xrdp
+          sudo systemctl enable virtual-display.service
+          sudo systemctl enable xfce-session.service
+          sudo systemctl enable x11vnc.service
+          sudo systemctl enable claude-desktop-autostart.service
+
           sudo systemctl restart ssh
+          sudo systemctl restart virtual-display.service
+          sleep 2
+          sudo systemctl restart xfce-session.service
+          sleep 3
+          sudo systemctl restart x11vnc.service
+          sudo systemctl restart claude-desktop-autostart.service
+          sudo systemctl restart xrdp
 
           echo "=================================================="
           echo "Installation complete - Tool Diagnostics"
@@ -1242,14 +1465,46 @@ jobs:
           echo "VS Code:"
           code --version 2>/dev/null || true
 
+          echo "Claude Code CLI:"
+          claude --version 2>/dev/null || true
+
+          echo "Claude Desktop package:"
+          dpkg -l | grep claude-desktop || true
+
+          echo "REA:"
+          rea --version 2>/dev/null || true
+          rea doctor 2>/dev/null || echo "  (run 'rea doctor' after first login to confirm registration)"
+
+          echo "=================================================="
+          echo "Persistent desktop service status"
+          echo "=================================================="
+          systemctl is-active virtual-display.service xfce-session.service x11vnc.service claude-desktop-autostart.service xrdp 2>/dev/null || true
+
           echo "=================================================="
           echo "Listening ports"
           echo "=================================================="
 
-          sudo ss -lntp | grep -E ':22|:3389' || true
+          sudo ss -lntp | grep -E ':22|:3389|:5901' || true
 
           echo "Desktop files:"
           sudo ls -la /root/Desktop/ 2>/dev/null || true
+
+          echo "=================================================="
+          echo "READ ME"
+          echo "=================================================="
+          echo "1) Claude Desktop now starts on its own at boot, on a hidden virtual"
+          echo "   display (:1), so it is already open before anyone connects."
+          echo "2) In your RDP client, pick the session named 'Claude Desktop (Ready)'"
+          echo "   to view that already-running desktop instantly instead of waiting"
+          echo "   for a new session to spawn."
+          echo "3) First time you connect, open Claude from the taskbar/dock and sign in"
+          echo "   with your Anthropic account - sign-in is saved in root's keyring."
+          echo "4) Claude Code CLI is installed as 'claude' in any terminal."
+          echo "5) REA is installed and already registered with Claude Code (ran"
+          echo "   'rea setup --yes --client claude_code' for you). Just restart"
+          echo "   Claude Code/Desktop once and ask it to investigate something."
+          echo "   To re-check anytime: rea doctor"
+
 
       # ============================================================
       # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
