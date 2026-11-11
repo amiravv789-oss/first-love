@@ -16,7 +16,7 @@ from datetime import datetime
 LOG = "state/ssh-history.log"
 
 RUNFLARE_HOST = "remote-respina-free.runflare.com"
-RUNFLARE_PORT = "31212"
+RUNFLARE_PORT = "30220"
 RUNFLARE_USER = "tunnel"
 
 RDP_HOST = "remote-respina-free.runflare.com"
