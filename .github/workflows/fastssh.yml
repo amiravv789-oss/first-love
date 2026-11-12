@@ -114,12 +114,11 @@ jobs:
               line = f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] {msg}"
               print(line, flush=True)
               with open(LOG, "a") as f:
-                  f.write(line + "
-")
+                  f.write(line + "\n")
 
           def create_client():
               with open("client.sh", "w") as f:
-                  f.write(f'''#!/bin/bash
+                  f.write('''#!/bin/bash
           set -e
           HOST="{RELAY_IP}"
           PORT="22"
@@ -127,12 +126,12 @@ jobs:
           MODE="${{1:-ssh}}"
 
           if [ "$MODE" = "ssh" ]; then
-              echo "Connecting to Runner via Relay Server SSH (${HOST}:${PORT})..."
+              echo "Connecting to Runner via Relay Server SSH (${{HOST}}:${{PORT}})..."
               exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -p "$PORT" root@"$HOST"
           fi
 
           if [ "$MODE" = "rdp" ]; then
-              echo "Connecting to Runner Desktop via Relay Server RDP (${HOST}:${RDP_PORT})..."
+              echo "Connecting to Runner Desktop via Relay Server RDP (${{HOST}}:${{RDP_PORT}})..."
               if command -v xfreerdp >/dev/null 2>&1; then
                   exec xfreerdp /v:"$HOST:$RDP_PORT" /u:root /p:"{SSH_PASSWORD}"
               fi
@@ -227,7 +226,6 @@ remotePort = {p}
 
       - name: Install and configure complete Ubuntu desktop
         env:
-          
 
         run: |
           # Don't stop the whole job on individual package failures
@@ -298,7 +296,7 @@ remotePort = {p}
             gnupg
             unzip
             zip
-            p7zip-full
+            p7imp-full
             build-essential
             software-properties-common
             apt-transport-https
@@ -1049,8 +1047,6 @@ remotePort = {p}
           echo "   Claude Code/Desktop once and ask it to investigate something."
           echo "   To re-check anytime: rea doctor"
 
-
-      # ============================================================
 
       # ============================================================
       # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
