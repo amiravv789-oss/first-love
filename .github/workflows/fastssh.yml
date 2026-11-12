@@ -1,7 +1,5 @@
 name: Ubuntu XFCE Remote Desktop
 
-name: Ubuntu XFCE Remote Desktop
-
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +16,6 @@ on:
         required: false
         default: 'frp_secret_relay_token_2026'
 
-        
 jobs:
   ubuntu-rdp:
     runs-on: ubuntu-latest
