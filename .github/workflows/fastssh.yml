@@ -7,17 +7,14 @@ jobs:
   ubuntu-rdp:
     runs-on: ubuntu-latest
     timeout-minutes: 350
-
     permissions:
       contents: write
       actions: write
 
     steps:
-
       # ============================================================
       # CHECKOUT REPOSITORY & CONFIGURE GIT
       # ============================================================
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -30,660 +27,207 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # ============================================================
-      # START RUNFLARE TUNNEL IMMEDIATELY IN BACKGROUND
+      # START FRP REVERSE TUNNEL SERVICE IN BACKGROUND
       # ============================================================
-
-      - name: Start Runflare tunnel service in background
+      - name: Start FRP Reverse Tunnel to Relay Server
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          RELAY_IP: ${{ github.event.inputs.relay_ip || secrets.RELAY_IP || 195.254.165.44 }}
+          RELAY_PORT: ${{ github.event.inputs.relay_port || secrets.RELAY_PORT || '31818' }}
+          SSH_PASSWORD: ${{ github.event.inputs.SSH_PASSWORD || secrets.SSH_PASSWORD || 'frp_secret_relay_token_2026' }}
+          
         run: |
           set -e
-
           mkdir -p state
-          python3 -m pip install --break-system-packages -q pexpect requests || true
 
-          cat > tunnel.py << 'PY'
-          #!/usr/bin/env python3
+          echo "=================================================="
+          echo "Starting FRP Reverse Tunnel Client (frpc)"
+          echo "=================================================="
 
+          if [ -z "$RELAY_IP" ]; then
+            echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch input or set repository secret RELAY_IP."
+            exit 1
+          fi
+
+          FRP_VERSION="0.61.1"
+          echo "Downloading official FRP v${FRP_VERSION}..."
+          TAR_NAME="frp_${FRP_VERSION}_linux_amd64.tar.gz"
+          
+          curl -sSL "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME" ||           curl -sSL "https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME"
+
+          tar -xzf "$TAR_NAME" --strip-components=1 "frp_${FRP_VERSION}_linux_amd64/frpc"
+          chmod +x frpc
+          rm -f "$TAR_NAME"
+
+          # Configure 1:1 port forwarding to Relay Server
+          cat > frpc.toml << EOF
+          serverAddr = "$RELAY_IP"
+          serverPort = $RELAY_PORT
+
+          auth.method = "token"
+          auth.token = "$SSH_PASSWORD"
+
+          transport.tcpMux = true
+          transport.heartbeatInterval = 30
+          transport.heartbeatTimeout = 90
+
+          # 1:1 Forwarding: SSH (22 -> 22)
+          [[proxies]]
+          name = "runner_ssh_22"
+          type = "tcp"
+          localIP = "127.0.0.1"
+          localPort = 22
+          remotePort = 22
+
+          # 1:1 Forwarding: XRDP Desktop (3389 -> 3389)
+          [[proxies]]
+          name = "runner_rdp_3389"
+          type = "tcp"
+          localIP = "127.0.0.1"
+          localPort = 3389
+          remotePort = 3389
+
+          # 1:1 Forwarding: VNC (5901 -> 5901)
+          [[proxies]]
+          name = "runner_vnc_5901"
+          type = "tcp"
+          localIP = "127.0.0.1"
+          localPort = 5901
+          remotePort = 5901
+          EOF
+
+          # Create tunnel watcher & client script generator
+          cat > tunnel_daemon.py << 'PY'
           import os
-          import pexpect
-          import re
-          import subprocess
+          import sys
           import time
+          import subprocess
+          from pathlib import Path
           from datetime import datetime
 
-
-          # ==================================================
-          # CONFIGURATION
-          # ==================================================
-
-
+          RELAY_IP = os.environ.get("RELAY_IP", "")
+          SSH_PASSWORD = os.environ.get("SSH_PASSWORD", "")
           LOG = "state/ssh-history.log"
 
-          RUNFLARE_HOST = "remote-respina-free.runflare.com"
-          RUNFLARE_PORT = "30220"
-          RUNFLARE_USER = "tunnel"
+          def log(msg):
+              line = f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] {msg}"
+              print(line, flush=True)
+              with open(LOG, "a") as f:
+                  f.write(line + "
+")
 
-          RDP_HOST = "remote-respina-free.runflare.com"
-          RDP_PORT = "31994"
+          def create_client():
+              with open("client.sh", "w") as f:
+                  f.write(f'''#!/bin/bash
+          set -e
+          HOST="{RELAY_IP}"
+          PORT="22"
+          RDP_PORT="3389"
+          MODE="${{1:-ssh}}"
 
-          SSH_PASSWORD = os.environ.get(
-              "SSH_PASSWORD",
-              ""
-          )
+          if [ "$MODE" = "ssh" ]; then
+              echo "Connecting to Runner via Relay Server SSH (${HOST}:${PORT})..."
+              exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -p "$PORT" root@"$HOST"
+          fi
 
+          if [ "$MODE" = "rdp" ]; then
+              echo "Connecting to Runner Desktop via Relay Server RDP (${HOST}:${RDP_PORT})..."
+              if command -v xfreerdp >/dev/null 2>&1; then
+                  exec xfreerdp /v:"$HOST:$RDP_PORT" /u:root /p:"{SSH_PASSWORD}"
+              fi
+              if command -v mstsc.exe >/dev/null 2>&1; then
+                  exec mstsc.exe /v:"$HOST:$RDP_PORT"
+              fi
+              if command -v open >/dev/null 2>&1; then
+                  exec open "rdp://full%20address=s:$HOST:$RDP_PORT&username=s:root"
+              fi
+              echo "RDP Address: $HOST:$RDP_PORT (User: root)"
+              exit 0
+          fi
+          ''')
+              os.chmod("client.sh", 0o755)
 
-          # ==================================================
-          # LOG
-          # ==================================================
-
-          def log(message):
-
-              line = (
-                  f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] "
-                  f"{message}"
-              )
-
-              print(
-                  line,
-                  flush=True
-              )
-
-              with open(
-                  LOG,
-                  "a"
-              ) as file:
-
-                  file.write(
-                      line + "\n"
-                  )
-
-
-          # ==================================================
-          # CREATE CLIENT.SH
-          # ==================================================
-
-          def create_client(host, port):
-
-              with open(
-                  "client.sh",
-                  "w"
-              ) as file:
-
-                  file.write(
-                      "#!/bin/bash\n"
-                  )
-
-                  file.write(
-                      "set -e\n\n"
-                  )
-
-                  file.write(
-                      f'HOST="{host}"\n'
-                  )
-
-                  file.write(
-                      f'PORT="{port}"\n'
-                  )
-
-                  file.write(
-                      f'RDP_HOST="{RDP_HOST}"\n'
-                  )
-
-                  file.write(
-                      f'RDP_PORT="{RDP_PORT}"\n\n'
-                  )
-
-                  file.write(
-                      'MODE="${1:-ssh}"\n\n'
-                  )
-
-                  # ------------------------------------------
-                  # SSH
-                  # ------------------------------------------
-
-                  file.write(
-                      'if [ "$MODE" = "ssh" ]; then\n'
-                  )
-
-                  file.write(
-                      '    exec ssh '
-                      '-o StrictHostKeyChecking=no '
-                      '-o UserKnownHostsFile=/dev/null '
-                      '-o ServerAliveInterval=30 '
-                      '-o ServerAliveCountMax=3 '
-                      '-p "$PORT" '
-                      'root@"$HOST"\n'
-                  )
-
-                  file.write(
-                      "fi\n\n"
-                  )
-
-                  # ------------------------------------------
-                  # RDP
-                  # ------------------------------------------
-
-                  file.write(
-                      'if [ "$MODE" = "rdp" ]; then\n'
-                  )
-
-                  file.write(
-                      '    if command -v xfreerdp >/dev/null 2>&1; then\n'
-                  )
-
-                  file.write(
-                      '        xfreerdp '
-                      '/v:"$RDP_HOST:$RDP_PORT" '
-                      '/u:root\n'
-                  )
-
-                  file.write(
-                      '        exit 0\n'
-                  )
-
-                  file.write(
-                      '    fi\n\n'
-                  )
-
-                  # Windows
-                  file.write(
-                      '    if command -v mstsc.exe >/dev/null 2>&1; then\n'
-                  )
-
-                  file.write(
-                      '        mstsc.exe /v:127.0.0.1:3389\n'
-                  )
-
-                  file.write(
-                      '        wait $TUNNEL_PID || true\n'
-                  )
-
-                  file.write(
-                      '        exit 0\n'
-                  )
-
-                  file.write(
-                      '    fi\n\n'
-                  )
-
-                  # macOS
-                  file.write(
-                      '    if command -v open >/dev/null 2>&1; then\n'
-                  )
-
-                  file.write(
-                      '        open '
-                      '"rdp://full%20address=s:127.0.0.1:3389"\n'
-                  )
-
-                  file.write(
-                      '        wait $TUNNEL_PID || true\n'
-                  )
-
-                  file.write(
-                      '        exit 0\n'
-                  )
-
-                  file.write(
-                      '    fi\n\n'
-                  )
-
-                  file.write(
-                      '    echo "No RDP client found."\n'
-                  )
-
-                  file.write(
-                      '    exit 1\n'
-                  )
-
-                  file.write(
-                      "fi\n\n"
-                  )
-
-                  file.write(
-                      "exit 1\n"
-                  )
-
-              os.chmod(
-                  "client.sh",
-                  0o755
-              )
-
-
-          # ==================================================
-          # GIT PUSH
-          # ==================================================
-
-          def git_push(host, port):
-
-              create_client(
-                  host,
-                  port
-              )
-
-              subprocess.run(
-                  [
-                      "git",
-                      "add",
-                      "client.sh",
-                      LOG
-                  ],
-                  check=False
-              )
-
-              subprocess.run(
-                  [
-                      "git",
-                      "commit",
-                      "-m",
-                      f"live Runflare tunnel: {host}:{port}"
-                  ],
-                  check=False
-              )
-
-              token = os.environ.get(
-                  "GH_TOKEN",
-                  ""
-              )
-
-              repo = os.environ.get(
-                  "GITHUB_REPOSITORY",
-                  ""
-              )
-
+          def git_push():
+              create_client()
+              subprocess.run(["git", "add", "client.sh", LOG], check=False)
+              subprocess.run(["git", "commit", "-m", f"live FRP relay tunnel: {RELAY_IP} (SSH:22, RDP:3389)"], check=False)
+              token = os.environ.get("GH_TOKEN", "")
+              repo = os.environ.get("GITHUB_REPOSITORY", "")
               if token and repo:
-
-                  url = (
-                      f"https://x-access-token:{token}"
-                      f"@github.com/{repo}.git"
-                  )
-
-                  result = subprocess.run(
-                      [
-                          "git",
-                          "push",
-                          url,
-                          "HEAD:main"
-                      ],
-                      capture_output=True,
-                      text=True
-                  )
-
-                  if result.returncode != 0:
-
-                      log(
-                          "Git push failed: "
-                          + result.stderr[-1000:]
-                      )
-
+                  url = f"https://x-access-token:{token}@github.com/{repo}.git"
+                  res = subprocess.run(["git", "push", url, "HEAD:main"], capture_output=True, text=True)
+                  if res.returncode == 0:
+                      log("client.sh pushed successfully to repository.")
                   else:
-
-                      log(
-                          "client.sh pushed successfully."
-                      )
-
-              log(
-                  f"client.sh endpoint: {host}:{port}"
-              )
-
-
-          # ==================================================
-          # PARSE RUNFLARE OUTPUT
-          # ==================================================
-
-          def find_endpoint(output):
-
-              patterns = [
-
-                  # tcp://host:port
-                  r'tcp://([A-Za-z0-9.-]+):([0-9]+)',
-
-                  # tcp host:port
-                  r'tcp[^\n]*?([A-Za-z0-9.-]+):([0-9]+)',
-
-                  # Forwarding / Tunnel style
-                  r'(?:forwarding|tunnel|remote)[^\n]*?'
-                  r'([A-Za-z0-9.-]+):([0-9]+)'
-
-              ]
-
-              for pattern in patterns:
-
-                  match = re.search(
-                      pattern,
-                      output,
-                      re.IGNORECASE
-                  )
-
-                  if match:
-
-                      host = match.group(1)
-                      port = match.group(2)
-
-                      if (
-                          host
-                          and port
-                          and host != RUNFLARE_HOST
-                      ):
-
-                          return host, port
-
-              return None
-
-
-          # ==================================================
-          # RUN RUNFLARE
-          # ==================================================
-
-          def run_tunnel():
-
-              if not SSH_PASSWORD:
-
-                  log(
-                      "ERROR: SSH_PASSWORD secret is empty."
-                  )
-
-                  return False
-
-              log(
-                  "Starting Runflare reverse SSH tunnel..."
-              )
-
-              command = (
-                  "ssh "
-                  "-p 31212 "
-                  "-o StrictHostKeyChecking=no "
-                  "-o UserKnownHostsFile=/dev/null "
-                  "-o ServerAliveInterval=30 "
-                  "-o ServerAliveCountMax=3 "
-                  "-o ConnectTimeout=30 "
-                  "-o ExitOnForwardFailure=yes "
-                  "-N "
-                  "-R 2222:localhost:22 "
-                  "-R 13389:localhost:3389 "
-                  "tunnel@remote-respina-free.runflare.com"
-              )
-
-              child = None
-              logfile = None
-
-              try:
-
-                  child = pexpect.spawn(
-                      command,
-                      timeout=60,
-                      encoding="utf-8"
-                  )
-
-                  logfile = open(
-                      "runflare-out.log",
-                      "w"
-                  )
-
-                  child.logfile_read = logfile
-
-                  endpoint = None
-
-                  # ------------------------------------------
-                  # Handle initial SSH interaction
-                  # ------------------------------------------
-
-                  for _ in range(30):
-
-                      try:
-
-                          index = child.expect(
-                              [
-                                  r'(?i)password:',
-                                  r'(?i)yes/no',
-                                  r'(?i)fingerprint',
-                                  r'(?i)tcp://[A-Za-z0-9.-]+:[0-9]+',
-                                  pexpect.EOF,
-                                  pexpect.TIMEOUT
-                              ],
-                              timeout=5
-                          )
-
-                      except Exception:
-
-                          break
-
-                      if index == 0:
-
-                          child.sendline(
-                              SSH_PASSWORD
-                          )
-
-                      elif index == 1:
-
-                          child.sendline(
-                              "yes"
-                          )
-
-                      elif index == 2:
-
-                          child.sendline(
-                              "yes"
-                          )
-
-                      elif index == 3:
-
-                          try:
-
-                              output = ""
-
-                              with open(
-                                  "runflare-out.log",
-                                  "r"
-                              ) as file:
-
-                                  output = file.read()
-
-                              endpoint = find_endpoint(
-                                  output
-                              )
-
-                          except Exception:
-                              pass
-
-                          if endpoint:
-                              break
-
-                      elif index == 4:
-
-                          break
-
-                      else:
-
-                          try:
-
-                              with open(
-                                  "runflare-out.log",
-                                  "r"
-                              ) as file:
-
-                                  output = file.read()
-
-                              endpoint = find_endpoint(
-                                  output
-                              )
-
-                          except Exception:
-                              pass
-
-                          if endpoint:
-                              break
-
-                  # ------------------------------------------
-                  # Search output again
-                  # ------------------------------------------
-
-                  if not endpoint:
-
-                      for _ in range(20):
-
-                          time.sleep(1)
-
-                          try:
-
-                              with open(
-                                  "runflare-out.log",
-                                  "r"
-                              ) as file:
-
-                                  output = file.read()
-
-                              endpoint = find_endpoint(
-                                  output
-                              )
-
-                          except Exception:
-
-                              output = ""
-
-                          if endpoint:
-                              break
-
-                          if not child.isalive():
-                              break
-
-                  # ------------------------------------------
-                  # Endpoint found
-                  # ------------------------------------------
-
-                  if endpoint:
-
-                      host, port = endpoint
-
-                      log(
-                          f"RUNFLARE LIVE: {host}:{port}"
-                      )
-
-                      git_push(
-                          host,
-                          port
-                      )
-
-                  else:
-
-                      log(
-                          "Runflare endpoint was not found."
-                      )
-
-                      try:
-
-                          with open(
-                              "runflare-out.log",
-                              "r"
-                          ) as file:
-
-                              output = file.read()
-
-                          print(
-                              output,
-                              flush=True
-                          )
-
-                      except Exception:
-                          pass
-
-                  # ------------------------------------------
-                  # Keep tunnel alive
-                  # ------------------------------------------
-
-                  while child.isalive():
-
-                      try:
-
-                          child.expect(
-                              pexpect.EOF,
-                              timeout=60
-                          )
-
-                      except pexpect.TIMEOUT:
-
-                          continue
-
-                      except Exception as error:
-
-                          log(
-                              f"Tunnel monitor error: {error}"
-                          )
-
-                          break
-
-                  log(
-                      "Runflare tunnel disconnected."
-                  )
-
-                  return False
-
-              finally:
-
+                      log(f"Git push error: {res.stderr[-500:]}")
+              log(f"Live endpoints on Relay Server: {RELAY_IP} (SSH:22, RDP:3389)")
+
+          def get_ports():
+              ports = set()
+              for path in ["/proc/net/tcp", "/proc/net/tcp6"]:
+                  if not Path(path).is_file():
+                      continue
                   try:
-
-                      if child and child.isalive():
-                          child.terminate(
-                              force=True
-                          )
-
+                      with open(path) as f:
+                          for line in f.readlines()[1:]:
+                              parts = line.strip().split()
+                              if len(parts) >= 4 and parts[3].upper() == "0A":
+                                  p = int(parts[1].split(":")[1], 16)
+                                  if 1 <= p <= 65535 and p not in (7000, 7500):
+                                      ports.add(p)
                   except Exception:
                       pass
+              return ports
 
-                  try:
+          def main():
+              create_client()
+              git_push()
+              last_ports = set([22, 3389, 5901])
+              while True:
+                  time.sleep(25)
+                  curr = get_ports()
+                  new_p = curr - last_ports
+                  if new_p:
+                      log(f"Auto-detected new ports on runner: {list(new_p)}")
+                      last_ports.update(new_p)
+                      with open("frpc.toml", "a") as f:
+                          for p in new_p:
+                              f.write(f"
+[[proxies]]
+name = "runner_port_{p}"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = {p}
+remotePort = {p}
+")
+                      try:
+                          subprocess.run(["./frpc", "reload", "-c", "frpc.toml"], capture_output=True, timeout=5)
+                          log("frpc reloaded with new forwarded ports.")
+                      except Exception as e:
+                          log(f"reload error: {e}")
 
-                      if logfile:
-                          logfile.close()
-
-                  except Exception:
-                      pass
-
-
-          # ==================================================
-          # MAIN LOOP
-          # ==================================================
-
-          log(
-              "=== Runflare tunnel service started ==="
-          )
-          while True:
-
-              success = run_tunnel()
-
-              log(
-                  "Runflare tunnel disconnected."
-              )
-
-              log(
-                  "Restarting Runflare tunnel..."
-              )
-
-              time.sleep(1)
-
-
-          log(
-              "=== Runflare tunnel service ended ==="
-          )
-
+          if __name__ == "__main__":
+              main()
           PY
 
-          chmod +x tunnel.py
+          # Launch frpc and daemon in background
+          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
+          echo $! > frpc.pid
 
-          echo "Launching tunnel.py in background..."
-          nohup python3 tunnel.py > runflare-runner.log 2>&1 &
-          echo $! > tunnel.pid
-          echo "Runflare tunnel started with PID $(cat tunnel.pid) - will run in background and never stop."
+          nohup python3 tunnel_daemon.py > tunnel-daemon.log 2>&1 &
+          echo $! > daemon.pid
 
-      # ============================================================
-      # COMPLETE SERVER INSTALLATION (RUNS CONCURRENTLY)
-      # ============================================================
+          echo "=================================================="
+          echo "FRP Reverse Tunnel running in background!"
+          echo "Relay Server: $RELAY_IP"
+          echo "SSH Command: ssh root@$RELAY_IP -p 22"
+          echo "RDP Command: mstsc.exe /v:$RELAY_IP:3389"
+          echo "=================================================="
 
       - name: Install and configure complete Ubuntu desktop
         env:
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          
 
         run: |
           # Don't stop the whole job on individual package failures
@@ -1507,18 +1051,27 @@ jobs:
 
 
       # ============================================================
+
+      # ============================================================
       # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
       # ============================================================
-
       - name: Keep session alive
+        env:
+          RELAY_IP: ${{ github.event.inputs.relay_ip || secrets.RELAY_IP || 195.254.165.44 }}
+          
         run: |
-          echo "=== Desktop and Runflare tunnel are active ==="
-          echo "Keeping runner alive for full duration..."
+          echo "=================================================="
+          echo "=== Ubuntu Desktop and FRP Relay Tunnel Active ==="
+          echo "Relay Server: $RELAY_IP"
+          echo "SSH Command: ssh root@$RELAY_IP -p 22"
+          echo "RDP Command: mstsc.exe /v:$RELAY_IP:3389 (User: root)"
+          echo "Keeping runner alive for full duration (~335 minutes)..."
+          echo "=================================================="
           # Loop up to 335 minutes (670 iterations * 30 seconds)
           for i in $(seq 1 670); do
-            if ! pgrep -f "tunnel.py" > /dev/null; then
-              echo "Re-spawning background tunnel service..."
-              nohup python3 tunnel.py > runflare-runner.log 2>&1 &
+            if ! pgrep -x "frpc" > /dev/null; then
+              echo "Re-spawning background frpc tunnel service..."
+              nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
             fi
             sleep 30
           done
@@ -1526,7 +1079,6 @@ jobs:
       # ============================================================
       # FINAL REPOSITORY SYNC
       # ============================================================
-
       - name: Final repository sync
         if: always()
         env:
@@ -1545,7 +1097,6 @@ jobs:
       # ============================================================
       # STANDARD GITHUB ACTIONS RETRIGGER
       # ============================================================
-
       - name: Retrigger
         if: always()
         uses: actions/github-script@v7
