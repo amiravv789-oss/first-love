@@ -7,9 +7,9 @@ on:
         description: 'IP or Domain of Relay Server (آدرس سرور واسط ایران)'
         required: false
         type: string
-        default: ''
+        default: '195.254.165.44'
       relay_port:
-        description: 'FRP Bind Port of Relay Server (پیش‌فرض: 7000)'
+        description: 'FRP Bind Port of Relay Server (پورت سرور واسط)'
         required: false
         type: string
         default: '31818'
@@ -17,7 +17,7 @@ on:
         description: 'FRP Auth Token (توکن امنیتی سرور واسط)'
         required: false
         type: string
-        default: 'frp_secret_relay_token_2026'
+        default: ''
       ssh_password:
         description: 'Root Password for SSH & RDP (رمز عبور کاربر root)'
         required: false
@@ -59,6 +59,7 @@ jobs:
           INPUT_RELAY_PORT: ${{ inputs.relay_port }}
           SECRET_RELAY_PORT: ${{ secrets.RELAY_PORT }}
           INPUT_AUTH_TOKEN: ${{ inputs.auth_token }}
+          SECRET_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
           INPUT_SSH_PASSWORD: ${{ inputs.ssh_password }}
           SECRET_SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
@@ -70,10 +71,12 @@ jobs:
           echo "=================================================="
 
           # Resolve values safely
-          RELAY_IP="${INPUT_RELAY_IP:-$SECRET_RELAY_IP:-195.254.165.44}"
+          RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
+          # Clean any leading colon, dash, or accidental whitespace
+          RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
           RELAY_PORT="${INPUT_RELAY_PORT:-${SECRET_RELAY_PORT:-31818}}"
-          SSH_PASSWORD="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN:-frp_secret_relay_token_2026}}"
-          SSH_PASSWORD="${INPUT_SSH_PASSWORD:-${SECRET_SSH_PASSWORD:-Root@2026!Secure}}"
+          AUTH_TOKEN="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN}}"
+          SSH_PASSWORD="${INPUT_SSH_PASSWORD:-${SECRET_SSH_PASSWORD}}"
 
           if [ -z "$RELAY_IP" ]; then
             echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch inputs or set repository secret RELAY_IP."
@@ -97,11 +100,13 @@ jobs:
             'serverPort = '"$RELAY_PORT" \
             '' \
             'auth.method = "token"' \
-            'auth.token = "'"$SSH_PASSWORD"'"' \
+            'auth.token = "'"$AUTH_TOKEN"'"' \
             '' \
             'transport.tcpMux = true' \
             'transport.heartbeatInterval = 30' \
             'transport.heartbeatTimeout = 90' \
+            '' \
+            'loginFailExit = false' \
             '' \
             '[[proxies]]' \
             'name = "runner_ssh_22"' \
@@ -1035,7 +1040,8 @@ jobs:
           INPUT_RELAY_IP: ${{ inputs.relay_ip }}
           SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
         run: |
-          RELAY_IP="${INPUT_RELAY_IP:-$SECRET_RELAY_IP:-31818}"
+          RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
+          RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
           echo "=================================================="
           echo "=== Ubuntu Desktop and FRP Relay Tunnel Active ==="
           echo "Relay Server: $RELAY_IP"
