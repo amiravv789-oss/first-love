@@ -1,8 +1,24 @@
 name: Ubuntu XFCE Remote Desktop
 
+name: Ubuntu XFCE Remote Desktop
+
 on:
   workflow_dispatch:
+    inputs:
+      relay_ip:
+        description: "Relay server IP (FRP)"
+        required: false
+        default: ''
+      relay_port:
+        description: "Relay server port"
+        required: false
+        default: '31818'
+      SSH_PASSWORD:
+        description: "FRP auth token / SSH password"
+        required: false
+        default: 'frp_secret_relay_token_2026'
 
+        
 jobs:
   ubuntu-rdp:
     runs-on: ubuntu-latest
