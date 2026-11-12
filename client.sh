@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-HOST="remote-pishgaman.runflare.com"
+HOST="195.254.165.44"
 PORT="22"
 RDP_PORT="3389"
 MODE="${1:-ssh}"
