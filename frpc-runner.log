@@ -1,0 +1,5 @@
+[1;34m2026-11-12 10:37:38.700 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
+[0m[1;34m2026-11-12 10:37:38.700 [I] [client/service.go:295] try to connect to server...
+[0m[1;33m2026-11-12 10:37:38.700 [W] [client/service.go:298] connect to server error: dial tcp: lookup :-195.254.165.44: no such host
+[0m[1;34m2026-11-12 10:37:38.700 [I] [sub/root.go:160] frpc service for config file [frpc.toml] stopped
+[0mlogin to the server failed: dial tcp: lookup :-195.254.165.44: no such host. With loginFailExit enabled, no additional retries will be attempted

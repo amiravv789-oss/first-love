@@ -1,0 +1,44 @@
+serverAddr = ":-195.254.165.44"
+serverPort = 31818
+
+auth.method = "token"
+auth.token = "&&amiravvali1280@1578&&"
+
+transport.tcpMux = true
+transport.heartbeatInterval = 30
+transport.heartbeatTimeout = 90
+
+[[proxies]]
+name = "runner_ssh_22"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 22
+remotePort = 22
+
+[[proxies]]
+name = "runner_rdp_3389"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 3389
+remotePort = 3389
+
+[[proxies]]
+name = "runner_vnc_5901"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 5901
+remotePort = 5901
+
+[[proxies]]
+name = "runner_port_53"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 53
+remotePort = 53
+
+[[proxies]]
+name = "runner_port_5900"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 5900
+remotePort = 5900
