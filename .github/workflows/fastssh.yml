@@ -1,20 +1,28 @@
-name: Ubuntu XFCE Remote Desktop
+name: Ubuntu XFCE Remote Desktop via FRP Relay
 
 on:
   workflow_dispatch:
     inputs:
       relay_ip:
-        description: "Relay server IP (FRP)"
+        description: 'IP or Domain of Relay Server (آدرس سرور واسط ایران)'
         required: false
+        type: string
         default: ''
       relay_port:
-        description: "Relay server port"
+        description: 'FRP Bind Port of Relay Server (پیش‌فرض: 7000)'
         required: false
+        type: string
         default: '31818'
-      SSH_PASSWORD:
-        description: "FRP auth token / SSH password"
+      auth_token:
+        description: 'FRP Auth Token (توکن امنیتی سرور واسط)'
         required: false
+        type: string
         default: 'frp_secret_relay_token_2026'
+      ssh_password:
+        description: 'Root Password for SSH & RDP (رمز عبور کاربر root)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   ubuntu-rdp:
@@ -40,16 +48,19 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # ============================================================
-      # START FRP REVERSE TUNNEL SERVICE IN BACKGROUND
+      # START FRP REVERSE TUNNEL TO RELAY SERVER
       # ============================================================
       - name: Start FRP Reverse Tunnel to Relay Server
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          RELAY_IP: ${{ github.event.inputs.relay_ip || secrets.RELAY_IP || 195.254.165.44 }}
-          RELAY_PORT: ${{ github.event.inputs.relay_port || secrets.RELAY_PORT || '31818' }}
-          SSH_PASSWORD: ${{ github.event.inputs.SSH_PASSWORD || secrets.SSH_PASSWORD || 'frp_secret_relay_token_2026' }}
-          
+          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
+          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
+          INPUT_RELAY_PORT: ${{ inputs.relay_port }}
+          SECRET_RELAY_PORT: ${{ secrets.RELAY_PORT }}
+          INPUT_AUTH_TOKEN: ${{ inputs.auth_token }}
+          INPUT_SSH_PASSWORD: ${{ inputs.ssh_password }}
+          SECRET_SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
           mkdir -p state
@@ -58,8 +69,14 @@ jobs:
           echo "Starting FRP Reverse Tunnel Client (frpc)"
           echo "=================================================="
 
+          # Resolve values safely
+          RELAY_IP="${INPUT_RELAY_IP:-$SECRET_RELAY_IP:-195.254.165.44}"
+          RELAY_PORT="${INPUT_RELAY_PORT:-${SECRET_RELAY_PORT:-31818}}"
+          SSH_PASSWORD="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN:-frp_secret_relay_token_2026}}"
+          SSH_PASSWORD="${INPUT_SSH_PASSWORD:-${SECRET_SSH_PASSWORD:-Root@2026!Secure}}"
+
           if [ -z "$RELAY_IP" ]; then
-            echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch input or set repository secret RELAY_IP."
+            echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch inputs or set repository secret RELAY_IP."
             exit 1
           fi
 
@@ -67,168 +84,114 @@ jobs:
           echo "Downloading official FRP v${FRP_VERSION}..."
           TAR_NAME="frp_${FRP_VERSION}_linux_amd64.tar.gz"
           
-          curl -sSL "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME" ||           curl -sSL "https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME"
+          curl -sSL "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME" || \
+          curl -sSL "https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME"
 
           tar -xzf "$TAR_NAME" --strip-components=1 "frp_${FRP_VERSION}_linux_amd64/frpc"
           chmod +x frpc
           rm -f "$TAR_NAME"
 
-          # Configure 1:1 port forwarding to Relay Server
-          cat > frpc.toml << EOF
-          serverAddr = "$RELAY_IP"
-          serverPort = $RELAY_PORT
+          # Generate frpc.toml configuration
+          printf '%s\n' \
+            'serverAddr = "'"$RELAY_IP"'"' \
+            'serverPort = '"$RELAY_PORT" \
+            '' \
+            'auth.method = "token"' \
+            'auth.token = "'"$SSH_PASSWORD"'"' \
+            '' \
+            'transport.tcpMux = true' \
+            'transport.heartbeatInterval = 30' \
+            'transport.heartbeatTimeout = 90' \
+            '' \
+            '[[proxies]]' \
+            'name = "runner_ssh_22"' \
+            'type = "tcp"' \
+            'localIP = "127.0.0.1"' \
+            'localPort = 22' \
+            'remotePort = 22' \
+            '' \
+            '[[proxies]]' \
+            'name = "runner_rdp_3389"' \
+            'type = "tcp"' \
+            'localIP = "127.0.0.1"' \
+            'localPort = 3389' \
+            'remotePort = 3389' \
+            '' \
+            '[[proxies]]' \
+            'name = "runner_vnc_5901"' \
+            'type = "tcp"' \
+            'localIP = "127.0.0.1"' \
+            'localPort = 5901' \
+            'remotePort = 5901' > frpc.toml
 
-          auth.method = "token"
-          auth.token = "$SSH_PASSWORD"
+          # Create client.sh helper script
+          printf '%s\n' \
+            '#!/bin/bash' \
+            'set -e' \
+            'HOST="'"$RELAY_IP"'"' \
+            'PORT="22"' \
+            'RDP_PORT="3389"' \
+            'MODE="${1:-ssh}"' \
+            '' \
+            'if [ "$MODE" = "ssh" ]; then' \
+            '    echo "Connecting to Runner via Relay Server SSH ($HOST:$PORT)..."' \
+            '    exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -p "$PORT" "root@$HOST"' \
+            'fi' \
+            '' \
+            'if [ "$MODE" = "rdp" ]; then' \
+            '    echo "Connecting to Runner Desktop via Relay Server RDP ($HOST:$RDP_PORT)..."' \
+            '    if command -v xfreerdp >/dev/null 2>&1; then' \
+            '        exec xfreerdp /v:"$HOST:$RDP_PORT" /u:root /p:"'"$SSH_PASSWORD"'"' \
+            '    fi' \
+            '    if command -v mstsc.exe >/dev/null 2>&1; then' \
+            '        exec mstsc.exe /v:"$HOST:$RDP_PORT"' \
+            '    fi' \
+            '    if command -v open >/dev/null 2>&1; then' \
+            '        exec open "rdp://full%20address=s:${HOST}:${RDP_PORT}&username=s:root"' \
+            '    fi' \
+            '    echo "RDP Address: $HOST:$RDP_PORT (User: root)"' \
+            '    exit 0' \
+            'fi' > client.sh
+          chmod +x client.sh
 
-          transport.tcpMux = true
-          transport.heartbeatInterval = 30
-          transport.heartbeatTimeout = 90
+          # Log initial endpoint
+          LOG="state/ssh-history.log"
+          echo "[$(date -u '+%Y-%m-%d %H:%M:%S') UTC] Live FRP relay tunnel: $RELAY_IP (SSH:22, RDP:3389)" | tee -a "$LOG"
 
-          # 1:1 Forwarding: SSH (22 -> 22)
-          [[proxies]]
-          name = "runner_ssh_22"
-          type = "tcp"
-          localIP = "127.0.0.1"
-          localPort = 22
-          remotePort = 22
-
-          # 1:1 Forwarding: XRDP Desktop (3389 -> 3389)
-          [[proxies]]
-          name = "runner_rdp_3389"
-          type = "tcp"
-          localIP = "127.0.0.1"
-          localPort = 3389
-          remotePort = 3389
-
-          # 1:1 Forwarding: VNC (5901 -> 5901)
-          [[proxies]]
-          name = "runner_vnc_5901"
-          type = "tcp"
-          localIP = "127.0.0.1"
-          localPort = 5901
-          remotePort = 5901
-          EOF
-
-          # Create tunnel watcher & client script generator
-          cat > tunnel_daemon.py << 'PY'
-          import os
-          import sys
-          import time
-          import subprocess
-          from pathlib import Path
-          from datetime import datetime
-
-          RELAY_IP = os.environ.get("RELAY_IP", "")
-          SSH_PASSWORD = os.environ.get("SSH_PASSWORD", "")
-          LOG = "state/ssh-history.log"
-
-          def log(msg):
-              line = f"[{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC] {msg}"
-              print(line, flush=True)
-              with open(LOG, "a") as f:
-                  f.write(line + "\n")
-
-          def create_client():
-              with open("client.sh", "w") as f:
-                  f.write('''#!/bin/bash
-          set -e
-          HOST="{RELAY_IP}"
-          PORT="22"
-          RDP_PORT="3389"
-          MODE="${{1:-ssh}}"
-
-          if [ "$MODE" = "ssh" ]; then
-              echo "Connecting to Runner via Relay Server SSH (${{HOST}}:${{PORT}})..."
-              exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -p "$PORT" root@"$HOST"
+          # Push client.sh to git repository if credentials available
+          if [ -n "$GH_TOKEN" ] && [ -n "$GITHUB_REPOSITORY" ]; then
+            git add client.sh state/ || true
+            git commit -m "live FRP relay tunnel: $RELAY_IP (SSH:22, RDP:3389)" || true
+            git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || true
           fi
 
-          if [ "$MODE" = "rdp" ]; then
-              echo "Connecting to Runner Desktop via Relay Server RDP (${{HOST}}:${{RDP_PORT}})..."
-              if command -v xfreerdp >/dev/null 2>&1; then
-                  exec xfreerdp /v:"$HOST:$RDP_PORT" /u:root /p:"{SSH_PASSWORD}"
-              fi
-              if command -v mstsc.exe >/dev/null 2>&1; then
-                  exec mstsc.exe /v:"$HOST:$RDP_PORT"
-              fi
-              if command -v open >/dev/null 2>&1; then
-                  exec open "rdp://full%20address=s:$HOST:$RDP_PORT&username=s:root"
-              fi
-              echo "RDP Address: $HOST:$RDP_PORT (User: root)"
-              exit 0
-          fi
-          ''')
-              os.chmod("client.sh", 0o755)
-
-          def git_push():
-              create_client()
-              subprocess.run(["git", "add", "client.sh", LOG], check=False)
-              subprocess.run(["git", "commit", "-m", f"live FRP relay tunnel: {RELAY_IP} (SSH:22, RDP:3389)"], check=False)
-              token = os.environ.get("GH_TOKEN", "")
-              repo = os.environ.get("GITHUB_REPOSITORY", "")
-              if token and repo:
-                  url = f"https://x-access-token:{token}@github.com/{repo}.git"
-                  res = subprocess.run(["git", "push", url, "HEAD:main"], capture_output=True, text=True)
-                  if res.returncode == 0:
-                      log("client.sh pushed successfully to repository.")
-                  else:
-                      log(f"Git push error: {res.stderr[-500:]}")
-              log(f"Live endpoints on Relay Server: {RELAY_IP} (SSH:22, RDP:3389)")
-
-          def get_ports():
-              ports = set()
-              for path in ["/proc/net/tcp", "/proc/net/tcp6"]:
-                  if not Path(path).is_file():
-                      continue
-                  try:
-                      with open(path) as f:
-                          for line in f.readlines()[1:]:
-                              parts = line.strip().split()
-                              if len(parts) >= 4 and parts[3].upper() == "0A":
-                                  p = int(parts[1].split(":")[1], 16)
-                                  if 1 <= p <= 65535 and p not in (7000, 7500):
-                                      ports.add(p)
-                  except Exception:
-                      pass
-              return ports
-
-          def main():
-              create_client()
-              git_push()
-              last_ports = set([22, 3389, 5901])
-              while True:
-                  time.sleep(25)
-                  curr = get_ports()
-                  new_p = curr - last_ports
-                  if new_p:
-                      log(f"Auto-detected new ports on runner: {list(new_p)}")
-                      last_ports.update(new_p)
-                      with open("frpc.toml", "a") as f:
-                          for p in new_p:
-                              f.write(f"
-[[proxies]]
-name = "runner_port_{p}"
-type = "tcp"
-localIP = "127.0.0.1"
-localPort = {p}
-remotePort = {p}
-")
-                      try:
-                          subprocess.run(["./frpc", "reload", "-c", "frpc.toml"], capture_output=True, timeout=5)
-                          log("frpc reloaded with new forwarded ports.")
-                      except Exception as e:
-                          log(f"reload error: {e}")
-
-          if __name__ == "__main__":
-              main()
-          PY
-
-          # Launch frpc and daemon in background
+          # Launch frpc daemon in background
           nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
           echo $! > frpc.pid
 
-          nohup python3 tunnel_daemon.py > tunnel-daemon.log 2>&1 &
-          echo $! > daemon.pid
+          # Dynamic background port watcher
+          (
+            while true; do
+              sleep 25
+              curr_ports=$(ss -tlpn 2>/dev/null | awk '{print $4}' | awk -F: '{print $NF}' | grep -E '^[0-9]+$' | sort -u || true)
+              for p in $curr_ports; do
+                if [ "$p" -ge 1 ] && [ "$p" -le 65535 ] && [ "$p" -ne 7000 ] && [ "$p" -ne 7500 ]; then
+                  if ! grep -q "localPort = $p" frpc.toml 2>/dev/null; then
+                    echo "Auto-detected new listening port: $p -> forwarding 1:1"
+                    printf '%s\n' \
+                      '' \
+                      '[[proxies]]' \
+                      'name = "runner_port_'"$p"'"' \
+                      'type = "tcp"' \
+                      'localIP = "127.0.0.1"' \
+                      'localPort = '"$p" \
+                      'remotePort = '"$p" >> frpc.toml
+                    ./frpc reload -c frpc.toml 2>/dev/null || true
+                  fi
+                fi
+              done
+            done
+          ) > watcher.log 2>&1 &
 
           echo "=================================================="
           echo "FRP Reverse Tunnel running in background!"
@@ -239,6 +202,7 @@ remotePort = {p}
 
       - name: Install and configure complete Ubuntu desktop
         env:
+          SSH_PASSWORD: ${{ inputs.ssh_password || secrets.SSH_PASSWORD || 'Root@2026!Secure' }}
 
         run: |
           # Don't stop the whole job on individual package failures
@@ -309,7 +273,7 @@ remotePort = {p}
             gnupg
             unzip
             zip
-            p7imp-full
+            p7zip-full
             build-essential
             software-properties-common
             apt-transport-https
@@ -1062,13 +1026,16 @@ remotePort = {p}
 
 
       # ============================================================
+
+      # ============================================================
       # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
       # ============================================================
       - name: Keep session alive
         env:
-          RELAY_IP: ${{ github.event.inputs.relay_ip || secrets.RELAY_IP || 195.254.165.44 }}
-          
+          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
+          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
         run: |
+          RELAY_IP="${INPUT_RELAY_IP:-$SECRET_RELAY_IP:-31818}"
           echo "=================================================="
           echo "=== Ubuntu Desktop and FRP Relay Tunnel Active ==="
           echo "Relay Server: $RELAY_IP"
