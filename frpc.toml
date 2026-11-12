@@ -1,12 +1,14 @@
-serverAddr = ":-195.254.165.44"
+serverAddr = "195.254.165.44"
 serverPort = 31818
 
 auth.method = "token"
-auth.token = "&&amiravvali1280@1578&&"
+auth.token = ""
 
 transport.tcpMux = true
 transport.heartbeatInterval = 30
 transport.heartbeatTimeout = 90
+
+loginFailExit = false
 
 [[proxies]]
 name = "runner_ssh_22"
