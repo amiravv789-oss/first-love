@@ -2,7 +2,7 @@ serverAddr = "195.254.165.44"
 serverPort = 31818
 
 auth.method = "token"
-auth.token = ""
+auth.token = "&&amiravvali1280@1578&&"
 
 transport.tcpMux = true
 transport.heartbeatInterval = 30
