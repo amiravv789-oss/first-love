@@ -46,7 +46,29 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+      - name: Verify Runner Location
+        shell: bash
+        run: |
+          set -e
 
+          RESPONSE=$(curl -fsSL --max-time 15 https://ipinfo.io/json)
+
+          IP=$(jq -r '.ip // empty' <<< "$RESPONSE")
+          CITY=$(jq -r '.city // empty' <<< "$RESPONSE")
+          REGION=$(jq -r '.region // empty' <<< "$RESPONSE")
+
+          echo "IP: $IP"
+          echo "City: $CITY"
+          echo "Region: $REGION"
+
+          if [[ "$CITY" != "Phoenix" || "$REGION" != "Arizona" || -z "$IP" ]]; then
+            echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+            exit 1
+          fi
+
+          echo "Location verified successfully."
+          
       # ============================================================
       # START FRP REVERSE TUNNEL TO RELAY SERVER
       # ============================================================
