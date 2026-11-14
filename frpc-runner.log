@@ -1,8 +1,13 @@
-[1;34m2026-11-14 02:31:11.518 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
-[0m[1;34m2026-11-14 02:31:11.518 [I] [client/service.go:295] try to connect to server...
-[0m[1;34m2026-11-14 02:31:12.143 [I] [client/service.go:287] [45994cf83492b29e] login to server success, get run id [45994cf83492b29e]
-[0m[1;34m2026-11-14 02:31:12.143 [I] [proxy/proxy_manager.go:173] [45994cf83492b29e] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
-[0m[1;34m2026-11-14 02:31:12.348 [I] [client/control.go:168] [45994cf83492b29e] [runner_ssh_22] start proxy success
-[0m[1;34m2026-11-14 02:31:12.349 [I] [client/control.go:168] [45994cf83492b29e] [runner_rdp_3389] start proxy success
-[0m[1;34m2026-11-14 02:31:12.349 [I] [client/control.go:168] [45994cf83492b29e] [runner_vnc_5901] start proxy success
+[1;34m2026-11-14 13:57:28.364 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
+[0m[1;34m2026-11-14 13:57:28.364 [I] [client/service.go:295] try to connect to server...
+[0m[1;34m2026-11-14 13:57:29.037 [I] [client/service.go:287] [3d7981914b6d516d] login to server success, get run id [3d7981914b6d516d]
+[0m[1;34m2026-11-14 13:57:29.037 [I] [proxy/proxy_manager.go:173] [3d7981914b6d516d] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
+[0m[1;34m2026-11-14 13:57:29.262 [I] [client/control.go:168] [3d7981914b6d516d] [runner_rdp_3389] start proxy success
+[0m[1;34m2026-11-14 13:57:29.262 [I] [client/control.go:168] [3d7981914b6d516d] [runner_vnc_5901] start proxy success
+[0m[1;34m2026-11-14 13:57:29.262 [I] [client/control.go:168] [3d7981914b6d516d] [runner_ssh_22] start proxy success
+[0m[1;31m2026-11-14 13:57:44.567 [E] [proxy/proxy.go:206] [3d7981914b6d516d] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
+[0m[1;31m2026-11-14 13:58:34.769 [E] [proxy/proxy.go:206] [3d7981914b6d516d] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
+[0m[1;31m2026-11-14 13:58:45.834 [E] [proxy/proxy.go:206] [3d7981914b6d516d] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
+[0m[1;31m2026-11-14 13:58:47.871 [E] [proxy/proxy.go:206] [3d7981914b6d516d] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
+[0m[1;31m2026-11-14 13:58:58.863 [E] [proxy/proxy.go:206] [3d7981914b6d516d] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
 [0m
