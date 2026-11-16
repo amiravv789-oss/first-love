@@ -1,14 +1,8 @@
-[1;34m2026-11-15 18:37:59.626 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
-[0m[1;34m2026-11-15 18:37:59.626 [I] [client/service.go:295] try to connect to server...
-[0m[1;34m2026-11-15 18:38:01.530 [I] [client/service.go:287] [8cd36c9fbaf0fae9] login to server success, get run id [8cd36c9fbaf0fae9]
-[0m[1;34m2026-11-15 18:38:01.531 [I] [proxy/proxy_manager.go:173] [8cd36c9fbaf0fae9] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
-[0m[1;34m2026-11-15 18:38:01.988 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_vnc_5901] start proxy success
-[0m[1;34m2026-11-15 18:38:02.448 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_ssh_22] start proxy success
-[0m[1;34m2026-11-15 18:38:02.448 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_rdp_3389] start proxy success
-[0m[1;34m2026-11-15 19:25:58.754 [I] [client/service.go:295] [8cd36c9fbaf0fae9] try to connect to server...
-[0m[1;34m2026-11-15 19:25:59.473 [I] [client/service.go:287] [8cd36c9fbaf0fae9] login to server success, get run id [8cd36c9fbaf0fae9]
-[0m[1;34m2026-11-15 19:25:59.473 [I] [proxy/proxy_manager.go:173] [8cd36c9fbaf0fae9] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
-[0m[1;34m2026-11-15 19:25:59.754 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_ssh_22] start proxy success
-[0m[1;34m2026-11-15 19:25:59.754 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_vnc_5901] start proxy success
-[0m[1;34m2026-11-15 19:25:59.754 [I] [client/control.go:168] [8cd36c9fbaf0fae9] [runner_rdp_3389] start proxy success
+[1;34m2026-11-16 00:21:18.732 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
+[0m[1;34m2026-11-16 00:21:18.732 [I] [client/service.go:295] try to connect to server...
+[0m[1;34m2026-11-16 00:21:19.467 [I] [client/service.go:287] [0996140479d12d72] login to server success, get run id [0996140479d12d72]
+[0m[1;34m2026-11-16 00:21:19.468 [I] [proxy/proxy_manager.go:173] [0996140479d12d72] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
+[0m[1;34m2026-11-16 00:21:19.945 [I] [client/control.go:168] [0996140479d12d72] [runner_ssh_22] start proxy success
+[0m[1;34m2026-11-16 00:21:19.945 [I] [client/control.go:168] [0996140479d12d72] [runner_rdp_3389] start proxy success
+[0m[1;34m2026-11-16 00:21:19.945 [I] [client/control.go:168] [0996140479d12d72] [runner_vnc_5901] start proxy success
 [0m
