@@ -33,20 +33,6 @@ jobs:
       actions: write
 
     steps:
-      # ============================================================
-      # CHECKOUT REPOSITORY & CONFIGURE GIT
-      # ============================================================
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          lfs: true
-
-      - name: Configure Git Identity
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
       - name: Verify Runner Location
         shell: bash
         run: |
@@ -69,6 +55,21 @@ jobs:
 
           echo "Location verified successfully."
           
+      # ============================================================
+      # CHECKOUT REPOSITORY & CONFIGURE GIT
+      # ============================================================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          lfs: true
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+
       # ============================================================
       # START FRP REVERSE TUNNEL TO RELAY SERVER
       # ============================================================
