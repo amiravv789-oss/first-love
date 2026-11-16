@@ -33,7 +33,6 @@ jobs:
       actions: write
 
     steps:
-
       # ============================================================
       # CHECKOUT REPOSITORY & CONFIGURE GIT
       # ============================================================
@@ -47,7 +46,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
 
       # ============================================================
       # START FRP REVERSE TUNNEL TO RELAY SERVER
