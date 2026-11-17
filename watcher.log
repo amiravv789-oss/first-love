@@ -4,3 +4,5 @@ Auto-detected new listening port: 5900 -> forwarding 1:1
 web server port should be set if you want to use this feature
 Auto-detected new listening port: 3000 -> forwarding 1:1
 web server port should be set if you want to use this feature
+Auto-detected new listening port: 8080 -> forwarding 1:1
+web server port should be set if you want to use this feature
