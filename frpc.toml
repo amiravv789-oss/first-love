@@ -44,10 +44,3 @@ type = "tcp"
 localIP = "127.0.0.1"
 localPort = 5900
 remotePort = 5900
-
-[[proxies]]
-name = "runner_port_8080"
-type = "tcp"
-localIP = "127.0.0.1"
-localPort = 8080
-remotePort = 8080
