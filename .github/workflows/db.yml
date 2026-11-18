@@ -1,848 +1,200 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Atlas Local Search - single-file launcher
-- Downloads and merges the SQLite database from the configured GitHub release.
-- Downloads the single ZIP containing the existing Tantivy index and extracts it.
-- Serves a local Flask search UI.
-- SQLite is opened read-only by the web application.
-"""
-
-from __future__ import annotations
-
-import os
-import re
-import sys
-import json
-import time
-import shutil
-import zipfile
-import sqlite3
-import urllib.request
-import urllib.parse
-import urllib.error
-from pathlib import Path
-from collections import defaultdict
-
-# ------------------------------ CONFIG ---------------------------------
-
-GITHUB_REPO = "amiravv789-oss/first-mistake"
-DB_RELEASE_TAG = os.environ.get("DB_RELEASE_TAG", "csv-backup-20261117-223035")
-
-INDEX_ZIP_URL = (
-    "https://github.com/amiravv789-oss/first-mistake/"
-    "releases/download/20261118-213228/file_0.part000000"
-)
-
-BASE = Path(__file__).resolve().parent
-DOWNLOAD_DIR = BASE / "github_db_download"
-DB_PATH = Path(os.environ.get("CUSTOMERS_DB", str(BASE / "users_merged.db"))).expanduser().resolve()
-INDEX_DIR = Path(os.environ.get("USERS_SEARCH_INDEX", str(BASE / "users_search_index"))).expanduser().resolve()
-INDEX_ZIP = DOWNLOAD_DIR / "tantivy_index.zip"
-INDEX_EXTRACT = DOWNLOAD_DIR / "tantivy_index_extracted"
-
-HOST = os.environ.get("LOCAL_SEARCH_HOST", "127.0.0.1")
-PORT = int(os.environ.get("LOCAL_SEARCH_PORT", "8080"))
-
-PAGE_SIZE_DEFAULT = 25
-PAGE_SIZE_MAX = 100
-MAX_SEARCH_HITS = 100_000
-DOWNLOAD_CHUNK = 8 * 1024 * 1024
-DB_BATCH = 5000
-
-DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
-
-# ------------------------------ UTILITIES -------------------------------
-
-def log(message: str) -> None:
-    print(f"[Atlas] {message}", flush=True)
-
-
-def request_headers(accept: str = "application/vnd.github+json") -> dict:
-    headers = {
-        "User-Agent": "Atlas-Local-Searcher/1.0",
-        "Accept": accept,
-        "X-GitHub-Api-Version": "2022-11-28",
-    }
-    token = os.environ.get("GH_TOKEN")
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-    return headers
-
-
-def download_url(url: str, destination: Path, expected_size: int | None = None,
-                 headers: dict | None = None, timeout: int = 300) -> None:
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    if destination.exists() and destination.stat().st_size > 0:
-        if expected_size is None or destination.stat().st_size == expected_size:
-            log(f"Already downloaded: {destination.name}")
-            return
-
-    temp = destination.with_name(destination.name + ".download")
-    req = urllib.request.Request(url, headers=headers or {"User-Agent": "Atlas-Local-Searcher/1.0"})
-    try:
-        log(f"Downloading: {destination.name}")
-        with urllib.request.urlopen(req, timeout=timeout) as response, open(temp, "wb") as out:
-            shutil.copyfileobj(response, out, DOWNLOAD_CHUNK)
-        size = temp.stat().st_size
-        if size <= 0:
-            raise RuntimeError(f"Downloaded file is empty: {destination.name}")
-        if expected_size is not None and size != expected_size:
-            raise RuntimeError(
-                f"Size mismatch for {destination.name}: expected {expected_size:,}, got {size:,}"
-            )
-        os.replace(temp, destination)
-        log(f"Downloaded {destination.name}: {size:,} bytes")
-    finally:
-        if temp.exists():
-            temp.unlink()
-
-
-def sqlite_integrity(path: Path) -> None:
-    uri = path.resolve().as_uri() + "?mode=ro"
-    conn = sqlite3.connect(uri, uri=True, timeout=120)
-    try:
-        result = conn.execute("PRAGMA integrity_check").fetchone()[0]
-        if result != "ok":
-            raise RuntimeError(f"SQLite integrity check failed for {path.name}: {result}")
-    finally:
-        conn.close()
-
-
-# -------------------------- DATABASE DOWNLOAD ---------------------------
-
-def download_database_release() -> list[Path]:
-    api_url = (
-        f"https://api.github.com/repos/{GITHUB_REPO}/releases/tags/"
-        f"{urllib.parse.quote(DB_RELEASE_TAG, safe='')}"
-    )
-    req = urllib.request.Request(api_url, headers=request_headers())
-    log(f"Reading database release: {DB_RELEASE_TAG}")
-    with urllib.request.urlopen(req, timeout=60) as response:
-        release = json.loads(response.read().decode("utf-8"))
-
-    assets = release.get("assets", [])
-    db_assets = [
-        a for a in assets
-        if re.search(r"\.db(?:\.part[_-]?\d+)?$", a.get("name", ""), re.I)
-    ]
-    if not db_assets:
-        raise RuntimeError(
-            f"No .db assets found in GitHub release {DB_RELEASE_TAG!r}. "
-            "Check DB_RELEASE_TAG and GH_TOKEN."
-        )
-
-    downloaded = []
-    for i, asset in enumerate(db_assets, 1):
-        name = Path(asset["name"]).name
-        destination = DOWNLOAD_DIR / name
-        log(f"Database asset {i}/{len(db_assets)}: {name}")
-        expected_size = int(asset.get("size", 0)) or None
-        # Prefer the GitHub API asset endpoint. Some release configurations return
-        # 404 from browser_download_url even though the release API lists the asset.
-        # Fall back to browser_download_url if the API endpoint is unavailable.
-        asset_api_url = asset.get("url")
-        browser_url = asset.get("browser_download_url")
-        attempts = []
-        if asset_api_url:
-            attempts.append((asset_api_url, "GitHub asset API"))
-        if browser_url:
-            attempts.append((browser_url, "browser download URL"))
-        last_error = None
-        for asset_url, label in attempts:
-            try:
-                log(f"  Trying {label}")
-                download_url(
-                    asset_url,
-                    destination,
-                    expected_size=expected_size,
-                    headers=request_headers("application/octet-stream"),
-                    timeout=900,
-                )
-                last_error = None
-                break
-            except urllib.error.HTTPError as exc:
-                last_error = exc
-                log(f"  {label} returned HTTP {exc.code}")
-                if exc.code not in (401, 403, 404, 410):
-                    raise
-        if last_error is not None:
-            raise RuntimeError(
-                f"Could not download GitHub release asset {name!r}. "
-                f"Both available download endpoints failed; last HTTP status: "
-                f"{last_error.code}. Check release visibility, GH_TOKEN, and asset URL."
-            ) from last_error
-        downloaded.append(destination)
-    return downloaded
-
-
-def reconstruct_database_parts(files: list[Path]) -> list[Path]:
-    groups: dict[str, list[tuple[int, Path]]] = defaultdict(list)
-    standalone: list[Path] = []
-
-    for file in files:
-        match = re.match(r"^(.+\.db)\.part[_-]?(\d+)$", file.name, re.I)
-        if match:
-            groups[match.group(1)].append((int(match.group(2)), file))
-        elif file.name.lower().endswith(".db"):
-            standalone.append(file)
-
-    reconstructed = []
-    for original, parts in groups.items():
-        parts.sort(key=lambda item: item[0])
-        numbers = [number for number, _ in parts]
-        # Accept either 0-based or 1-based part numbering, but require no gaps.
-        expected = list(range(numbers[0], numbers[0] + len(numbers)))
-        if numbers != expected or numbers[0] not in (0, 1):
-            raise RuntimeError(f"Missing or duplicate database parts for {original}: {numbers[:20]}")
-
-        output = DOWNLOAD_DIR / original
-        temp = output.with_suffix(output.suffix + ".tmp")
-        log(f"Reassembling database: {original}")
-        with open(temp, "wb") as target:
-            for number, part in parts:
-                log(f"  Appending part {number}: {part.name}")
-                with open(part, "rb") as source:
-                    shutil.copyfileobj(source, target, DOWNLOAD_CHUNK)
-            target.flush()
-            os.fsync(target.fileno())
-        os.replace(temp, output)
-        sqlite_integrity(output)
-        reconstructed.append(output)
-        log(f"Reassembled and verified: {output.name}")
-
-    # Do not include a reconstructed file twice.
-    seen = {p.resolve() for p in reconstructed}
-    for path in standalone:
-        if path.resolve() not in seen:
-            reconstructed.append(path)
-    return reconstructed
-
-
-def quote_ident(name: str) -> str:
-    return '"' + str(name).replace('"', '""') + '"'
-
-
-def merge_database_files(sources: list[Path]) -> None:
-    if not sources:
-        raise RuntimeError("No SQLite database files were downloaded.")
-
-    if len(sources) == 1:
-        source = sources[0]
-        if source.resolve() != DB_PATH.resolve():
-            DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-            temp = DB_PATH.with_name(DB_PATH.name + ".new")
-            shutil.copy2(source, temp)
-            sqlite_integrity(temp)
-            if DB_PATH.exists():
-                backup = DB_PATH.with_name(DB_PATH.stem + ".backup" + DB_PATH.suffix)
-                if not backup.exists():
-                    shutil.copy2(DB_PATH, backup)
-                log(f"Existing database backup: {backup}")
-            os.replace(temp, DB_PATH)
-        sqlite_integrity(DB_PATH)
-        log(f"Database ready: {DB_PATH}")
-        return
-
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    temp_target = DB_PATH.with_name(DB_PATH.stem + ".building" + DB_PATH.suffix)
-    if temp_target.exists():
-        temp_target.unlink()
-
-    target = sqlite3.connect(str(temp_target), timeout=120)
-    try:
-        target.execute("PRAGMA journal_mode=DELETE")
-        target.execute("PRAGMA synchronous=NORMAL")
-        target.execute("PRAGMA temp_store=FILE")
-        target.execute("PRAGMA busy_timeout=120000")
-
-        for source_path in sources:
-            log(f"Merging database: {source_path.name}")
-            source_uri = source_path.resolve().as_uri() + "?mode=ro"
-            source = sqlite3.connect(source_uri, uri=True, timeout=120)
-            try:
-                integrity = source.execute("PRAGMA integrity_check").fetchone()[0]
-                if integrity != "ok":
-                    raise RuntimeError(f"Corrupt source database: {source_path.name}")
-
-                tables = source.execute("""
-                    SELECT name, sql FROM sqlite_master
-                    WHERE type='table' AND name NOT LIKE 'sqlite_%'
-                    ORDER BY name
-                """).fetchall()
-
-                for table, create_sql in tables:
-                    if not create_sql:
-                        continue
-                    qtable = quote_ident(table)
-                    exists = target.execute(
-                        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
-                        (table,),
-                    ).fetchone()
-
-                    if not exists:
-                        target.execute(create_sql)
-
-                    src_info = source.execute(f"PRAGMA table_info({qtable})").fetchall()
-                    dst_info = target.execute(f"PRAGMA table_info({qtable})").fetchall()
-                    dst_names = {r[1] for r in dst_info}
-
-                    # Add compatible missing columns. Primary-key/constraint evolution
-                    # is intentionally not guessed.
-                    for col in src_info:
-                        if col[1] not in dst_names:
-                            if int(col[5]) > 0:
-                                raise RuntimeError(
-                                    f"Cannot safely merge changed primary-key schema in table {table!r}"
-                                )
-                            col_type = col[2] or "BLOB"
-                            target.execute(
-                                f"ALTER TABLE {qtable} ADD COLUMN {quote_ident(col[1])} {col_type}"
-                            )
-                            dst_names.add(col[1])
-
-                    common = [r[1] for r in src_info if r[1] in dst_names]
-                    if not common:
-                        continue
-                    col_sql = ", ".join(quote_ident(c) for c in common)
-                    marks = ", ".join("?" for _ in common)
-                    cursor = source.execute(f"SELECT {col_sql} FROM {qtable}")
-                    insert = f"INSERT OR IGNORE INTO {qtable} ({col_sql}) VALUES ({marks})"
-                    inserted = 0
-
-                    while True:
-                        batch = cursor.fetchmany(DB_BATCH)
-                        if not batch:
-                            break
-                        before = target.total_changes
-                        target.executemany(insert, batch)
-                        inserted += target.total_changes - before
-
-                    log(f"  {table}: {inserted:,} rows inserted")
-                target.commit()
-            finally:
-                source.close()
-
-        check = target.execute("PRAGMA integrity_check").fetchone()[0]
-        if check != "ok":
-            raise RuntimeError(f"Merged database integrity check failed: {check}")
-        target.commit()
-    except Exception:
-        target.rollback()
-        raise
-    finally:
-        target.close()
-
-    if DB_PATH.exists():
-        backup = DB_PATH.with_name(DB_PATH.stem + ".backup" + DB_PATH.suffix)
-        if not backup.exists():
-            shutil.copy2(DB_PATH, backup)
-        log(f"Existing database backup: {backup}")
-    os.replace(temp_target, DB_PATH)
-    sqlite_integrity(DB_PATH)
-    log(f"Merged database ready: {DB_PATH}")
-
-
-# ---------------------------- INDEX DOWNLOAD ----------------------------
-
-def safe_extract_zip(zip_path: Path, destination: Path) -> None:
-    if not zipfile.is_zipfile(zip_path):
-        raise RuntimeError(
-            "The downloaded index asset is not a valid ZIP file. "
-            "The URL may point to a GitHub error page or a different asset."
-        )
-
-    if destination.exists():
-        shutil.rmtree(destination)
-    destination.mkdir(parents=True, exist_ok=True)
-    root = destination.resolve()
-
-    with zipfile.ZipFile(zip_path) as archive:
-        bad = archive.testzip()
-        if bad:
-            raise RuntimeError(f"ZIP CRC validation failed at: {bad}")
-        for member in archive.infolist():
-            target = (destination / member.filename).resolve()
-            if target != root and root not in target.parents:
-                raise RuntimeError("Unsafe path inside index ZIP.")
-        archive.extractall(destination)
-
-    # Find the Tantivy index root by its meta.json marker.
-    meta_files = list(destination.rglob("meta.json"))
-    if not meta_files:
-        raise RuntimeError(
-            "ZIP extracted, but no Tantivy meta.json was found. "
-            "The archive does not appear to contain the Tantivy index."
-        )
-
-    # Tantivy's meta.json is directly inside the index directory.
-    candidates = []
-    for meta in meta_files:
-        parent = meta.parent
-        try:
-            data = json.loads(meta.read_text("utf-8"))
-            if "segments" in data:
-                candidates.append(parent)
-        except Exception:
-            continue
-    if not candidates:
-        raise RuntimeError("No valid Tantivy index metadata found in the ZIP.")
-
-    if len(candidates) > 1:
-        # Choose the shallowest valid index root; fail if ambiguous at same depth.
-        candidates.sort(key=lambda p: len(p.parts))
-        if len(candidates) > 1 and len(candidates[0].parts) == len(candidates[1].parts):
-            raise RuntimeError("ZIP contains multiple Tantivy indexes; refusing to guess.")
-    source_index = candidates[0]
-
-    if INDEX_DIR.exists():
-        backup = INDEX_DIR.with_name(INDEX_DIR.name + ".previous")
-        if backup.exists():
-            shutil.rmtree(backup)
-        os.replace(INDEX_DIR, backup)
-        log(f"Previous index kept at: {backup}")
-
-    INDEX_DIR.parent.mkdir(parents=True, exist_ok=True)
-    if source_index == destination:
-        staging = INDEX_DIR.with_name(INDEX_DIR.name + ".building")
-        if staging.exists():
-            shutil.rmtree(staging)
-        shutil.copytree(source_index, staging)
-    else:
-        staging = INDEX_DIR.with_name(INDEX_DIR.name + ".building")
-        if staging.exists():
-            shutil.rmtree(staging)
-        shutil.copytree(source_index, staging)
-
-    # Validate metadata before making it active.
-    try:
-        import tantivy
-        test_index = tantivy.Index.open(str(staging))
-        test_index.reload()
-        count = int(test_index.searcher().num_docs)
-        if count <= 0:
-            raise RuntimeError("Tantivy index contains zero documents.")
-    except Exception:
-        if staging.exists():
-            shutil.rmtree(staging)
-        raise
-
-    if INDEX_DIR.exists():
-        shutil.rmtree(INDEX_DIR)
-    os.replace(staging, INDEX_DIR)
-    log(f"Tantivy index installed: {INDEX_DIR} ({count:,} documents)")
-
-
-def download_and_install_index() -> None:
-    # A valid existing index is reused. Set FORCE_INDEX_DOWNLOAD=1 to refresh it.
-    force = os.environ.get("FORCE_INDEX_DOWNLOAD", "0") == "1"
-    if INDEX_DIR.is_dir() and not force:
-        try:
-            import tantivy
-            existing = tantivy.Index.open(str(INDEX_DIR))
-            existing.reload()
-            count = int(existing.searcher().num_docs)
-            if count > 0:
-                log(f"Existing Tantivy index reused: {count:,} documents")
-                return
-        except Exception as exc:
-            log(f"Existing index is not usable; downloading replacement: {exc}")
-
-    download_url(INDEX_ZIP_URL, INDEX_ZIP, headers={"User-Agent": "Atlas-Local-Searcher/1.0"}, timeout=1800)
-    safe_extract_zip(INDEX_ZIP, INDEX_EXTRACT)
-
-
-def initialize_assets() -> None:
-    # Resolve/download the release assets on every startup. Existing correctly-sized
-    # downloads are reused; the expensive DB merge is only needed when the DB is absent
-    # or FORCE_DB_REBUILD=1 is explicitly requested.
-    downloaded = download_database_release()
-    if not DB_PATH.is_file() or os.environ.get("FORCE_DB_REBUILD", "0") == "1":
-        sources = reconstruct_database_parts(downloaded)
-        merge_database_files(sources)
-    else:
-        log(f"Existing database reused after release asset check: {DB_PATH}")
-        sqlite_integrity(DB_PATH)
-
-    download_and_install_index()
-
-
-# --------------------------- SEARCH APPLICATION -------------------------
-
-def ensure_runtime_packages() -> None:
-    missing = []
-    for module, package in (("flask", "Flask"), ("tantivy", "tantivy")):
-        try:
-            __import__(module)
-        except ImportError:
-            missing.append(package)
-    if missing:
-        raise RuntimeError(
-            "Missing Python packages: " + ", ".join(missing) +
-            ". Install them with: python -m pip install Flask tantivy"
-        )
-
-
-ensure_runtime_packages()
-from flask import Flask, jsonify, render_template_string, request
-import tantivy
-
-app = Flask(__name__)
-app.config["JSON_AS_ASCII"] = False
-app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024
-
-FIELD_LABELS = {
-    "id": "شناسه", "nationalcode": "کد ملی", "nationalid": "کد ملی",
-    "nationalnumber": "کد ملی", "melli": "کد ملی", "codemelli": "کد ملی",
-    "fullname": "نام و نام خانوادگی", "name": "نام و نام خانوادگی",
-    "firstname": "نام", "lastname": "نام خانوادگی",
-    "fathername": "نام پدر", "father": "نام پدر",
-    "birthdate": "تاریخ تولد", "dateofbirth": "تاریخ تولد",
-    "birthplace": "محل تولد", "address": "آدرس", "mobile": "شماره موبایل",
-    "phone": "تلفن", "city": "شهر", "province": "استان",
-}
-POSITION_LABELS = [
-    "شناسه", "کد ملی", "نام و نام خانوادگی", "نام پدر", "تاریخ تولد",
-    "محل تولد", "آدرس", "شهر", "استان", "کد پستی", "شماره موبایل",
-    "تلفن", "سایر اطلاعات",
-]
-
-def qident(value: str) -> str:
-    return '"' + str(value).replace('"', '""') + '"'
-
-def normalize_name(value: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", str(value).lower())
-
-def readonly_connection():
-    if not DB_PATH.is_file():
-        raise FileNotFoundError(f"Database not found: {DB_PATH}")
-    conn = sqlite3.connect(DB_PATH.as_uri() + "?mode=ro", uri=True, timeout=60)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA query_only=ON")
-    conn.execute("PRAGMA busy_timeout=60000")
-    return conn
-
-def detect_table(conn):
-    found = []
-    tables = conn.execute(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
-    ).fetchall()
-    for item in tables:
-        table = item[0]
-        info = conn.execute(f"PRAGMA table_info({qident(table)})").fetchall()
-        pk = [col for col in info if int(col[5]) > 0]
-        if len(info) == 13 and len(pk) == 1 and str(pk[0][2]).upper() == "INTEGER":
-            found.append((table, info, pk[0]))
-    if len(found) != 1:
-        raise RuntimeError(f"Could not uniquely detect the 13-column primary table ({len(found)} candidates).")
-    table, info, pk = found[0]
-    columns = [col[1] for col in info]
-    if columns.index(pk[1]) != 0:
-        raise RuntimeError("Primary key is not the first column; index row-id mapping cannot be assumed.")
-    return table, info, columns, pk[1]
-
-def get_labels(columns):
-    labels = {}
-    for i, column in enumerate(columns):
-        norm = normalize_name(column)
-        label = FIELD_LABELS.get(norm)
-        if not label:
-            label = POSITION_LABELS[i] if i < len(POSITION_LABELS) else f"اطلاعات {i+1}"
-        labels[column] = label
-    return labels
-
-def get_index_field_map(columns):
-    # Tantivy index was built with C2..C13 corresponding to SQLite columns 2..13.
-    return {columns[i-1]: f"C{i}" for i in range(2, 14)}
-
-def tokenize(text: str) -> list[str]:
-    # Unicode-aware: keeps Persian/Arabic letters and digits.
-    return re.findall(r"[^\W_]+", text, flags=re.UNICODE)
-
-def build_combined_query(query_text, filters, columns, pk, fuzzy):
-    """Create one Tantivy query: main-search AND every field-specific filter.
-
-    The index uses BASIC postings (no positions), so terms are deliberately
-    unquoted. Every main-query token may match any allowed main-search field;
-    every filter token must match its own mapped column. SQLite performs the
-    final substring verification after Tantivy candidate retrieval.
-    """
-    index_fields = [f"C{i}" for i in range(2, 14)]
-    clauses = []
-
-    # If a father-name filter is active, interpret the top search as a person's
-    # name search. This prevents a query term found only in the father's name,
-    # address, or another unrelated column from qualifying a different person.
-    main_fields = list(index_fields)
-    labels = get_labels(columns)
-    father_filter_active = any(
-        value and "پدر" in labels.get(column, "")
-        for column, value in filters.items()
-    )
-    if father_filter_active:
-        name_columns = [
-            column for column in columns
-            if column != pk and (
-                "نام و نام خانوادگی" in labels.get(column, "")
-                or "نام کامل" in labels.get(column, "")
-            )
-        ]
-        mapped = [INDEX_FIELD_MAP[c] for c in name_columns if c in INDEX_FIELD_MAP]
-        if mapped:
-            main_fields = mapped
-
-    main_tokens = tokenize(query_text)
-    if len(main_tokens) > 16:
-        raise ValueError("حداکثر ۱۶ واژه در جستجوی اصلی مجاز است.")
-    if main_tokens:
-        token_groups = []
-        for token in main_tokens:
-            # Tokens contain only Unicode letters/digits, so no query syntax
-            # characters can escape into the Tantivy parser.
-            token_groups.append(
-                "(" + " OR ".join(f"{field}:{token}" for field in main_fields) + ")"
-            )
-        main_string = " AND ".join(token_groups)
-        fuzzy_map = {field: (False, 1, True) for field in main_fields} if fuzzy else {}
-        clauses.append(SEARCH_INDEX.parse_query(
-            main_string,
-            main_fields,
-            fuzzy_fields=fuzzy_map,
-            conjunction_by_default=True,
-        ))
-
-    # Do not push filters into Tantivy: UI filters are substring filters, while
-    # the index stores whole tokens. Pushing them into Tantivy would silently
-    # drop valid partial matches. The API verifies filters against SQLite rows.
-
-    if not clauses:
-        return None
-    if len(clauses) == 1:
-        return clauses[0]
-    return tantivy.Query.boolean_query([(tantivy.Occur.Must, clause) for clause in clauses])
-
-
-def discover_filter_columns(columns, pk):
-    # Offer every non-primary field as a filter, with semantic labels.
-    return [c for c in columns if c != pk]
-
-
-# UI is intentionally self-contained: this single .py file writes no templates.
-HTML = r"""<!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>اطلس | جستجوی محلی</title>
-<style>
-:root{color-scheme:dark;--bg:#080d19;--panel:#111a2b;--panel2:#172238;--line:#263651;--text:#edf3ff;--muted:#94a5c0;--accent:#8b7cff;--teal:#36d6c3}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 80% 0%,#18264a 0,transparent 42%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;scrollbar-width:none}*::-webkit-scrollbar{width:0;height:0;display:none}
-.shell{max-width:1440px;margin:auto;padding:26px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#8b7cff,#36d6c3);display:grid;place-items:center;color:#08101d;font-size:25px;font-weight:900}.brand b{font-size:20px}.brand small{display:block;color:var(--muted);margin-top:4px}.pill{border:1px solid #27534f;background:#12312f;color:#a5f5e9;border-radius:30px;padding:9px 14px;font-size:12px}
-.hero{padding:28px 0 24px}.eyebrow{color:#9d91ff;font-size:13px}.hero h1{font-size:clamp(28px,4vw,46px);line-height:1.45;margin:12px 0}.hero h1 span{color:#a79bff}.hero p{color:var(--muted);margin:0 0 23px}
-.searchbox{display:flex;gap:10px;padding:9px;background:#111b2e;border:1px solid #344563;border-radius:19px;box-shadow:0 18px 55px #0005}.searchbox input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);font-size:17px;padding:13px}.btn{border:0;border-radius:13px;padding:13px 22px;background:linear-gradient(135deg,#9184ff,#6a5de0);color:white;font-weight:bold;cursor:pointer}.btn:disabled{opacity:.5;cursor:wait}
-.options{display:flex;gap:18px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:13px;margin:14px 4px}.options label{display:flex;gap:8px;align-items:center}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}.metric,.card{background:linear-gradient(145deg,#121d31,#0f1828);border:1px solid var(--line);border-radius:19px}.metric{padding:18px}.metric small{color:var(--muted)}.metric strong{display:block;font-size:22px;margin-top:9px}
-.card{padding:20px;margin:18px 0}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}.card h2{font-size:18px;margin:0}.muted{color:var(--muted);font-size:13px}
-.filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin:0 0 7px}.field input{width:100%;background:#0b1424;border:1px solid #2a3a55;border-radius:11px;color:var(--text);padding:12px;outline:none}.field input:focus,.searchbox:focus-within{border-color:#887cff;box-shadow:0 0 0 3px #887cff22}
-.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:right;padding:14px 13px;border-bottom:1px solid #23314a;font-size:13px}th{color:#b9c7df;background:#17243a;position:sticky;top:0}td{color:#e5edfc}tbody tr:hover{background:#192640}.detail{border:1px solid #6e63d5;background:#28234b;color:#dcd7ff;border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:bold}.detail:hover{background:#39316c;transform:translateY(-1px)}
-.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:17px;color:var(--muted)}.pagination button{background:#1c2a43;color:white;border:1px solid #344665;border-radius:10px;padding:9px 15px;cursor:pointer;margin-right:6px}.pagination button:disabled{opacity:.35}
-.modal{display:none;position:fixed;inset:0;background:#020611d9;z-index:9;padding:20px;align-items:center;justify-content:center}.modal.show{display:flex}.modalbox{width:min(900px,100%);max-height:88vh;overflow:auto;background:#111b2d;border:1px solid #3a4b6b;border-radius:22px;padding:24px;scrollbar-width:none}.modalhead{display:flex;justify-content:space-between;align-items:center}.close{background:#273650;color:white;border:0;border-radius:10px;padding:8px 13px;cursor:pointer}.detailsgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.detailitem{background:#0b1424;border:1px solid #263650;border-radius:12px;padding:13px;overflow-wrap:anywhere}.detailitem small{display:block;color:var(--muted);margin-bottom:7px}.detailitem b{font-size:14px;white-space:pre-wrap}
-.notice{padding:12px 15px;border-radius:12px;background:#35252b;color:#ffc6c6;margin:10px 0;display:none}.empty{text-align:center;color:var(--muted);padding:35px}
-@media(max-width:850px){.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{grid-template-columns:1fr}.shell{padding:16px}}@media(max-width:520px){.filters{grid-template-columns:1fr}.searchbox{flex-wrap:wrap}.searchbox input{flex-basis:100%}.searchbox .btn{width:100%}.detailsgrid{grid-template-columns:1fr}.top{margin-bottom:16px}}
-</style></head><body><div class="shell">
-<header class="top"><div class="brand"><div class="logo">A</div><div><b>اطلس</b><small>سامانه جستجوی محلی</small></div></div><span class="pill">● محلی · فقط خواندنی</span></header>
-<section class="hero"><div class="eyebrow">فضای جستجوی خصوصی</div><h1>اطلاعات را پیدا کن،<br><span>نه اینکه دنبالش بگردی.</span></h1><p>جستجو در همه فیلدها با فیلترهای مستقل و دقیق.</p>
-<div class="searchbox"><input id="q" placeholder="نام، کد ملی، آدرس یا هر عبارت..." autocomplete="off"><button class="btn" id="go">جستجو ←</button></div>
-<div class="options"><label><input type="checkbox" id="fuzzy"> جستجوی فازی (تحمل غلط تایپی)</label><span id="mode">جستجوی دقیق</span><button id="clear" style="background:none;border:0;color:#aaa;cursor:pointer">پاک کردن عبارت</button></div></section>
-<section class="metrics"><div class="metric"><small>تعداد اسناد ایندکس</small><strong id="docCount">—</strong></div><div class="metric"><small>نتایج</small><strong id="resultCount">—</strong></div><div class="metric"><small>وضعیت</small><strong id="status">در حال بررسی</strong></div></section>
-<section class="card"><div class="cardhead"><div><h2>فیلترهای تکمیلی</h2><div class="muted">هر فیلتر فقط روی ستون متناظر خودش اعمال می‌شود؛ همه فیلترها با AND ترکیب می‌شوند.</div></div><button class="detail" id="reset">پاک کردن فیلترها</button></div><div class="filters" id="filters"></div></section>
-<section class="card"><div class="cardhead"><div><h2>نتایج جستجو</h2><div class="muted" id="caption">عبارت یا فیلتر را وارد کن.</div></div><label class="muted">تعداد در صفحه <select id="size"><option>25</option><option>50</option><option>100</option></select></label></div>
-<div class="notice" id="error"></div><div class="tablewrap"><table><thead id="thead"></thead><tbody id="tbody"><tr><td class="empty">در انتظار جستجو</td></tr></tbody></table></div>
-<div class="pagination"><span id="pageinfo">صفحه ۱</span><div><button id="prev" disabled>قبلی</button><button id="next" disabled>بعدی</button></div></div></section>
-</div><div class="modal" id="modal"><div class="modalbox"><div class="modalhead"><div><div class="eyebrow">نمای کامل رکورد</div><h2>جزئیات اطلاعات</h2></div><button class="close" id="close">بستن ×</button></div><div class="detailsgrid" id="detailgrid"></div></div></div>
-<script>
-const $=id=>document.getElementById(id);let meta=null,page=1,pages=1,columns=[],labels={},filters={};
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function buildFilters(){const root=$('filters');root.innerHTML='';meta.columns.filter(c=>c!==meta.primary_key).forEach(c=>{const d=document.createElement('div');d.className='field';d.innerHTML=`<label>${esc(meta.labels[c]||c)}</label><input data-col="${esc(c)}" placeholder="فیلتر ${esc(meta.labels[c]||c)}">`;root.appendChild(d);});root.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{filters[i.dataset.col]=i.value;clearTimeout(window.ft);window.ft=setTimeout(()=>run(1),450);}));}
-function params(){const p=new URLSearchParams({q:$('q').value.trim(),fuzzy:$('fuzzy').checked?'1':'0',page:String(page),per_page:$('size').value});Object.entries(filters).forEach(([k,v])=>{if(v.trim())p.set('filter_'+k,v.trim());});return p;}
-async function run(p=1){page=p;$('error').style.display='none';$('go').disabled=true;$('caption').textContent='در حال جستجو...';try{const r=await fetch('/api/search?'+params());const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Search failed');pages=d.pages||1;$('resultCount').textContent=Number(d.total).toLocaleString('fa-IR');$('caption').textContent=`${Number(d.total).toLocaleString('fa-IR')} نتیجه · صفحه ${page} از ${pages}`;render(d);}catch(e){$('error').textContent=e.message;$('error').style.display='block';$('tbody').innerHTML='<tr><td class="empty">جستجو ناموفق بود</td></tr>';}finally{$('go').disabled=false;}}
-function render(d){const visible=columns.filter(c=>c!==meta.primary_key);$('thead').innerHTML='<tr>'+['کد ملی','نام و نام خانوادگی','نام پدر','تاریخ تولد','جزئیات'].map(x=>`<th>${x}</th>`).join('')+'</tr>';const role={national:findRole('national'),name:findRole('name'),father:findRole('father'),birth:findRole('birth')};$('tbody').innerHTML='';if(!d.rows.length){$('tbody').innerHTML='<tr><td class="empty" colspan="5">نتیجه‌ای پیدا نشد</td></tr>';}d.rows.forEach(row=>{const tr=document.createElement('tr');const values=[role.national,role.name,role.father,role.birth].map(c=>c?row[c]??'—':'—');tr.innerHTML=values.map(v=>`<td>${esc(v)}</td>`).join('')+`<td><button class="detail" data-id="${esc(row[meta.primary_key])}">مشاهده جزئیات ↗</button></td>`;$('tbody').appendChild(tr);});$('tbody').querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>detail(b.dataset.id));$('pageinfo').textContent=`صفحه ${page.toLocaleString('fa-IR')} از ${pages.toLocaleString('fa-IR')}`;$('prev').disabled=page<=1;$('next').disabled=page>=pages;}
-function findRole(role){const aliases={national:['nationalcode','nationalid','nationalnumber','codemelli','melli','کدملی'],name:['fullname','full_name','name','نام','نامونامخانوادگی'],father:['fathername','father','نامپدر'],birth:['birthdate','dateofbirth','تاریختولد']};for(const c of columns){const n=c.toLowerCase().replace(/[^a-z0-9\u0600-\u06ff]/g,'');if(aliases[role].includes(n))return c;}const fallback={national:1,name:2,father:3,birth:4};return columns[fallback[role]]||null;}
-async function detail(id){try{const r=await fetch('/api/row/'+encodeURIComponent(id));const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Detail failed');$('detailgrid').innerHTML=d.columns.map(c=>`<div class="detailitem"><small>${esc(d.labels[c]||c)}</small><b>${esc(d.row[c]??'—')}</b></div>`).join('');$('modal').classList.add('show');}catch(e){$('error').textContent=e.message;$('error').style.display='block';}}
-$('go').onclick=()=>run(1);$('q').addEventListener('keydown',e=>{if(e.key==='Enter')run(1)});$('fuzzy').onchange=()=>{$('mode').textContent=$('fuzzy').checked?'جستجوی فازی':'جستجوی دقیق';run(1)};$('clear').onclick=()=>{$('q').value='';run(1)};$('reset').onclick=()=>{filters={};$('filters').querySelectorAll('input').forEach(i=>i.value='');run(1)};$('size').onchange=()=>run(1);$('prev').onclick=()=>run(page-1);$('next').onclick=()=>run(page+1);$('close').onclick=()=>$('modal').classList.remove('show');$('modal').onclick=e=>{if(e.target===$('modal'))$('modal').classList.remove('show')};
-async function init(){try{const r=await fetch('/api/health');meta=await r.json();if(!r.ok||!meta.ok)throw Error(meta.error||'Health check failed');columns=meta.columns;labels=meta.labels;$('docCount').textContent=Number(meta.index_count).toLocaleString('fa-IR');$('status').textContent='متصل';buildFilters();run(1);}catch(e){$('status').textContent='خطا';$('error').textContent=e.message;$('error').style.display='block';}}init();
-</script></body></html>"""
-
-
-# ------------------------------- STARTUP ---------------------------------
-
-initialize_assets()
-
-with readonly_connection() as _conn:
-    TABLE_NAME, TABLE_INFO, DB_COLUMNS, PRIMARY_KEY = detect_table(_conn)
-INDEX_FIELD_MAP = get_index_field_map(DB_COLUMNS)
-
-if not INDEX_DIR.is_dir():
-    raise RuntimeError(f"Tantivy index directory missing: {INDEX_DIR}")
-SEARCH_INDEX = tantivy.Index.open(str(INDEX_DIR))
-SEARCH_INDEX.reload()
-INDEX_DOC_COUNT = int(SEARCH_INDEX.searcher().num_docs)
-if INDEX_DOC_COUNT != 74_931_639:
-    log(
-        f"Notice: index has {INDEX_DOC_COUNT:,} documents; "
-        "the known source snapshot had 74,931,639 rows. Continuing after index validation."
-    )
-
-@app.get("/")
-def home():
-    return HTML
-
-@app.get("/api/health")
-def health():
-    return jsonify(
-        ok=True, database=DB_PATH.name, table=TABLE_NAME,
-        columns=DB_COLUMNS, primary_key=PRIMARY_KEY,
-        labels=get_labels(DB_COLUMNS), index_count=INDEX_DOC_COUNT,
-    )
-
-@app.get("/api/search")
-def search():
-    query_text = (request.args.get("q") or "").strip()
-    fuzzy = request.args.get("fuzzy") == "1"
-    try:
-        page = max(1, min(int(request.args.get("page", "1")), 1_000_000))
-        per_page = max(10, min(int(request.args.get("per_page", str(PAGE_SIZE_DEFAULT))), PAGE_SIZE_MAX))
-    except (TypeError, ValueError):
-        page, per_page = 1, PAGE_SIZE_DEFAULT
-
-    try:
-        active_filters = {
-            col: (request.args.get("filter_" + col) or "").strip()
-            for col in DB_COLUMNS if col != PRIMARY_KEY
-        }
-        active_filters = {col: val for col, val in active_filters.items() if val}
-        start = (page - 1) * per_page
-        cols_sql = ", ".join(qident(c) for c in DB_COLUMNS)
-        capped = False
-
-        if query_text:
-            # Tantivy supplies the candidate set for the top search. Filters
-            # are deliberately applied to actual SQLite values below, because
-            # the UI supports substring matching (including partial words).
-            query = build_combined_query(
-                query_text, active_filters, DB_COLUMNS, PRIMARY_KEY, fuzzy
-            )
-            if query is None:
-                rows, total = [], 0
-            else:
-                searcher = SEARCH_INDEX.searcher()
-                result = searcher.search(query, limit=MAX_SEARCH_HITS)
-                candidate_count = int(result.count)
-                capped = candidate_count > MAX_SEARCH_HITS
-                hit_ids = []
-                for _, address in result.hits:
-                    document = searcher.doc(address)
-                    rid = document.get_first("rid")
-                    if rid is not None:
-                        hit_ids.append(int(rid))
-
-                # When filters are active, inspect all candidates before
-                # pagination. Without filters, fetch only the requested page.
-                ids_to_fetch = hit_ids if active_filters else hit_ids[start:start + per_page]
-                rows_by_id = {}
-                with readonly_connection() as conn:
-                    for offset in range(0, len(ids_to_fetch), 700):
-                        batch = ids_to_fetch[offset:offset + 700]
-                        if not batch:
-                            continue
-                        marks = ",".join("?" for _ in batch)
-                        found = conn.execute(
-                            f"SELECT {cols_sql} FROM {qident(TABLE_NAME)} "
-                            f"WHERE {qident(PRIMARY_KEY)} IN ({marks})",
-                            batch,
-                        ).fetchall()
-                        rows_by_id.update({int(row[PRIMARY_KEY]): dict(row) for row in found})
-
-                if active_filters:
-                    matched_rows = []
-                    for rid in hit_ids:
-                        row = rows_by_id.get(rid)
-                        if row is None:
-                            continue
-                        if all(
-                            value.casefold() in str(row.get(column) or "").casefold()
-                            for column, value in active_filters.items()
-                        ):
-                            matched_rows.append(row)
-                    total = len(matched_rows)
-                    rows = matched_rows[start:start + per_page]
-                else:
-                    total = min(candidate_count, MAX_SEARCH_HITS)
-                    rows = [rows_by_id[rid] for rid in ids_to_fetch if rid in rows_by_id]
-
-        elif active_filters:
-            # Filter-only mode uses SQLite substring matching directly. This
-            # avoids false negatives for partial words that are not standalone
-            # Tantivy tokens.
-            where_parts = [
-                f"instr(lower(coalesce({qident(column)}, '')), lower(?)) > 0"
-                for column in active_filters
-            ]
-            values = list(active_filters.values())
-            where_sql = " WHERE " + " AND ".join(where_parts)
-            with readonly_connection() as conn:
-                total = int(conn.execute(
-                    f"SELECT COUNT(*) FROM {qident(TABLE_NAME)}{where_sql}", values
-                ).fetchone()[0])
-                found = conn.execute(
-                    f"SELECT {cols_sql} FROM {qident(TABLE_NAME)}{where_sql} "
-                    f"ORDER BY {qident(PRIMARY_KEY)} LIMIT ? OFFSET ?",
-                    values + [per_page, start],
-                ).fetchall()
-            rows = [dict(row) for row in found]
-
-        else:
-            with readonly_connection() as conn:
-                total = int(conn.execute(
-                    f"SELECT COUNT(*) FROM {qident(TABLE_NAME)}"
-                ).fetchone()[0])
-                found = conn.execute(
-                    f"SELECT {cols_sql} FROM {qident(TABLE_NAME)} "
-                    f"ORDER BY {qident(PRIMARY_KEY)} LIMIT ? OFFSET ?",
-                    (per_page, start),
-                ).fetchall()
-            rows = [dict(row) for row in found]
-
-        pages = max(1, (total + per_page - 1) // per_page)
-        return jsonify(
-            ok=True, query=query_text, fuzzy=fuzzy, total=total,
-            page=page, per_page=per_page, pages=pages, capped=capped,
-            max_search_hits=MAX_SEARCH_HITS if query_text else None,
-            rows=rows, columns=DB_COLUMNS, primary_key=PRIMARY_KEY,
-            labels=get_labels(DB_COLUMNS), filters=active_filters,
-        )
-    except Exception as exc:
-        log(f"Search error: {type(exc).__name__}: {exc}")
-        return jsonify(ok=False, error=f"جستجو ناموفق: {type(exc).__name__}: {exc}"), 400
-
-@app.get("/api/row/<int:row_id>")
-def row_detail(row_id: int):
-    try:
-        cols_sql = ", ".join(qident(c) for c in DB_COLUMNS)
-        with readonly_connection() as conn:
-            row = conn.execute(
-                f"SELECT {cols_sql} FROM {qident(TABLE_NAME)} "
-                f"WHERE {qident(PRIMARY_KEY)}=? LIMIT 1",
-                (row_id,),
-            ).fetchone()
-        if row is None:
-            return jsonify(ok=False, error="رکورد پیدا نشد."), 404
-        return jsonify(ok=True, row=dict(row), columns=DB_COLUMNS, labels=get_labels(DB_COLUMNS))
-    except Exception as exc:
-        return jsonify(ok=False, error=str(exc)), 500
-
-@app.errorhandler(404)
-def not_found(_):
-    return jsonify(ok=False, error="مسیر پیدا نشد."), 404
-
-if __name__ == "__main__":
-    log(f"Database: {DB_PATH}")
-    log(f"Index: {INDEX_DIR}")
-    log(f"Listening: http://{HOST}:{PORT}")
-    app.run(host=HOST, port=PORT, debug=False, threaded=True)
+name: db (Private Code Runner)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: db-runner
+  cancel-in-progress: false
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+    timeout-minutes: 350
+
+    steps:
+      - name: Verify Runner Location
+        shell: bash
+        run: |
+          set -e
+
+          RESPONSE=$(curl -fsSL --max-time 15 https://ipinfo.io/json)
+
+          IP=$(jq -r '.ip // empty' <<< "$RESPONSE")
+          CITY=$(jq -r '.city // empty' <<< "$RESPONSE")
+          REGION=$(jq -r '.region // empty' <<< "$RESPONSE")
+
+          echo "IP: $IP"
+          echo "City: $CITY"
+          echo "Region: $REGION"
+
+          if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
+            echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+            exit 1
+          fi
+
+          echo "Location verified successfully."
+          
+      - name: Clone private repository
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/amiravv789-oss/first-lie.git bot-code
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install system requirements
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rar
+
+      - name: Install Python requirements
+        run: |
+          pip install --upgrade pip
+          pip install -r bot-code/requirements.txt
+          pip install pandas
+
+      - name: Start FRP Reverse Tunnel to Relay Server
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
+          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
+          INPUT_RELAY_PORT: ${{ inputs.relay_port }}
+          SECRET_RELAY_PORT: ${{ secrets.RELAY_PORT }}
+          INPUT_AUTH_TOKEN: ${{ inputs.auth_token }}
+          SECRET_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+        run: |
+          set -e
+          mkdir -p state
+
+          echo "=================================================="
+          echo "Starting FRP Reverse Tunnel Client (frpc)"
+          echo "=================================================="
+
+          # Resolve values safely
+          RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
+          # Clean any leading colon, dash, or accidental whitespace
+          RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
+          RELAY_PORT="31818"
+          AUTH_TOKEN="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN}}"
+
+
+          if [ -z "$RELAY_IP" ]; then
+            echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch inputs or set repository secret RELAY_IP."
+            exit 1
+          fi
+
+          FRP_VERSION="0.61.1"
+          echo "Downloading official FRP v${FRP_VERSION}..."
+          TAR_NAME="frp_${FRP_VERSION}_linux_amd64.tar.gz"
+          
+          curl -sSL "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME" || \
+          curl -sSL "https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME"
+
+          tar -xzf "$TAR_NAME" --strip-components=1 "frp_${FRP_VERSION}_linux_amd64/frpc"
+          chmod +x frpc
+          rm -f "$TAR_NAME"
+
+          # Generate frpc.toml configuration
+          printf '%s\n' \
+            'serverAddr = "'"$RELAY_IP"'"' \
+            'serverPort = '"$RELAY_PORT" \
+            '' \
+            'auth.method = "token"' \
+            'auth.token = "'"$AUTH_TOKEN"'"' \
+            '' \
+            'transport.tcpMux = true' \
+            'transport.heartbeatInterval = 30' \
+            'transport.heartbeatTimeout = 90' \
+            '' \
+            'loginFailExit = false' \
+            '' \
+            '[[proxies]]' \
+            'name = "runner_db_8080"' \
+            'type = "http"' \
+            'localIP = "127.0.0.1"' \
+            'localPort = 8080' \
+            'remotePort = 8080' > frpc.toml
+
+
+          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
+          echo $! > frpc.pid
+
+          # Dynamic background port watcher
+          (
+            while true; do
+              sleep 25
+              curr_ports=$(ss -tlpn 2>/dev/null | awk '{print $4}' | awk -F: '{print $NF}' | grep -E '^[0-9]+$' | sort -u || true)
+              for p in $curr_ports; do
+                if [ "$p" -ge 1 ] && [ "$p" -le 65535 ] && [ "$p" -ne 7000 ] && [ "$p" -ne 7500 ]; then
+                  if ! grep -q "localPort = $p" frpc.toml 2>/dev/null; then
+                    echo "Auto-detected new listening port: $p -> forwarding 1:1"
+                    printf '%s\n' \
+                      '' \
+                      '[[proxies]]' \
+                      'name = "runner_port_'"$p"'"' \
+                      'type = "http"' \
+                      'localIP = "127.0.0.1"' \
+                      'localPort = '"$p" \
+                      'remotePort = '"$p" >> frpc.toml
+                    ./frpc reload -c frpc.toml 2>/dev/null || true
+                  fi
+                fi
+              done
+            done
+          ) > watcher.log 2>&1 &
+
+
+      - name: Run Main Bot
+        env:
+          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
+          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          
+        run: |
+          cd bot-code
+
+          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
+
+          timeout 335m bash -c '
+            while true; do
+              if ! pgrep -x "frpc" > /dev/null; then
+                echo "Re-spawning background frpc tunnel service..."
+                nohup ./frpc -c frpc.toml >> frpc-runner.log 2>&1 &
+              fi
+              sleep 30
+            done
+          ' &
+
+          MONITOR_PID=$!
+
+          timeout 335m python -u app.py
+          BOT_EXIT=$?
+
+          kill "$MONITOR_PID" 2>/dev/null || true
+          pkill -x frpc 2>/dev/null || true
+
+          exit "$BOT_EXIT"
+
+      - name: Trigger Next Workflow
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'db.yml',
+                ref: context.ref
+              });
+            } catch (error) {
+              console.log("Error triggering next workflow: ", error);
+            }
