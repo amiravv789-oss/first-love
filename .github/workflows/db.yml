@@ -31,10 +31,10 @@ jobs:
           echo "City: $CITY"
           echo "Region: $REGION"
 
-          # if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
-          #   echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
-          #   exit 1
-          # fi
+           if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
+             echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+             exit 1
+           fi
 
           echo "Location verified successfully."
           
