@@ -1,36 +1,19 @@
-name: Ubuntu XFCE Remote Desktop via FRP Relay
+name: db (Private Code Runner)
 
 on:
   workflow_dispatch:
-    inputs:
-      relay_ip:
-        description: 'IP or Domain of Relay Server (آدرس سرور واسط ایران)'
-        required: false
-        type: string
-        default: '195.254.165.44'
-      relay_port:
-        description: 'FRP Bind Port of Relay Server (پورت سرور واسط)'
-        required: false
-        type: string
-        default: '31818'
-      auth_token:
-        description: 'FRP Auth Token (توکن امنیتی سرور واسط)'
-        required: false
-        type: string
-        default: ''
-      ssh_password:
-        description: 'Root Password for SSH & RDP (رمز عبور کاربر root)'
-        required: false
-        type: string
-        default: ''
+
+concurrency:
+  group: db-runner
+  cancel-in-progress: false
 
 jobs:
-  ubuntu-rdp:
+  bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
     permissions:
       contents: write
       actions: write
+    timeout-minutes: 350
 
     steps:
       - name: Verify Runner Location
@@ -48,31 +31,35 @@ jobs:
           echo "City: $CITY"
           echo "Region: $REGION"
 
-          # if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
-          #   echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
-          #   exit 1
-          # fi
+          if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
+            echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+            exit 1
+          fi
 
           echo "Location verified successfully."
           
-      # ============================================================
-      # CHECKOUT REPOSITORY & CONFIGURE GIT
-      # ============================================================
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          lfs: true
-
-      - name: Configure Git Identity
+      - name: Clone private repository
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
+          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/amiravv789-oss/first-lie.git bot-code
 
-      # ============================================================
-      # START FRP REVERSE TUNNEL TO RELAY SERVER
-      # ============================================================
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install system requirements
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq rar
+
+      - name: Install Python requirements
+        run: |
+          pip install --upgrade pip
+          pip install -r bot-code/requirements.txt
+          pip install pandas
+
       - name: Start FRP Reverse Tunnel to Relay Server
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -83,8 +70,6 @@ jobs:
           SECRET_RELAY_PORT: ${{ secrets.RELAY_PORT }}
           INPUT_AUTH_TOKEN: ${{ inputs.auth_token }}
           SECRET_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          INPUT_SSH_PASSWORD: ${{ inputs.ssh_password }}
-          SECRET_SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
           set -e
           mkdir -p state
@@ -97,9 +82,9 @@ jobs:
           RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
           # Clean any leading colon, dash, or accidental whitespace
           RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
-          RELAY_PORT="${INPUT_RELAY_PORT:-${SECRET_RELAY_PORT:-31818}}"
+          RELAY_PORT="31818"
           AUTH_TOKEN="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN}}"
-          SSH_PASSWORD="${INPUT_SSH_PASSWORD:-${SECRET_SSH_PASSWORD}}"
+
 
           if [ -z "$RELAY_IP" ]; then
             echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch inputs or set repository secret RELAY_IP."
@@ -132,68 +117,13 @@ jobs:
             'loginFailExit = false' \
             '' \
             '[[proxies]]' \
-            'name = "runner_ssh_22"' \
-            'type = "tcp"' \
+            'name = "runner_db_8080"' \
+            'type = "http"' \
             'localIP = "127.0.0.1"' \
-            'localPort = 22' \
-            'remotePort = 22' \
-            '' \
-            '[[proxies]]' \
-            'name = "runner_rdp_3389"' \
-            'type = "tcp"' \
-            'localIP = "127.0.0.1"' \
-            'localPort = 3389' \
-            'remotePort = 3389' \
-            '' \
-            '[[proxies]]' \
-            'name = "runner_vnc_5901"' \
-            'type = "tcp"' \
-            'localIP = "127.0.0.1"' \
-            'localPort = 5901' \
-            'remotePort = 5901' > frpc.toml
+            'localPort = 8080' \
+            'remotePort = 8080' > frpc.toml
 
-          # Create client.sh helper script
-          printf '%s\n' \
-            '#!/bin/bash' \
-            'set -e' \
-            'HOST="'"$RELAY_IP"'"' \
-            'PORT="22"' \
-            'RDP_PORT="3389"' \
-            'MODE="${1:-ssh}"' \
-            '' \
-            'if [ "$MODE" = "ssh" ]; then' \
-            '    echo "Connecting to Runner via Relay Server SSH ($HOST:$PORT)..."' \
-            '    exec ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ServerAliveInterval=30 -p "$PORT" "root@$HOST"' \
-            'fi' \
-            '' \
-            'if [ "$MODE" = "rdp" ]; then' \
-            '    echo "Connecting to Runner Desktop via Relay Server RDP ($HOST:$RDP_PORT)..."' \
-            '    if command -v xfreerdp >/dev/null 2>&1; then' \
-            '        exec xfreerdp /v:"$HOST:$RDP_PORT" /u:root /p:"'"$SSH_PASSWORD"'"' \
-            '    fi' \
-            '    if command -v mstsc.exe >/dev/null 2>&1; then' \
-            '        exec mstsc.exe /v:"$HOST:$RDP_PORT"' \
-            '    fi' \
-            '    if command -v open >/dev/null 2>&1; then' \
-            '        exec open "rdp://full%20address=s:${HOST}:${RDP_PORT}&username=s:root"' \
-            '    fi' \
-            '    echo "RDP Address: $HOST:$RDP_PORT (User: root)"' \
-            '    exit 0' \
-            'fi' > client.sh
-          chmod +x client.sh
 
-          # Log initial endpoint
-          LOG="state/ssh-history.log"
-          echo "[$(date -u '+%Y-%m-%d %H:%M:%S') UTC] Live FRP relay tunnel: $RELAY_IP (SSH:22, RDP:3389)" | tee -a "$LOG"
-
-          # Push client.sh to git repository if credentials available
-          if [ -n "$GH_TOKEN" ] && [ -n "$GITHUB_REPOSITORY" ]; then
-            git add client.sh state/ || true
-            git commit -m "live FRP relay tunnel: $RELAY_IP (SSH:22, RDP:3389)" || true
-            git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main || true
-          fi
-
-          # Launch frpc daemon in background
           nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
           echo $! > frpc.pid
 
@@ -210,7 +140,7 @@ jobs:
                       '' \
                       '[[proxies]]' \
                       'name = "runner_port_'"$p"'"' \
-                      'type = "tcp"' \
+                      'type = "http"' \
                       'localIP = "127.0.0.1"' \
                       'localPort = '"$p" \
                       'remotePort = '"$p" >> frpc.toml
@@ -221,888 +151,39 @@ jobs:
             done
           ) > watcher.log 2>&1 &
 
-          echo "=================================================="
-          echo "FRP Reverse Tunnel running in background!"
-          echo "Relay Server: $RELAY_IP"
-          echo "SSH Command: ssh root@$RELAY_IP -p 22"
-          echo "RDP Command: mstsc.exe /v:$RELAY_IP:3389"
-          echo "=================================================="
 
-      - name: Install and configure complete Ubuntu desktop
-        env:
-          SSH_PASSWORD: ${{ inputs.ssh_password || secrets.SSH_PASSWORD || 'Root@2026!Secure' }}
-
-        run: |
-          # Don't stop the whole job on individual package failures
-          set +e
-
-          export DEBIAN_FRONTEND=noninteractive
-          export DEBCONF_NONINTERACTIVE_SEEN=true
-
-          # Password used for the hidden VNC passthrough (x11vnc <-> xrdp), generated once.
-          X11VNC_PASS="$(openssl rand -hex 10 2>/dev/null || echo 'ClaudeDesktopReady2026')"
-
-          echo "=================================================="
-          echo "Updating Ubuntu System & Dependencies"
-          echo "=================================================="
-
-          sudo apt-get update -qq
-          sudo apt-get upgrade -y -qq || true
-
-          echo "=================================================="
-          echo "Installing XFCE + XRDP + Xorg + System Utilities"
-          echo "=================================================="
-
-          # Install packages one-by-one so missing packages don't stop the whole job
-          PACKAGES=(
-            xfce4
-            xfce4-goodies
-            xfce4-whiskermenu-plugin
-            xfce4-pulseaudio-plugin
-            xfce4-terminal
-            xrdp
-            xorgxrdp
-            dbus-x11
-            dbus-user-session
-            thunar
-            thunar-archive-plugin
-            file-roller
-            mousepad
-            ristretto
-            mugshot
-            network-manager
-            network-manager-gnome
-            polkitd
-            pkexec
-            policykit-1-gnome
-            gvfs
-            gvfs-backends
-            gvfs-fuse
-            udisks2
-            upower
-            pulseaudio
-            pavucontrol
-            fonts-ubuntu
-            fonts-ubuntu-console
-            fonts-noto
-            fonts-noto-cjk
-            fonts-liberation
-            fonts-firacode
-            papirus-icon-theme
-            ubuntu-wallpapers
-            yaru-theme-gtk
-            yaru-theme-icon
-            yaru-theme-sound
-            git
-            git-lfs
-            curl
-            wget
-            ca-certificates
-            gnupg
-            unzip
-            zip
-            p7zip-full
-            build-essential
-            software-properties-common
-            apt-transport-https
-            python3
-            python3-dev
-            python3-pip
-            python3-venv
-            python-is-python3
-            pipx
-            htop
-            btop
-            nano
-            vim
-            neovim
-            tmux
-            zsh
-            jq
-            tree
-            ripgrep
-            fd-find
-            fzf
-            httpie
-            net-tools
-            iproute2
-            procps
-            psmisc
-            lsof
-            openssh-server
-            openssh-client
-            sudo
-            dbus
-            xdg-utils
-            desktop-file-utils
-            # --- added for a fuller, more capable desktop ---
-            gnome-keyring
-            seahorse
-            libpam-gnome-keyring
-            xvfb
-            x11vnc
-            imagemagick
-            gimp
-            ncdu
-            rsync
-            tldr
-            xdotool
-            wmctrl
-            qemu-system-x86
-            ovmf
-            virtiofsd
-            cpu-checker
-          )
-
-          for pkg in "${PACKAGES[@]}"; do
-            echo "Installing: $pkg"
-            sudo apt-get install -y -qq "$pkg" || echo "WARNING: failed to install $pkg (skipped)"
-          done
-
-          git lfs install || true
-
-          echo "=================================================="
-          echo "Installing Firefox (Official Native DEB - No Snap)"
-          echo "=================================================="
-
-          sudo install -d -m 0755 /etc/apt/keyrings
-          wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- \
-            | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
-
-          echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" \
-            | sudo tee /etc/apt/sources.list.d/mozilla.list > /dev/null
-
-          sudo tee /etc/apt/preferences.d/mozilla > /dev/null <<'EOF'
-          Package: firefox*
-          Pin: origin packages.mozilla.org
-          Pin-Priority: 1000
-          EOF
-
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq --allow-downgrades -o APT::Get::allow-downgrades=true firefox || true
-
-          echo "=================================================="
-          echo "Installing Google Chrome (With Root Sandbox Fix)"
-          echo "=================================================="
-
-          wget -q \
-            -O /tmp/google-chrome.deb \
-            https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-
-          sudo apt-get install -y /tmp/google-chrome.deb || \
-            sudo apt-get install -f -y || true
-
-          rm -f /tmp/google-chrome.deb
-
-          if [ -f /opt/google/chrome/google-chrome ]; then
-            sudo sed -i 's|exec -a "$0" "$HERE/chrome" "$@"|exec -a "$0" "$HERE/chrome" "$@" --no-sandbox --test-type|' /opt/google/chrome/google-chrome || true
-          fi
-
-          echo "=================================================="
-          echo "Installing Visual Studio Code (With Root Flags)"
-          echo "=================================================="
-
-          wget -qO- \
-            https://packages.microsoft.com/keys/microsoft.asc \
-            | gpg --dearmor \
-            | sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
-
-          sudo chmod 644 /usr/share/keyrings/microsoft.gpg
-
-          sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null <<'EOF'
-          Types: deb
-          URIs: https://packages.microsoft.com/repos/code
-          Suites: stable
-          Components: main
-          Architectures: amd64,arm64,armhf
-          Signed-By: /usr/share/keyrings/microsoft.gpg
-          EOF
-
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq code || true
-
-          sudo tee /usr/local/bin/code > /dev/null <<'EOF'
-          #!/bin/bash
-          exec /usr/share/code/bin/code --no-sandbox --user-data-dir=/root/.vscode-root "$@"
-          EOF
-          sudo chmod +x /usr/local/bin/code
-
-          echo "=================================================="
-          echo "Installing GitHub CLI (gh)"
-          echo "=================================================="
-
-          (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
-            && sudo mkdir -p -m 755 /etc/apt/keyrings \
-            && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-            && sudo apt update -qq \
-            && sudo apt install gh -y -qq || true
-
-          echo "=================================================="
-          echo "Installing Node.js 22 LTS, pnpm, yarn, & Bun"
-          echo "=================================================="
-
-          curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - || true
-          sudo apt-get install -y nodejs || true
-          sudo npm install -g pnpm yarn || true
-
-          curl -fsSL https://bun.sh/install | bash || true
-          if [ -d "/root/.bun/bin" ]; then
-            sudo cp /root/.bun/bin/bun /usr/local/bin/bun 2>/dev/null || true
-          fi
-
-          echo "=================================================="
-          echo "Installing Go (Golang)"
-          echo "=================================================="
-
-          sudo apt-get install -y -qq golang-go || true
-
-          echo "=================================================="
-          echo "Installing DBeaver CE (GUI Universal Database Tool)"
-          echo "=================================================="
-
-          wget -qO- https://dbeaver.io/debs/dbeaver.gpg.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/dbeaver.gpg 2>/dev/null || true
-          echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list > /dev/null
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq dbeaver-ce || true
-
-          echo "=================================================="
-          echo "Installing Python Developer Packages"
-          echo "=================================================="
-
-          python3 -m pip install \
-            --break-system-packages \
-            -q \
-            requests \
-            flask \
-            fastapi \
-            uvicorn \
-            numpy \
-            pandas \
-            pexpect \
-            virtualenv \
-            pytest \
-            black \
-            ipython || true
-
-          echo "=================================================="
-          echo "Installing Claude Desktop (official Anthropic apt repo, Linux beta)"
-          echo "=================================================="
-
-          sudo curl -fsSLo /usr/share/keyrings/claude-desktop-archive-keyring.asc \
-            https://downloads.claude.ai/claude-desktop/key.asc
-
-          echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/claude-desktop-archive-keyring.asc] https://downloads.claude.ai/claude-desktop/apt/stable stable main" \
-            | sudo tee /etc/apt/sources.list.d/claude-desktop.list > /dev/null
-
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq claude-desktop || echo "WARNING: claude-desktop install failed"
-
-          # Claude Desktop refuses to start as root unless --no-sandbox is passed.
-          # Wrap the real binary the same way Chrome is wrapped above.
-          if [ -f /usr/bin/claude-desktop ] && [ ! -f /usr/bin/claude-desktop.real ]; then
-            sudo mv /usr/bin/claude-desktop /usr/bin/claude-desktop.real
-            sudo tee /usr/bin/claude-desktop > /dev/null <<'EOF'
-          #!/bin/bash
-          exec /usr/bin/claude-desktop.real --no-sandbox "$@"
-          EOF
-            sudo chmod +x /usr/bin/claude-desktop
-          fi
-
-          # KVM group, needed for Cowork's virtualization (only works if the VPS host exposes nested virt)
-          sudo usermod -aG kvm root 2>/dev/null || true
-
-          echo "=================================================="
-          echo "Installing Claude Code CLI (official Anthropic apt repo)"
-          echo "=================================================="
-
-          sudo install -d -m 0755 /etc/apt/keyrings
-          sudo curl -fsSL https://downloads.claude.ai/keys/claude-code.asc \
-            -o /etc/apt/keyrings/claude-code.asc
-          echo "deb [signed-by=/etc/apt/keyrings/claude-code.asc] https://downloads.claude.ai/claude-code/apt/stable stable main" \
-            | sudo tee /etc/apt/sources.list.d/claude-code.list > /dev/null
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq claude-code || echo "WARNING: claude-code install failed"
-
-          echo "=================================================="
-          echo "Installing REA (morluto/rea) reverse-engineering MCP toolkit"
-          echo "=================================================="
-
-          sudo npm install -g rea-agents || echo "WARNING: rea-agents install failed"
-
-          # rea setup is interactive only when stdin/stdout/stderr are all a real
-          # terminal; inside this provisioning script they are not, so it already
-          # runs unattended - but we still pass --yes and an explicit --client so
-          # it never silently skips registration or waits on anything.
-          # --client claude_code registers REA's MCP server with Claude Code (CLI
-          # and Desktop share that registration), and --json keeps the output
-          # script-friendly for the log below.
-          rea setup --yes --client claude_code --json < /dev/null \
-            || npx --yes rea-agents@latest setup --yes --client claude_code --json < /dev/null \
-            || echo "WARNING: rea setup failed - run 'rea setup --yes --client claude_code' by hand to retry"
-
-          rea doctor --json < /dev/null 2>/dev/null || true
-
-          echo "=================================================="
-          echo "Configuring XFCE (Yaru-dark + performance)"
-          echo "=================================================="
-
-          sudo mkdir -p /etc/xdg/xfce4/xfconf/xfce-perchannel-xml
-
-          sudo tee /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml > /dev/null <<'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <channel name="xsettings" version="1.0">
-            <property name="Net" type="empty">
-              <property name="ThemeName" type="string" value="Yaru-dark"/>
-              <property name="IconThemeName" type="string" value="Yaru"/>
-              <property name="CursorThemeName" type="string" value="Yaru"/>
-              <property name="DoubleClickTime" type="int" value="400"/>
-              <property name="DoubleClickDistance" type="int" value="5"/>
-            </property>
-            <property name="Gtk" type="empty">
-              <property name="FontName" type="string" value="Ubuntu 10"/>
-              <property name="MonospaceFontName" type="string" value="Fira Code 10"/>
-              <property name="ToolbarStyle" type="string" value="icons"/>
-              <property name="MenuImages" type="bool" value="true"/>
-              <property name="ButtonImages" type="bool" value="true"/>
-            </property>
-          </channel>
-          EOF
-
-          echo "=================================================="
-          echo "Configuring XFCE window manager (no compositing)"
-          echo "=================================================="
-
-          sudo tee /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml > /dev/null <<'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <channel name="xfwm4" version="1.0">
-            <property name="general" type="empty">
-              <property name="use_compositing" type="bool" value="false"/>
-              <property name="show_dock_shadow" type="bool" value="false"/>
-              <property name="show_frame_shadow" type="bool" value="false"/>
-              <property name="box_move" type="bool" value="false"/>
-              <property name="box_resize" type="bool" value="false"/>
-              <property name="frame_opacity" type="int" value="100"/>
-              <property name="inactive_opacity" type="int" value="100"/>
-              <property name="active_opacity" type="int" value="100"/>
-              <property name="vblank_mode" type="string" value="off"/>
-            </property>
-          </channel>
-          EOF
-
-          echo "=================================================="
-          echo "Configuring clean Ubuntu-style panel"
-          echo "=================================================="
-
-          sudo mkdir -p /etc/xdg/xfce4/panel
-
-          sudo tee /etc/xdg/xfce4/panel/default.xml > /dev/null <<'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <channel name="xfce4-panel" version="1.0">
-            <property name="configver" type="int" value="2"/>
-            <property name="panels" type="array">
-              <value type="int" value="1"/>
-              <property name="panel-1" type="empty">
-                <property name="position" type="string" value="p=6;x=0;y=0"/>
-                <property name="position-locked" type="bool" value="true"/>
-                <property name="length" type="uint" value="100"/>
-                <property name="size" type="uint" value="32"/>
-                <property name="mode" type="uint" value="0"/>
-                <property name="autohide-behavior" type="uint" value="0"/>
-                <property name="background-style" type="uint" value="0"/>
-                <property name="plugin-ids" type="array">
-                  <value type="int" value="1"/>
-                  <value type="int" value="2"/>
-                  <value type="int" value="3"/>
-                  <value type="int" value="4"/>
-                  <value type="int" value="5"/>
-                  <value type="int" value="6"/>
-                  <value type="int" value="7"/>
-                </property>
-              </property>
-            </property>
-            <property name="plugins" type="empty">
-              <property name="plugin-1" type="string" value="whiskermenu"/>
-              <property name="plugin-2" type="string" value="tasklist">
-                <property name="show-handle" type="bool" value="false"/>
-                <property name="show-labels" type="bool" value="true"/>
-              </property>
-              <property name="plugin-3" type="string" value="separator">
-                <property name="expand" type="bool" value="true"/>
-                <property name="style" type="uint" value="0"/>
-              </property>
-              <property name="plugin-4" type="string" value="systray"/>
-              <property name="plugin-5" type="string" value="pulseaudio"/>
-              <property name="plugin-6" type="string" value="clock">
-                <property name="digital-format" type="string" value="%H:%M"/>
-              </property>
-              <property name="plugin-7" type="string" value="separator"/>
-            </property>
-          </channel>
-          EOF
-
-          echo "=================================================="
-          echo "Configuring XFCE session for XRDP (Robust D-Bus)"
-          echo "=================================================="
-
-          sudo tee /etc/xrdp/startwm.sh > /dev/null <<'EOF'
-          #!/bin/sh
-          export LANG=C.UTF-8
-          export LANGUAGE=C.UTF-8
-          export LC_ALL=C.UTF-8
-          export XDG_SESSION_TYPE=x11
-          export XDG_CURRENT_DESKTOP=XFCE
-          export XDG_SESSION_DESKTOP=xfce
-          export DESKTOP_SESSION=xfce
-          export GDK_BACKEND=x11
-
-          if [ -z "$XDG_RUNTIME_DIR" ] || [ ! -d "$XDG_RUNTIME_DIR" ]; then
-              export XDG_RUNTIME_DIR="/tmp/runtime-root"
-              mkdir -p "$XDG_RUNTIME_DIR"
-              chmod 0700 "$XDG_RUNTIME_DIR"
-          fi
-
-          if [ -r /etc/profile ]; then
-              . /etc/profile
-          fi
-          if [ -r "$HOME/.profile" ]; then
-              . "$HOME/.profile"
-          fi
-
-          if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-              eval $(dbus-launch --sh-syntax --exit-with-session)
-          fi
-
-          exec startxfce4
-          EOF
-
-          sudo chmod +x /etc/xrdp/startwm.sh
-
-          sudo mkdir -p /root/.config/xfce4
-          sudo tee /root/.xsession > /dev/null <<'EOF'
-          #!/bin/sh
-          export XDG_RUNTIME_DIR="/tmp/runtime-root"
-          mkdir -p "$XDG_RUNTIME_DIR"
-          chmod 0700 "$XDG_RUNTIME_DIR"
-          if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
-              eval $(dbus-launch --sh-syntax --exit-with-session)
-          fi
-          exec startxfce4
-          EOF
-          sudo chmod +x /root/.xsession
-
-          echo "=================================================="
-          echo "Setting up a PERSISTENT desktop (:1) that boots on"
-          echo "its own, so Claude Desktop is already open before"
-          echo "anyone connects over RDP"
-          echo "=================================================="
-
-          # 1) Always-on virtual framebuffer display :1
-          sudo tee /etc/systemd/system/virtual-display.service > /dev/null <<'EOF'
-          [Unit]
-          Description=Virtual X11 display :1 for the persistent desktop
-          After=network.target
-
-          [Service]
-          Type=simple
-          ExecStart=/usr/bin/Xvfb :1 -screen 0 1920x1080x24 -nolisten tcp
-          Restart=always
-          RestartSec=3
-
-          [Install]
-          WantedBy=multi-user.target
-          EOF
-
-          # 2) XFCE session running permanently on display :1
-          sudo tee /etc/systemd/system/xfce-session.service > /dev/null <<'EOF'
-          [Unit]
-          Description=Persistent XFCE session on virtual display :1
-          After=virtual-display.service dbus.service
-          Requires=virtual-display.service
-
-          [Service]
-          Type=simple
-          Environment=DISPLAY=:1
-          Environment=HOME=/root
-          Environment=XDG_SESSION_TYPE=x11
-          Environment=XDG_CURRENT_DESKTOP=XFCE
-          Environment=XDG_RUNTIME_DIR=/tmp/runtime-root
-          ExecStartPre=/bin/mkdir -p /tmp/runtime-root
-          ExecStartPre=/bin/chmod 0700 /tmp/runtime-root
-          ExecStart=/usr/bin/dbus-launch --exit-with-session startxfce4
-          Restart=always
-          RestartSec=5
-          User=root
-
-          [Install]
-          WantedBy=multi-user.target
-          EOF
-
-          # 3) x11vnc mirrors display :1, bound to localhost only - xrdp talks to it internally
-          sudo tee /etc/systemd/system/x11vnc.service > /dev/null <<EOF
-          [Unit]
-          Description=Local VNC passthrough to display :1 (used only by xrdp)
-          After=xfce-session.service
-          Requires=virtual-display.service
-
-          [Service]
-          Type=simple
-          Environment=DISPLAY=:1
-          ExecStart=/usr/bin/x11vnc -display :1 -rfbport 5901 -localhost -forever -shared -noxdamage -passwd "${X11VNC_PASS}"
-          Restart=always
-          RestartSec=3
-
-          [Install]
-          WantedBy=multi-user.target
-          EOF
-
-          # 4) Claude Desktop launches on :1 automatically, once XFCE's panel is ready
-          sudo tee /usr/local/bin/start-claude-desktop.sh > /dev/null <<'EOF'
-          #!/bin/bash
-          export DISPLAY=:1
-          export XDG_RUNTIME_DIR=/tmp/runtime-root
-          mkdir -p "$XDG_RUNTIME_DIR"
-          chmod 0700 "$XDG_RUNTIME_DIR"
-          # wait for the XFCE panel so the taskbar/tray exist before Claude opens
-          for i in $(seq 1 60); do
-            pgrep -x xfce4-panel >/dev/null 2>&1 && break
-            sleep 1
-          done
-          sleep 3
-          exec /usr/bin/claude-desktop
-          EOF
-          sudo chmod +x /usr/local/bin/start-claude-desktop.sh
-
-          sudo tee /etc/systemd/system/claude-desktop-autostart.service > /dev/null <<'EOF'
-          [Unit]
-          Description=Auto-start Claude Desktop on the persistent display
-          After=xfce-session.service
-          Requires=xfce-session.service
-
-          [Service]
-          Type=simple
-          Environment=DISPLAY=:1
-          Environment=HOME=/root
-          ExecStart=/usr/local/bin/start-claude-desktop.sh
-          Restart=on-failure
-          RestartSec=5
-          User=root
-
-          [Install]
-          WantedBy=multi-user.target
-          EOF
-
-          # 5) Tell xrdp how to show that already-running desktop instead of spawning a new one.
-          #    Pick the "Claude Desktop (Ready)" session in your RDP client's login screen.
-          sudo tee -a /etc/xrdp/xrdp.ini > /dev/null <<EOF
-
-          [Claude-Desktop-Ready]
-          name=Claude Desktop (Ready)
-          lib=libvnc.so
-          ip=127.0.0.1
-          port=5901
-          username=na
-          password=${X11VNC_PASS}
-          EOF
-
-          echo "$X11VNC_PASS" | sudo tee /root/.x11vnc_pass_DO_NOT_SHARE > /dev/null
-          sudo chmod 600 /root/.x11vnc_pass_DO_NOT_SHARE
-
-          echo "=================================================="
-          echo "Configuring XRDP for speed"
-          echo "=================================================="
-
-          sudo cp /etc/xrdp/xrdp.ini /etc/xrdp/xrdp.ini.backup
-
-          sudo sed -i 's/^[#;]*[[:space:]]*tcp_nodelay=.*/tcp_nodelay=true/' /etc/xrdp/xrdp.ini
-          if ! sudo grep -q '^[[:space:]]*tcp_nodelay=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a tcp_nodelay=true' /etc/xrdp/xrdp.ini
-          fi
-
-          sudo sed -i 's/^[#;]*[[:space:]]*use_fastpath=.*/use_fastpath=both/' /etc/xrdp/xrdp.ini
-          if ! sudo grep -q '^[[:space:]]*use_fastpath=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a use_fastpath=both' /etc/xrdp/xrdp.ini
-          fi
-
-          sudo sed -i 's/^[#;]*[[:space:]]*bitmap_compression=.*/bitmap_compression=true/' /etc/xrdp/xrdp.ini
-          if ! sudo grep -q '^[[:space:]]*bitmap_compression=' /etc/xrdp/xrdp.ini; then
-            sudo sed -i '/^\[Globals\]/a bitmap_compression=true' /etc/xrdp/xrdp.ini
-          fi
-
-          sudo sed -i 's/^[#;]*[[:space:]]*crypt_level=.*/crypt_level=low/' /etc/xrdp/xrdp.ini || true
-          sudo sed -i 's/^[#;]*[[:space:]]*max_bpp=.*/max_bpp=16/' /etc/xrdp/xrdp.ini || true
-
-          sudo sed -i 's/^[#;]*[[:space:]]*AllowRootLogin=.*/AllowRootLogin=true/' /etc/xrdp/sesman.ini
-          if ! sudo grep -Eq '^[[:space:]]*AllowRootLogin=' /etc/xrdp/sesman.ini; then
-            sudo sed -i '/^\[Security\]/a AllowRootLogin=true' /etc/xrdp/sesman.ini
-          fi
-
-          echo "=================================================="
-          echo "Configuring SSH (root login)"
-          echo "=================================================="
-
-          echo "root:${SSH_PASSWORD}" | sudo chpasswd
-
-          sudo mkdir -p /var/run/sshd
-          sudo ssh-keygen -A
-
-          sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
-          sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-
-          echo "=================================================="
-          echo "Creating desktop shortcuts (Fixed for Root Launch)"
-          echo "=================================================="
-
-          sudo mkdir -p /root/Desktop
-          sudo chmod 755 /root/Desktop
-
-          # 1. Google Chrome Desktop File
-          sudo tee /root/Desktop/Chrome.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=Google Chrome
-          Comment=Web Browser
-          Exec=google-chrome-stable --no-sandbox --test-type %U
-          Icon=google-chrome
-          Terminal=false
-          Categories=Network;WebBrowser;
-          StartupNotify=true
-          EOF
-
-          # 2. Firefox Desktop File
-          sudo tee /root/Desktop/Firefox.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=Firefox
-          Comment=Web Browser
-          Exec=firefox %U
-          Icon=firefox
-          Terminal=false
-          Categories=Network;WebBrowser;
-          StartupNotify=true
-          EOF
-
-          # 3. Visual Studio Code Desktop File
-          sudo tee /root/Desktop/Visual-Studio-Code.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=Visual Studio Code
-          Comment=Code Editor
-          Exec=code --no-sandbox --user-data-dir=/root/.vscode-root %F
-          Icon=com.visualstudio.code
-          Terminal=false
-          Categories=Development;IDE;
-          StartupNotify=true
-          EOF
-
-          # 4. DBeaver Universal Database Manager
-          sudo tee /root/Desktop/DBeaver.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=DBeaver CE
-          Comment=Database Manager & SQL Client
-          Exec=dbeaver
-          Icon=dbeaver
-          Terminal=false
-          Categories=Development;Database;
-          StartupNotify=true
-          EOF
-
-          # 5. Terminal shortcut
-          sudo tee /root/Desktop/Terminal.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=Terminal
-          Comment=XFCE Terminal
-          Exec=xfce4-terminal
-          Icon=org.xfce.terminal
-          Terminal=false
-          Categories=System;TerminalEmulator;
-          StartupNotify=true
-          EOF
-
-          # 6. Claude Desktop shortcut
-          sudo tee /root/Desktop/Claude-Desktop.desktop > /dev/null <<'EOF'
-          [Desktop Entry]
-          Version=1.0
-          Type=Application
-          Name=Claude
-          Comment=Claude Desktop (Chat, Cowork, Claude Code)
-          Exec=claude-desktop
-          Icon=claude-desktop
-          Terminal=false
-          Categories=Development;Utility;
-          StartupNotify=true
-          EOF
-
-          # Desktop icon permissions - safely handled without breaking set -e
-          sudo chmod +x /root/Desktop/*.desktop 2>/dev/null || true
-          sudo gio set /root/Desktop/Chrome.desktop metadata::trusted true 2>/dev/null || true
-          sudo gio set /root/Desktop/Firefox.desktop metadata::trusted true 2>/dev/null || true
-          sudo gio set /root/Desktop/Visual-Studio-Code.desktop metadata::trusted true 2>/dev/null || true
-          sudo gio set /root/Desktop/DBeaver.desktop metadata::trusted true 2>/dev/null || true
-          sudo gio set /root/Desktop/Terminal.desktop metadata::trusted true 2>/dev/null || true
-          sudo gio set /root/Desktop/Claude-Desktop.desktop metadata::trusted true 2>/dev/null || true
-
-          echo "=================================================="
-          echo "Enabling services"
-          echo "=================================================="
-
-          sudo systemctl daemon-reload
-
-          sudo systemctl enable xrdp
-          sudo systemctl enable ssh
-          sudo systemctl enable virtual-display.service
-          sudo systemctl enable xfce-session.service
-          sudo systemctl enable x11vnc.service
-          sudo systemctl enable claude-desktop-autostart.service
-
-          sudo systemctl restart ssh
-          sudo systemctl restart virtual-display.service
-          sleep 2
-          sudo systemctl restart xfce-session.service
-          sleep 3
-          sudo systemctl restart x11vnc.service
-          sudo systemctl restart claude-desktop-autostart.service
-          sudo systemctl restart xrdp
-
-          echo "=================================================="
-          echo "Installation complete - Tool Diagnostics"
-          echo "=================================================="
-
-          echo "Ubuntu:"
-          lsb_release -ds || true
-
-          echo "XFCE:"
-          xfce4-session --version 2>/dev/null || true
-
-          echo "Python:"
-          python3 --version
-
-          echo "Node:"
-          node --version
-
-          echo "NPM:"
-          npm --version
-
-          echo "PNPM:"
-          pnpm --version 2>/dev/null || true
-
-          echo "Bun:"
-          bun --version 2>/dev/null || true
-
-          echo "Go:"
-          go version 2>/dev/null || true
-
-          echo "GitHub CLI:"
-          gh --version 2>/dev/null || true
-
-          echo "Chrome:"
-          google-chrome --version 2>/dev/null || true
-
-          echo "Firefox:"
-          firefox --version 2>/dev/null || true
-
-          echo "VS Code:"
-          code --version 2>/dev/null || true
-
-          echo "Claude Code CLI:"
-          claude --version 2>/dev/null || true
-
-          echo "Claude Desktop package:"
-          dpkg -l | grep claude-desktop || true
-
-          echo "REA:"
-          rea --version 2>/dev/null || true
-          rea doctor 2>/dev/null || echo "  (run 'rea doctor' after first login to confirm registration)"
-
-          echo "=================================================="
-          echo "Persistent desktop service status"
-          echo "=================================================="
-          systemctl is-active virtual-display.service xfce-session.service x11vnc.service claude-desktop-autostart.service xrdp 2>/dev/null || true
-
-          echo "=================================================="
-          echo "Listening ports"
-          echo "=================================================="
-
-          sudo ss -lntp | grep -E ':22|:3389|:5901' || true
-
-          echo "Desktop files:"
-          sudo ls -la /root/Desktop/ 2>/dev/null || true
-
-          echo "=================================================="
-          echo "READ ME"
-          echo "=================================================="
-          echo "1) Claude Desktop now starts on its own at boot, on a hidden virtual"
-          echo "   display (:1), so it is already open before anyone connects."
-          echo "2) In your RDP client, pick the session named 'Claude Desktop (Ready)'"
-          echo "   to view that already-running desktop instantly instead of waiting"
-          echo "   for a new session to spawn."
-          echo "3) First time you connect, open Claude from the taskbar/dock and sign in"
-          echo "   with your Anthropic account - sign-in is saved in root's keyring."
-          echo "4) Claude Code CLI is installed as 'claude' in any terminal."
-          echo "5) REA is installed and already registered with Claude Code (ran"
-          echo "   'rea setup --yes --client claude_code' for you). Just restart"
-          echo "   Claude Code/Desktop once and ask it to investigate something."
-          echo "   To re-check anytime: rea doctor"
-
-
-      # ============================================================
-
-      # ============================================================
-      # KEEP RUNNER ALIVE WHILE BACKGROUND TUNNEL RUNS
-      # ============================================================
-      - name: Keep session alive
+      - name: Run Main Bot
         env:
           INPUT_RELAY_IP: ${{ inputs.relay_ip }}
           SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
-        run: |
-          RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
-          RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
-          echo "=================================================="
-          echo "=== Ubuntu Desktop and FRP Relay Tunnel Active ==="
-          echo "Relay Server: $RELAY_IP"
-          echo "SSH Command: ssh root@$RELAY_IP -p 22"
-          echo "RDP Command: mstsc.exe /v:$RELAY_IP:3389 (User: root)"
-          echo "Keeping runner alive for full duration (~335 minutes)..."
-          echo "=================================================="
-          # Loop up to 335 minutes (670 iterations * 30 seconds)
-          for i in $(seq 1 670); do
-            if ! pgrep -x "frpc" > /dev/null; then
-              echo "Re-spawning background frpc tunnel service..."
-              nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
-            fi
-            sleep 30
-          done
-
-      # ============================================================
-      # FINAL REPOSITORY SYNC
-      # ============================================================
-      - name: Final repository sync
-        if: always()
-        env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet || \
-            git commit \
-              -m "chore: final sync [skip ci]" || true
-          git push \
-            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" \
-            HEAD:main || true
+          cd bot-code
 
-      # ============================================================
-      # STANDARD GITHUB ACTIONS RETRIGGER
-      # ============================================================
-      - name: Retrigger
+          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
+
+          timeout 335m bash -c '
+            while true; do
+              if ! pgrep -x "frpc" > /dev/null; then
+                echo "Re-spawning background frpc tunnel service..."
+                nohup ./frpc -c frpc.toml >> frpc-runner.log 2>&1 &
+              fi
+              sleep 30
+            done
+          ' &
+
+          MONITOR_PID=$!
+
+          timeout 335m python -u app.py
+          BOT_EXIT=$?
+
+          kill "$MONITOR_PID" 2>/dev/null || true
+          pkill -x frpc 2>/dev/null || true
+
+          exit "$BOT_EXIT"
+
+      - name: Trigger Next Workflow
         if: always()
         uses: actions/github-script@v7
         with:
@@ -1111,9 +192,9 @@ jobs:
               await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: "fastssh.yml",
+                workflow_id: 'db.yml',
                 ref: context.ref
               });
-            } catch (e) {
-              console.log(e.message);
+            } catch (error) {
+              console.log("Error triggering next workflow: ", error);
             }
