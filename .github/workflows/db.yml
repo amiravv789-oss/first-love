@@ -139,6 +139,8 @@ jobs:
           echo "FRPC started successfully."
 
       - name: Run Main Bot
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         shell: bash
         run: |
           set -uo pipefail
