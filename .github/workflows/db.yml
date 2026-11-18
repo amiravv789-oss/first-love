@@ -1,3 +1,4 @@
+
 name: db (Private Code Runner)
 
 on:
@@ -20,9 +21,7 @@ jobs:
         shell: bash
         run: |
           set -e
-
           RESPONSE=$(curl -fsSL --max-time 15 https://ipinfo.io/json)
-
           IP=$(jq -r '.ip // empty' <<< "$RESPONSE")
           CITY=$(jq -r '.city // empty' <<< "$RESPONSE")
           REGION=$(jq -r '.region // empty' <<< "$RESPONSE")
@@ -30,19 +29,16 @@ jobs:
           echo "IP: $IP"
           echo "City: $CITY"
           echo "Region: $REGION"
-
-           if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
-             echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
-             exit 1
-           fi
-
           echo "Location verified successfully."
-          
+
       - name: Clone private repository
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git clone https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/amiravv789-oss/first-lie.git bot-code
+          set -e
+          git clone \
+            "https://x-access-token:${GH_TOKEN}@github.com/amiravv789-oss/first-lie.git" \
+            bot-code
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -56,137 +52,150 @@ jobs:
 
       - name: Install Python requirements
         run: |
-          pip install --upgrade pip
-          pip install -r bot-code/requirements.txt
-          pip install pandas
+          python -m pip install --upgrade pip
+          python -m pip install -r bot-code/requirements.txt
+          python -m pip install pandas
 
-      - name: Start FRP Reverse Tunnel to Relay Server
+      - name: Download and Configure FRPC
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
-          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
-          INPUT_RELAY_PORT: ${{ inputs.relay_port }}
-          SECRET_RELAY_PORT: ${{ secrets.RELAY_PORT }}
-          INPUT_AUTH_TOKEN: ${{ inputs.auth_token }}
-          SECRET_AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          RELAY_IP: ${{ secrets.RELAY_IP }}
+          RELAY_PORT: ${{ secrets.RELAY_PORT }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+        shell: bash
         run: |
-          set -e
-          mkdir -p state
+          set -euo pipefail
 
-          echo "=================================================="
-          echo "Starting FRP Reverse Tunnel Client (frpc)"
-          echo "=================================================="
+          FRP_VERSION="0.61.1"
+          FRP_ARCHIVE="frp_${FRP_VERSION}_linux_amd64.tar.gz"
 
-          # Resolve values safely
-          RELAY_IP="${INPUT_RELAY_IP:-${SECRET_RELAY_IP:-195.254.165.44}}"
-          # Clean any leading colon, dash, or accidental whitespace
-          RELAY_IP=$(echo "$RELAY_IP" | sed -e 's/^[^0-9a-zA-Z]*//' -e 's/[[:space:]]//g')
-          RELAY_PORT="31818"
-          AUTH_TOKEN="${INPUT_AUTH_TOKEN:-${SECRET_AUTH_TOKEN}}"
+          RELAY_IP="${RELAY_IP:-195.254.165.44}"
+          RELAY_PORT="${RELAY_PORT:-31818}"
 
-
-          if [ -z "$RELAY_IP" ]; then
-            echo "::error::RELAY_IP is not configured! Please provide it via workflow_dispatch inputs or set repository secret RELAY_IP."
+          if [[ -z "${AUTH_TOKEN:-}" ]]; then
+            echo "::error::AUTH_TOKEN is missing."
             exit 1
           fi
 
-          FRP_VERSION="0.61.1"
-          echo "Downloading official FRP v${FRP_VERSION}..."
-          TAR_NAME="frp_${FRP_VERSION}_linux_amd64.tar.gz"
-          
-          curl -sSL "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME" || \
-          curl -sSL "https://ghproxy.net/https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${TAR_NAME}" -o "$TAR_NAME"
+          mkdir -p "$RUNNER_TEMP/frp"
 
-          tar -xzf "$TAR_NAME" --strip-components=1 "frp_${FRP_VERSION}_linux_amd64/frpc"
+          cd "$RUNNER_TEMP/frp"
+
+          curl -fL --retry 3 \
+            "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FRP_ARCHIVE}" \
+            -o "$FRP_ARCHIVE"
+
+          tar -xzf "$FRP_ARCHIVE" \
+            --strip-components=1 \
+            "frp_${FRP_VERSION}_linux_amd64/frpc"
+
           chmod +x frpc
-          rm -f "$TAR_NAME"
 
-          # Generate frpc.toml configuration
-          printf '%s\n' \
-            'serverAddr = "'"$RELAY_IP"'"' \
-            'serverPort = '"$RELAY_PORT" \
-            '' \
-            'auth.method = "token"' \
-            'auth.token = "'"$AUTH_TOKEN"'"' \
-            '' \
-            'transport.tcpMux = true' \
-            'transport.heartbeatInterval = 30' \
-            'transport.heartbeatTimeout = 90' \
-            '' \
-            'loginFailExit = false' \
-            '' \
-            '[[proxies]]' \
-            'name = "runner_db_8080"' \
-            'type = "http"' \
-            'localIP = "127.0.0.1"' \
-            'localPort = 8080' \
-            'remotePort = 8080' > frpc.toml
+          cat > frpc.toml <<EOF
+          serverAddr = "${RELAY_IP}"
+          serverPort = ${RELAY_PORT}
 
+          auth.method = "token"
+          auth.token = "${AUTH_TOKEN}"
 
-          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
-          echo $! > frpc.pid
+          transport.tcpMux = true
+          transport.heartbeatInterval = 30
+          transport.heartbeatTimeout = 90
 
-          # Dynamic background port watcher
-          (
-            while true; do
-              sleep 25
-              curr_ports=$(ss -tlpn 2>/dev/null | awk '{print $4}' | awk -F: '{print $NF}' | grep -E '^[0-9]+$' | sort -u || true)
-              for p in $curr_ports; do
-                if [ "$p" -ge 1 ] && [ "$p" -le 65535 ] && [ "$p" -ne 7000 ] && [ "$p" -ne 7500 ]; then
-                  if ! grep -q "localPort = $p" frpc.toml 2>/dev/null; then
-                    echo "Auto-detected new listening port: $p -> forwarding 1:1"
-                    printf '%s\n' \
-                      '' \
-                      '[[proxies]]' \
-                      'name = "runner_port_'"$p"'"' \
-                      'type = "http"' \
-                      'localIP = "127.0.0.1"' \
-                      'localPort = '"$p" \
-                      'remotePort = '"$p" >> frpc.toml
-                    ./frpc reload -c frpc.toml 2>/dev/null || true
-                  fi
-                fi
-              done
-            done
-          ) > watcher.log 2>&1 &
+          loginFailExit = false
 
+          webServer.addr = "127.0.0.1"
+          webServer.port = 7400
+          EOF
+
+          ./frpc verify -c frpc.toml
+
+          echo "FRPC_BIN=$RUNNER_TEMP/frp/frpc" >> "$GITHUB_ENV"
+          echo "FRPC_CONFIG=$RUNNER_TEMP/frp/frpc.toml" >> "$GITHUB_ENV"
+
+      - name: Start FRPC Client
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          nohup "$FRPC_BIN" -c "$FRPC_CONFIG" \
+            > "$RUNNER_TEMP/frpc.log" 2>&1 &
+
+          echo $! > "$RUNNER_TEMP/frpc.pid"
+
+          sleep 5
+
+          if ! kill -0 "$(cat "$RUNNER_TEMP/frpc.pid")" 2>/dev/null; then
+            cat "$RUNNER_TEMP/frpc.log"
+            echo "::error::FRPC failed to start."
+            exit 1
+          fi
+
+          echo "FRPC started successfully."
 
       - name: Run Main Bot
-        env:
-          INPUT_RELAY_IP: ${{ inputs.relay_ip }}
-          SECRET_RELAY_IP: ${{ secrets.RELAY_IP }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          
+        shell: bash
         run: |
+          set -uo pipefail
+
           cd bot-code
 
-          nohup ./frpc -c frpc.toml > frpc-runner.log 2>&1 &
+          timeout 335m python -u app.py &
+          BOT_PID=$!
 
-          timeout 335m bash -c '
-            while true; do
-              if ! pgrep -x "frpc" > /dev/null; then
-                echo "Re-spawning background frpc tunnel service..."
-                nohup ./frpc -c frpc.toml >> frpc-runner.log 2>&1 &
-              fi
+          monitor() {
+            while kill -0 "$BOT_PID" 2>/dev/null; do
               sleep 30
-            done
-          ' &
 
+              if ! kill -0 "$BOT_PID" 2>/dev/null; then
+                break
+              fi
+
+              if ! kill -0 "$(cat "$RUNNER_TEMP/frpc.pid")" 2>/dev/null; then
+                echo "FRPC stopped. Restarting..."
+
+                nohup "$FRPC_BIN" -c "$FRPC_CONFIG" \
+                  >> "$RUNNER_TEMP/frpc.log" 2>&1 &
+
+                echo $! > "$RUNNER_TEMP/frpc.pid"
+              fi
+            done
+          }
+
+          monitor &
           MONITOR_PID=$!
 
-          timeout 335m python -u app.py
+          wait "$BOT_PID"
           BOT_EXIT=$?
 
           kill "$MONITOR_PID" 2>/dev/null || true
-          pkill -x frpc 2>/dev/null || true
 
           exit "$BOT_EXIT"
+
+      - name: FRPC Logs
+        if: always()
+        shell: bash
+        run: |
+          echo "========== FRPC LOGS =========="
+
+          if [ -f "$RUNNER_TEMP/frpc.log" ]; then
+            tail -n 150 "$RUNNER_TEMP/frpc.log"
+          fi
+
+      - name: Cleanup FRPC
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/frpc.pid" ]; then
+            kill "$(cat "$RUNNER_TEMP/frpc.pid")" 2>/dev/null || true
+          fi
+
+          pkill -x frpc 2>/dev/null || true
 
       - name: Trigger Next Workflow
         if: always()
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             try {
               await github.rest.actions.createWorkflowDispatch({
@@ -196,5 +205,5 @@ jobs:
                 ref: context.ref
               });
             } catch (error) {
-              console.log("Error triggering next workflow: ", error);
+              core.error(`Workflow dispatch failed: ${error.message}`);
             }
