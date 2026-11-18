@@ -31,10 +31,10 @@ jobs:
           echo "City: $CITY"
           echo "Region: $REGION"
 
-          # if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
-          #   echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
-          #   exit 1
-          # fi
+          if [[ "$REGION" != "Arizona" || -z "$IP" ]]; then
+            echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+            exit 1
+          fi
 
           echo "Location verified successfully."
           
@@ -175,7 +175,7 @@ jobs:
 
           MONITOR_PID=$!
 
-          timeout 335m python -u bot.py
+          timeout 335m python -u app.py
           BOT_EXIT=$?
 
           kill "$MONITOR_PID" 2>/dev/null || true
