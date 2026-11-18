@@ -105,6 +105,12 @@ jobs:
 
           webServer.addr = "127.0.0.1"
           webServer.port = 7400
+          [[proxies]]
+          name = "runner_web_8080"
+          type = "tcp"
+          localIP = "127.0.0.1"
+          localPort = 8080
+          remotePort = 8080
           EOF
 
           ./frpc verify -c frpc.toml
