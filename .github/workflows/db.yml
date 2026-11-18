@@ -10,6 +10,9 @@ concurrency:
 jobs:
   bot:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
     timeout-minutes: 350
 
     steps:
