@@ -71,6 +71,11 @@ jobs:
           HTTP_USERNAME: "HTTP"
           HTTP_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
+          # FRP relay settings
+          RELAY_IP: ${{ secrets.RELAY_IP }}
+          RELAY_PORT: ${{ secrets.RELAY_PORT }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+
           # Fixed test endpoint: no workflow_dispatch inputs required.
           PROXY_TEST_HOST: "remote-respina-free.runflare.com"
           PROXY_TEST_PORT: "32046"
@@ -308,12 +313,24 @@ jobs:
           XPID=""
           APID=""
           CPID=""
+          FRPC_PID=""
+
           cleanup() {
-            [[ -n "${CPID}" ]] && kill "${CPID}" 2>/dev/null || true
-            [[ -n "${APID}" ]] && kill "${APID}" 2>/dev/null || true
-            [[ -n "${XPID}" ]] && kill "${XPID}" 2>/dev/null || true
+            echo "Cleaning up Xray, tunnel agent, test client and FRPC..."
+            for pid in "${CPID:-}" "${FRPC_PID:-}" "${APID:-}" "${XPID:-}"; do
+              if [[ -n "${pid}" ]]; then
+                kill -TERM "${pid}" 2>/dev/null || true
+              fi
+            done
+            for pid in "${CPID:-}" "${FRPC_PID:-}" "${APID:-}" "${XPID:-}"; do
+              if [[ -n "${pid}" ]]; then
+                wait "${pid}" 2>/dev/null || true
+              fi
+            done
           }
           trap cleanup EXIT
+          trap 'exit 130' INT
+          trap 'exit 143' TERM
 
           env -u TUNNEL_TOKEN -u TUNNEL_TLS_SHA256 -u TUNNEL_ADDR \
             xray run -c "${XRAY_CONFIG}" >"${xlog}" 2>&1 &
@@ -498,15 +515,142 @@ jobs:
           echo "If the proxy test fails, verify that the relay's existing mapping exposes ${PROXY_TEST_HOST}:32046 to this Runner's port 8443. The client uses a local-only private-domain alias to satisfy Xray's plaintext-VLESS validation rule; its resolved address is the relay IPv4."
           echo "No changes are made to the relay server by this workflow."
 
-          echo "========== KEEPING XRAY AND REVERSE TUNNEL ALIVE =========="
-          while kill -0 "${XPID}" 2>/dev/null && kill -0 "${APID}" 2>/dev/null; do
+          echo "========== DOWNLOAD AND CONFIGURE FRPC =========="
+          FRP_VERSION="0.61.1"
+          FRP_ARCHIVE="frp_${FRP_VERSION}_linux_amd64.tar.gz"
+          RELAY_IP="${RELAY_IP:-195.254.165.44}"
+          RELAY_PORT="${RELAY_PORT:-31818}"
+
+          if [[ -z "${AUTH_TOKEN:-}" ]]; then
+            echo "::error::AUTH_TOKEN is missing."
+            exit 1
+          fi
+
+          if ! [[ "${RELAY_PORT}" =~ ^[0-9]+$ ]] || (( RELAY_PORT < 1 || RELAY_PORT > 65535 )); then
+            echo "::error::RELAY_PORT must be a valid TCP port."
+            exit 1
+          fi
+
+          mkdir -p "${RUNNER_TEMP}/frp"
+          cd "${RUNNER_TEMP}/frp"
+
+          curl -fL --retry 5 --retry-delay 2 \
+            "https://github.com/fatedier/frp/releases/download/v${FRP_VERSION}/${FRP_ARCHIVE}" \
+            -o "${FRP_ARCHIVE}"
+
+          tar -xzf "${FRP_ARCHIVE}" \
+            --strip-components=1 \
+            "frp_${FRP_VERSION}_linux_amd64/frpc"
+          chmod 0755 frpc
+
+          # Generate TOML safely; JSON string quoting is compatible with TOML basic strings.
+          python3 - <<'PYFRPC'
+          import json
+          import os
+
+          relay_ip = os.environ["RELAY_IP"] or "195.254.165.44"
+          relay_port = int(os.environ["RELAY_PORT"] or "31818")
+          token = os.environ["AUTH_TOKEN"]
+
+          config = f"""serverAddr = {json.dumps(relay_ip)}
+          serverPort = {relay_port}
+
+          auth.method = "token"
+          auth.token = {json.dumps(token)}
+
+          transport.tcpMux = true
+          transport.heartbeatInterval = 30
+          transport.heartbeatTimeout = 90
+
+          loginFailExit = false
+
+          webServer.addr = "127.0.0.1"
+          webServer.port = 7400
+
+          [[proxies]]
+          name = "runner_web_8080"
+          type = "tcp"
+          localIP = "127.0.0.1"
+          localPort = 443
+          remotePort = 443
+          """
+
+          with open("frpc.toml", "w", encoding="utf-8") as f:
+              f.write(config)
+          os.chmod("frpc.toml", 0o600)
+          PYFRPC
+
+          ./frpc verify -c frpc.toml
+
+          FRPC_BIN="${RUNNER_TEMP}/frp/frpc"
+          FRPC_CONFIG="${RUNNER_TEMP}/frp/frpc.toml"
+          FRPC_LOG="${RUNNER_TEMP}/frpc.log"
+          FRPC_PID_FILE="${RUNNER_TEMP}/frpc.pid"
+
+          start_frpc() {
+            echo "Starting FRPC..."
+            nohup "${FRPC_BIN}" -c "${FRPC_CONFIG}" >> "${FRPC_LOG}" 2>&1 &
+            FRPC_PID=$!
+            echo "${FRPC_PID}" > "${FRPC_PID_FILE}"
+            echo "FRPC started with PID ${FRPC_PID}."
+          }
+
+          process_alive() {
+            local pid="$1"
+            local state
+            [[ -n "${pid}" ]] || return 1
+            kill -0 "${pid}" 2>/dev/null || return 1
+            state="$(ps -o stat= -p "${pid}" 2>/dev/null | tr -d ' ')" || return 1
+            [[ -n "${state}" && "${state:0:1}" != "Z" ]]
+          }
+
+          echo "========== START FRPC =========="
+          start_frpc
+          sleep 5
+
+          if ! process_alive "${FRPC_PID}"; then
+            wait "${FRPC_PID}" 2>/dev/null || true
+            FRPC_PID=""
+            echo "::error::FRPC failed to start."
+            tail -n 80 "${FRPC_LOG}" >&2 || true
+            exit 1
+          fi
+
+          echo "========== KEEPING XRAY, REVERSE TUNNEL AND FRPC ALIVE =========="
+          while true; do
+            if ! process_alive "${XPID}"; then
+              echo "::error::Xray stopped unexpectedly."
+              tail -n 80 "${xlog}" >&2 || true
+              exit 1
+            fi
+
+            if ! process_alive "${APID}"; then
+              echo "::error::Reverse tunnel agent stopped unexpectedly."
+              tail -n 80 "${alog}" >&2 || true
+              exit 1
+            fi
+
+            if ! process_alive "${FRPC_PID}"; then
+              echo "FRPC stopped. Reaping and restarting..."
+
+              wait "${FRPC_PID}" 2>/dev/null || true
+              FRPC_PID=""
+
+              start_frpc
+              sleep 3
+
+              if process_alive "${FRPC_PID}"; then
+                echo "FRPC restart successful. PID: ${FRPC_PID}"
+              else
+                wait "${FRPC_PID}" 2>/dev/null || true
+                FRPC_PID=""
+                echo "::warning::FRPC restart did not stay alive; another retry will occur."
+                tail -n 40 "${FRPC_LOG}" >&2 || true
+              fi
+            fi
+
             sleep 5
           done
-          echo "Xray or the tunnel agent exited." >&2
-          tail -n 80 "${xlog}" >&2 || true
-          tail -n 80 "${alog}" >&2 || true
-          exit 1
-
 # ============================================================
       # STANDARD GITHUB ACTIONS RETRIGGER
       # ============================================================
