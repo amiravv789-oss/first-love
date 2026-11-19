@@ -568,7 +568,7 @@ jobs:
           webServer.port = 7400
 
           [[proxies]]
-          name = "runner_web_8080"
+          name = "runner_vless_443"
           type = "tcp"
           localIP = "127.0.0.1"
           localPort = 443
