@@ -39,13 +39,6 @@ localPort = 53
 remotePort = 53
 
 [[proxies]]
-name = "runner_port_33060"
-type = "tcp"
-localIP = "127.0.0.1"
-localPort = 33060
-remotePort = 33060
-
-[[proxies]]
 name = "runner_port_5900"
 type = "tcp"
 localIP = "127.0.0.1"
