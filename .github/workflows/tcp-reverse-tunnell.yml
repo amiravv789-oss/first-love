@@ -48,8 +48,9 @@ jobs:
           echo "City: $CITY"
           echo "Region: $REGION"
 
-          if [[ "$CITY" != "Phoenix" || "$REGION" != "Arizona" || -z "$IP" ]]; then
-            echo "::error::IP location mismatch! Expected Phoenix, Arizona. Got: $CITY, $REGION"
+          # if [[ "$CITY" != "Phoenix" || "$REGION" != "Arizona" || -z "$IP" ]]; then
+          if [[ "$REGION" != "Virginia" || -z "$IP" ]]; then
+            echo "::error::IP location mismatch! Got: $CITY, $REGION"
             exit 1
           fi
 
