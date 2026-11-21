@@ -1,9 +1,8 @@
-[1;34m2026-11-20 17:22:55.534 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
-[0m[1;34m2026-11-20 17:22:55.534 [I] [client/service.go:295] try to connect to server...
-[0m[1;34m2026-11-20 17:22:57.884 [I] [client/service.go:287] [bbf18e6a2f079ac8] login to server success, get run id [bbf18e6a2f079ac8]
-[0m[1;34m2026-11-20 17:22:57.884 [I] [proxy/proxy_manager.go:173] [bbf18e6a2f079ac8] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
-[0m[1;34m2026-11-20 17:23:01.460 [I] [client/control.go:168] [bbf18e6a2f079ac8] [runner_ssh_22] start proxy success
-[0m[1;34m2026-11-20 17:23:01.461 [I] [client/control.go:168] [bbf18e6a2f079ac8] [runner_rdp_3389] start proxy success
-[0m[1;34m2026-11-20 17:23:01.461 [I] [client/control.go:168] [bbf18e6a2f079ac8] [runner_vnc_5901] start proxy success
-[0m[1;31m2026-11-20 17:26:59.733 [E] [proxy/proxy.go:206] [bbf18e6a2f079ac8] [runner_rdp_3389] connect to local service [127.0.0.1:3389] error: dial tcp 127.0.0.1:3389: connect: connection refused
+[1;34m2026-11-20 23:24:27.716 [I] [sub/root.go:142] start frpc service for config file [frpc.toml]
+[0m[1;34m2026-11-20 23:24:27.716 [I] [client/service.go:295] try to connect to server...
+[0m[1;34m2026-11-20 23:24:28.531 [I] [client/service.go:287] [67d73521f5a54293] login to server success, get run id [67d73521f5a54293]
+[0m[1;34m2026-11-20 23:24:28.531 [I] [proxy/proxy_manager.go:173] [67d73521f5a54293] proxy added: [runner_ssh_22 runner_rdp_3389 runner_vnc_5901]
+[0m[1;34m2026-11-20 23:24:28.801 [I] [client/control.go:168] [67d73521f5a54293] [runner_ssh_22] start proxy success
+[0m[1;34m2026-11-20 23:24:28.801 [I] [client/control.go:168] [67d73521f5a54293] [runner_vnc_5901] start proxy success
+[0m[1;34m2026-11-20 23:24:28.802 [I] [client/control.go:168] [67d73521f5a54293] [runner_rdp_3389] start proxy success
 [0m
